@@ -37,9 +37,9 @@ class TransactionalMailLogItemsComponent extends TableComponent
         return [
             IconColumn::make('fake')
                 ->label('')
-                ->icon(fn (TransactionalMailLogItem $item) => $item->fake ? 'heroicon-o-command-line' : 'heroicon-o-envelope')
-                ->tooltip(fn (TransactionalMailLogItem $item) => $item->fake ? __mc('Fake send') : __mc('Sent'))
-                ->color(fn (TransactionalMailLogItem $item) => $item->fake ? 'primary' : 'success'),
+                ->icon(fn (TransactionalMailLogItem $record) => $record->fake ? 'heroicon-o-command-line' : 'heroicon-o-envelope')
+                ->tooltip(fn (TransactionalMailLogItem $record) => $record->fake ? __mc('Fake send') : __mc('Sent'))
+                ->color(fn (TransactionalMailLogItem $record) => $record->fake ? 'primary' : 'success'),
             TextColumn::make('contentItem.subject')
                 ->extraAttributes(['class' => 'link'])
                 ->label(__mc('Subject'))

@@ -54,8 +54,8 @@ class WebhookLogsComponent extends TableComponent
             TextColumn::make('status_code')
                 ->sortable()
                 ->label(__mc('Status code'))
-                ->color(fn (WebhookLog $log) => match (true) {
-                    $log->status_code >= 200 && $log->status_code < 300 => 'success',
+                ->color(fn (WebhookLog $record) => match (true) {
+                    $record->status_code >= 200 && $record->status_code < 300 => 'success',
                     default => '',
                 }),
             TextColumn::make('event_type')
@@ -74,7 +74,7 @@ class WebhookLogsComponent extends TableComponent
         return [
             Action::make('resend')
                 ->label(__mc('Resend'))
-                ->action(fn (WebhookLog $log) => $this->resend($log))
+                ->action(fn (WebhookLog $record) => $this->resend($record))
                 ->requiresConfirmation(),
         ];
     }

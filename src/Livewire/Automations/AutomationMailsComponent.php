@@ -99,14 +99,14 @@ class AutomationMailsComponent extends TableComponent
                     ->action(fn (AutomationMail $record) => $this->duplicateAutomationMail($record))
                     ->icon('heroicon-o-clipboard')
                     ->label(__mc('Duplicate'))
-                    ->hidden(fn (AutomationMail $automationMail) => ! Auth::user()->can('create', self::getAutomationMailClass())),
+                    ->hidden(fn (AutomationMail $record) => ! Auth::user()->can('create', self::getAutomationMailClass())),
                 Action::make('Delete')
                     ->action(fn (AutomationMail $record) => $record->delete())
                     ->requiresConfirmation()
                     ->label(__mc('Delete'))
                     ->icon('heroicon-o-trash')
                     ->color('danger')
-                    ->hidden(fn (AutomationMail $automationMail) => ! Auth::user()->can('delete', self::getAutomationMailClass())),
+                    ->hidden(fn (AutomationMail $record) => ! Auth::user()->can('delete', self::getAutomationMailClass())),
             ]),
         ];
     }

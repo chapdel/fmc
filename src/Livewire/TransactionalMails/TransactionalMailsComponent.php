@@ -60,7 +60,7 @@ class TransactionalMailsComponent extends TableComponent
                     'heroicon-o-check-circle' => true,
                     'heroicon-o-x-circle' => false,
                 ])
-                ->color(fn (TransactionalMail $mail) => match ($mail->store_mail) {
+                ->color(fn (TransactionalMail $record) => match ($record->store_mail) {
                     true => 'success',
                     false => 'danger',
                 }),

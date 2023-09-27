@@ -83,22 +83,22 @@ class WebhooksComponent extends TableComponent
             ActionGroup::make([
                 Action::make('disable')
                     ->label(__mc('Disable'))
-                    ->hidden(fn (WebhookConfiguration $configuration) => ! $configuration->enabled)
+                    ->hidden(fn (WebhookConfiguration $record) => ! $record->enabled)
                     ->color('warning')
                     ->icon('heroicon-o-x-circle')
-                    ->action(fn (WebhookConfiguration $configuration) => $configuration->update(['enabled' => false])),
+                    ->action(fn (WebhookConfiguration $record) => $record->update(['enabled' => false])),
                 Action::make('enable')
                     ->label(__mc('Enable'))
-                    ->hidden(fn (WebhookConfiguration $configuration) => $configuration->enabled)
+                    ->hidden(fn (WebhookConfiguration $record) => $record->enabled)
                     ->color('success')
                     ->icon('heroicon-o-check-circle')
-                    ->action(fn (WebhookConfiguration $configuration) => $configuration->update(['enabled' => true])),
+                    ->action(fn (WebhookConfiguration $record) => $record->update(['enabled' => true])),
                 Action::make('delete')
                     ->icon('heroicon-o-trash')
                     ->color('danger')
                     ->label(__mc('Delete'))
                     ->requiresConfirmation()
-                    ->action(fn (WebhookConfiguration $configuration) => $this->deleteWebhook($configuration)),
+                    ->action(fn (WebhookConfiguration $record) => $this->deleteWebhook($record)),
             ]),
         ];
     }
