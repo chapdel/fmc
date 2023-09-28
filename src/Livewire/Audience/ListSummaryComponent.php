@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Livewire\Audience;
 
-use Carbon\Carbon;
 use Carbon\CarbonInterface;
 use Carbon\CarbonPeriod;
 use Illuminate\Contracts\View\View;
@@ -155,19 +154,27 @@ class ListSummaryComponent extends Component
             ->get();
 
         $subscriberTotal = $this->startSubscriptionsCount;
-        $subscribers = collect($subscribes)->map(function ($result) use ($interval, &$subscriberTotal, $unsubscribes) {
-            $subscriberTotal += $result->subscribed_count;
-            $unsubscribeCount = $unsubscribes->where('unsubscribe_day', $result->subscribed_day)->first();
-            $subscriberTotal -= optional($unsubscribeCount)->unsubscribe_count ?? 0;
+
+        $subscribers = collect(CarbonPeriod::create($start, '1 '.$interval, $end))->map(function (CarbonInterface $day) use ($interval, &$subscriberTotal, $subscribes, $unsubscribes) {
+            $format = match ($interval) {
+                'hour' => 'Y-m-d H:i:s',
+                'day' => 'Y-m-d',
+            };
+
+            $subscribeResult = $subscribes->where('subscribed_day', $day->format($format))->first();
+            $unsubscribeResult = $unsubscribes->where('unsubscribe_day', $day->format($format))->first();
+
+            $subscriberTotal += $subscribeResult?->subscribed_count ?? 0;
+            $subscriberTotal -= $unsubscribeResult?->subscribed_count ?? 0;
 
             return [
                 'label' => match ($interval) {
-                    'hour' => Carbon::createFromFormat('Y-m-d H:i', $result->subscribed_day)->startOf($interval)->format('y M d H:i'),
-                    'day' => Carbon::createFromFormat('Y-m-d', $result->subscribed_day)->startOf($interval)->format('y M d'),
+                    'hour' => $day->startOf($interval)->format('y M d H:i'),
+                    'day' => $day->startOf($interval)->format('y M d'),
                 },
                 'subscribers' => $subscriberTotal,
-                'subscribes' => $result->subscribed_count,
-                'unsubscribes' => optional($unsubscribeCount)->unsubscribe_count,
+                'subscribes' => $subscribeResult?->subscribed_count ?? 0,
+                'unsubscribes' => $unsubscribeResult?->unsubscribe_count ?? 0,
             ];
         });
 
