@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Livewire\MailConfiguration\Mailgun\Steps;
 
 use Exception;
 use Spatie\LivewireWizard\Components\StepComponent;
+use Spatie\Mailcoach\Domain\Vendor\Mailgun\Mailgun;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
-use Spatie\MailcoachMailgunSetup\Mailgun;
 
 class AuthenticationStepComponent extends StepComponent
 {

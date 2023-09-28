@@ -1,6 +1,6 @@
 build
 composer.lock
-vendor
+/vendor
 !resources/css/vendor
 resources/dist/monaco
 resources/hot
@@ -14,3 +14,4 @@ auth.json
 phpstan.neon
 dump.rdb
 /.fleet
+.env

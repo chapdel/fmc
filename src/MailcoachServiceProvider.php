@@ -359,7 +359,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 if ($registerFeedback) {
                     Route::namespace(null)->group(function () {
                         Route::sesFeedback('ses-feedback');
-                        Route::mailgunFeedback('mailgun-feedback');
+                        //Route::mailgunFeedback('mailgun-feedback');
                         Route::sendgridFeedback('sendgrid-feedback');
                         Route::postmarkFeedback('postmark-feedback');
                         Route::sendinblueFeedback('sendinblue-feedback');
