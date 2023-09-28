@@ -1,6 +1,6 @@
 <?php
 
-use Spatie\Mailcoach\Domain\Vendor\Mailgun\EventType;
+use Spatie\Mailcoach\Domain\Vendor\Mailgun\Enums\EventType;
 use Spatie\Mailcoach\Domain\Vendor\Mailgun\Mailgun;
 
 beforeEach(function () {

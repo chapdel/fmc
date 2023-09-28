@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Vendor\Mailgun;
+namespace Spatie\Mailcoach\Domain\Vendor\Mailgun\Enums;
 
 enum EventType: string
 {

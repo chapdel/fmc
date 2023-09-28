@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Livewire\MailConfiguration\Mailgun\Steps;
 
 use Spatie\LivewireWizard\Components\StepComponent;
-use Spatie\Mailcoach\Domain\Vendor\Mailgun\EventType;
+use Spatie\Mailcoach\Domain\Vendor\Mailgun\Enums\EventType;
 use Spatie\Mailcoach\Domain\Vendor\Mailgun\Exceptions\CouldNotAccessAccountSetting;
+use Spatie\Mailcoach\Domain\Vendor\Mailgun\Jobs\MailgunWebhookController;
 use Spatie\Mailcoach\Domain\Vendor\Mailgun\Mailgun;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
-use Spatie\MailcoachMailgunFeedback\MailgunWebhookController;
 
 class FeedbackStepComponent extends StepComponent
 {

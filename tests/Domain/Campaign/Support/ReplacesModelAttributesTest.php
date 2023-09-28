@@ -5,7 +5,7 @@ use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\Concerns\ReplacesModelAtt
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 
 beforeEach(function () {
-    test()->classWithTrait = new class
+    test()->classWithTrait = new class()
     {
         use ReplacesModelAttributes;
     };

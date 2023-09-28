@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Vite;
 use Illuminate\Mail\Events\MessageSending;
+use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Event;
@@ -58,6 +59,8 @@ use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottleCache;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
+use Spatie\Mailcoach\Domain\Vendor\Mailgun\Actions\StoreTransportMessageId;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Mailgun\MailgunWebhookController;
 use Spatie\Mailcoach\Http\App\Middleware\BootstrapMailcoach;
 use Spatie\Mailcoach\Http\App\ViewComposers\WebsiteStyleComposer;
 use Spatie\Mailcoach\Livewire\Audience\CreateListComponent;
@@ -358,8 +361,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
             Route::middleware([BootstrapMailcoach::class])->group(function () use ($url, $registerFeedback) {
                 if ($registerFeedback) {
                     Route::namespace(null)->group(function () {
+                        Route::macro('mailgunFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.MailgunWebhookController::class));
+
                         Route::sesFeedback('ses-feedback');
-                        //Route::mailgunFeedback('mailgun-feedback');
                         Route::sendgridFeedback('sendgrid-feedback');
                         Route::postmarkFeedback('postmark-feedback');
                         Route::sendinblueFeedback('sendinblue-feedback');
@@ -683,6 +687,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Event::subscribe(WebhookEventSubscriber::class);
         Event::subscribe(WebhookLogEventSubscriber::class);
         Event::subscribe(WebhookFailedAttemptsSubscriber::class);
+
+        Event::listen(MessageSent::class, StoreTransportMessageId::class);
 
         return $this;
     }

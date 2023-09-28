@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Vendor\Mailgun;
 
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use Spatie\Mailcoach\Domain\Vendor\Mailgun\Enums\EventType;
 use Spatie\Mailcoach\Domain\Vendor\Mailgun\Exceptions\CouldNotAccessAccountSetting;
 
 class Mailgun
