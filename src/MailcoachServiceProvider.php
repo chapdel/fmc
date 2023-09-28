@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Vite;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Date;
@@ -265,7 +266,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 $this->package->basePath('/../resources/dist') => public_path("vendor/{$this->package->shortName()}"),
-                $this->package->basePath('/../resources/images') => public_path("vendor/{$this->package->shortName()}/images"),
+                //$this->package->basePath('/../resources/images') => public_path("vendor/{$this->package->shortName()}/images"),
             ], "{$this->package->shortName()}-assets");
         }
 
@@ -407,7 +408,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootCodemirror(): void
     {
-        Mailcoach::editorScript(Domain\Editor\Codemirror\Editor::class, asset('js/editors/codemirror/editor.js'));
+        Mailcoach::editorScript(Domain\Editor\Codemirror\Editor::class, Vite::asset('js/editors/codemirror/editor.js', 'vendor/mailcoach'));
     }
 
     protected function bootEditorJs(): void
