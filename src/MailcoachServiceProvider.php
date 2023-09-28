@@ -253,13 +253,11 @@ class MailcoachServiceProvider extends PackageServiceProvider
             return SimpleThrottle::create($simpleThrottleCache);
         });
 
-        Relation::morphMap([
-            'campaign' => self::getCampaignClass(),
-            'automation_mail' => self::getAutomationMailClass(),
-            'transactional_mail_log_item' => self::getTransactionalMailLogItemClass(),
-            'transactional_mail' => self::getTransactionalMailClass(),
-            'content_item' => self::getContentItemClass(),
-        ]);
+        foreach (Mailcoach::defaultModels() as $key => $defaultModelClass) {
+            app()->bind($defaultModelClass, config("mailcoach.models.{$key}"));
+
+            Relation::morphMap([$key => config("mailcoach.models.{$key}")]);
+        }
     }
 
     public function packageBooted(): void

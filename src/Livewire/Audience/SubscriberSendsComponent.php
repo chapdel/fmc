@@ -100,7 +100,7 @@ class SubscriberSendsComponent extends TableComponent
     public function getTableGrouping(): ?Group
     {
         return Group::make('contentItem.model_type')
-            ->getTitleFromRecordUsing(fn (Send $send) => match ($send->contentItem->model_type) {
+            ->getTitleFromRecordUsing(fn (Send $record) => match ($record->contentItem->model_type) {
                 'campaign' => __mc('Campaigns'),
                 'automation_mail' => __mc('Automation mails'),
                 default => '',

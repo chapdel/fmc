@@ -92,27 +92,27 @@ class SubscriberExportsComponent extends TableComponent
     {
         return [
             IconColumn::make('status')
-                ->icon(fn (SubscriberExport $export) => match (true) {
-                    $export->status === SubscriberExportStatus::Exporting => 'heroicon-o-arrow-path',
-                    $export->status === SubscriberExportStatus::Pending => 'heroicon-o-clock',
-                    $export->status === SubscriberExportStatus::Completed => 'heroicon-o-check-circle',
-                    $export->status === SubscriberExportStatus::Failed => 'heroicon-o-exclamation-circle',
+                ->icon(fn (SubscriberExport $record) => match (true) {
+                    $record->status === SubscriberExportStatus::Exporting => 'heroicon-o-arrow-path',
+                    $record->status === SubscriberExportStatus::Pending => 'heroicon-o-clock',
+                    $record->status === SubscriberExportStatus::Completed => 'heroicon-o-check-circle',
+                    $record->status === SubscriberExportStatus::Failed => 'heroicon-o-exclamation-circle',
                 })
-                ->tooltip(fn (SubscriberExport $export) => match (true) {
-                    $export->status === SubscriberExportStatus::Exporting => __mc('Exporting'),
-                    $export->status === SubscriberExportStatus::Pending => __mc('Pending'),
-                    $export->status === SubscriberExportStatus::Completed => __mc('Completed'),
-                    $export->status === SubscriberExportStatus::Failed => __mc('Failed'),
+                ->tooltip(fn (SubscriberExport $record) => match (true) {
+                    $record->status === SubscriberExportStatus::Exporting => __mc('Exporting'),
+                    $record->status === SubscriberExportStatus::Pending => __mc('Pending'),
+                    $record->status === SubscriberExportStatus::Completed => __mc('Completed'),
+                    $record->status === SubscriberExportStatus::Failed => __mc('Failed'),
                 })
-                ->color(fn (SubscriberExport $export) => match (true) {
-                    $export->status === SubscriberExportStatus::Exporting => 'warning',
-                    $export->status === SubscriberExportStatus::Pending => 'warning',
-                    $export->status === SubscriberExportStatus::Completed => 'success',
-                    $export->status === SubscriberExportStatus::Failed => 'danger',
+                ->color(fn (SubscriberExport $record) => match (true) {
+                    $record->status === SubscriberExportStatus::Exporting => 'warning',
+                    $record->status === SubscriberExportStatus::Pending => 'warning',
+                    $record->status === SubscriberExportStatus::Completed => 'success',
+                    $record->status === SubscriberExportStatus::Failed => 'danger',
                 })
-                ->extraAttributes(fn (SubscriberExport $export) => match (true) {
-                    $export->status === SubscriberExportStatus::Exporting => ['class' => 'fa-spin'],
-                    $export->status === SubscriberExportStatus::Pending => ['class' => 'fa-spin'],
+                ->extraAttributes(fn (SubscriberExport $record) => match (true) {
+                    $record->status === SubscriberExportStatus::Exporting => ['class' => 'fa-spin'],
+                    $record->status === SubscriberExportStatus::Pending => ['class' => 'fa-spin'],
                     default => [],
                 })
                 ->sortable(),
@@ -149,19 +149,19 @@ class SubscriberExportsComponent extends TableComponent
                 Action::make('download-file')
                     ->label(__mc('Download export'))
                     ->icon('heroicon-o-document-text')
-                    ->action(fn (SubscriberExport $export) => $this->downloadFile($export))
-                    ->hidden(fn (SubscriberExport $export) => ! $export->hasMedia('file')),
+                    ->action(fn (SubscriberExport $record) => $this->downloadFile($record))
+                    ->hidden(fn (SubscriberExport $record) => ! $record->hasMedia('file')),
                 Action::make('restart')
                     ->label(__mc('Restart'))
                     ->requiresConfirmation()
                     ->icon('heroicon-o-arrow-path')
-                    ->action(fn (SubscriberExport $export) => $this->restartExport($export)),
+                    ->action(fn (SubscriberExport $record) => $this->restartExport($record)),
                 Action::make('delete')
                     ->label(__mc('Delete'))
                     ->icon('heroicon-o-trash')
                     ->color('danger')
                     ->requiresConfirmation()
-                    ->action(fn (SubscriberExport $export) => $this->deleteExport($export))
+                    ->action(fn (SubscriberExport $record) => $this->deleteExport($record))
                     ->authorize('delete', self::getSubscriberExportClass()),
             ]),
         ];

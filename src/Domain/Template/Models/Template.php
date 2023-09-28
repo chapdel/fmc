@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Domain\Template\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\Mailcoach\Database\Factories\TemplateFactory;
 use Spatie\Mailcoach\Domain\Content\Models\Concerns\HasHtmlContent;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
@@ -43,11 +42,6 @@ class Template extends Model implements HasHtmlContent
         $this->structured_html = json_encode($structuredHtml);
 
         return $this;
-    }
-
-    public function campaigns(): HasMany
-    {
-        return $this->hasMany($this->getCampaignClass());
     }
 
     public function getHtml(): ?string

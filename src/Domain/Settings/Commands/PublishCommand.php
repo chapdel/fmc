@@ -18,12 +18,14 @@ class PublishCommand extends Command
         $this->info('');
 
         $commands = [
+            'filament:upgrade',
             'horizon:publish',
             'vendor:publish --tag=mailcoach-migrations',
             'vendor:publish --tag=mailcoach-ui-vendor-views --force',
             'vendor:publish --tag=mailcoach-assets --force',
             'vendor:publish --tag=mailcoach-markdown-editor-assets --force',
             'vendor:publish --tag=livewire:assets --force',
+            'icons:cache',
         ];
 
         collect($commands)->each(function (string $command) {

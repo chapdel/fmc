@@ -73,22 +73,22 @@ class SubscribersComponent extends TableComponent
         return [
             IconColumn::make('status')
                 ->label('')
-                ->icon(fn (Subscriber $subscriber) => match (true) {
-                    $subscriber->isUnconfirmed() => 'heroicon-o-question-mark-circle',
-                    $subscriber->isSubscribed() => 'heroicon-o-check-circle',
-                    $subscriber->isUnsubscribed() => 'heroicon-o-x-circle',
+                ->icon(fn (Subscriber $record) => match (true) {
+                    $record->isUnconfirmed() => 'heroicon-o-question-mark-circle',
+                    $record->isSubscribed() => 'heroicon-o-check-circle',
+                    $record->isUnsubscribed() => 'heroicon-o-x-circle',
                     default => '',
                 })
-                ->color(fn (Subscriber $subscriber) => match (true) {
-                    $subscriber->isUnconfirmed() => 'warning',
-                    $subscriber->isSubscribed() => 'success',
-                    $subscriber->isUnsubscribed() => 'danger',
+                ->color(fn (Subscriber $record) => match (true) {
+                    $record->isUnconfirmed() => 'warning',
+                    $record->isSubscribed() => 'success',
+                    $record->isUnsubscribed() => 'danger',
                     default => '',
                 })
-                ->tooltip(fn (Subscriber $subscriber) => match (true) {
-                    $subscriber->isUnconfirmed() => __mc('Unconfirmed'),
-                    $subscriber->isSubscribed() => __mc('Subscribed'),
-                    $subscriber->isUnsubscribed() => __mc('Unsubscribed'),
+                ->tooltip(fn (Subscriber $record) => match (true) {
+                    $record->isUnconfirmed() => __mc('Unconfirmed'),
+                    $record->isSubscribed() => __mc('Subscribed'),
+                    $record->isUnsubscribed() => __mc('Unsubscribed'),
                     default => '',
                 }),
             TextColumn::make('email')
@@ -119,32 +119,32 @@ class SubscribersComponent extends TableComponent
                     ->label(__mc('Resend confirmation mail'))
                     ->icon('heroicon-o-envelope')
                     ->requiresConfirmation()
-                    ->action(fn (Subscriber $subscriber) => $this->resendConfirmation($subscriber))
-                    ->hidden(fn (Subscriber $subscriber) => ! $subscriber->isUnconfirmed()),
+                    ->action(fn (Subscriber $record) => $this->resendConfirmation($record))
+                    ->hidden(fn (Subscriber $record) => ! $record->isUnconfirmed()),
                 Action::make('confirm')
                     ->label(__mc('Confirm'))
                     ->icon('heroicon-o-check-circle')
                     ->requiresConfirmation()
-                    ->action(fn (Subscriber $subscriber) => $this->confirm($subscriber))
-                    ->hidden(fn (Subscriber $subscriber) => ! $subscriber->isUnconfirmed()),
+                    ->action(fn (Subscriber $record) => $this->confirm($record))
+                    ->hidden(fn (Subscriber $record) => ! $record->isUnconfirmed()),
                 Action::make('unsubscribe')
                     ->label(__mc('Unsubscribe'))
                     ->icon('heroicon-o-x-circle')
                     ->requiresConfirmation()
-                    ->action(fn (Subscriber $subscriber) => $this->unsubscribe($subscriber))
-                    ->hidden(fn (Subscriber $subscriber) => ! $subscriber->isSubscribed()),
+                    ->action(fn (Subscriber $record) => $this->unsubscribe($record))
+                    ->hidden(fn (Subscriber $record) => ! $record->isSubscribed()),
                 Action::make('resubscribe')
                     ->label(__mc('Resubscribe'))
                     ->icon('heroicon-o-check-circle')
                     ->requiresConfirmation()
-                    ->action(fn (Subscriber $subscriber) => $this->resubscribe($subscriber))
-                    ->hidden(fn (Subscriber $subscriber) => $subscriber->isSubscribed()),
+                    ->action(fn (Subscriber $record) => $this->resubscribe($record))
+                    ->hidden(fn (Subscriber $record) => $record->isSubscribed()),
                 Action::make('delete')
                     ->label(__mc('Delete'))
                     ->color('danger')
                     ->icon('heroicon-o-trash')
                     ->requiresConfirmation()
-                    ->action(fn (Subscriber $subscriber) => $this->deleteSubscriber($subscriber)),
+                    ->action(fn (Subscriber $record) => $this->deleteSubscriber($record)),
             ]),
         ];
     }

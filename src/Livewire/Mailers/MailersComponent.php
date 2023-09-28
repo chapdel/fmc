@@ -68,14 +68,14 @@ class MailersComponent extends TableComponent
                     ->label(__mc('Make default'))
                     ->icon('heroicon-o-check-circle')
                     ->requiresConfirmation()
-                    ->hidden(fn (Mailer $mailer) => $mailer->default)
-                    ->action(fn (Mailer $mailer) => $this->markMailerDefault($mailer)),
+                    ->hidden(fn (Mailer $record) => $record->default)
+                    ->action(fn (Mailer $record) => $this->markMailerDefault($record)),
                 Action::make('delete')
                     ->label(__mc('Delete'))
                     ->icon('heroicon-o-trash')
                     ->color('danger')
                     ->requiresConfirmation()
-                    ->action(fn (Mailer $mailer) => $this->deleteMailer($mailer)),
+                    ->action(fn (Mailer $record) => $this->deleteMailer($record)),
             ]),
         ];
     }

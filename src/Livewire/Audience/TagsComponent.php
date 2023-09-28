@@ -110,7 +110,7 @@ class TagsComponent extends TableComponent
                 ->modalHeading('Delete')
                 ->icon('heroicon-o-trash')
                 ->color('danger')
-                ->action(fn (Tag $tag) => $this->deleteTag($tag))
+                ->action(fn (Tag $record) => $this->deleteTag($record))
                 ->requiresConfirmation(),
         ];
     }

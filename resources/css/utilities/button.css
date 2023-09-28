@@ -1,5 +1,6 @@
 .button,
-input[type='file']::file-selector-button {
+input[type='file']::file-selector-button,
+.fi-btn-color-danger {
     @apply px-6;
     @apply h-10;
     @apply bg-blue-800;
@@ -25,6 +26,11 @@ input[type='file']::file-selector-button {
     @apply tracking-wide;
 }
 
+.fi-btn {
+    @apply border;
+    @apply border-gray-400/30;
+}
+
 input[type='file'] {
     @apply input;
     @apply rounded-l-md;
@@ -43,6 +49,8 @@ input[type='file']::file-selector-button {
 
 .button:not(:disabled):hover,
 .button:not(:disabled):focus,
+.fi-btn-color-danger:not(:disabled):hover,
+.fi-btn-color-danger:not(:disabled):focus,
 .button.dropdown-trigger-open {
     @apply text-white;
     @apply border-t-black/10;
@@ -107,13 +115,16 @@ input[type='file']::file-selector-button {
     @apply link-dimmed-hover;
 }
 
-.button-red {
+.button-red,
+.fi-btn-color-danger {
     @apply from-red-500;
     @apply to-red-600;
 }
 
 .button-red:not(:disabled):hover,
 .button-red:not(:disabled):focus,
+.fi-btn-color-danger:not(:disabled):hover,
+.fi-btn-color-danger:not(:disabled):focus,
 .button-red.dropdown-trigger-open {
     @apply from-red-600;
     @apply to-red-700;
@@ -131,7 +142,8 @@ input[type='file']::file-selector-button {
     @apply text-white;
 }
 
-.button.button-green {
+.button.button-green,
+.fi-btn-color-success {
     @apply bg-green-800;
     @apply from-green-700/30;
     @apply via-green-700;
@@ -140,7 +152,8 @@ input[type='file']::file-selector-button {
     @apply shadow-green-800/20;
 }
 
-.button.button-green {
+.button.button-green,
+.fi-btn-color-success {
     @apply bg-green-700;
     @apply from-green-600/30;
     @apply via-green-600;

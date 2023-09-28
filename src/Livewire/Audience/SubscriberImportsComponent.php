@@ -189,30 +189,30 @@ class SubscriberImportsComponent extends TableComponent
     {
         return [
             IconColumn::make('status')
-                ->icon(fn (SubscriberImport $import) => match (true) {
-                    $import->status === SubscriberImportStatus::Importing => 'heroicon-o-arrow-path',
-                    $import->status === SubscriberImportStatus::Pending => 'heroicon-o-clock',
-                    $import->status === SubscriberImportStatus::Draft => 'heroicon-o-pencil-square',
-                    $import->status === SubscriberImportStatus::Completed => 'heroicon-o-check-circle',
-                    $import->status === SubscriberImportStatus::Failed => 'heroicon-o-exclamation-circle',
+                ->icon(fn (SubscriberImport $record) => match (true) {
+                    $record->status === SubscriberImportStatus::Importing => 'heroicon-o-arrow-path',
+                    $record->status === SubscriberImportStatus::Pending => 'heroicon-o-clock',
+                    $record->status === SubscriberImportStatus::Draft => 'heroicon-o-pencil-square',
+                    $record->status === SubscriberImportStatus::Completed => 'heroicon-o-check-circle',
+                    $record->status === SubscriberImportStatus::Failed => 'heroicon-o-exclamation-circle',
                 })
-                ->tooltip(fn (SubscriberImport $import) => match (true) {
-                    $import->status === SubscriberImportStatus::Importing => __mc('Importing'),
-                    $import->status === SubscriberImportStatus::Pending => __mc('Pending'),
-                    $import->status === SubscriberImportStatus::Draft => __mc('Draft'),
-                    $import->status === SubscriberImportStatus::Completed => __mc('Completed'),
-                    $import->status === SubscriberImportStatus::Failed => __mc('Failed'),
+                ->tooltip(fn (SubscriberImport $record) => match (true) {
+                    $record->status === SubscriberImportStatus::Importing => __mc('Importing'),
+                    $record->status === SubscriberImportStatus::Pending => __mc('Pending'),
+                    $record->status === SubscriberImportStatus::Draft => __mc('Draft'),
+                    $record->status === SubscriberImportStatus::Completed => __mc('Completed'),
+                    $record->status === SubscriberImportStatus::Failed => __mc('Failed'),
                 })
-                ->color(fn (SubscriberImport $import) => match (true) {
-                    $import->status === SubscriberImportStatus::Importing => 'warning',
-                    $import->status === SubscriberImportStatus::Pending => 'warning',
-                    $import->status === SubscriberImportStatus::Draft => '',
-                    $import->status === SubscriberImportStatus::Completed => 'success',
-                    $import->status === SubscriberImportStatus::Failed => 'danger',
+                ->color(fn (SubscriberImport $record) => match (true) {
+                    $record->status === SubscriberImportStatus::Importing => 'warning',
+                    $record->status === SubscriberImportStatus::Pending => 'warning',
+                    $record->status === SubscriberImportStatus::Draft => '',
+                    $record->status === SubscriberImportStatus::Completed => 'success',
+                    $record->status === SubscriberImportStatus::Failed => 'danger',
                 })
-                ->extraAttributes(fn (SubscriberImport $import) => match (true) {
-                    $import->status === SubscriberImportStatus::Importing => ['class' => 'fa-spin'],
-                    $import->status === SubscriberImportStatus::Pending => ['class' => 'fa-spin'],
+                ->extraAttributes(fn (SubscriberImport $record) => match (true) {
+                    $record->status === SubscriberImportStatus::Importing => ['class' => 'fa-spin'],
+                    $record->status === SubscriberImportStatus::Pending => ['class' => 'fa-spin'],
                     default => [],
                 })
                 ->sortable(),
@@ -243,23 +243,23 @@ class SubscriberImportsComponent extends TableComponent
                 Action::make('download-errors')
                     ->label(__mc('Error report'))
                     ->icon('heroicon-o-exclamation-circle')
-                    ->hidden(fn (SubscriberImport $import) => count($import->errors ?? []) === 0)
-                    ->action(fn (SubscriberImport $import) => $this->downloadAttatchment($import, 'errorReport')),
+                    ->hidden(fn (SubscriberImport $record) => count($record->errors ?? []) === 0)
+                    ->action(fn (SubscriberImport $record) => $this->downloadAttatchment($record, 'errorReport')),
                 Action::make('download-uploaded-file')
                     ->label(__mc('Uploaded file'))
                     ->icon('heroicon-o-document-text')
-                    ->action(fn (SubscriberImport $import) => $this->downloadAttatchment($import, 'importFile')),
+                    ->action(fn (SubscriberImport $record) => $this->downloadAttatchment($record, 'importFile')),
                 Action::make('restart')
                     ->label(__mc('Restart'))
                     ->requiresConfirmation()
                     ->icon('heroicon-o-arrow-path')
-                    ->action(fn (SubscriberImport $import) => $this->restartImport($import)),
+                    ->action(fn (SubscriberImport $record) => $this->restartImport($record)),
                 Action::make('delete')
                     ->label(__mc('Delete'))
                     ->icon('heroicon-o-trash')
                     ->color('danger')
                     ->requiresConfirmation()
-                    ->action(fn (SubscriberImport $import) => $this->deleteImport($import))
+                    ->action(fn (SubscriberImport $record) => $this->deleteImport($record))
                     ->authorize('delete', self::getSubscriberImportClass()),
             ]),
         ];

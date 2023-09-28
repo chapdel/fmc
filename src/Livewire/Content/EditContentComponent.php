@@ -42,6 +42,11 @@ class EditContentComponent extends Component
         /** @var \Spatie\Mailcoach\Domain\Shared\Models\Sendable $sendable */
         $sendable = Route::current()->parameter('campaign') ?? Route::current()->parameter('automationMail');
 
+        if (is_string($sendable)) {
+            $sendable = self::getCampaignClass()::findByUuid($sendable)
+                ?? self::getAutomationMailClass()::findByUuid($sendable);
+        }
+
         $this->contentItem = $sendable->contentItem;
         $this->subject = $this->contentItem->subject;
 
