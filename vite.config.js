@@ -11,6 +11,7 @@ export default defineConfig({
                 'resources/css/app.css',
                 'resources/js/app.js',
                 'resources/js/editors/codemirror/editor.js',
+                'resources/js/editors/markdown/editor.js',
             ],
             refresh: true,
             publicDirectory: 'resources',

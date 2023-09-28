@@ -1,6 +1,6 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-aab680f7.css",
+    "file": "assets/app-94f097c6.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
@@ -13,5 +13,10 @@
     "file": "assets/editor-3c15f22d.js",
     "isEntry": true,
     "src": "resources/js/editors/codemirror/editor.js"
+  },
+  "resources/js/editors/markdown/editor.js": {
+    "file": "assets/editor-e58ba4bc.js",
+    "isEntry": true,
+    "src": "resources/js/editors/markdown/editor.js"
   }
 }

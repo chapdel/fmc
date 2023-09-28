@@ -32,7 +32,7 @@
     @include('mailcoach::app.layouts.partials.endHead')
     @stack('endHead')
     @if (config('mailcoach.content_editor') !== \Spatie\Mailcoach\Domain\Editor\Markdown\Editor::class)
-        @vite('resources/js/editors/markdown/editor.js')
+        @vite('resources/js/editors/markdown/editor.js', 'vendor/mailcoach')
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
     @endif
 </head>
