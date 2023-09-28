@@ -98,11 +98,16 @@
         <span x-text="confirmText"></span>
 
         <x-mailcoach::form-buttons>
-            <x-mailcoach::button data-confirm type="button"
-                                 x-on:click="onConfirm; $dispatch('close-modal', { id: 'confirm' })"
-                                 :label=" __mc('Confirm')"/>
-            <x-mailcoach::button-cancel x-on:click="$dispatch('close-modal', { id: 'confirm' })"
-                                        :label=" __mc('Cancel')"/>
+            <x-mailcoach::button
+                data-confirm
+                type="button"
+                x-on:click="onConfirm; $dispatch('close-modal', { id: 'confirm' })"
+                :label=" __mc('Confirm')"
+            />
+            <x-mailcoach::button-cancel
+                x-on:click="$dispatch('close-modal', { id: 'confirm' })"
+                :label=" __mc('Cancel')"
+            />
         </x-mailcoach::form-buttons>
     </x-mailcoach::modal>
 
@@ -110,10 +115,15 @@
         {{ __mc('There are unsaved changes. Are you sure you want to continue?') }}
 
         <x-mailcoach::form-buttons>
-            <x-mailcoach::button type="button" x-on:click="$store.modals.onConfirm && $store.modals.onConfirm()"
-                                 :label=" __mc('Confirm')"/>
-            <x-mailcoach::button-cancel x-on:click="$dispatch('close-modal', { id: 'dirty-warning' })"
-                                        :label=" __mc('Cancel')"/>
+            <x-mailcoach::button
+                type="button"
+                x-on:click="$store.modals.onConfirm && $store.modals.onConfirm()"
+                :label=" __mc('Confirm')"
+            />
+            <x-mailcoach::button-cancel
+                x-on:click="$dispatch('close-modal', { id: 'dirty-warning' })"
+                :label=" __mc('Cancel')"
+            />
         </x-mailcoach::form-buttons>
     </x-mailcoach::modal>
 
