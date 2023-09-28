@@ -4,13 +4,13 @@
 ])
 @if($model instanceof \Spatie\Mailcoach\Domain\Shared\Models\Sendable)
     @pushonce('scripts')
-        <script>
-            document.addEventListener('livewire:load', function () {
-                setInterval(() => @this.autosave(), 20000
-            )
-                ;
-            });
-        </script>
+    <script>
+        document.addEventListener('livewire:load', function () {
+            setInterval(() => @this.autosave(), 20000
+        )
+            ;
+        });
+    </script>
     @endpushonce
 @endif
 <x-mailcoach::form-buttons>
@@ -32,7 +32,7 @@
         @endif
         --}}
 
-        @if (config('mailcoach.content_editor') !== \Spatie\MailcoachUnlayer\UnlayerEditor::class)
+        @if (config('mailcoach.content_editor') !== \Spatie\Mailcoach\Domain\Editor\Unlayer\Editor::class)
             <x-mailcoach::button-secondary x-on:click.prevent="$dispatch('open-modal', { id: 'preview' })"
                                            :label="__mc('Preview')"/>
             <x-mailcoach::preview-modal name="preview" :html="$previewHtml"

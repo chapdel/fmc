@@ -2,10 +2,10 @@
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Editor\Markdown\Editor as MarkdownEditor;
 use Spatie\Mailcoach\Domain\Template\Models\Template;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\MailcoachMarkdownEditor\Editor as MarkdownEditor;
 use Spatie\Snapshots\MatchesSnapshots;
 
 uses(RespondsToApiRequests::class);

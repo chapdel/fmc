@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors;
+namespace Spatie\Mailcoach\Domain\Editor\Codemirror;
 
-use Spatie\MailcoachCodeMirror\Editor;
+use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\EditorConfigurationDriver;
 
 class CodeMirrorEditorConfigurationDriver extends EditorConfigurationDriver
 {

@@ -460,3 +460,8 @@ parameters:
 			message: "#^Static method Spatie\\\\Mailcoach\\\\Mailcoach\\:\\:getAutomationActionClass\\(\\) invoked with 0 parameters, 2 required\\.$#"
 			count: 1
 			path: src/Mailcoach.php
+
+		-
+			message: "#^Static call to instance method Illuminate\\\\Foundation\\\\Vite\\:\\:asset\\(\\)\\.$#"
+			count: 1
+			path: src/MailcoachServiceProvider.php

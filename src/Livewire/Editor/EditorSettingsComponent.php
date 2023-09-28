@@ -20,7 +20,7 @@ class EditorSettingsComponent extends Component
 
     public array $templateEditorOptions = [];
 
-    public function mount(EditorConfiguration $editorConfiguration)
+    public function mount(EditorConfiguration $editorConfiguration): void
     {
         $editorConfigurationDriverRepository = new EditorConfigurationDriverRepository();
 
@@ -31,7 +31,7 @@ class EditorSettingsComponent extends Component
         $this->templateEditorOptions = $editorConfiguration->getTemplateEditorOptions();
     }
 
-    public function rules()
+    public function rules(): array
     {
         $editorConfigurationDriverRepository = new EditorConfigurationDriverRepository();
 

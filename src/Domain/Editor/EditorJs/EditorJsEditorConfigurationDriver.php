@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors;
+namespace Spatie\Mailcoach\Domain\Editor\EditorJs;
 
-use Spatie\MailcoachEditor\Editor;
+use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\EditorConfigurationDriver;
 
 class EditorJsEditorConfigurationDriver extends EditorConfigurationDriver
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors;
+namespace Spatie\Mailcoach\Domain\Editor\Unlayer;
 
 use Illuminate\Contracts\Config\Repository;
-use Spatie\MailcoachUnlayer\UnlayerEditor;
+use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\EditorConfigurationDriver;
 
 class UnlayerEditorConfigurationDriver extends EditorConfigurationDriver
 {
@@ -14,7 +14,7 @@ class UnlayerEditorConfigurationDriver extends EditorConfigurationDriver
 
     public function getClass(): string
     {
-        return UnlayerEditor::class;
+        return Editor::class;
     }
 
     public function validationRules(): array

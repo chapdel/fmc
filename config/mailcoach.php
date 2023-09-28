@@ -359,6 +359,24 @@ return [
         // \App\Mailcoach\Editors\MyCustomEditorConfigurationDriver::class,
     ])->toArray(),
 
+    'editor' => [
+        'editor_js' => [
+            /** Here you can configure the supported block */
+            'renderers' => [
+                'header' => \Spatie\Mailcoach\Domain\Editor\EditorJs\Renderer\HeaderRenderer::class,
+                'list' => \Spatie\Mailcoach\Domain\Editor\EditorJs\Renderer\ListRenderer::class,
+                'paragraph' => \Spatie\Mailcoach\Domain\Editor\EditorJs\Renderer\ParagraphRenderer::class,
+                'quote' => \Spatie\Mailcoach\Domain\Editor\EditorJs\Renderer\QuoteRenderer::class,
+                'raw' => \Spatie\Mailcoach\Domain\Editor\EditorJs\Renderer\RawRenderer::class,
+                'table' => \Spatie\Mailcoach\Domain\Editor\EditorJs\Renderer\TableRenderer::class,
+                'delimiter' => \Spatie\Mailcoach\Domain\Editor\EditorJs\Renderer\DelimiterRenderer::class,
+                'image' => \Spatie\Mailcoach\Domain\Editor\EditorJs\Renderer\ImageRenderer::class,
+                'code' => \Spatie\Mailcoach\Domain\Editor\EditorJs\Renderer\CodeRenderer::class,
+                'button' => \Spatie\Mailcoach\Domain\Editor\EditorJs\Renderer\ButtonRenderer::class,
+            ],
+        ],
+    ],
+
     'webhooks' => [
         /**
          * The amount of times a webhook call should be retried before giving up.

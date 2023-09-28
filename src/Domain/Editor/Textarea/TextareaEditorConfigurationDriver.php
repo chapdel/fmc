@@ -1,7 +1,8 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors;
+namespace Spatie\Mailcoach\Domain\Editor\Textarea;
 
+use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\EditorConfigurationDriver;
 use Spatie\Mailcoach\Livewire\Editor\TextAreaEditorComponent;
 
 class TextareaEditorConfigurationDriver extends EditorConfigurationDriver

@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\QueryException;
+use Illuminate\Foundation\Vite;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Date;
@@ -220,6 +221,19 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ]);
     }
 
+    public function bootingPackage(): void
+    {
+        foreach ([config('mailcoach.content_editor'), config('mailcoach.template_editor')] as $usedEditor) {
+            match ($usedEditor) {
+                \Spatie\Mailcoach\Domain\Editor\Unlayer\Editor::class => $this->bootUnlayer(),
+                \Spatie\Mailcoach\Domain\Editor\Codemirror\Editor::class => $this->bootCodemirror(),
+                \Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class => $this->bootEditorJs(),
+                \Spatie\Mailcoach\Domain\Editor\Markdown\Editor::class => $this->bootMarkdown(),
+                default => null,
+            };
+        }
+    }
+
     public function packageRegistered(): void
     {
         $this->app->singleton(Version::class, fn () => new Version());
@@ -252,7 +266,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 $this->package->basePath('/../resources/dist') => public_path("vendor/{$this->package->shortName()}"),
-                $this->package->basePath('/../resources/images') => public_path("vendor/{$this->package->shortName()}/images"),
+                //$this->package->basePath('/../resources/images') => public_path("vendor/{$this->package->shortName()}/images"),
             ], "{$this->package->shortName()}-assets");
         }
 
@@ -373,7 +387,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
                         ->group(__DIR__.'/../routes/mailcoach-email-list-website.php');
                 });
 
-                Route::mailcoachEditor('mailcoachEditor');
                 Route::get($url, function () {
                     return redirect()->route(config('mailcoach.redirect_home', 'mailcoach.dashboard'));
                 })->name('mailcoach.home');
@@ -391,6 +404,37 @@ class MailcoachServiceProvider extends PackageServiceProvider
         $this->bootLivewireComponents();
 
         return $this;
+    }
+
+    protected function bootCodemirror(): void
+    {
+        Mailcoach::editorScript(Domain\Editor\Codemirror\Editor::class, Vite::asset('js/editors/codemirror/editor.js', 'vendor/mailcoach'));
+    }
+
+    protected function bootEditorJs(): void
+    {
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/header@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/list@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/image@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/quote@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/raw@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/table@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/code@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest');
+        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/editorjs-button@1.0.4');
+    }
+
+    protected function bootMarkdown(): void
+    {
+        Mailcoach::editorScript(Domain\Editor\Markdown\Editor::class, asset('js/editors/markdown/editor.js'));
+        Mailcoach::editorStyle(Domain\Editor\Markdown\Editor::class, 'https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css');
+    }
+
+    protected function bootUnlayer(): void
+    {
+        Mailcoach::editorScript(Domain\Editor\Unlayer\Editor::class, 'https://editor.unlayer.com/embed.js');
     }
 
     protected function bootBladeComponents(): static
@@ -600,6 +644,12 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::edit-mailer', Mailcoach::getLivewireClass(EditMailerComponent::class));
         Livewire::component('mailcoach::suppression-list', Mailcoach::getLivewireClass(SuppressionListComponent::class));
         Livewire::component('mailcoach::create-suppression', Mailcoach::getLivewireClass(CreateSuppressionComponent::class));
+
+        // Editors
+        Livewire::component('mailcoach::editor-codemirror', Domain\Editor\Codemirror\Editor::class);
+        Livewire::component('mailcoach::editor-unlayer', Domain\Editor\Unlayer\Editor::class);
+        Livewire::component('mailcoach::editor-editorjs', Domain\Editor\EditorJs\Editor::class);
+        Livewire::component('mailcoach::editor-markdown', Domain\Editor\Markdown\Editor::class);
 
         // Condition builder
         Livewire::component('mailcoach::condition-builder', Mailcoach::getLivewireClass(ConditionBuilderComponent::class));

@@ -3,8 +3,8 @@
 namespace Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration;
 
 use Illuminate\Support\Collection;
+use Spatie\Mailcoach\Domain\Editor\Textarea\TextareaEditorConfigurationDriver;
 use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\EditorConfigurationDriver;
-use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\TextareaEditorConfigurationDriver;
 
 class EditorConfigurationDriverRepository
 {
