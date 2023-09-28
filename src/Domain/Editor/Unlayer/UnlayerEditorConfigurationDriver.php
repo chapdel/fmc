@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors;
+namespace Spatie\Mailcoach\Domain\Editor\Unlayer;
 
 use Illuminate\Contracts\Config\Repository;
-use Spatie\Mailcoach\Domain\Editor\Unlayer\Editor;
+use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\EditorConfigurationDriver;
 
 class UnlayerEditorConfigurationDriver extends EditorConfigurationDriver
 {

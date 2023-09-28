@@ -1,8 +1,8 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors;
+namespace Spatie\Mailcoach\Domain\Editor\Markdown;
 
-use Spatie\Mailcoach\Domain\Editor\Markdown\Editor;
+use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\EditorConfigurationDriver;
 
 class MarkdownEditorConfigurationDriver extends EditorConfigurationDriver
 {

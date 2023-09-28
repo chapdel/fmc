@@ -334,12 +334,12 @@ class Mailcoach
     public static function defaultEditors(): Collection
     {
         return collect([
-            \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\EditorJsEditorConfigurationDriver::class,
-            \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\MarkdownEditorConfigurationDriver::class,
-            \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\CodeMirrorEditorConfigurationDriver::class,
+            Domain\Editor\EditorJs\EditorJsEditorConfigurationDriver::class,
+            Domain\Editor\Markdown\MarkdownEditorConfigurationDriver::class,
+            Domain\Editor\Codemirror\CodeMirrorEditorConfigurationDriver::class,
             \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\MonacoEditorConfigurationDriver::class,
-            \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\TextareaEditorConfigurationDriver::class,
-            \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\UnlayerEditorConfigurationDriver::class,
+            Domain\Editor\Textarea\TextareaEditorConfigurationDriver::class,
+            Domain\Editor\Unlayer\UnlayerEditorConfigurationDriver::class,
         ]);
     }
 
