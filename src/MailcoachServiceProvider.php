@@ -228,6 +228,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 \Spatie\Mailcoach\Domain\Editor\Codemirror\Editor::class => $this->bootCodemirror(),
                 \Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class => $this->bootEditorJs(),
                 \Spatie\Mailcoach\Domain\Editor\Markdown\Editor::class => $this->bootMarkdown(),
+                default => null,
             };
         }
     }
