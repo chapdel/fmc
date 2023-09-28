@@ -84,11 +84,6 @@ parameters:
 			path: src/Domain/Content/Mails/MailcoachMail.php
 
 		-
-			message: "#^Call to an undefined method Spatie\\\\Image\\\\Manipulations\\:\\:nonQueued\\(\\)\\.$#"
-			count: 1
-			path: src/Domain/Editor/Unlayer/Models/Upload.php
-
-		-
 			message: """
 				#^Class Spatie\\\\Mailcoach\\\\Domain\\\\Settings\\\\Rules\\\\MailerConfigKeyNameRule implements deprecated interface Illuminate\\\\Contracts\\\\Validation\\\\Rule\\:
 				see ValidationRule$#
@@ -465,3 +460,8 @@ parameters:
 			message: "#^Static method Spatie\\\\Mailcoach\\\\Mailcoach\\:\\:getAutomationActionClass\\(\\) invoked with 0 parameters, 2 required\\.$#"
 			count: 1
 			path: src/Mailcoach.php
+
+		-
+			message: "#^Static call to instance method Illuminate\\\\Foundation\\\\Vite\\:\\:asset\\(\\)\\.$#"
+			count: 1
+			path: src/MailcoachServiceProvider.php

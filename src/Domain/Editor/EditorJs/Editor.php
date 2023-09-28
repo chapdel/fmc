@@ -67,7 +67,7 @@ class Editor extends EditorComponent
     {
         $html = '';
         foreach ($blocks as $block) {
-            $rendererClass = config("mailcoach-editor.renderers.{$block['type']}");
+            $rendererClass = config("mailcoach.editor.editor_js.renderers.{$block['type']}");
 
             if ($rendererClass && is_subclass_of($rendererClass, Renderer::class)) {
                 $renderer = new $rendererClass($block['data']);
