@@ -44,8 +44,6 @@
         "spatie/laravel-feed": "^4.0",
         "spatie/laravel-livewire-wizard": "^2.0",
         "spatie/laravel-mailcoach-monaco": "v7.x-dev",
-        "spatie/laravel-mailcoach-postmark-feedback": "v7.x-dev",
-        "spatie/laravel-mailcoach-postmark-setup": "v7.x-dev",
         "spatie/laravel-mailcoach-sendgrid-feedback": "v7.x-dev",
         "spatie/laravel-mailcoach-sendgrid-setup": "v7.x-dev",
         "spatie/laravel-mailcoach-sendinblue-feedback": "v7.x-dev",
