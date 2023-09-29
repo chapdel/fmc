@@ -15,7 +15,7 @@ class CreateSubscriberAction
 
     public function execute(PendingSubscriber $pendingSubscriber): Subscriber
     {
-        $lock = Cache::lock("subscribe-{$pendingSubscriber->email}-{$pendingSubscriber->emailList->id}");
+        $lock = Cache::lock("subscribe-{$pendingSubscriber->email}-{$pendingSubscriber->emailList->id}", seconds: 15);
 
         try {
             $lock->block(5);
