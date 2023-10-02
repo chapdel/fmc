@@ -44,3 +44,12 @@ function addValidSignature(array $payloadContent = []): array
         ]
     );
 }
+
+function getStubs(string $name, string $dir = null): array
+{
+    $dir = __DIR__.'/stubs'.($dir ? "/{$dir}/" : '');
+
+    $content = file_get_contents($dir.$name);
+
+    return json_decode($content, true);
+}

@@ -28,7 +28,6 @@ use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Domain\Vendor\Postmark\MailcoachPostmarkFeedbackServiceProvider;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
 use Spatie\MailcoachSendgridFeedback\MailcoachSendgridFeedbackServiceProvider;
@@ -105,7 +104,6 @@ abstract class TestCase extends Orchestra
             MailcoachSesFeedbackServiceProvider::class,
             MailcoachSendgridFeedbackServiceProvider::class,
             MailcoachSendinblueFeedbackServiceProvider::class,
-            MailcoachPostmarkFeedbackServiceProvider::class,
             WebhookServerServiceProvider::class,
         ];
     }

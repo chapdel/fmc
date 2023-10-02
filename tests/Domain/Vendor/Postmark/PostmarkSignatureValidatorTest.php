@@ -1,54 +1,35 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Vendor\Postmark\Tests;
-
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Vendor\Postmark\PostmarkSignatureValidator;
 use Spatie\Mailcoach\Domain\Vendor\Postmark\PostmarkWebhookConfig;
-use Spatie\WebhookClient\WebhookConfig;
 
-class PostmarkSignatureValidatorTest extends TestCase
-{
-    private WebhookConfig $config;
+beforeEach(function () {
+    $this->config = PostmarkWebhookConfig::get();
 
-    private PostmarkSignatureValidator $validator;
+    $this->config->signingSecret = 'my-secret';
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    $this->validator = new PostmarkSignatureValidator();
+});
 
-        $this->config = PostmarkWebhookConfig::get();
+it('requires signature data', function () {
+    $request = new Request();
 
-        $this->config->signingSecret = 'my-secret';
+    $request->headers->set('mailcoach-signature', 'my-secret');
 
-        $this->validator = new PostmarkSignatureValidator();
-    }
+    expect($this->validator->isValid($request, $this->config))->toBeTrue();
+});
 
-    /** @test */
-    public function it_requires_signature_data()
-    {
-        $request = new Request();
+it('fails if the signature is missing', function () {
+    $request = new Request();
 
-        $request->headers->set('mailcoach-signature', 'my-secret');
+    expect($this->validator->isValid($request, $this->config))->toBeFalse();
+});
 
-        $this->assertTrue($this->validator->isValid($request, $this->config));
-    }
+it('fails if the signature is invalid', function () {
+    $request = new Request();
 
-    /** @test * */
-    public function it_fails_if_signature_is_missing()
-    {
-        $request = new Request();
+    $request->headers->set('mailcoach-signature', 'incorrect-secret');
 
-        $this->assertFalse($this->validator->isValid($request, $this->config));
-    }
-
-    /** @test * */
-    public function it_fails_if_signature_is_invalid()
-    {
-        $request = new Request();
-
-        $request->headers->set('mailcoach-signature', 'incorrect-secret');
-
-        $this->assertFalse($this->validator->isValid($request, $this->config));
-    }
-}
+    expect($this->validator->isValid($request, $this->config))->toBeFalse();
+});

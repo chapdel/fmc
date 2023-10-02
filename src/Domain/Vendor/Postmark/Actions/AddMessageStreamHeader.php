@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachPostmarkFeedback;
+namespace Spatie\Mailcoach\Domain\Vendor\Postmark\Actions;
 
 use Illuminate\Mail\Events\MessageSending;
 

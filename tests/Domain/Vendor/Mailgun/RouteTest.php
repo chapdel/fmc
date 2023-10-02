@@ -23,10 +23,3 @@ it('fails when using an invalid payload', function () {
         ->post('mailgun-feedback', $invalidPayload)
         ->assertStatus(406);
 });
-
-function getStub(string $name): array
-{
-    $content = file_get_contents(__DIR__."/stubs/{$name}.json");
-
-    return json_decode($content, true);
-}

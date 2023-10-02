@@ -60,6 +60,7 @@ use Spatie\Mailcoach\Domain\Shared\Support\Version;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
 use Spatie\Mailcoach\Domain\Vendor\Mailgun\Actions\StoreTransportMessageId;
+use Spatie\Mailcoach\Domain\Vendor\Postmark\Actions\AddMessageStreamHeader;
 use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Mailgun\MailgunWebhookController;
 use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Postmark\PostmarkWebhookController;
 use Spatie\Mailcoach\Http\App\Middleware\BootstrapMailcoach;
@@ -188,7 +189,6 @@ use Spatie\Mailcoach\Livewire\Webhooks\EditWebhookComponent;
 use Spatie\Mailcoach\Livewire\Webhooks\WebhookLogComponent;
 use Spatie\Mailcoach\Livewire\Webhooks\WebhookLogsComponent;
 use Spatie\Mailcoach\Livewire\Webhooks\WebhooksComponent;
-use Spatie\MailcoachPostmarkFeedback\AddMessageStreamHeader;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
 
 class MailcoachServiceProvider extends PackageServiceProvider

@@ -1,37 +1,25 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Vendor\Postmark\Tests;
-
 use Illuminate\Support\Facades\Route;
 
-class RouteTest extends TestCase
-{
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    config()->set('mailcoach.postmark_feedback.signing_secret', 'my-secret');
 
-        config()->set('mailcoach.postmark_feedback.signing_secret', 'my-secret');
+    Route::postmarkFeedback('postmark-feedback');
+});
 
-        Route::postmarkFeedback('postmark-feedback');
-    }
+it('provides a route macro to handle webhooks', function () {
+    $payload = getStubs('complaintWebhookContent.json', dir: 'Postmark');
 
-    /** @test */
-    public function it_provides_a_route_macro_to_handle_webhooks()
-    {
-        $payload = $this->getStub('complaintWebhookContent');
+    $this
+        ->post('postmark-feedback', $payload, ['mailcoach-signature' => 'my-secret'])
+        ->assertSuccessful();
+});
 
-        $this
-            ->post('postmark-feedback', $payload, ['mailcoach-signature' => 'my-secret'])
-            ->assertSuccessful();
-    }
+it('fails when using an invalid payload', function () {
+    $payload = getStubs('complaintWebhookContent.json', dir: 'Postmark');
 
-    /** @test */
-    public function it_fails_when_using_an_invalid_payload()
-    {
-        $payload = $this->getStub('complaintWebhookContent');
-
-        $this
-            ->post('postmark-feedback', $payload)
-            ->assertStatus(500);
-    }
-}
+    $this
+        ->post('postmark-feedback', $payload)
+        ->assertStatus(500);
+});
