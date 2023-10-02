@@ -5,7 +5,6 @@ namespace Spatie\Mailcoach;
 use Exception;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\QueryException;
-use Illuminate\Foundation\Vite;
 use Illuminate\Mail\Events\MessageSending;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Date;
@@ -13,6 +12,7 @@ use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use LivewireUI\Spotlight\Spotlight;
@@ -408,7 +408,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootCodemirror(): void
     {
-        Mailcoach::editorScript(Domain\Editor\Codemirror\Editor::class, Vite::asset('js/editors/codemirror/editor.js', 'vendor/mailcoach'));
+        Mailcoach::editorScript(Domain\Editor\Codemirror\Editor::class, Vite::asset('resources/js/editors/codemirror/editor.js', 'vendor/mailcoach'));
     }
 
     protected function bootEditorJs(): void
