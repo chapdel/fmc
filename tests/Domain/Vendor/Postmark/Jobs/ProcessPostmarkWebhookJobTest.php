@@ -14,7 +14,7 @@ use Spatie\WebhookClient\Models\WebhookCall;
 beforeEach(function () {
     $this->webhookCall = WebhookCall::create([
         'name' => 'postmark',
-        'payload' => getStub('bounceWebhookContent'),
+        'payload' => getPostmarkStub('bounceWebhookContent.json'),
     ]);
 
     $this->send = Send::factory()->create();
@@ -34,7 +34,7 @@ it('processes a postmark bounce webhook call', function () {
 });
 
 it('processes a postmark bounce via subscription change webhook call', function () {
-    $this->webhookCall->update(['payload' => getStub('bounceViaSubscriptionChangeWebhookContent')]);
+    $this->webhookCall->update(['payload' => getPostmarkStub('bounceViaSubscriptionChangeWebhookContent.json')]);
     (new ProcessPostmarkWebhookJob($this->webhookCall))->handle();
 
     expect(SendFeedbackItem::count())->toEqual(1);
@@ -46,14 +46,14 @@ it('processes a postmark bounce via subscription change webhook call', function 
 });
 
 it('wil not process a postmark soft bounce webhook call', function () {
-    $this->webhookCall->update(['payload' => getStub('softBounceWebhookContent')]);
+    $this->webhookCall->update(['payload' => getPostmarkStub('softBounceWebhookContent.json')]);
     (new ProcessPostmarkWebhookJob($this->webhookCall))->handle();
 
     expect(SendFeedbackItem::count())->toEqual(0);
 });
 
 it('processes a postmark complaint webhook call', function () {
-    $this->webhookCall->update(['payload' => getStub('complaintWebhookContent')]);
+    $this->webhookCall->update(['payload' => getPostmarkStub('complaintWebhookContent.json')]);
     (new ProcessPostmarkWebhookJob($this->webhookCall))->handle();
 
     expect(SendFeedbackItem::count())->toEqual(1);
@@ -65,7 +65,7 @@ it('processes a postmark complaint webhook call', function () {
 });
 
 it('processes a postmark complaint via subscription change webhook call', function () {
-    $this->webhookCall->update(['payload' => getStub('complaintViaSubscriptionChangeWebhookContent')]);
+    $this->webhookCall->update(['payload' => getPostmarkStub('complaintViaSubscriptionChangeWebhookContent.json')]);
     (new ProcessPostmarkWebhookJob($this->webhookCall))->handle();
 
     expect(SendFeedbackItem::count())->toEqual(1);
@@ -77,7 +77,7 @@ it('processes a postmark complaint via subscription change webhook call', functi
 });
 
 it('processes a postmark click webhook call', function () {
-    $this->webhookCall->update(['payload' => getStub('clickWebhookContent')]);
+    $this->webhookCall->update(['payload' => getPostmarkStub('clickWebhookContent.json')]);
     (new ProcessPostmarkWebhookJob($this->webhookCall))->handle();
 
     expect(Link::count())->toEqual(1);
@@ -87,7 +87,7 @@ it('processes a postmark click webhook call', function () {
 });
 
 it('can process a postmark open webhook call', function () {
-    $this->webhookCall->update(['payload' => getStub('openWebhookContent')]);
+    $this->webhookCall->update(['payload' => getPostmarkStub('openWebhookContent.json')]);
     (new ProcessPostmarkWebhookJob($this->webhookCall))->handle();
 
     expect($this->send->campaign->opens)->toHaveCount(1);
@@ -96,7 +96,7 @@ it('can process a postmark open webhook call', function () {
 
 it('can process a postmark open webhook call by message id', function () {
     $this->send->update(['transport_message_id' => 'some-message-id']);
-    $payload = getStub('openWebhookContent');
+    $payload = getPostmarkStub('openWebhookContent.json');
     $payload['MessageID'] = 'some-message-id';
     unset($payload['Metadata']);
 
@@ -110,14 +110,14 @@ it('can process a postmark open webhook call by message id', function () {
 it('fires an event after processing the webhook call', function () {
     Event::fake(WebhookCallProcessedEvent::class);
 
-    $this->webhookCall->update(['payload' => getStub('openWebhookContent')]);
+    $this->webhookCall->update(['payload' => getPostmarkStub('openWebhookContent.json')]);
     (new ProcessPostmarkWebhookJob($this->webhookCall))->handle();
 
     Event::assertDispatched(WebhookCallProcessedEvent::class);
 });
 
 it('will not handle unrelated events', function () {
-    $this->webhookCall->update(['payload' => getStub('otherWebhookContent')]);
+    $this->webhookCall->update(['payload' => getPostmarkStub('otherWebhookContent.json')]);
     (new ProcessPostmarkWebhookJob($this->webhookCall))->handle();
 
     expect(Link::count())->toEqual(0);
@@ -141,7 +141,7 @@ it('does nothing when it cannot find a send for the uuid in the webhook', functi
 });
 
 it('will not fail if  record type is not set', function () {
-    $payload = getStub('clickWebhookContent');
+    $payload = getPostmarkStub('clickWebhookContent.json');
 
     unset($payload['RecordType']);
 

@@ -7,7 +7,7 @@ beforeEach(function () {
 });
 
 it('provides a route macro to handle webhooks', function () {
-    $invalidPayload = getStub('complaintWebhookContent');
+    $invalidPayload = getMailgunStub('complaintWebhookContent.json');
 
     $validPayload = addValidSignature($invalidPayload);
 
@@ -17,7 +17,7 @@ it('provides a route macro to handle webhooks', function () {
 });
 
 it('fails when using an invalid payload', function () {
-    $invalidPayload = getStub('complaintWebhookContent');
+    $invalidPayload = getMailgunStub('complaintWebhookContent.json');
 
     $this
         ->post('mailgun-feedback', $invalidPayload)

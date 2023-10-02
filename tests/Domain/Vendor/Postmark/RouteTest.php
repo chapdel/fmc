@@ -9,7 +9,7 @@ beforeEach(function () {
 });
 
 it('provides a route macro to handle webhooks', function () {
-    $payload = getStubs('complaintWebhookContent.json', dir: 'Postmark');
+    $payload = getPostmarkStub('complaintWebhookContent.json');
 
     $this
         ->post('postmark-feedback', $payload, ['mailcoach-signature' => 'my-secret'])
@@ -17,7 +17,7 @@ it('provides a route macro to handle webhooks', function () {
 });
 
 it('fails when using an invalid payload', function () {
-    $payload = getStubs('complaintWebhookContent.json', dir: 'Postmark');
+    $payload = getPostmarkStub('complaintWebhookContent.json');
 
     $this
         ->post('postmark-feedback', $payload)

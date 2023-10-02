@@ -3,7 +3,11 @@
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
+use Spatie\Mailcoach\Domain\Content\Models\Click;
+use Spatie\Mailcoach\Domain\Content\Models\Link;
+use Spatie\Mailcoach\Domain\Content\Models\Open;
 use Spatie\Mailcoach\Domain\Shared\Enums\SendFeedbackType;
+use Spatie\Mailcoach\Domain\Shared\Events\WebhookCallProcessedEvent;
 use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 use Spatie\Mailcoach\Domain\Vendor\Mailgun\Jobs\ProcessMailgunWebhookJob;
 use Spatie\WebhookClient\Models\WebhookCall;
@@ -11,7 +15,7 @@ use Spatie\WebhookClient\Models\WebhookCall;
 beforeEach(function () {
     $this->webhookCall = WebhookCall::create([
         'name' => 'mailgun',
-        'payload' => getStub('bounceWebhookContent'),
+        'payload' => getMailgunStub('bounceWebhookContent.json'),
     ]);
 
     $this->send = SendFactory::new()->create([
@@ -32,7 +36,7 @@ it('processes a mailgun bounce webhook call', function () {
 });
 
 it('processes a mailgun complaint webhook call', function () {
-    $this->webhookCall->update(['payload' => getStub('complaintWebhookContent')]);
+    $this->webhookCall->update(['payload' => getMailgunStub('complaintWebhookContent.json')]);
     (new ProcessMailgunWebhookJob($this->webhookCall))->handle();
 
     expect(SendFeedbackItem::count())->toEqual(1);
@@ -44,23 +48,23 @@ it('processes a mailgun complaint webhook call', function () {
 });
 
 it('processes a mailgun click webhook call', function () {
-    $this->webhookCall->update(['payload' => getStub('clickWebhookContent')]);
+    $this->webhookCall->update(['payload' => getMailgunStub('clickWebhookContent.json')]);
     (new ProcessMailgunWebhookJob($this->webhookCall))->handle();
 
-    expect(CampaignLink::count())->toEqual(1);
-    expect(CampaignLink::first()->url)->toEqual('http://example.com/signup');
-    expect(CampaignLink::first()->clicks)->toHaveCount(1);
-    tap(CampaignLink::first()->clicks->first(), function (CampaignClick $campaignClick) {
+    expect(Link::count())->toEqual(1);
+    expect(Link::first()->url)->toEqual('http://example.com/signup');
+    expect(Link::first()->clicks)->toHaveCount(1);
+    tap(Link::first()->clicks->first(), function (Click $campaignClick) {
         expect($campaignClick->created_at)->toEqual(Carbon::createFromTimestamp(1377075564));
     });
 });
 
 it('can process a mailgun open webhook call', function () {
-    $this->webhookCall->update(['payload' => getStub('openWebhookContent')]);
+    $this->webhookCall->update(['payload' => getMailgunStub('openWebhookContent.json')]);
     (new ProcessMailgunWebhookJob($this->webhookCall))->handle();
 
     expect($this->send->campaign->opens)->toHaveCount(1);
-    tap($this->send->campaign->opens->first(), function (CampaignOpen $campaignOpen) {
+    tap($this->send->campaign->opens->first(), function (Open $campaignOpen) {
         expect($campaignOpen->created_at)->toEqual(Carbon::createFromTimestamp(1377047343));
     });
 });
@@ -68,18 +72,18 @@ it('can process a mailgun open webhook call', function () {
 it('fires an event after processing the webhook call', function () {
     Event::fake(WebhookCallProcessedEvent::class);
 
-    $this->webhookCall->update(['payload' => getStub('openWebhookContent')]);
+    $this->webhookCall->update(['payload' => getMailgunStub('openWebhookContent.json')]);
     (new ProcessMailgunWebhookJob($this->webhookCall))->handle();
 
     Event::assertDispatched(WebhookCallProcessedEvent::class);
 });
 
 it('will not handle unrelated events', function () {
-    $this->webhookCall->update(['payload' => getStub('otherWebhookContent')]);
+    $this->webhookCall->update(['payload' => getMailgunStub('otherWebhookContent.json')]);
     (new ProcessMailgunWebhookJob($this->webhookCall))->handle();
 
-    expect(CampaignLink::count())->toEqual(0);
-    expect(CampaignOpen::count())->toEqual(0);
+    expect(Link::count())->toEqual(0);
+    expect(Open::count())->toEqual(0);
     expect(SendFeedbackItem::count())->toEqual(0);
 });
 
@@ -97,10 +101,3 @@ it('does nothing when it cannot find the transport message id', function () {
 
     expect(SendFeedbackItem::count())->toEqual(0);
 });
-
-function getStub(string $name): array
-{
-    $content = file_get_contents(__DIR__."/stubs/{$name}.json");
-
-    return json_decode($content, true);
-}

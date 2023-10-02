@@ -53,3 +53,13 @@ function getStubs(string $name, string $dir = null): array
 
     return json_decode($content, true);
 }
+
+function getPostmarkStub(string $name): array
+{
+    return getStubs($name, 'Postmark');
+}
+
+function getMailgunStub(string $name): array
+{
+    return getStubs($name, 'Mailgun');
+}
