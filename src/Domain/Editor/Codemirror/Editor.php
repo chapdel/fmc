@@ -41,7 +41,7 @@ class Editor extends EditorComponent
             $this->templateFieldValues['html']['theme'] ??= 'nord';
         }
 
-        return view('mailcoach-codemirror::editor');
+        return view('mailcoach::editors.codemirror.editor');
     }
 
     public function renderFullHtml()
