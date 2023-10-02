@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
@@ -59,10 +60,11 @@ use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottleCache;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
-use Spatie\Mailcoach\Domain\Vendor\Mailgun\Actions\StoreTransportMessageId;
 use Spatie\Mailcoach\Domain\Vendor\Postmark\Actions\AddMessageStreamHeader;
+use Spatie\Mailcoach\Domain\Vendor\Sendgrid\Actions\AddUniqueArgumentsMailHeader;
 use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Mailgun\MailgunWebhookController;
 use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Postmark\PostmarkWebhookController;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Sendgrid\SendgridWebhookController;
 use Spatie\Mailcoach\Http\App\Middleware\BootstrapMailcoach;
 use Spatie\Mailcoach\Http\App\ViewComposers\WebsiteStyleComposer;
 use Spatie\Mailcoach\Livewire\Audience\CreateListComponent;
@@ -190,6 +192,8 @@ use Spatie\Mailcoach\Livewire\Webhooks\WebhookLogComponent;
 use Spatie\Mailcoach\Livewire\Webhooks\WebhookLogsComponent;
 use Spatie\Mailcoach\Livewire\Webhooks\WebhooksComponent;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
+use Symfony\Component\Mailer\Bridge\Sendgrid\Transport\SendgridTransportFactory;
+use Symfony\Component\Mailer\Transport\Dsn;
 
 class MailcoachServiceProvider extends PackageServiceProvider
 {
@@ -284,7 +288,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootViews()
             ->bootEvents()
             ->bootTriggers()
-            ->bootSpotlight();
+            ->bootSpotlight()
+            ->bootMailgun()
+            ->bootPostmark()
+            ->bootSendgrid();
     }
 
     protected function bootCarbon(): static
@@ -365,9 +372,9 @@ class MailcoachServiceProvider extends PackageServiceProvider
                     Route::namespace(null)->group(function () {
                         Route::macro('mailgunFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.MailgunWebhookController::class));
                         Route::macro('postmarkFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.PostmarkWebhookController::class));
+                        Route::macro('sendgridFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SendgridWebhookController::class));
 
                         Route::sesFeedback('ses-feedback');
-                        Route::sendgridFeedback('sendgrid-feedback');
                         Route::sendinblueFeedback('sendinblue-feedback');
                     });
                 }
@@ -441,6 +448,36 @@ class MailcoachServiceProvider extends PackageServiceProvider
     protected function bootUnlayer(): void
     {
         Mailcoach::editorScript(Domain\Editor\Unlayer\Editor::class, 'https://editor.unlayer.com/embed.js');
+    }
+
+    protected function bootMailgun(): static
+    {
+        Event::listen(MessageSent::class, \Spatie\Mailcoach\Domain\Vendor\Mailgun\Actions\StoreTransportMessageId::class);
+
+        return $this;
+    }
+
+    protected function bootPostmark(): static
+    {
+        Event::listen(MessageSending::class, AddMessageStreamHeader::class);
+
+        return $this;
+    }
+
+    protected function bootSendgrid(): static
+    {
+        Event::listen(MessageSending::class, AddUniqueArgumentsMailHeader::class);
+        Event::listen(MessageSent::class, \Spatie\Mailcoach\Domain\Vendor\Sendgrid\Actions\StoreTransportMessageId::class);
+
+        Mail::extend('sendgrid', function (array $config) {
+            $key = $config['key'] ?? config('services.sendgrid.key');
+
+            return (new SendgridTransportFactory())->create(
+                Dsn::fromString("sendgrid+api://{$key}@default")
+            );
+        });
+
+        return $this;
     }
 
     protected function bootBladeComponents(): static
@@ -689,9 +726,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Event::subscribe(WebhookEventSubscriber::class);
         Event::subscribe(WebhookLogEventSubscriber::class);
         Event::subscribe(WebhookFailedAttemptsSubscriber::class);
-
-        Event::listen(MessageSent::class, StoreTransportMessageId::class);
-        Event::listen(MessageSending::class, AddMessageStreamHeader::class);
 
         return $this;
     }
