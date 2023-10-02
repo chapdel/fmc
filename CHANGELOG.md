@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.27.3 - 2023-10-02
+
+### What's Changed
+
+- fix: import in SubscribersExportController by @ImJustToNy in https://github.com/spatie/laravel-mailcoach/pull/1381
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.27.2...6.27.3
+
 ## 6.27.2 - 2023-10-02
 
 ### What's Changed
