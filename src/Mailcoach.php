@@ -92,7 +92,7 @@ class Mailcoach
                     continue;
                 }
 
-                $scripts[] = "<script type=\"text/javascript\" src=\"{$script}\" data-navigate-track></script>";
+                $scripts[] = "<script type=\"module\" src=\"{$script}\" data-navigate-track></script>";
             }
         }
 

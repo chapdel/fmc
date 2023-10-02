@@ -407,7 +407,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootCodemirror(): void
     {
-        Mailcoach::editorScript(Domain\Editor\Codemirror\Editor::class, Vite::asset('resources/js/editors/codemirror/editor.js', 'vendor/mailcoach'));
+        Mailcoach::editorScript(Domain\Editor\Codemirror\Editor::class, Vite::asset('resources/js/editors/codemirror/codemirror.js', 'vendor/mailcoach'));
     }
 
     protected function bootEditorJs(): void
@@ -427,7 +427,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootMarkdown(): void
     {
-        Mailcoach::editorScript(Domain\Editor\Markdown\Editor::class, Vite::asset('resources/js/editors/markdown/editor.js', 'vendor/mailcoach'));
+        Mailcoach::editorScript(Domain\Editor\Markdown\Editor::class, Vite::asset('resources/js/editors/markdown/markdown.js', 'vendor/mailcoach'));
         Mailcoach::editorStyle(Domain\Editor\Markdown\Editor::class, 'https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css');
     }
 

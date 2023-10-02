@@ -10,8 +10,8 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
-                'resources/js/editors/codemirror/editor.js',
-                'resources/js/editors/markdown/editor.js',
+                'resources/js/editors/codemirror/codemirror.js',
+                'resources/js/editors/markdown/markdown.js',
             ],
             refresh: true,
             publicDirectory: 'resources',

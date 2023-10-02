@@ -1,22 +1,31 @@
 {
+  "__commonjsHelpers-725317a4.js": {
+    "file": "assets/_commonjsHelpers-725317a4.js"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-4c858ffb.css",
+    "file": "assets/app-65fbd899.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
   "resources/js/app.js": {
-    "file": "assets/app-d2e7937a.js",
+    "file": "assets/app-ee87624d.js",
+    "imports": [
+      "__commonjsHelpers-725317a4.js"
+    ],
     "isEntry": true,
     "src": "resources/js/app.js"
   },
-  "resources/js/editors/codemirror/editor.js": {
-    "file": "assets/editor-3c15f22d.js",
+  "resources/js/editors/codemirror/codemirror.js": {
+    "file": "assets/codemirror-3c15f22d.js",
     "isEntry": true,
-    "src": "resources/js/editors/codemirror/editor.js"
+    "src": "resources/js/editors/codemirror/codemirror.js"
   },
-  "resources/js/editors/markdown/editor.js": {
-    "file": "assets/editor-e58ba4bc.js",
+  "resources/js/editors/markdown/markdown.js": {
+    "file": "assets/markdown-4397ee1a.js",
+    "imports": [
+      "__commonjsHelpers-725317a4.js"
+    ],
     "isEntry": true,
-    "src": "resources/js/editors/markdown/editor.js"
+    "src": "resources/js/editors/markdown/markdown.js"
   }
 }
