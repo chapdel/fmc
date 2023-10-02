@@ -33,13 +33,17 @@ class SubscribersExportController
             ];
 
             $attributesQuery = clone $subscribersQuery;
-            $attributesQuery->each(function (Subscriber $subscriber) use (&$header) {
-                $attributes = array_keys($subscriber->extra_attributes->toArray());
-                $attributes = collect($attributes)->mapWithKeys(fn ($key) => [$key => null])->toArray();
-                ksort($attributes);
+            $attributesQuery
+                ->selectRaw(DB::raw('DISTINCT JSON_KEYS(extra_attributes) as extra_attributes'))
+                ->reorder()
+                ->groupBy('extra_attributes')
+                ->pluck('extra_attributes')
+                ->each(function ($subscriber) use (&$header) {
+                    $attributes = collect($subscriber)->mapWithKeys(fn ($key) => [$key => null])->toArray();
+                    ksort($attributes);
 
-                $header = array_merge($header, $attributes);
-            });
+                    $header = array_merge($header, $attributes);
+                });
 
             $subscriberCsv->addHeader(array_unique(array_keys($header)));
 
