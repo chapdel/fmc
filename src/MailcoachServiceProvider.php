@@ -428,7 +428,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootMarkdown(): void
     {
-        Mailcoach::editorScript(Domain\Editor\Markdown\Editor::class, asset('js/editors/markdown/editor.js'));
+        Mailcoach::editorScript(Domain\Editor\Markdown\Editor::class, Vite::asset('resources/js/editors/markdown/editor.js', 'vendor/mailcoach'));
         Mailcoach::editorStyle(Domain\Editor\Markdown\Editor::class, 'https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css');
     }
 
