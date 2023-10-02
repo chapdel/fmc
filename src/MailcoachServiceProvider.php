@@ -266,7 +266,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 $this->package->basePath('/../resources/dist') => public_path("vendor/{$this->package->shortName()}"),
-                //$this->package->basePath('/../resources/images') => public_path("vendor/{$this->package->shortName()}/images"),
             ], "{$this->package->shortName()}-assets");
         }
 
