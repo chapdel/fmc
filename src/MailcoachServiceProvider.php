@@ -61,6 +61,7 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
 use Spatie\Mailcoach\Domain\Vendor\Mailgun\Actions\StoreTransportMessageId;
 use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Mailgun\MailgunWebhookController;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Postmark\PostmarkWebhookController;
 use Spatie\Mailcoach\Http\App\Middleware\BootstrapMailcoach;
 use Spatie\Mailcoach\Http\App\ViewComposers\WebsiteStyleComposer;
 use Spatie\Mailcoach\Livewire\Audience\CreateListComponent;
@@ -187,6 +188,7 @@ use Spatie\Mailcoach\Livewire\Webhooks\EditWebhookComponent;
 use Spatie\Mailcoach\Livewire\Webhooks\WebhookLogComponent;
 use Spatie\Mailcoach\Livewire\Webhooks\WebhookLogsComponent;
 use Spatie\Mailcoach\Livewire\Webhooks\WebhooksComponent;
+use Spatie\MailcoachPostmarkFeedback\AddMessageStreamHeader;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
 
 class MailcoachServiceProvider extends PackageServiceProvider
@@ -362,10 +364,10 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 if ($registerFeedback) {
                     Route::namespace(null)->group(function () {
                         Route::macro('mailgunFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.MailgunWebhookController::class));
+                        Route::macro('postmarkFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.PostmarkWebhookController::class));
 
                         Route::sesFeedback('ses-feedback');
                         Route::sendgridFeedback('sendgrid-feedback');
-                        Route::postmarkFeedback('postmark-feedback');
                         Route::sendinblueFeedback('sendinblue-feedback');
                     });
                 }
@@ -689,6 +691,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Event::subscribe(WebhookFailedAttemptsSubscriber::class);
 
         Event::listen(MessageSent::class, StoreTransportMessageId::class);
+        Event::listen(MessageSending::class, AddMessageStreamHeader::class);
 
         return $this;
     }
