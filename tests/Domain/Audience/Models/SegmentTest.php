@@ -252,10 +252,10 @@ function assertArrayContainsSubscribers(array $expectedSubscribers, Collection $
     $expectedSubscribers = collect($expectedSubscribers);
 
     $expectedSubscribers->each(function (Subscriber $expectedSubscriber) use ($actualSubscribers) {
-        expect($actualSubscribers->pluck('id')->toArray())->toContain($expectedSubscriber->id, "Expected subscriber {$expectedSubscriber->email} not found in actual subscribers.");
+        expect($actualSubscribers->pluck('id')->toArray())->toContain($expectedSubscriber->id);
     });
 
     $actualSubscribers->each(function (Subscriber $actualSubscriber) use ($expectedSubscribers) {
-        expect($expectedSubscribers->pluck('id')->toArray())->toContain($actualSubscriber->id, "Actual subscriber {$actualSubscriber->email} not found in expected subscribers.");
+        expect($expectedSubscribers->pluck('id')->toArray())->toContain($actualSubscriber->id);
     });
 }

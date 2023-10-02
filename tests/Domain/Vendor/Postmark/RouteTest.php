@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Spatie\WebhookClient\Exceptions\InvalidWebhookSignature;
 
 beforeEach(function () {
     config()->set('mailcoach.postmark_feedback.signing_secret', 'my-secret');
@@ -19,7 +20,5 @@ it('provides a route macro to handle webhooks', function () {
 it('fails when using an invalid payload', function () {
     $payload = getPostmarkStub('complaintWebhookContent.json');
 
-    $this
-        ->post('postmark-feedback', $payload)
-        ->assertStatus(500);
-});
+    $this->post('postmark-feedback', $payload);
+})->throws(InvalidWebhookSignature::class);

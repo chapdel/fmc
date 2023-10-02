@@ -16,7 +16,7 @@ it('can determine an api key is valid', function () {
 });
 
 it('can determine an api key is invalid', function () {
-    $result = (new Mailgun('invalid-key', $this->domain))->isValidApiKey();
+    $result = (new Mailgun('invalid-key', env('MAILGUN_DOMAIN')))->isValidApiKey();
 
     expect($result)->toBeFalse();
 });
