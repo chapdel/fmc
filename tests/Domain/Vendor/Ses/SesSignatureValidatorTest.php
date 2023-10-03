@@ -1,52 +1,37 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Vendor\Ses\Actions\Tests;
-
 use Illuminate\Http\Request;
-use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\SesSignatureValidator;
-use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\SesWebhookConfig;
-use Spatie\WebhookClient\WebhookConfig;
+use Spatie\Mailcoach\Domain\Vendor\Ses\SesSignatureValidator;
+use Spatie\Mailcoach\Domain\Vendor\Ses\SesWebhookConfig;
 
-class SesSignatureValidatorTest extends TestCase
+beforeEach(function () {
+    $this->config = SesWebhookConfig::get();
+
+    $this->validator = new SesSignatureValidator();
+});
+
+function validParams(array $overrides = []): array
 {
-    private WebhookConfig $config;
+    return array_merge($this->getStub('bounceWebhookContent'), $overrides);
+}
 
-    private SesSignatureValidator $validator;
+it('requires signature data', function () {
+    $request = Request::create('/ses-feedback', 'POST', [], [], [], [], json_encode(validParams()));
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    $_SERVER['HTTP_X_AMZ_SNS_MESSAGE_TYPE'] = 'SubscriptionConfirmation';
 
-        $this->config = SesWebhookConfig::get();
+    expect($this->validator->isValid($request, $this->config))->toBeTrue();
+});
 
-        $this->validator = new SesSignatureValidator();
-    }
+/** @test * */
+function it_calls_the_subscribe_url_when_its_a_subscription_confirmation_requests()
+{
+    $params = $this->getStub('subscriptionConfirmation');
+    $params['SubscribeURL'] = url('test-route');
 
-    private function validParams(array $overrides = []): array
-    {
-        return array_merge($this->getStub('bounceWebhookContent'), $overrides);
-    }
+    $request = Request::create('/ses-feedback', 'POST', [], [], [], [], json_encode($params));
 
-    /** @test */
-    public function it_requires_signature_data()
-    {
-        $request = Request::create('/ses-feedback', 'POST', [], [], [], [], json_encode($this->validParams()));
+    $this->expectExceptionMessage('file_get_contents('.url('test-route').')');
 
-        $_SERVER['HTTP_X_AMZ_SNS_MESSAGE_TYPE'] = 'SubscriptionConfirmation';
-
-        $this->assertTrue($this->validator->isValid($request, $this->config));
-    }
-
-    /** @test * */
-    public function it_calls_the_subscribe_url_when_its_a_subscription_confirmation_requests()
-    {
-        $params = $this->getStub('subscriptionConfirmation');
-        $params['SubscribeURL'] = url('test-route');
-
-        $request = Request::create('/ses-feedback', 'POST', [], [], [], [], json_encode($params));
-
-        $this->expectExceptionMessage('file_get_contents('.url('test-route').')');
-
-        $this->validator->isValid($request, $this->config);
-    }
+    $this->validator->isValid($request, $this->config);
 }

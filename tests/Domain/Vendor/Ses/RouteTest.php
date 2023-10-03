@@ -1,25 +1,15 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Vendor\Ses\Actions\Tests;
-
 use Illuminate\Support\Facades\Route;
 
-class RouteTest extends TestCase
-{
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    Route::sesFeedback('ses-feedback');
+});
 
-        Route::sesFeedback('ses-feedback');
-    }
+it('provides a route macro to handle webhooks', function () {
+    $validPayload = $this->getStub('bounceWebhookContent');
 
-    /** @test */
-    public function it_provides_a_route_macro_to_handle_webhooks()
-    {
-        $validPayload = $this->getStub('bounceWebhookContent');
+    $response = $this->postJson('ses-feedback', $validPayload);
 
-        $response = $this->postJson('ses-feedback', $validPayload);
-
-        $this->assertNotEquals(404, $response->getStatusCode());
-    }
-}
+    $this->assertNotEquals(404, $response->getStatusCode());
+});

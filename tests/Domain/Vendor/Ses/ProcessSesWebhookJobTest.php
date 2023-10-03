@@ -1,232 +1,203 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Vendor\Ses\Actions\Tests;
-
 use Aws\Sns\MessageValidator;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
-use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
-use Spatie\Mailcoach\Domain\Campaign\Events\WebhookCallProcessedEvent;
+use Spatie\Mailcoach\Domain\Shared\Enums\SendFeedbackType;
+use Spatie\Mailcoach\Domain\Shared\Events\WebhookCallProcessedEvent;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
-use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\ProcessSesWebhookJob;
-use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\SesWebhookCall;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Jobs\ProcessSesWebhookJob;
+use Spatie\Mailcoach\Domain\Vendor\Ses\SesWebhookCall;
 
-class ProcessSesWebhookJobTest extends TestCase
+beforeEach(function () {
+    $this->webhookCall = SesWebhookCall::create([
+        'name' => 'ses',
+        'external_id' => $this->getStub('bounceWebhookContent')['MessageId'],
+        'payload' => $this->getStub('bounceWebhookContent'),
+    ]);
+
+    $this->send = Send::factory()->create([
+        'transport_message_id' => '93ef47baa0e7818557569e92494f4be1@swift.generated',
+    ]);
+
+    $this->mock(MessageValidator::class)->shouldReceive('isValid')->andReturnTrue();
+});
+
+/** @test * */
+function it_does_nothing_and_deletes_the_call_if_signature_is_missing()
 {
-    use RefreshDatabase;
+    $data = $this->getStub('bounceWebhookContent');
+    $data['Signature'] = null;
 
-    private SesWebhookCall $webhookCall;
+    $this->webhookCall->update([
+        'payload' => json_encode($data),
+    ]);
 
-    private Send $send;
+    $job = new ProcessSesWebhookJob($this->webhookCall);
 
-    public function setUp(): void
-    {
-        parent::setUp();
+    $job->handle();
+    expect(SendFeedbackItem::count())->toEqual(0);
+    expect(SesWebhookCall::count())->toEqual(0);
+}
 
-        $this->webhookCall = SesWebhookCall::create([
-            'name' => 'ses',
-            'external_id' => $this->getStub('bounceWebhookContent')['MessageId'],
-            'payload' => $this->getStub('bounceWebhookContent'),
-        ]);
+/** @test * */
+function it_does_nothing_if_data_is_missing()
+{
+    $data = $this->getStub('bounceWebhookContent');
+    $data['Message'] = '';
 
-        $this->send = Send::factory()->create([
-            'transport_message_id' => '93ef47baa0e7818557569e92494f4be1@swift.generated',
-        ]);
+    $this->webhookCall->update([
+        'payload' => json_encode($data),
+    ]);
 
-        $this->mock(MessageValidator::class)->shouldReceive('isValid')->andReturnTrue();
-    }
+    $job = new ProcessSesWebhookJob($this->webhookCall);
 
-    /** @test * */
-    public function it_does_nothing_and_deletes_the_call_if_signature_is_missing()
-    {
-        $data = $this->getStub('bounceWebhookContent');
-        $data['Signature'] = null;
+    $job->handle();
+    expect(SendFeedbackItem::count())->toEqual(0);
+    expect(SesWebhookCall::count())->toEqual(0);
+}
 
-        $this->webhookCall->update([
-            'payload' => json_encode($data),
-        ]);
+it('processes a ses webhook call for a bounce', function () {
+    $data = $this->getStub('bounceWebhookContent');
 
-        $job = new ProcessSesWebhookJob($this->webhookCall);
+    $this->webhookCall->update([
+        'payload' => $data,
+    ]);
 
-        $job->handle();
-        $this->assertEquals(0, SendFeedbackItem::count());
-        $this->assertEquals(0, SesWebhookCall::count());
-    }
+    $job = new ProcessSesWebhookJob($this->webhookCall);
 
-    /** @test * */
-    public function it_does_nothing_if_data_is_missing()
-    {
-        $data = $this->getStub('bounceWebhookContent');
-        $data['Message'] = '';
+    $job->handle();
 
-        $this->webhookCall->update([
-            'payload' => json_encode($data),
-        ]);
+    expect(SendFeedbackItem::count())->toEqual(1);
+    tap(SendFeedbackItem::first(), function (SendFeedbackItem $sendFeedbackItem) {
+        expect($this->send->is($sendFeedbackItem->send))->toBeTrue();
+        expect($sendFeedbackItem->type)->toEqual(SendFeedbackType::Bounce);
+        expect($sendFeedbackItem->created_at)->toEqual(Carbon::parse('2019-11-28T09:43:55'));
+    });
+});
 
-        $job = new ProcessSesWebhookJob($this->webhookCall);
+it('processes a ses webhook call for clicks', function () {
+    $webhookCall = SesWebhookCall::create([
+        'name' => 'ses',
+        'external_id' => $this->getStub('clickWebhookContent')['MessageId'],
+        'payload' => $this->getStub('clickWebhookContent'),
+    ]);
 
-        $job->handle();
-        $this->assertEquals(0, SendFeedbackItem::count());
-        $this->assertEquals(0, SesWebhookCall::count());
-    }
+    /** @var Send $send */
+    $send = Send::factory()->create([
+        'transport_message_id' => '441daaa28872991703a3b02a72408c62@swift.generated',
+    ]);
 
-    /** @test */
-    public function it_processes_a_ses_webhook_call_for_a_bounce()
-    {
-        $data = $this->getStub('bounceWebhookContent');
+    (new ProcessSesWebhookJob($webhookCall))->handle();
 
-        $this->webhookCall->update([
-            'payload' => $data,
-        ]);
+    expect($send->clicks->count())->toEqual(1);
+});
 
-        $job = new ProcessSesWebhookJob($this->webhookCall);
+it('processes a ses webhook call for opens', function () {
+    $webhookCall = SesWebhookCall::create([
+        'name' => 'ses',
+        'external_id' => $this->getStub('openWebhookContent')['MessageId'],
+        'payload' => $this->getStub('openWebhookContent'),
+    ]);
 
-        $job->handle();
+    /** @var Send $send */
+    $send = Send::factory()->create([
+        'transport_message_id' => '0107018023eb0291-0bc7253b-53c2-473f-8efd-88e3637c18ce-000000',
+    ]);
 
-        $this->assertEquals(1, SendFeedbackItem::count());
-        tap(SendFeedbackItem::first(), function (SendFeedbackItem $sendFeedbackItem) {
-            $this->assertTrue($this->send->is($sendFeedbackItem->send));
-            $this->assertEquals(SendFeedbackType::Bounce, $sendFeedbackItem->type);
-            $this->assertEquals(Carbon::parse('2019-11-28T09:43:55'), $sendFeedbackItem->created_at);
-        });
-    }
+    (new ProcessSesWebhookJob($webhookCall))->handle();
 
-    /** @test */
-    public function it_processes_a_ses_webhook_call_for_clicks()
-    {
-        $webhookCall = SesWebhookCall::create([
-            'name' => 'ses',
-            'external_id' => $this->getStub('clickWebhookContent')['MessageId'],
-            'payload' => $this->getStub('clickWebhookContent'),
-        ]);
+    expect($send->opens->count())->toEqual(1);
+});
 
-        /** @var Send $send */
-        $send = Send::factory()->create([
-            'transport_message_id' => '441daaa28872991703a3b02a72408c62@swift.generated',
-        ]);
+it('processes a ses webhook call for opens with message id from header', function () {
+    $webhookCall = SesWebhookCall::create([
+        'name' => 'ses',
+        'external_id' => $this->getStub('openWebhookContent')['MessageId'],
+        'payload' => $this->getStub('openWebhookContent'),
+    ]);
 
-        (new ProcessSesWebhookJob($webhookCall))->handle();
+    /** @var Send $send */
+    $send = Send::factory()->create([
+        'transport_message_id' => 'ebe712eb83fab12b595b69657d2bfe55@spatie.be',
+    ]);
 
-        $this->assertEquals(1, $send->clicks->count());
-    }
+    (new ProcessSesWebhookJob($webhookCall))->handle();
 
-    /** @test */
-    public function it_processes_a_ses_webhook_call_for_opens()
-    {
-        $webhookCall = SesWebhookCall::create([
-            'name' => 'ses',
-            'external_id' => $this->getStub('openWebhookContent')['MessageId'],
-            'payload' => $this->getStub('openWebhookContent'),
-        ]);
+    expect($send->opens->count())->toEqual(1);
+});
 
-        /** @var Send $send */
-        $send = Send::factory()->create([
-            'transport_message_id' => '0107018023eb0291-0bc7253b-53c2-473f-8efd-88e3637c18ce-000000',
-        ]);
+it('processes a ses webhook call for complaints', function () {
+    $webhookCall = SesWebhookCall::create([
+        'name' => 'ses',
+        'external_id' => $this->getStub('complaintWebhookContent')['MessageId'],
+        'payload' => $this->getStub('complaintWebhookContent'),
+    ]);
 
-        (new ProcessSesWebhookJob($webhookCall))->handle();
+    /** @var Send $send */
+    $send = Send::factory()->create([
+        'transport_message_id' => '5d5929d61c2bfd8de65f2cf07a1457de@swift.generated',
+    ]);
 
-        $this->assertEquals(1, $send->opens->count());
-    }
+    (new ProcessSesWebhookJob($webhookCall))->handle();
 
-    /** @test */
-    public function it_processes_a_ses_webhook_call_for_opens_with_message_id_from_header()
-    {
-        $webhookCall = SesWebhookCall::create([
-            'name' => 'ses',
-            'external_id' => $this->getStub('openWebhookContent')['MessageId'],
-            'payload' => $this->getStub('openWebhookContent'),
-        ]);
+    expect(SendFeedbackItem::count())->toEqual(1);
+    tap(SendFeedbackItem::first(), function (SendFeedbackItem $sendFeedbackItem) use ($send) {
+        expect($send->is($sendFeedbackItem->send))->toBeTrue();
+        expect($sendFeedbackItem->type)->toEqual(SendFeedbackType::Complaint);
+        expect($sendFeedbackItem->created_at)->toEqual(Carbon::parse('2019-11-28T09:13:57'));
+    });
+});
 
-        /** @var Send $send */
-        $send = Send::factory()->create([
-            'transport_message_id' => 'ebe712eb83fab12b595b69657d2bfe55@spatie.be',
-        ]);
+it('fires an event when the webhook is processed', function () {
+    $webhookCall = SesWebhookCall::create([
+        'name' => 'ses',
+        'external_id' => $this->getStub('clickWebhookContent')['MessageId'],
+        'payload' => $this->getStub('clickWebhookContent'),
+    ]);
 
-        (new ProcessSesWebhookJob($webhookCall))->handle();
+    /** @var Send $send */
+    $send = Send::factory()->create([
+        'transport_message_id' => 'e56a471288e8874bb27a92b7634ef86f@swift.generated',
+    ]);
 
-        $this->assertEquals(1, $send->opens->count());
-    }
+    Event::fake();
 
-    /** @test */
-    public function it_processes_a_ses_webhook_call_for_complaints()
-    {
-        $webhookCall = SesWebhookCall::create([
-            'name' => 'ses',
-            'external_id' => $this->getStub('complaintWebhookContent')['MessageId'],
-            'payload' => $this->getStub('complaintWebhookContent'),
-        ]);
+    (new ProcessSesWebhookJob($webhookCall))->handle();
 
-        /** @var Send $send */
-        $send = Send::factory()->create([
-            'transport_message_id' => '5d5929d61c2bfd8de65f2cf07a1457de@swift.generated',
-        ]);
+    Event::assertDispatched(WebhookCallProcessedEvent::class);
+});
 
-        (new ProcessSesWebhookJob($webhookCall))->handle();
+it('does nothing when it cannot find the transport message id', function () {
+    $data = $this->webhookCall->payload;
+    $message = json_decode($data['Message'], true);
+    $this->send->update(['transport_message_id' => 'some-other-id']);
+    $data['Message'] = json_encode($message);
 
-        $this->assertEquals(1, SendFeedbackItem::count());
-        tap(SendFeedbackItem::first(), function (SendFeedbackItem $sendFeedbackItem) use ($send) {
-            $this->assertTrue($send->is($sendFeedbackItem->send));
-            $this->assertEquals(SendFeedbackType::Complaint, $sendFeedbackItem->type);
-            $this->assertEquals(Carbon::parse('2019-11-28T09:13:57'), $sendFeedbackItem->created_at);
-        });
-    }
+    $this->webhookCall->update([
+        'payload' => $data,
+    ]);
 
-    /** @test */
-    public function it_fires_an_event_when_the_webhook_is_processed()
-    {
-        $webhookCall = SesWebhookCall::create([
-            'name' => 'ses',
-            'external_id' => $this->getStub('clickWebhookContent')['MessageId'],
-            'payload' => $this->getStub('clickWebhookContent'),
-        ]);
+    $job = new ProcessSesWebhookJob($this->webhookCall);
 
-        /** @var Send $send */
-        $send = Send::factory()->create([
-            'transport_message_id' => 'e56a471288e8874bb27a92b7634ef86f@swift.generated',
-        ]);
+    $job->handle();
 
-        Event::fake();
+    expect(SendFeedbackItem::count())->toEqual(0);
+});
 
-        (new ProcessSesWebhookJob($webhookCall))->handle();
+/** @test * */
+function it_does_nothing_and_deletes_the_call_if_it_is_a_duplicate_ses_message_id()
+{
+    $webhookCallSecond = SesWebhookCall::create([
+        'name' => 'ses',
+        'external_id' => $this->getStub('bounceWebhookContent')['MessageId'],
+        'payload' => $this->getStub('bounceWebhookContent'),
+    ]);
 
-        Event::assertDispatched(WebhookCallProcessedEvent::class);
-    }
+    (new ProcessSesWebhookJob($this->webhookCall))->handle();
+    (new ProcessSesWebhookJob($webhookCallSecond))->handle();
 
-    /** @test */
-    public function it_does_nothing_when_it_cannot_find_the_transport_message_id()
-    {
-        $data = $this->webhookCall->payload;
-        $message = json_decode($data['Message'], true);
-        $this->send->update(['transport_message_id' => 'some-other-id']);
-        $data['Message'] = json_encode($message);
-
-        $this->webhookCall->update([
-            'payload' => $data,
-        ]);
-
-        $job = new ProcessSesWebhookJob($this->webhookCall);
-
-        $job->handle();
-
-        $this->assertEquals(0, SendFeedbackItem::count());
-    }
-
-    /** @test * */
-    public function it_does_nothing_and_deletes_the_call_if_it_is_a_duplicate_ses_message_id()
-    {
-        $webhookCallSecond = SesWebhookCall::create([
-            'name' => 'ses',
-            'external_id' => $this->getStub('bounceWebhookContent')['MessageId'],
-            'payload' => $this->getStub('bounceWebhookContent'),
-        ]);
-
-        (new ProcessSesWebhookJob($this->webhookCall))->handle();
-        (new ProcessSesWebhookJob($webhookCallSecond))->handle();
-
-        $this->assertEquals(1, SendFeedbackItem::count());
-        $this->assertEquals(1, SesWebhookCall::count());
-    }
+    expect(SendFeedbackItem::count())->toEqual(1);
+    expect(SesWebhookCall::count())->toEqual(1);
 }

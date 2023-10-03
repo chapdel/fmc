@@ -2,15 +2,14 @@
 
 use Spatie\Mailcoach\Domain\Vendor\Ses\MailcoachSes;
 use Spatie\Mailcoach\Domain\Vendor\Ses\MailcoachSesConfig;
-use Spatie\Mailcoach\Domain\Vendor\Ses\Tests\TestCase;
-
-uses(TestCase::class);
 
 beforeEach(function () {
+    $this->loadEnvironmentVariables();
+
     $config = new MailcoachSesConfig(
-        $this->key,
-        $this->secret,
-        $this->region,
+        env('AWS_ACCESS_KEY_ID'),
+        env('AWS_SECRET_ACCESS_KEY'),
+        env('AWS_DEFAULT_REGION'),
         'https://spatie.be/ses-feedback',
     );
 

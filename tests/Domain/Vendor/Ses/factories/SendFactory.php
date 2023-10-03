@@ -1,15 +1,17 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Vendor\Ses\Actions\Tests\factories;
+namespace Spatie\Mailcoach\Tests\Domain\Vendor\Ses\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
+use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 
 class SendFactory extends Factory
 {
     protected $model = Send::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'uuid' => $this->faker->uuid,
