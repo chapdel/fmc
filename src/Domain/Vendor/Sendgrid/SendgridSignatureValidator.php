@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSendgridFeedback;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendgrid;
 
 use Illuminate\Http\Request;
 use Spatie\WebhookClient\SignatureValidator\SignatureValidator;

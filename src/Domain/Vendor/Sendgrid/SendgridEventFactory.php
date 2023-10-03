@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSendgridFeedback;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendgrid;
 
 use Spatie\Mailcoach\Domain\Vendor\Sendgrid\Events\ClickEvent;
 use Spatie\Mailcoach\Domain\Vendor\Sendgrid\Events\ComplaintEvent;

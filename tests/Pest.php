@@ -63,3 +63,8 @@ function getMailgunStub(string $name): array
 {
     return getStubs($name, 'Mailgun');
 }
+
+function getSendgridStub(string $name): array
+{
+    return getStubs($name, 'Sendgrid');
+}

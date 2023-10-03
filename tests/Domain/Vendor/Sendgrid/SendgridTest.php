@@ -1,13 +1,12 @@
 <?php
 
 use Spatie\Mailcoach\Domain\Vendor\Sendgrid\Enums\EventType;
-use Spatie\Mailcoach\Domain\Vendor\Sendgrid\Enums\Sendgrid;
-use Spatie\Mailcoach\Domain\Vendor\Sendgrid\Enums\Tests\TestCase;
-
-uses(TestCase::class);
+use Spatie\Mailcoach\Domain\Vendor\Sendgrid\Sendgrid;
 
 beforeEach(function () {
-    $this->sendGrid = new Sendgrid($this->key);
+    $this->loadEnvironmentVariables();
+
+    $this->sendGrid = new Sendgrid(env('SENDGRID_API_KEY'));
 });
 
 it('can determine an api key is valid', function () {

@@ -1,39 +1,24 @@
 <?php
 
-namespace Spatie\Mailcoach\Domain\Vendor\Sendgrid\Tests;
-
 use Illuminate\Support\Facades\Route;
+use Spatie\WebhookClient\Exceptions\InvalidWebhookSignature;
 
-class RouteTest extends TestCase
-{
-    public function setUp(): void
-    {
-        parent::setUp();
+beforeEach(function () {
+    Route::sendgridFeedback('sendgrid-feedback');
 
-        Route::sendgridFeedback('sendgrid-feedback');
+    config()->set('mailcoach.sendgrid_feedback.signing_secret', 'secret');
+});
 
-        config()->set('mailcoach.sendgrid_feedback.signing_secret', 'secret');
-    }
+it('provides a route macro to handle webhooks', function () {
+    $this->withoutExceptionHandling();
 
-    /** @test */
-    public function it_provides_a_route_macro_to_handle_webhooks()
-    {
-        $this->withoutExceptionHandling();
+    $payload = getSendgridStub('bouncePayload.json');
 
-        $payload = $this->getStub('bouncePayload');
+    $this
+        ->post('sendgrid-feedback?secret=secret', $payload)
+        ->assertSuccessful();
+});
 
-        $this
-            ->post('sendgrid-feedback?secret=secret', $payload)
-            ->assertSuccessful();
-    }
-
-    /** @test */
-    public function it_will_not_accept_calls_with_an_invalid_signature()
-    {
-        $payload = $this->getStub('bouncePayload');
-
-        $this
-            ->post('sendgrid-feedback?secret=incorrect_secret')
-            ->assertStatus(500);
-    }
-}
+it('will not accept calls with an invalid signature', function () {
+    $this->post('sendgrid-feedback?secret=incorrect_secret');
+})->throws(InvalidWebhookSignature::class);

@@ -6,8 +6,8 @@ use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Domain\Shared\Events\WebhookCallProcessedEvent;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Vendor\Sendgrid\SendgridEventFactory;
 use Spatie\Mailcoach\Mailcoach;
-use Spatie\MailcoachSendgridFeedback\SendgridEventFactory;
 use Spatie\WebhookClient\Jobs\ProcessWebhookJob;
 use Spatie\WebhookClient\Models\WebhookCall;
 

@@ -3,7 +3,6 @@
 namespace Spatie\Mailcoach\Domain\Vendor\Sendgrid;
 
 use Spatie\Mailcoach\Domain\Vendor\Sendgrid\Jobs\ProcessSendgridWebhookJob;
-use Spatie\MailcoachSendgridFeedback\SendgridSignatureValidator;
 use Spatie\WebhookClient\Models\WebhookCall;
 use Spatie\WebhookClient\WebhookConfig;
 use Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile;
