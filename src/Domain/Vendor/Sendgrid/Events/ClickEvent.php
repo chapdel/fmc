@@ -26,7 +26,7 @@ class ClickEvent extends SendgridEvent
             return;
         }
 
-        if ($send->transactionalMail && $email !== $send->transactionalMail->to[0]['email']) {
+        if ($send->contentItem->model && $email !== $send->contentItem->model->to[0]['email']) {
             return;
         }
 
