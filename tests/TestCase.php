@@ -78,7 +78,7 @@ abstract class TestCase extends Orchestra
         parent::tearDown();
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             //SpotlightServiceProvider::class,
@@ -178,11 +178,16 @@ abstract class TestCase extends Orchestra
 
     protected function loadEnvironmentVariables(): void
     {
-        if (! file_exists(__DIR__.'/../.env')) {
-            throw new Exception('Please create a .env file in the root directory of this package to run the tests.');
+        $name = '.env';
+
+        if (! file_exists(__DIR__.'/../'.$name)) {
+            $name = '.env.example';
+            if (file_exists(__DIR__.'/../'.$name)) {
+                throw new Exception('Please create a .env file in the root directory of this package to run the tests.');
+            }
         }
 
-        $dotEnv = Dotenv::createImmutable(__DIR__.'/..');
+        $dotEnv = Dotenv::createImmutable(__DIR__.'/..', $name);
 
         $dotEnv->load();
     }
