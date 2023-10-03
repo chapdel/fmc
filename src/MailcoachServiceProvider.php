@@ -296,7 +296,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootMailgun()
             ->bootPostmark()
             ->bootSendgrid()
-            ->bootSendinblue();
+            ->bootSendinblue()
+            ->bootSes();
     }
 
     protected function bootCarbon(): static
