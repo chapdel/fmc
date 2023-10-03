@@ -1,9 +1,10 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback;
+namespace Spatie\Mailcoach\Http\Api\Controllers\Vendor\Ses;
 
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Vendor\Ses\SesWebhookConfig;
 use Spatie\WebhookClient\WebhookProcessor;
 
 class SesWebhookController

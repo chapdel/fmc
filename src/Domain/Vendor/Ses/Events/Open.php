@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback\SesEvents;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Events;
 
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
@@ -11,7 +11,7 @@ class Open extends SesEvent
         return $this->payload['eventType'] === 'Open';
     }
 
-    public function handle(Send $send)
+    public function handle(Send $send): void
     {
         $send->registerOpen($this->getTimestamp());
     }

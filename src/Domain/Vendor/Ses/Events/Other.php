@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback\SesEvents;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Events;
 
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
@@ -11,7 +11,7 @@ class Other extends SesEvent
         return true;
     }
 
-    public function handle(Send $send)
+    public function handle(Send $send): void
     {
     }
 }

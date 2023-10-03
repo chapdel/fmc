@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback\SesEvents;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Events;
 
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\MailcoachSesFeedback\Enums\BounceType;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Enums\BounceType;
 
 class SoftBounce extends SesEvent
 {
@@ -20,7 +20,7 @@ class SoftBounce extends SesEvent
         return false;
     }
 
-    public function handle(Send $send)
+    public function handle(Send $send): void
     {
         $send->registerBounce($this->getTimestamp(), softBounce: true);
     }

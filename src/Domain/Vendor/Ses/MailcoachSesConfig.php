@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSesSetup;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses;
 
 class MailcoachSesConfig
 {

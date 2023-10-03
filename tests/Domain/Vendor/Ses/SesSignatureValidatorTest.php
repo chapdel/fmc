@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback\Tests;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Actions\Tests;
 
 use Illuminate\Http\Request;
-use Spatie\MailcoachSesFeedback\SesSignatureValidator;
-use Spatie\MailcoachSesFeedback\SesWebhookConfig;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\SesSignatureValidator;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\SesWebhookConfig;
 use Spatie\WebhookClient\WebhookConfig;
 
 class SesSignatureValidatorTest extends TestCase

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback\Enums;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Enums;
 
 // reference: https://docs.aws.amazon.com/ses/latest/dg/notification-contents.html#bounce-types
 enum BounceType: string

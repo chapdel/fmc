@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Actions;
 
 use Illuminate\Mail\Events\MessageSending;
 

@@ -1,7 +1,8 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses;
 
+use Spatie\Mailcoach\Domain\Vendor\Ses\Jobs\ProcessSesWebhookJob;
 use Spatie\WebhookClient\WebhookConfig;
 
 class SesWebhookConfig

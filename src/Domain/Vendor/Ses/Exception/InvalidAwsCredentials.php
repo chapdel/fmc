@@ -1,14 +1,14 @@
 <?php
 
-namespace Spatie\MailcoachSesSetup\Exception;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Exception;
 
 use Aws\SesV2\Exception\SesV2Exception;
 use Exception;
-use Spatie\MailcoachSesSetup\MailcoachSesConfig;
+use Spatie\Mailcoach\Domain\Vendor\Ses\MailcoachSesConfig;
 
 class InvalidAwsCredentials extends Exception
 {
-    public static function make(SesV2Exception $exception, MailcoachSesConfig $config): self
+    public static function make(SesV2Exception $exception, MailcoachSesConfig $config): static
     {
         $message = $exception->getAwsErrorMessage();
 

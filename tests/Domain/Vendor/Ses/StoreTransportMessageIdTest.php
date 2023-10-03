@@ -1,11 +1,11 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback\Tests;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Actions\Tests;
 
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Mail\SentMessage;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\MailcoachSesFeedback\Tests\factories\SendFactory;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\Tests\factories\SendFactory;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback\Tests;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Actions\Tests;
 
 use Aws\Sns\MessageValidator;
 use Carbon\Carbon;
@@ -10,8 +10,8 @@ use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Events\WebhookCallProcessedEvent;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
-use Spatie\MailcoachSesFeedback\ProcessSesWebhookJob;
-use Spatie\MailcoachSesFeedback\SesWebhookCall;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\ProcessSesWebhookJob;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\SesWebhookCall;
 
 class ProcessSesWebhookJobTest extends TestCase
 {

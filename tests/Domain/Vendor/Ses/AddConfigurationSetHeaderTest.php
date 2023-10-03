@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback\Tests;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Actions\Tests;
 
 use Illuminate\Mail\Events\MessageSending;
 use Symfony\Component\Mime\Email;

@@ -1,23 +1,24 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Jobs;
 
 use Aws\Sns\Message;
 use Aws\Sns\MessageValidator;
 use Exception;
 use Illuminate\Support\Arr;
-use Spatie\Mailcoach\Domain\Campaign\Events\WebhookCallProcessedEvent;
+use Spatie\Mailcoach\Domain\Shared\Events\WebhookCallProcessedEvent;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Vendor\Ses\SesEventFactory;
+use Spatie\Mailcoach\Domain\Vendor\Ses\SesWebhookCall;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\WebhookClient\Jobs\ProcessWebhookJob;
-use Spatie\WebhookClient\Models\WebhookCall;
 
 class ProcessSesWebhookJob extends ProcessWebhookJob
 {
     use UsesMailcoachModels;
 
-    public function __construct(WebhookCall $webhookCall)
+    public function __construct(SesWebhookCall $webhookCall)
     {
         parent::__construct($webhookCall);
 
@@ -26,7 +27,7 @@ class ProcessSesWebhookJob extends ProcessWebhookJob
         $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
     }
 
-    public function handle()
+    public function handle(): void
     {
         if (! $this->validateMessageFromWebhookCall()) {
             $this->webhookCall->delete();

@@ -1,12 +1,13 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Actions;
 
 use Illuminate\Mail\Events\MessageSent;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 class StoreTransportMessageId
 {
-    public function handle(MessageSent $event)
+    public function handle(MessageSent $event): void
     {
         if (! isset($event->data['send'])) {
             return;
@@ -16,7 +17,7 @@ class StoreTransportMessageId
             return;
         }
 
-        /** @var \Spatie\Mailcoach\Models\Send $send */
+        /** @var Send $send */
         $send = $event->data['send'];
 
         $transportMessageId = $event->message->getHeaders()->get('X-Ses-Message-ID')->getBodyAsString();

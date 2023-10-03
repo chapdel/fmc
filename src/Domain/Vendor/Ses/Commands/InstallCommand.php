@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MailcoachSesSetup\Commands;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Commands;
 
 use Illuminate\Console\Command;
-use Spatie\MailcoachSesSetup\MailcoachSes;
-use Spatie\MailcoachSesSetup\MailcoachSesConfig;
+use Spatie\Mailcoach\Domain\Vendor\Ses\MailcoachSes;
+use Spatie\Mailcoach\Domain\Vendor\Ses\MailcoachSesConfig;
 
 class InstallCommand extends Command
 {

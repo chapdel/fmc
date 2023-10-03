@@ -30,7 +30,6 @@ use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
-use Spatie\MailcoachSesFeedback\MailcoachSesFeedbackServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\Navigation\NavigationServiceProvider;
 use Spatie\QueryBuilder\QueryBuilderServiceProvider;
@@ -99,7 +98,6 @@ abstract class TestCase extends Orchestra
             SupportServiceProvider::class,
             TablesServiceProvider::class,
 
-            MailcoachSesFeedbackServiceProvider::class,
             WebhookServerServiceProvider::class,
         ];
     }

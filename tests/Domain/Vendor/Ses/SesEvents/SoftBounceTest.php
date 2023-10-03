@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback\Tests\SesEvents;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Actions\Tests\SesEvents;
 
 use Generator;
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Campaign\Events\SoftBounceRegisteredEvent;
-use Spatie\MailcoachSesFeedback\SesEvents\SoftBounce;
-use Spatie\MailcoachSesFeedback\Tests\TestCase;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\SesEvents\SoftBounce;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\Tests\TestCase;
 
 class SoftBounceTest extends TestCase
 {

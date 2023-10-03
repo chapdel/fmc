@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback\SesEvents;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Events;
 
 use Carbon\Carbon;
 use DateTimeInterface;

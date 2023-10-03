@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MailcoachSesSetup;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses;
 
 use Aws\SesV2\Exception\SesV2Exception;
-use Spatie\MailcoachSesSetup\Exception\ConfigurationSetAlreadyExists;
-use Spatie\MailcoachSesSetup\Exception\InvalidAwsCredentials;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Exception\ConfigurationSetAlreadyExists;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Exception\InvalidAwsCredentials;
 
 class MailcoachSes
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses;
 
 use Aws\Sns\Message;
 use Illuminate\Http\Request;

@@ -1,14 +1,14 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses;
 
-use Spatie\MailcoachSesFeedback\SesEvents\Click;
-use Spatie\MailcoachSesFeedback\SesEvents\Complaint;
-use Spatie\MailcoachSesFeedback\SesEvents\Open;
-use Spatie\MailcoachSesFeedback\SesEvents\Other;
-use Spatie\MailcoachSesFeedback\SesEvents\PermanentBounce;
-use Spatie\MailcoachSesFeedback\SesEvents\SesEvent;
-use Spatie\MailcoachSesFeedback\SesEvents\SoftBounce;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Events\Click;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Events\Complaint;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Events\Open;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Events\Other;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Events\PermanentBounce;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Events\SesEvent;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Events\SoftBounce;
 
 class SesEventFactory
 {

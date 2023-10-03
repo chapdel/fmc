@@ -62,11 +62,12 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
 use Spatie\Mailcoach\Domain\Vendor\Postmark\Actions\AddMessageStreamHeader;
 use Spatie\Mailcoach\Domain\Vendor\Sendgrid\Actions\AddUniqueArgumentsMailHeader;
-use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Actions\StoreTransportMessageId;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\AddConfigurationSetHeader;
 use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Mailgun\MailgunWebhookController;
 use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Postmark\PostmarkWebhookController;
 use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Sendgrid\SendgridWebhookController;
 use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Sendinblue\SendinblueWebhookController;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Ses\SesWebhookController;
 use Spatie\Mailcoach\Http\App\Middleware\BootstrapMailcoach;
 use Spatie\Mailcoach\Http\App\ViewComposers\WebsiteStyleComposer;
 use Spatie\Mailcoach\Livewire\Audience\CreateListComponent;
@@ -378,8 +379,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
                         Route::macro('postmarkFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.PostmarkWebhookController::class));
                         Route::macro('sendgridFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SendgridWebhookController::class));
                         Route::macro('sendinblueFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SendinblueWebhookController::class));
-
-                        Route::sesFeedback('ses-feedback');
+                        Route::macro('sesFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SesWebhookController::class));
                     });
                 }
 
@@ -486,7 +486,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootSendinblue(): static
     {
-        Event::listen(MessageSent::class, StoreTransportMessageId::class);
+        Event::listen(MessageSent::class, \Spatie\Mailcoach\Domain\Vendor\Sendinblue\Actions\StoreTransportMessageId::class);
 
         Mail::extend('sendinblue', function (array $config) {
             $key = $config['key'] ?? config('services.sendinblue.key');
@@ -495,6 +495,14 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 Dsn::fromString("sendinblue+api://{$key}@default")
             );
         });
+
+        return $this;
+    }
+
+    protected function bootSes(): static
+    {
+        Event::listen(MessageSending::class, AddConfigurationSetHeader::class);
+        Event::listen(MessageSent::class, \Spatie\Mailcoach\Domain\Vendor\Ses\Actions\StoreTransportMessageId::class);
 
         return $this;
     }

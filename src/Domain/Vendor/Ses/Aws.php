@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSesSetup;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses;
 
 use Aws\Result;
 use Aws\SesV2\Exception\SesV2Exception;

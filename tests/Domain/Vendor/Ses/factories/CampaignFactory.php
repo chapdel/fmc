@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSesFeedback\Tests\factories;
+namespace Spatie\Mailcoach\Domain\Vendor\Ses\Actions\Tests\factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;

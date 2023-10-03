@@ -1,8 +1,8 @@
 <?php
 
-use Spatie\MailcoachSesSetup\MailcoachSes;
-use Spatie\MailcoachSesSetup\MailcoachSesConfig;
-use Spatie\MailcoachSesSetup\Tests\TestCase;
+use Spatie\Mailcoach\Domain\Vendor\Ses\MailcoachSes;
+use Spatie\Mailcoach\Domain\Vendor\Ses\MailcoachSesConfig;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Tests\TestCase;
 
 uses(TestCase::class);
 
