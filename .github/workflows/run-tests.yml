@@ -58,7 +58,9 @@ jobs:
         run: npm install mjml
 
       - name: Execute tests
-        run: composer test
+        run:  |
+          cp .env.example .env
+          composer test
         env:
           REDIS_PORT: ${{ job.services.redis.ports[6379] }}
           DB_PASSWORD: root
