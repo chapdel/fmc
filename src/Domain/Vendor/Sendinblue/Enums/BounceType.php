@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueFeedback\Enums;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue\Enums;
 
 /** reference: https://developers.sendinblue.com/docs/transactional-webhooks */
 enum BounceType: string

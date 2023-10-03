@@ -1,18 +1,18 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueFeedback\Tests;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Actions\Tests;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
-use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
-use Spatie\Mailcoach\Domain\Campaign\Events\WebhookCallProcessedEvent;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignClick;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignLink;
-use Spatie\Mailcoach\Domain\Campaign\Models\CampaignOpen;
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
-use Spatie\MailcoachSendinblueFeedback\ProcessSendinblueWebhookJob;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Campaign\Enums\SendFeedbackType;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Campaign\Events\WebhookCallProcessedEvent;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Campaign\Models\CampaignClick;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Campaign\Models\CampaignLink;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Campaign\Models\CampaignOpen;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Shared\Models\SendFeedbackItem;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Actions\ProcessSendinblueWebhookJob;
 use Spatie\WebhookClient\Models\WebhookCall;
 
 class ProcessSendinblueWebhookJobTest extends TestCase

@@ -5,9 +5,9 @@ namespace Spatie\Mailcoach\Livewire\MailConfiguration\Sendinblue\Steps;
 use Exception;
 use Illuminate\Support\Str;
 use Spatie\LivewireWizard\Components\StepComponent;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Sendinblue;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Sendinblue\SendinblueWebhookController;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
-use Spatie\MailcoachSendinblueFeedback\SendinblueWebhookController;
-use Spatie\MailcoachSendinblueSetup\Sendinblue;
 
 class FeedbackStepComponent extends StepComponent
 {

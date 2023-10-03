@@ -1,7 +1,8 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueFeedback;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue;
 
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Jobs\ProcessSendinblueWebhookJob;
 use Spatie\WebhookClient\Models\WebhookCall;
 use Spatie\WebhookClient\WebhookConfig;
 use Spatie\WebhookClient\WebhookProfile\ProcessEverythingWebhookProfile;

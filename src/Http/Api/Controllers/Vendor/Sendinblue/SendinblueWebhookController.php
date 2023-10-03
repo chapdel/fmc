@@ -1,9 +1,10 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueFeedback;
+namespace Spatie\Mailcoach\Http\Api\Controllers\Vendor\Sendinblue;
 
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\SendinblueWebhookConfig;
 use Spatie\WebhookClient\WebhookProcessor;
 
 class SendinblueWebhookController

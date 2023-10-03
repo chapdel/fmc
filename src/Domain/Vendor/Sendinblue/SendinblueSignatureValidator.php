@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueFeedback;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue;
 
 use Illuminate\Http\Request;
 use Spatie\WebhookClient\SignatureValidator\SignatureValidator;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueFeedback\SendinblueEvents;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue\Events;
 
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
@@ -11,7 +11,7 @@ class OtherEvent extends SendinblueEvent
         return true;
     }
 
-    public function handle(Send $send)
+    public function handle(Send $send): void
     {
     }
 }

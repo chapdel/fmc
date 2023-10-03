@@ -65,6 +65,7 @@
         "symfony/dom-crawler": "^6.0",
         "symfony/http-client": "^6.0",
         "symfony/sendgrid-mailer": "^6.1",
+        "symfony/sendinblue-mailer": "^6.3",
         "tijsverkoyen/css-to-inline-styles": "^2.2",
         "twig/twig": "^3.4",
         "wire-elements/spotlight": "^2.0"

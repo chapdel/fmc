@@ -1,9 +1,9 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueFeedback\SendinblueEvents;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue\Events;
 
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\MailcoachSendinblueFeedback\Enums\BounceType;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Enums\BounceType;
 
 class PermanentBounceEvent extends SendinblueEvent
 {
@@ -12,7 +12,7 @@ class PermanentBounceEvent extends SendinblueEvent
         return $this->event === BounceType::Hard->value;
     }
 
-    public function handle(Send $send)
+    public function handle(Send $send): void
     {
         $send->registerBounce($this->getTimestamp());
     }

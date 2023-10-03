@@ -1,7 +1,8 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueFeedback\SendinblueEvents;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue\Events;
 
+use Spatie\Mailcoach\Domain\Content\Models\Open;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
 class OpenEvent extends SendinblueEvent
@@ -11,7 +12,7 @@ class OpenEvent extends SendinblueEvent
         return $this->event === 'opened' || $this->event === 'proxy_open';
     }
 
-    public function handle(Send $send)
+    public function handle(Send $send): ?Open
     {
         return $send->registerOpen($this->getTimestamp());
     }

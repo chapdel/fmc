@@ -1,14 +1,14 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueFeedback;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue;
 
-use Spatie\MailcoachSendinblueFeedback\SendinblueEvents\ClickEvent;
-use Spatie\MailcoachSendinblueFeedback\SendinblueEvents\ComplaintEvent;
-use Spatie\MailcoachSendinblueFeedback\SendinblueEvents\OpenEvent;
-use Spatie\MailcoachSendinblueFeedback\SendinblueEvents\OtherEvent;
-use Spatie\MailcoachSendinblueFeedback\SendinblueEvents\PermanentBounceEvent;
-use Spatie\MailcoachSendinblueFeedback\SendinblueEvents\SendinblueEvent;
-use Spatie\MailcoachSendinblueFeedback\SendinblueEvents\SoftBounceEvent;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Events\ClickEvent;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Events\ComplaintEvent;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Events\OpenEvent;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Events\OtherEvent;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Events\PermanentBounceEvent;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Events\SendinblueEvent;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Events\SoftBounceEvent;
 
 class SendinblueEventFactory
 {

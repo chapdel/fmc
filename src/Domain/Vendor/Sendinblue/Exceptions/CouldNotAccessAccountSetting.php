@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueSetup\Exceptions;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions;
 
 use Exception;
 

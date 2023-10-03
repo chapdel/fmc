@@ -62,9 +62,11 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
 use Spatie\Mailcoach\Domain\Vendor\Postmark\Actions\AddMessageStreamHeader;
 use Spatie\Mailcoach\Domain\Vendor\Sendgrid\Actions\AddUniqueArgumentsMailHeader;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Actions\StoreTransportMessageId;
 use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Mailgun\MailgunWebhookController;
 use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Postmark\PostmarkWebhookController;
 use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Sendgrid\SendgridWebhookController;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Sendinblue\SendinblueWebhookController;
 use Spatie\Mailcoach\Http\App\Middleware\BootstrapMailcoach;
 use Spatie\Mailcoach\Http\App\ViewComposers\WebsiteStyleComposer;
 use Spatie\Mailcoach\Livewire\Audience\CreateListComponent;
@@ -191,9 +193,9 @@ use Spatie\Mailcoach\Livewire\Webhooks\EditWebhookComponent;
 use Spatie\Mailcoach\Livewire\Webhooks\WebhookLogComponent;
 use Spatie\Mailcoach\Livewire\Webhooks\WebhookLogsComponent;
 use Spatie\Mailcoach\Livewire\Webhooks\WebhooksComponent;
-use Spatie\MailcoachSendinblueFeedback\SendinblueWebhookController;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
 use Symfony\Component\Mailer\Bridge\Sendgrid\Transport\SendgridTransportFactory;
+use Symfony\Component\Mailer\Bridge\Sendinblue\Transport\SendinblueTransportFactory;
 use Symfony\Component\Mailer\Transport\Dsn;
 
 class MailcoachServiceProvider extends PackageServiceProvider
@@ -484,7 +486,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootSendinblue(): static
     {
-        Event::listen(MessageSent::class, \Spatie\MailcoachSendinblueFeedback\StoreTransportMessageId::class);
+        Event::listen(MessageSent::class, StoreTransportMessageId::class);
 
         Mail::extend('sendinblue', function (array $config) {
             $key = $config['key'] ?? config('services.sendinblue.key');

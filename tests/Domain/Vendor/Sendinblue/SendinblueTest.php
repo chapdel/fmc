@@ -1,8 +1,8 @@
 <?php
 
-use Spatie\MailcoachSendinblueSetup\EventType;
-use Spatie\MailcoachSendinblueSetup\Sendinblue;
-use Spatie\MailcoachSendinblueSetup\Tests\TestCase;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Enums\EventType;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Enums\Sendinblue;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Enums\Tests\TestCase;
 
 uses(TestCase::class);
 

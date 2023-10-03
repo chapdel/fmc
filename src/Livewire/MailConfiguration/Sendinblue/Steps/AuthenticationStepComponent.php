@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Livewire\MailConfiguration\Sendinblue\Steps;
 
 use Exception;
 use Spatie\LivewireWizard\Components\StepComponent;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Sendinblue;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
-use Spatie\MailcoachSendinblueSetup\Sendinblue;
 
 class AuthenticationStepComponent extends StepComponent
 {

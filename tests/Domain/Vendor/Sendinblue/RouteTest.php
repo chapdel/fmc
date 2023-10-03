@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueFeedback\Tests;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Actions\Tests;
 
 use Illuminate\Support\Facades\Route;
 

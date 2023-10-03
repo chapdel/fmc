@@ -1,13 +1,13 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueFeedback\Tests\SendinblueEvents;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Actions\Tests\SendinblueEvents;
 
 use Illuminate\Support\Facades\Event;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Campaign\Events\SoftBounceRegisteredEvent;
-use Spatie\MailcoachSendinblueFeedback\SendinblueEvents\SoftBounceEvent;
-use Spatie\MailcoachSendinblueFeedback\Tests\TestCase;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Campaign\Events\SoftBounceRegisteredEvent;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Actions\SendinblueEvents\SoftBounceEvent;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Actions\Tests\TestCase;
 
 class SoftBounceEventTest extends TestCase
 {

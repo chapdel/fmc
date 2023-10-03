@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueFeedback\Tests;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Actions\Tests;
 
 use Illuminate\Http\Request;
-use Spatie\MailcoachSendinblueFeedback\SendinblueSignatureValidator;
-use Spatie\MailcoachSendinblueFeedback\SendinblueWebhookConfig;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Actions\SendinblueSignatureValidator;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Actions\SendinblueWebhookConfig;
 use Spatie\WebhookClient\WebhookConfig;
 
 class SendinblueSignatureValidatorTest extends TestCase

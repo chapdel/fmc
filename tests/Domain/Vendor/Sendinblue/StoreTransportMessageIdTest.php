@@ -1,10 +1,10 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueFeedback\Tests;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Actions\Tests;
 
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Mail\SentMessage;
-use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Shared\Models\Send;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;

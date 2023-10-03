@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueSetup;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue\Enums;
 
 enum EventType: string
 {

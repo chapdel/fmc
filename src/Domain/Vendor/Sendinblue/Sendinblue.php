@@ -1,9 +1,10 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueSetup;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue;
 
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Enums\EventType;
 
 class Sendinblue
 {

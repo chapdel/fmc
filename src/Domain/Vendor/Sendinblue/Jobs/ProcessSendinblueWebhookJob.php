@@ -1,11 +1,12 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueFeedback;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue\Jobs;
 
 use Illuminate\Support\Arr;
-use Spatie\Mailcoach\Domain\Campaign\Events\WebhookCallProcessedEvent;
+use Spatie\Mailcoach\Domain\Shared\Events\WebhookCallProcessedEvent;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\SendinblueEventFactory;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\WebhookClient\Jobs\ProcessWebhookJob;
 use Spatie\WebhookClient\Models\WebhookCall;
@@ -23,7 +24,7 @@ class ProcessSendinblueWebhookJob extends ProcessWebhookJob
         $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
     }
 
-    public function handle()
+    public function handle(): void
     {
         $payload = $this->webhookCall->payload;
 

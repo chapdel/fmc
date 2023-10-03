@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\MailcoachSendinblueFeedback\SendinblueEvents;
+namespace Spatie\Mailcoach\Domain\Vendor\Sendinblue\Events;
 
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
