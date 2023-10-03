@@ -73,3 +73,8 @@ function getSendinblueStub(string $name): array
 {
     return getStubs($name, 'Sendinblue');
 }
+
+function getSesStub(string $name): array
+{
+    return getStubs($name, 'Ses');
+}

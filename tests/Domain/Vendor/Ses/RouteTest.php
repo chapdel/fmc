@@ -7,7 +7,7 @@ beforeEach(function () {
 });
 
 it('provides a route macro to handle webhooks', function () {
-    $validPayload = $this->getStub('bounceWebhookContent');
+    $validPayload = getSesStub('bounceWebhookContent.json');
 
     $response = $this->postJson('ses-feedback', $validPayload);
 

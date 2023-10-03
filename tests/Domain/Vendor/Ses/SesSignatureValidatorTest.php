@@ -12,7 +12,7 @@ beforeEach(function () {
 
 function validParams(array $overrides = []): array
 {
-    return array_merge($this->getStub('bounceWebhookContent'), $overrides);
+    return array_merge(getSesStub('bounceWebhookContent.json'), $overrides);
 }
 
 it('requires signature data', function () {
@@ -23,10 +23,8 @@ it('requires signature data', function () {
     expect($this->validator->isValid($request, $this->config))->toBeTrue();
 });
 
-/** @test * */
-function it_calls_the_subscribe_url_when_its_a_subscription_confirmation_requests()
-{
-    $params = $this->getStub('subscriptionConfirmation');
+it('calls the subscribe url when its a subscription confirmation request', function () {
+    $params = getSesStub('subscriptionConfirmation.json');
     $params['SubscribeURL'] = url('test-route');
 
     $request = Request::create('/ses-feedback', 'POST', [], [], [], [], json_encode($params));
@@ -34,4 +32,4 @@ function it_calls_the_subscribe_url_when_its_a_subscription_confirmation_request
     $this->expectExceptionMessage('file_get_contents('.url('test-route').')');
 
     $this->validator->isValid($request, $this->config);
-}
+});

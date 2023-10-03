@@ -13,8 +13,8 @@ use Spatie\Mailcoach\Domain\Vendor\Ses\SesWebhookCall;
 beforeEach(function () {
     $this->webhookCall = SesWebhookCall::create([
         'name' => 'ses',
-        'external_id' => $this->getStub('bounceWebhookContent')['MessageId'],
-        'payload' => $this->getStub('bounceWebhookContent'),
+        'external_id' => getSesStub('bounceWebhookContent.json')['MessageId'],
+        'payload' => getSesStub('bounceWebhookContent.json'),
     ]);
 
     $this->send = Send::factory()->create([
@@ -24,10 +24,8 @@ beforeEach(function () {
     $this->mock(MessageValidator::class)->shouldReceive('isValid')->andReturnTrue();
 });
 
-/** @test * */
-function it_does_nothing_and_deletes_the_call_if_signature_is_missing()
-{
-    $data = $this->getStub('bounceWebhookContent');
+it('does nothing and deletes the call if signature is missing', function () {
+    $data = getSesStub('bounceWebhookContent.json');
     $data['Signature'] = null;
 
     $this->webhookCall->update([
@@ -39,12 +37,10 @@ function it_does_nothing_and_deletes_the_call_if_signature_is_missing()
     $job->handle();
     expect(SendFeedbackItem::count())->toEqual(0);
     expect(SesWebhookCall::count())->toEqual(0);
-}
+});
 
-/** @test * */
-function it_does_nothing_if_data_is_missing()
-{
-    $data = $this->getStub('bounceWebhookContent');
+it('does nothing if data is missing', function () {
+    $data = getSesStub('bounceWebhookContent.json');
     $data['Message'] = '';
 
     $this->webhookCall->update([
@@ -56,10 +52,10 @@ function it_does_nothing_if_data_is_missing()
     $job->handle();
     expect(SendFeedbackItem::count())->toEqual(0);
     expect(SesWebhookCall::count())->toEqual(0);
-}
+});
 
 it('processes a ses webhook call for a bounce', function () {
-    $data = $this->getStub('bounceWebhookContent');
+    $data = getSesStub('bounceWebhookContent.json');
 
     $this->webhookCall->update([
         'payload' => $data,
@@ -80,8 +76,8 @@ it('processes a ses webhook call for a bounce', function () {
 it('processes a ses webhook call for clicks', function () {
     $webhookCall = SesWebhookCall::create([
         'name' => 'ses',
-        'external_id' => $this->getStub('clickWebhookContent')['MessageId'],
-        'payload' => $this->getStub('clickWebhookContent'),
+        'external_id' => getSesStub('clickWebhookContent.json')['MessageId'],
+        'payload' => getSesStub('clickWebhookContent.json'),
     ]);
 
     /** @var Send $send */
@@ -97,8 +93,8 @@ it('processes a ses webhook call for clicks', function () {
 it('processes a ses webhook call for opens', function () {
     $webhookCall = SesWebhookCall::create([
         'name' => 'ses',
-        'external_id' => $this->getStub('openWebhookContent')['MessageId'],
-        'payload' => $this->getStub('openWebhookContent'),
+        'external_id' => getSesStub('openWebhookContent.json')['MessageId'],
+        'payload' => getSesStub('openWebhookContent.json'),
     ]);
 
     /** @var Send $send */
@@ -114,8 +110,8 @@ it('processes a ses webhook call for opens', function () {
 it('processes a ses webhook call for opens with message id from header', function () {
     $webhookCall = SesWebhookCall::create([
         'name' => 'ses',
-        'external_id' => $this->getStub('openWebhookContent')['MessageId'],
-        'payload' => $this->getStub('openWebhookContent'),
+        'external_id' => getSesStub('openWebhookContent.json')['MessageId'],
+        'payload' => getSesStub('openWebhookContent.json'),
     ]);
 
     /** @var Send $send */
@@ -131,8 +127,8 @@ it('processes a ses webhook call for opens with message id from header', functio
 it('processes a ses webhook call for complaints', function () {
     $webhookCall = SesWebhookCall::create([
         'name' => 'ses',
-        'external_id' => $this->getStub('complaintWebhookContent')['MessageId'],
-        'payload' => $this->getStub('complaintWebhookContent'),
+        'external_id' => getSesStub('complaintWebhookContent.json')['MessageId'],
+        'payload' => getSesStub('complaintWebhookContent.json'),
     ]);
 
     /** @var Send $send */
@@ -153,8 +149,8 @@ it('processes a ses webhook call for complaints', function () {
 it('fires an event when the webhook is processed', function () {
     $webhookCall = SesWebhookCall::create([
         'name' => 'ses',
-        'external_id' => $this->getStub('clickWebhookContent')['MessageId'],
-        'payload' => $this->getStub('clickWebhookContent'),
+        'external_id' => getSesStub('clickWebhookContent.json')['MessageId'],
+        'payload' => getSesStub('clickWebhookContent.json'),
     ]);
 
     /** @var Send $send */
@@ -186,13 +182,11 @@ it('does nothing when it cannot find the transport message id', function () {
     expect(SendFeedbackItem::count())->toEqual(0);
 });
 
-/** @test * */
-function it_does_nothing_and_deletes_the_call_if_it_is_a_duplicate_ses_message_id()
-{
+it('does nothing and deletes the call fi it\'s a duplicated ses message_id', function () {
     $webhookCallSecond = SesWebhookCall::create([
         'name' => 'ses',
-        'external_id' => $this->getStub('bounceWebhookContent')['MessageId'],
-        'payload' => $this->getStub('bounceWebhookContent'),
+        'external_id' => getSesStub('bounceWebhookContent.json')['MessageId'],
+        'payload' => getSesStub('bounceWebhookContent.json'),
     ]);
 
     (new ProcessSesWebhookJob($this->webhookCall))->handle();
@@ -200,4 +194,4 @@ function it_does_nothing_and_deletes_the_call_if_it_is_a_duplicate_ses_message_i
 
     expect(SendFeedbackItem::count())->toEqual(1);
     expect(SesWebhookCall::count())->toEqual(1);
-}
+});

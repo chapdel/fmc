@@ -2,8 +2,8 @@
 
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Mail\SentMessage;
+use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Tests\Domain\Vendor\Ses\factories\SendFactory;
 use Symfony\Component\Mailer\Envelope;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\Mime\Email;
