@@ -182,7 +182,7 @@ abstract class TestCase extends Orchestra
 
         if (! file_exists(__DIR__.'/../'.$name)) {
             $name = '.env.example';
-            if (file_exists(__DIR__.'/../'.$name)) {
+            if (! file_exists(__DIR__.'/../'.$name)) {
                 throw new Exception('Please create a .env file in the root directory of this package to run the tests.');
             }
         }
