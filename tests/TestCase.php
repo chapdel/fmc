@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Tests;
 
 use AllowDynamicProperties;
 use Dotenv\Dotenv;
-use Exception;
 use Filament\Actions\ActionsServiceProvider;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
@@ -178,17 +177,10 @@ abstract class TestCase extends Orchestra
 
     protected function loadEnvironmentVariables(): void
     {
-        $name = '.env';
+        if (file_exists(__DIR__.'/../.env')) {
+            $dotEnv = Dotenv::createImmutable(__DIR__.'/..');
 
-        if (! file_exists(__DIR__.'/../'.$name)) {
-            $name = '.env.example';
-            if (! file_exists(__DIR__.'/../'.$name)) {
-                throw new Exception('Please create a .env file in the root directory of this package to run the tests.');
-            }
+            $dotEnv->load();
         }
-
-        $dotEnv = Dotenv::createImmutable(__DIR__.'/..', $name);
-
-        $dotEnv->load();
     }
 }
