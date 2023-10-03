@@ -10,13 +10,8 @@ beforeEach(function () {
     $this->validator = new SesSignatureValidator();
 });
 
-function validParams(array $overrides = []): array
-{
-    return array_merge(getSesStub('bounceWebhookContent.json'), $overrides);
-}
-
 it('requires signature data', function () {
-    $request = Request::create('/ses-feedback', 'POST', [], [], [], [], json_encode(validParams()));
+    $request = Request::create('/ses-feedback', 'POST', [], [], [], [], json_encode(getSesStub('bounceWebhookContent.json')));
 
     $_SERVER['HTTP_X_AMZ_SNS_MESSAGE_TYPE'] = 'SubscriptionConfirmation';
 
