@@ -17,7 +17,9 @@ beforeEach(function () {
         'payload' => getSendgridStub('multipleEventsPayload.json'),
     ]);
 
-    $this->send = Send::factory()->create();
+    $model = \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem::factory()->create();
+
+    $this->send = Send::factory()->state(['content_item_id' => $model->contentItem->id])->create();
     $this->send->update(['uuid' => 'test-uuid']);
     $this->send->subscriber->update(['email' => 'example@test.com']);
 });
