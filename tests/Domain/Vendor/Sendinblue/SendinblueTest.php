@@ -1,13 +1,12 @@
 <?php
 
-use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Enums\EventType;
-use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Enums\Sendinblue;
-use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Exceptions\Domain\Vendor\Sendinblue\Enums\Tests\TestCase;
-
-uses(TestCase::class);
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Enums\EventType;
+use Spatie\Mailcoach\Domain\Vendor\Sendinblue\Sendinblue;
 
 beforeEach(function () {
-    $this->sendinblue = new Sendinblue($this->key);
+    $this->loadEnvironmentVariables();
+
+    $this->sendinblue = new Sendinblue(env('SENDINBLUE_API_KEY'));
 });
 
 it('can determine an api key is valid', function () {
