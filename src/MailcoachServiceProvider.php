@@ -6,10 +6,12 @@ use Exception;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\QueryException;
 use Illuminate\Mail\Events\MessageSending;
+use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Vite;
@@ -58,6 +60,14 @@ use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottleCache;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
+use Spatie\Mailcoach\Domain\Vendor\Postmark\Actions\AddMessageStreamHeader;
+use Spatie\Mailcoach\Domain\Vendor\Sendgrid\Actions\AddUniqueArgumentsMailHeader;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\AddConfigurationSetHeader;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Mailgun\MailgunWebhookController;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Postmark\PostmarkWebhookController;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Sendgrid\SendgridWebhookController;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Sendinblue\SendinblueWebhookController;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Ses\SesWebhookController;
 use Spatie\Mailcoach\Http\App\Middleware\BootstrapMailcoach;
 use Spatie\Mailcoach\Http\App\ViewComposers\WebsiteStyleComposer;
 use Spatie\Mailcoach\Livewire\Audience\CreateListComponent;
@@ -185,6 +195,9 @@ use Spatie\Mailcoach\Livewire\Webhooks\WebhookLogComponent;
 use Spatie\Mailcoach\Livewire\Webhooks\WebhookLogsComponent;
 use Spatie\Mailcoach\Livewire\Webhooks\WebhooksComponent;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
+use Symfony\Component\Mailer\Bridge\Sendgrid\Transport\SendgridTransportFactory;
+use Symfony\Component\Mailer\Bridge\Sendinblue\Transport\SendinblueTransportFactory;
+use Symfony\Component\Mailer\Transport\Dsn;
 
 class MailcoachServiceProvider extends PackageServiceProvider
 {
@@ -278,7 +291,12 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootViews()
             ->bootEvents()
             ->bootTriggers()
-            ->bootSpotlight();
+            ->bootSpotlight()
+            ->bootMailgun()
+            ->bootPostmark()
+            ->bootSendgrid()
+            ->bootSendinblue()
+            ->bootSes();
     }
 
     protected function bootCarbon(): static
@@ -357,11 +375,11 @@ class MailcoachServiceProvider extends PackageServiceProvider
             Route::middleware([BootstrapMailcoach::class])->group(function () use ($url, $registerFeedback) {
                 if ($registerFeedback) {
                     Route::namespace(null)->group(function () {
-                        Route::sesFeedback('ses-feedback');
-                        Route::mailgunFeedback('mailgun-feedback');
-                        Route::sendgridFeedback('sendgrid-feedback');
-                        Route::postmarkFeedback('postmark-feedback');
-                        Route::sendinblueFeedback('sendinblue-feedback');
+                        Route::macro('mailgunFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.MailgunWebhookController::class));
+                        Route::macro('postmarkFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.PostmarkWebhookController::class));
+                        Route::macro('sendgridFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SendgridWebhookController::class));
+                        Route::macro('sendinblueFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SendinblueWebhookController::class));
+                        Route::macro('sesFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SesWebhookController::class));
                     });
                 }
 
@@ -434,6 +452,59 @@ class MailcoachServiceProvider extends PackageServiceProvider
     protected function bootUnlayer(): void
     {
         Mailcoach::editorScript(Domain\Editor\Unlayer\Editor::class, 'https://editor.unlayer.com/embed.js');
+    }
+
+    protected function bootMailgun(): static
+    {
+        Event::listen(MessageSent::class, \Spatie\Mailcoach\Domain\Vendor\Mailgun\Actions\StoreTransportMessageId::class);
+
+        return $this;
+    }
+
+    protected function bootPostmark(): static
+    {
+        Event::listen(MessageSending::class, AddMessageStreamHeader::class);
+
+        return $this;
+    }
+
+    protected function bootSendgrid(): static
+    {
+        Event::listen(MessageSending::class, AddUniqueArgumentsMailHeader::class);
+        Event::listen(MessageSent::class, \Spatie\Mailcoach\Domain\Vendor\Sendgrid\Actions\StoreTransportMessageId::class);
+
+        Mail::extend('sendgrid', function (array $config) {
+            $key = $config['key'] ?? config('services.sendgrid.key');
+
+            return (new SendgridTransportFactory())->create(
+                Dsn::fromString("sendgrid+api://{$key}@default")
+            );
+        });
+
+        return $this;
+    }
+
+    protected function bootSendinblue(): static
+    {
+        Event::listen(MessageSent::class, \Spatie\Mailcoach\Domain\Vendor\Sendinblue\Actions\StoreTransportMessageId::class);
+
+        Mail::extend('sendinblue', function (array $config) {
+            $key = $config['key'] ?? config('services.sendinblue.key');
+
+            return (new SendinblueTransportFactory())->create(
+                Dsn::fromString("sendinblue+api://{$key}@default")
+            );
+        });
+
+        return $this;
+    }
+
+    protected function bootSes(): static
+    {
+        Event::listen(MessageSending::class, AddConfigurationSetHeader::class);
+        Event::listen(MessageSent::class, \Spatie\Mailcoach\Domain\Vendor\Ses\Actions\StoreTransportMessageId::class);
+
+        return $this;
     }
 
     protected function bootBladeComponents(): static

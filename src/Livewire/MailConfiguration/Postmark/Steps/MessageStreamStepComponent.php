@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Livewire\MailConfiguration\Postmark\Steps;
 
 use Spatie\LivewireWizard\Components\StepComponent;
+use Spatie\Mailcoach\Domain\Vendor\Postmark\Data\MessageStream;
+use Spatie\Mailcoach\Domain\Vendor\Postmark\Postmark;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
-use Spatie\MailcoachPostmarkSetup\MessageStream;
-use Spatie\MailcoachPostmarkSetup\Postmark;
 
 class MessageStreamStepComponent extends StepComponent
 {
@@ -21,12 +21,12 @@ class MessageStreamStepComponent extends StepComponent
         'streamId' => ['required'],
     ];
 
-    public function mount()
+    public function mount(): void
     {
         $this->streamId = $this->mailer()->get('streamId', '');
     }
 
-    public function submit()
+    public function submit(): void
     {
         $this->validate();
 
@@ -37,7 +37,7 @@ class MessageStreamStepComponent extends StepComponent
         $this->nextStep();
     }
 
-    public function loadStreams()
+    public function loadStreams(): void
     {
         $postmark = (new Postmark($this->mailer()->get('apiKey')));
         $this->messageStreams = $postmark->getStreams()->mapWithKeys(fn (MessageStream $stream) => [$stream->id => $stream->name])->toArray();

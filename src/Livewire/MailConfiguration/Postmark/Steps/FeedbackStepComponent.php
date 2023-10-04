@@ -4,10 +4,10 @@ namespace Spatie\Mailcoach\Livewire\MailConfiguration\Postmark\Steps;
 
 use Illuminate\Support\Str;
 use Spatie\LivewireWizard\Components\StepComponent;
+use Spatie\Mailcoach\Domain\Vendor\Postmark\Enums\PostMarkTrigger;
+use Spatie\Mailcoach\Domain\Vendor\Postmark\Postmark;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Postmark\PostmarkWebhookController;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
-use Spatie\MailcoachPostmarkFeedback\PostmarkWebhookController;
-use Spatie\MailcoachPostmarkSetup\Enums\PostMarkTrigger;
-use Spatie\MailcoachPostmarkSetup\Postmark;
 
 class FeedbackStepComponent extends StepComponent
 {
@@ -22,13 +22,13 @@ class FeedbackStepComponent extends StepComponent
         'trackClicks' => ['boolean'],
     ];
 
-    public function mount()
+    public function mount(): void
     {
         $this->trackOpens = $this->mailer()->get('open_tracking_enabled', false);
         $this->trackClicks = $this->mailer()->get('click_tracking_enabled', false);
     }
 
-    public function configurePostmark()
+    public function configurePostmark(): void
     {
         $this->validate();
 

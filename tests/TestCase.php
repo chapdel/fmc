@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Tests;
 
 use AllowDynamicProperties;
+use Dotenv\Dotenv;
 use Filament\Actions\ActionsServiceProvider;
 use Filament\Forms\FormsServiceProvider;
 use Filament\Notifications\NotificationsServiceProvider;
@@ -28,11 +29,6 @@ use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
-use Spatie\MailcoachMailgunFeedback\MailcoachMailgunFeedbackServiceProvider;
-use Spatie\MailcoachPostmarkFeedback\MailcoachPostmarkFeedbackServiceProvider;
-use Spatie\MailcoachSendgridFeedback\MailcoachSendgridFeedbackServiceProvider;
-use Spatie\MailcoachSendinblueFeedback\MailcoachSendinblueFeedbackServiceProvider;
-use Spatie\MailcoachSesFeedback\MailcoachSesFeedbackServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\Navigation\NavigationServiceProvider;
 use Spatie\QueryBuilder\QueryBuilderServiceProvider;
@@ -81,7 +77,7 @@ abstract class TestCase extends Orchestra
         parent::tearDown();
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             //SpotlightServiceProvider::class,
@@ -101,11 +97,6 @@ abstract class TestCase extends Orchestra
             SupportServiceProvider::class,
             TablesServiceProvider::class,
 
-            MailcoachSesFeedbackServiceProvider::class,
-            MailcoachMailgunFeedbackServiceProvider::class,
-            MailcoachSendgridFeedbackServiceProvider::class,
-            MailcoachSendinblueFeedbackServiceProvider::class,
-            MailcoachPostmarkFeedbackServiceProvider::class,
             WebhookServerServiceProvider::class,
         ];
     }
@@ -130,7 +121,7 @@ abstract class TestCase extends Orchestra
         $this->beginDatabaseTransaction();
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         config()->set('database.default', 'mysql');
         config()->set('database.connections.mysql', [
@@ -145,7 +136,7 @@ abstract class TestCase extends Orchestra
         ]);
     }
 
-    protected function simulateUnsubscribes(Collection $sends)
+    protected function simulateUnsubscribes(Collection $sends): void
     {
         $sends->each(function (Send $send) {
             $this
@@ -153,14 +144,14 @@ abstract class TestCase extends Orchestra
         });
     }
 
-    public function authenticate()
+    public function authenticate(): void
     {
         $user = UserFactory::new()->create();
 
         $this->actingAs($user);
     }
 
-    public function refreshServiceProvider()
+    public function refreshServiceProvider(): void
     {
         // We need to do this since the service provider loads from the database
         app(MailcoachServiceProvider::class, ['app' => $this->app])
@@ -168,7 +159,7 @@ abstract class TestCase extends Orchestra
             ->boot();
     }
 
-    public function processQueuedJobs()
+    public function processQueuedJobs(): void
     {
         foreach (Queue::pushedJobs() as $jobs) {
             foreach ($jobs as $job) {
@@ -182,5 +173,14 @@ abstract class TestCase extends Orchestra
         $path = __DIR__."/stubs/{$path}";
 
         return file_get_contents($path);
+    }
+
+    protected function loadEnvironmentVariables(): void
+    {
+        if (file_exists(__DIR__.'/../.env')) {
+            $dotEnv = Dotenv::createImmutable(__DIR__.'/..');
+
+            $dotEnv->load();
+        }
     }
 }

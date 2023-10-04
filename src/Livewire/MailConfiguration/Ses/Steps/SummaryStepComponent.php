@@ -3,9 +3,9 @@
 namespace Spatie\Mailcoach\Livewire\MailConfiguration\Ses\Steps;
 
 use Spatie\LivewireWizard\Components\StepComponent;
+use Spatie\Mailcoach\Domain\Vendor\Ses\MailcoachSes;
+use Spatie\Mailcoach\Domain\Vendor\Ses\MailcoachSesConfig;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
-use Spatie\MailcoachSesSetup\MailcoachSes;
-use Spatie\MailcoachSesSetup\MailcoachSesConfig;
 
 class SummaryStepComponent extends StepComponent
 {

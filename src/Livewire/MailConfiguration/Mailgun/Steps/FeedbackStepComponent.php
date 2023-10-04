@@ -3,11 +3,11 @@
 namespace Spatie\Mailcoach\Livewire\MailConfiguration\Mailgun\Steps;
 
 use Spatie\LivewireWizard\Components\StepComponent;
+use Spatie\Mailcoach\Domain\Vendor\Mailgun\Enums\EventType;
+use Spatie\Mailcoach\Domain\Vendor\Mailgun\Exceptions\CouldNotAccessAccountSetting;
+use Spatie\Mailcoach\Domain\Vendor\Mailgun\Mailgun;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Mailgun\MailgunWebhookController;
 use Spatie\Mailcoach\Livewire\MailConfiguration\Concerns\UsesMailer;
-use Spatie\MailcoachMailgunFeedback\MailgunWebhookController;
-use Spatie\MailcoachMailgunSetup\EventType;
-use Spatie\MailcoachMailgunSetup\Exceptions\CouldNotAccessAccountSetting;
-use Spatie\MailcoachMailgunSetup\Mailgun;
 
 class FeedbackStepComponent extends StepComponent
 {
@@ -25,14 +25,14 @@ class FeedbackStepComponent extends StepComponent
         'signingSecret' => ['required'],
     ];
 
-    public function mount()
+    public function mount(): void
     {
         $this->trackOpens = $this->mailer()->get('open_tracking_enabled', '');
         $this->trackClicks = $this->mailer()->get('click_tracking_enabled', '');
         $this->signingSecret = $this->mailer()->get('signing_secret', '');
     }
 
-    public function configureMailgun()
+    public function configureMailgun(): void
     {
         $this->validate();
 
