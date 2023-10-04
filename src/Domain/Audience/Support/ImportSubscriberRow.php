@@ -35,10 +35,27 @@ class ImportSubscriberRow
 
     public function subscribedAt(): CarbonInterface
     {
-        $date = $this->values['subscribed_at'] ?? $this->values['optin_time'] ?? $this->values['confirm_time'] ?? $this->values['created_at'] ?? null;
+        $date = $this->values['subscribed_at']
+            ?? $this->values['optin_time']
+            ?? $this->values['confirm_time']
+            ?? $this->values['created_at']
+            ?? null;
 
         if (! $date) {
             return now();
+        }
+
+        return Date::parse($date);
+    }
+
+    public function unsubscribedAt(): ?CarbonInterface
+    {
+        $date = $this->values['unsubscribed_at']
+            ?? $this->values['unsub_time'] // Mailchimp
+            ?? null;
+
+        if (! $date) {
+            return null;
         }
 
         return Date::parse($date);

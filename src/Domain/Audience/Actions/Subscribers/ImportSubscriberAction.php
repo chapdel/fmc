@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Audience\Actions\Subscribers;
 
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\Mailcoach\Domain\Audience\Support\ImportSubscriberRow;
+use Spatie\Mailcoach\Domain\Audience\Support\PendingSubscriber;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class ImportSubscriberAction
@@ -47,11 +48,15 @@ class ImportSubscriberAction
             ],
         );
 
-        self::getSubscriberClass()::createWithEmail($row->getEmail(), $attributes)
+        /** @var PendingSubscriber $pendingSubscriber */
+        $pendingSubscriber = self::getSubscriberClass()::createWithEmail($row->getEmail(), $attributes);
+
+        $pendingSubscriber
             ->skipConfirmation()
             ->tags($row->tags())
             ->replaceTags($subscriberImport->replace_tags)
             ->subscribedAt($row->subscribedAt())
+            ->unsubscribedAt($row->unsubscribedAt())
             ->subscribeTo($subscriberImport->emailList);
     }
 }
