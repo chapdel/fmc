@@ -16,7 +16,6 @@ return [
     ':subscriber has been unsubscribed.' => ':subscriber is afgemeld.',
     ':tag' => ':tag',
     '<a href=":link">Editor.js</a> is a beautiful block based <abbr title="What You See Is What You Get">WYSIWYG</abbr> editor. It also offers image uploads.' => '<a href=":link">Editor.js</a> is een prachtige blok gebaseerde <abbr title="What You See Is What You Get">WYSIWYG</abbr> editor. Het biedt ook afbeelding uploads.',
-    '<a href=":link">Monaco</a> is a powerful HTML code editor created by Microsoft. It provides code highlighting, auto completion and much more.' => '<a href=":link">Monaco</a> is een krachtige HTML code editor gemaakt door Microsoft. Het biedt code highlighting, auto completion en nog veel meer.',
     '<a href=":tagLink">Create some tags</a> for this list first.' => '<a href=":tagLink">Maak eerst tags</a> aan voor deze lijst.',
     '<h2 class="dashboard-title">Horizon</h2> <p>is not active on your server</p>' => '<h2 class="dashboard-title">Horizon</h2> <p>is niet actief op je server</p>',
     '<h2 class="dashboard-title">Mailer missing</h2> <p>You need to add at least 1 mailer.</p>' => '<h2 class="dashboard-title">Mailer ontbreekt</h2> <p>Je moet minimaal 1 mailer toevoegen.</p>',

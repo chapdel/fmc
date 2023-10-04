@@ -10,7 +10,6 @@ return [
     '**:count** :subscriber have been subscribed to the list :emailListName' => '**:count** :subscriber ha sido dado de alta a la lista :emailListName',
     '<a href=":link">Editor.js</a> is a beautiful block based <abbr title="What You See Is What You Get">WYSIWYG</abbr> editor. It also offers image uploads.' => '<a href=":link">Editor.js</a> es un hermoso editor <abbr title="What You See Is What You Get">WYSIWYG</abbr> basado en bloques. También ofrece cargar imágenes.',
     '<a href=":tagLink">Create some tags</a> for this list first.' => '<a href=":tagLink">Crea algunos tags Tags</a> para esta lista primero.',
-    '<a href=":link">Monaco</a> is a powerful HTML code editor created by Microsoft. It provides code highlighting, auto completion and much more.' => '<a href=":link">Monaco</a> es un poderoso editor de código HTML creado por Microsoft. Proporciona resaltado de código, autocompletación y mucho más.',
     '<strong>Horizon</strong> is not active on your server. <a class="text-blue-800" target="_blank" href=":docsLink">Read the docs</a>.' => '<strong>Horizon</strong> no está activo en este servidor. <a class="text-blue-800" target="_blank" href=":docsLink">Lea la documentación</a>.',
     'A confirmation mail has been sent to :subscriber' => 'Un mail de confirmación ha sido enviado a :subscriber',
     'A custom mailable (:mailable) will be used.' => 'Un Mailable personalizado (:mailable) será usado.',

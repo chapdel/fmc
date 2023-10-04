@@ -2,7 +2,6 @@ build
 composer.lock
 /vendor
 !resources/css/vendor
-resources/dist/monaco
 resources/hot
 coverage
 .php_cs.cache

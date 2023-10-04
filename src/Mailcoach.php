@@ -87,11 +87,6 @@ class Mailcoach
             }
 
             foreach ($editorScripts as $script) {
-                // @todo: Re-enable after conflict is fixed
-                if (str_contains($script, 'monaco')) {
-                    continue;
-                }
-
                 $scripts[] = "<script type=\"module\" src=\"{$script}\" data-navigate-track></script>";
             }
         }
@@ -337,7 +332,6 @@ class Mailcoach
             Domain\Editor\EditorJs\EditorJsEditorConfigurationDriver::class,
             Domain\Editor\Markdown\MarkdownEditorConfigurationDriver::class,
             Domain\Editor\Codemirror\CodeMirrorEditorConfigurationDriver::class,
-            \Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\Editors\MonacoEditorConfigurationDriver::class,
             Domain\Editor\Textarea\TextareaEditorConfigurationDriver::class,
             Domain\Editor\Unlayer\UnlayerEditorConfigurationDriver::class,
         ]);
