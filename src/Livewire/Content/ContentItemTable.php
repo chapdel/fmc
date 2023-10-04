@@ -19,6 +19,11 @@ abstract class ContentItemTable extends TableComponent
         $sendable = Route::current()->parameter('campaign')
             ?? Route::current()->parameter('automationMail');
 
+        if (is_string($sendable)) {
+            $sendable = self::getCampaignClass()::findByUuid($sendable)
+                ?? self::getAutomationMailClass()::findByUuid($sendable);
+        }
+
         $this->contentItem = $sendable->contentItem;
 
         app(MainNavigation::class)->activeSection()?->add($this->contentItem->model->name, match (true) {
