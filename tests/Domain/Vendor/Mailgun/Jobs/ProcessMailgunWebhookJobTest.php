@@ -63,9 +63,9 @@ it('can process a mailgun open webhook call', function () {
     $this->webhookCall->update(['payload' => getMailgunStub('openWebhookContent.json')]);
     (new ProcessMailgunWebhookJob($this->webhookCall))->handle();
 
-    expect($this->send->campaign->opens)->toHaveCount(1);
-    tap($this->send->campaign->opens->first(), function (Open $campaignOpen) {
-        expect($campaignOpen->created_at)->toEqual(Carbon::createFromTimestamp(1377047343));
+    expect($this->send->contentItem->opens)->toHaveCount(1);
+    tap($this->send->contentItem->opens->first(), function (Open $open) {
+        expect($open->created_at)->toEqual(Carbon::createFromTimestamp(1377047343));
     });
 });
 

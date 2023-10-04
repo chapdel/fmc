@@ -90,8 +90,8 @@ it('can process a postmark open webhook call', function () {
     $this->webhookCall->update(['payload' => getPostmarkStub('openWebhookContent.json')]);
     (new ProcessPostmarkWebhookJob($this->webhookCall))->handle();
 
-    expect($this->send->campaign->opens)->toHaveCount(1);
-    expect($this->send->campaign->opens->first()->created_at)->toEqual(Carbon::parse('2019-11-05T16:33:54.0Z'));
+    expect($this->send->contentItem->opens)->toHaveCount(1);
+    expect($this->send->contentItem->opens->first()->created_at)->toEqual(Carbon::parse('2019-11-05T16:33:54.0Z'));
 });
 
 it('can process a postmark open webhook call by message id', function () {
@@ -103,8 +103,8 @@ it('can process a postmark open webhook call by message id', function () {
     $this->webhookCall->update(['payload' => $payload]);
     (new ProcessPostmarkWebhookJob($this->webhookCall))->handle();
 
-    expect($this->send->campaign->opens)->toHaveCount(1);
-    expect($this->send->campaign->opens->first()->created_at)->toEqual(Carbon::parse('2019-11-05T16:33:54.0Z'));
+    expect($this->send->contentItem->opens)->toHaveCount(1);
+    expect($this->send->contentItem->opens->first()->created_at)->toEqual(Carbon::parse('2019-11-05T16:33:54.0Z'));
 });
 
 it('fires an event after processing the webhook call', function () {

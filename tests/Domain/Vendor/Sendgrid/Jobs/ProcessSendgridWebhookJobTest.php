@@ -17,9 +17,7 @@ beforeEach(function () {
         'payload' => getSendgridStub('multipleEventsPayload.json'),
     ]);
 
-    $model = \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem::factory()->create();
-
-    $this->send = Send::factory()->state(['content_item_id' => $model->contentItem->id])->create();
+    $this->send = Send::factory()->create();
     $this->send->update(['uuid' => 'test-uuid']);
     $this->send->subscriber->update(['email' => 'example@test.com']);
 });
@@ -67,7 +65,7 @@ it('processes a sendgrid click webhook call with message id', function () {
     $this->send->update(['transport_message_id' => '14c5d75ce93']);
 
     $payload = getSendgridStub('clickPayload.json');
-    unset($payload['send_uuid']);
+    unset($payload[0]['send_uuid']);
 
     $this->webhookCall->update(['payload' => $payload]);
     (new ProcessSendgridWebhookJob($this->webhookCall))->handle();
@@ -87,12 +85,12 @@ it('can process a sendgrid open webhook call', function () {
     $this->webhookCall->update(['payload' => getSendgridStub('openPayload.json')]);
     (new ProcessSendgridWebhookJob($this->webhookCall))->handle();
 
-    expect($this->send->campaign->opens)->toHaveCount(1);
-    expect($this->send->campaign->opens->first()->created_at)->toEqual(Carbon::createFromTimestamp(1574854444));
+    expect($this->send->contentItem->opens)->toHaveCount(1);
+    expect($this->send->contentItem->opens->first()->created_at)->toEqual(Carbon::createFromTimestamp(1574854444));
 
     $this->send->subscriber->update(['email' => 'not-example@test.com']);
     (new ProcessSendgridWebhookJob($this->webhookCall))->handle();
-    expect($this->send->campaign->fresh()->opens)->toHaveCount(1);
+    expect($this->send->contentItem->fresh()->opens)->toHaveCount(1);
 });
 
 it('can process a sendgrid bounce webhook call', function () {

@@ -63,8 +63,8 @@ it('can process a sendinblue open webhook call', function () {
     $this->webhookCall->update(['payload' => getSendinblueStub('openWebhookContent.json')]);
     (new ProcessSendinblueWebhookJob($this->webhookCall))->handle();
 
-    expect($this->send->campaign->opens)->toHaveCount(1);
-    tap($this->send->campaign->opens->first(), function (Open $campaignOpen) {
+    expect($this->send->contentItem->opens)->toHaveCount(1);
+    tap($this->send->contentItem->opens->first(), function (Open $campaignOpen) {
         expect($campaignOpen->created_at)->toEqual(Carbon::createFromTimestampMs(1534486682000));
     });
 });

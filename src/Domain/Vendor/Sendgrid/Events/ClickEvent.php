@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Vendor\Sendgrid\Events;
 
 use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 
 class ClickEvent extends SendgridEvent
 {
@@ -26,7 +27,7 @@ class ClickEvent extends SendgridEvent
             return;
         }
 
-        if ($send->contentItem->model && $email !== $send->contentItem->model->to[0]['email']) {
+        if ($send->contentItem->model instanceof TransactionalMailLogItem && $email !== $send->contentItem->model->to[0]['email']) {
             return;
         }
 
