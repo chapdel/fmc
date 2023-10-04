@@ -2,6 +2,27 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.27.3 - 2023-10-02
+
+### What's Changed
+
+- fix: import in SubscribersExportController by @ImJustToNy in https://github.com/spatie/laravel-mailcoach/pull/1381
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.27.2...6.27.3
+
+## 6.27.2 - 2023-10-02
+
+### What's Changed
+
+- added a link to the Audience section for a sent Campaign by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1358
+- feat: faster extra_attributes fetching by using JSON_KEYS by @ImJustToNy in https://github.com/spatie/laravel-mailcoach/pull/1380
+
+### New Contributors
+
+- @ImJustToNy made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/1380
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.27.1...6.27.2
+
 ## 6.26.0 - 2023-08-18
 
 **Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.25.6...6.26.0
