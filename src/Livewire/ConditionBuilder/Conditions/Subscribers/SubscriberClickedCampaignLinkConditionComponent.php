@@ -24,7 +24,7 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
         $this->changeLabels();
 
         $this->campaigns = self::getCampaignClass()::query()
-            ->has('links')
+            ->has('contentItem.links')
             ->pluck('id', 'name')
             ->mapWithKeys(function (string $id, string $name) {
                 return [$id => $name];
@@ -56,7 +56,11 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
     public function render()
     {
         $this->options = self::getLinkClass()::query()
-            ->where('campaign_id', $this->campaignId)
+            ->whereHas('contentItem', function ($query) {
+                $query
+                    ->where('model_id', $this->campaignId)
+                    ->where('model_type', self::getCampaignClass());
+            })
             ->distinct()
             ->pluck('url')
             ->mapWithKeys(function (string $url) {
