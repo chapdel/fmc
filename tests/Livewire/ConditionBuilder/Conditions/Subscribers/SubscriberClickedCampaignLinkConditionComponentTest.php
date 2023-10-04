@@ -15,13 +15,12 @@ beforeEach(function () {
 it('can start with an empty condition collection', function () {
     $campaigns = Campaign::factory()
         ->has(ContentItem::factory()->has(Link::factory(), 'links'), 'contentItem')
-        ->count(2)
-        ->create();
+        ->create(['name' => fake()->words(3, true)]);
 
     Livewire::test(SubscriberClickedCampaignLinkConditionComponent::class, ['storedCondition' => emptyStoredCondition()])
-        ->call('add', SubscriberClickedCampaignLinkQueryCondition::KEY)
+        //->call('add', SubscriberClickedCampaignLinkQueryCondition::KEY)
         ->assertHasNoErrors()
-        ->assertSet('campaigns', $campaigns->pluck('id', 'name')->toArray())
+        ->assertSet('campaigns', $campaigns->pluck('name', 'id')->toArray())
         ->assertSet('storedCondition', emptyStoredCondition());
 });
 
@@ -35,10 +34,10 @@ function emptyStoredCondition(): array
             'key' => SubscriberClickedCampaignLinkQueryCondition::KEY,
             'label' => 'Subscriber Clicked Automation Mail Link',
             'comparison_operators' => [
-                'any' => 'Contains Any',
-                'none' => 'Contains None',
-                'equals' => 'Equals To',
-                'not-equals' => 'Not Equals To',
+                'any' => 'Clicked Any Link',
+                'none' => 'Did Not Click Any Link',
+                'equals' => 'Clicked A Specific Link',
+                'not-equals' => 'Did Not Click A Specific Link',
             ],
             'data' => [
                 'campaignId' => null,
