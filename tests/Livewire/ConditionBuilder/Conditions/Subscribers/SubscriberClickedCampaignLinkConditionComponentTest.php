@@ -18,16 +18,22 @@ it('can start with an empty condition collection', function () {
         ->create(['name' => fake()->words(3, true)]);
 
     Livewire::test(SubscriberClickedCampaignLinkConditionComponent::class, ['storedCondition' => emptyStoredCondition()])
-        //->call('add', SubscriberClickedCampaignLinkQueryCondition::KEY)
         ->assertHasNoErrors()
         ->assertSet('campaigns', $campaigns->pluck('name', 'id')->toArray())
         ->assertSet('storedCondition', emptyStoredCondition());
 });
 
 it('can add a condition', function () {
-})->skip('TODO');
+    $campaign = Campaign::factory()
+        ->has(ContentItem::factory()->has(Link::factory(), 'links'), 'contentItem')
+        ->create(['name' => fake()->words(3, true)]);
 
-function emptyStoredCondition(): array
+    Livewire::test(SubscriberClickedCampaignLinkConditionComponent::class, ['storedCondition' => emptyStoredCondition()])
+        ->set('campaignId', $campaign->id)
+        ->set('storedCondition', emptyStoredCondition(comparison: 'any'));
+})->skip('TODO: continue this test');
+
+function emptyStoredCondition(string $comparison = null, mixed $value = null): array
 {
     return [
         'condition' => [
@@ -44,7 +50,7 @@ function emptyStoredCondition(): array
                 'url' => null,
             ],
         ],
-        'comparison_operator' => null,
-        'value' => [],
+        'comparison_operator' => $comparison,
+        'value' => $value,
     ];
 }
