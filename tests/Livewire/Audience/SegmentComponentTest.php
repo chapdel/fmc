@@ -4,6 +4,8 @@ namespace Spatie\Mailcoach\Tests\Livewire\Audience;
 
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Livewire\Audience\SegmentComponent;
 use Spatie\Mailcoach\MainNavigation;
 
@@ -12,7 +14,19 @@ beforeEach(function () {
 });
 
 it('can store the stored conditions', function () {
+    /** @var ContentItem $contentItem */
+    $contentItem = ContentItem::factory()->create();
+    $contentItem->model()->associate(Campaign::factory()->create())->save();
+    $contentItem->links()->createMany([
+        ['url' => 'https://spatie.be'],
+        ['url' => 'https://spatie.be/open-source'],
+    ]);
+    $contentItem->refresh();
+
+    /** @var TagSegment $segment */
     $segment = TagSegment::factory()->create();
+    $segment->campaigns()->save($contentItem->model);
+    $segment->refresh();
 
     $storedCondition = [
         [
@@ -28,7 +42,10 @@ it('can store the stored conditions', function () {
                 'data' => [],
             ],
             'comparison_operator' => 'any',
-            'value' => [],
+            'value' => [
+                'url' => $segment->campaigns->first()->contentItem->links->first()->url,
+                'campaignId' => $segment->campaigns->first()->id,
+            ],
         ],
     ];
 
@@ -39,7 +56,8 @@ it('can store the stored conditions', function () {
     ])
         ->assertHasNoErrors()
         ->call('updateStoredConditions', $storedCondition)
-        ->call('save');
+        ->call('save')
+        ->assertHasNoErrors();
 
     $segment->refresh();
 

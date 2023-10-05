@@ -13,16 +13,16 @@ class ContentItemFactory extends Factory
 {
     use UsesMailcoachModels;
 
-    public function modelName()
+    public function modelName(): string
     {
         return static::getContentItemClass();
     }
 
-    public function definition()
+    public function definition(): array
     {
         return [
-            'model_type' => (new Campaign())->getMorphClass(),
-            'model_id' => Campaign::factory()->recycle($this),
+            //'model_type' => (new Campaign())->getMorphClass(),
+            //'model_id' => Campaign::factory()->recycle($this),
             'subject' => $this->faker->sentence,
             'from_email' => $this->faker->email,
             'from_name' => $this->faker->name,
@@ -35,6 +35,16 @@ class ContentItemFactory extends Factory
             'uuid' => $this->faker->uuid,
             'template_id' => Template::factory(),
         ];
+    }
+
+    public function campaign(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'model_type' => (new Campaign())->getMorphClass(),
+                'model_id' => Campaign::factory()->recycle($this),
+            ];
+        });
     }
 
     public function automationMail(): Factory

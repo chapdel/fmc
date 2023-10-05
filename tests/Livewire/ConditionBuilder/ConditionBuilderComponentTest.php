@@ -6,13 +6,10 @@ use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Subscribers\SubscriberClickedCampaignLinkQueryCondition;
 use Spatie\Mailcoach\Livewire\ConditionBuilder\ConditionBuilderComponent;
 
-it('can initialize a component', function () {
-    Livewire::test(ConditionBuilderComponent::class)->assertHasNoErrors();
-});
-
 it('can initialize an empty condition', function () {
     Livewire::test(ConditionBuilderComponent::class)
         ->call('add', SubscriberClickedCampaignLinkQueryCondition::KEY)
+        ->assertHasNoErrors()
         ->assertSet('storedConditions', [
             [
                 'condition' => [
@@ -32,10 +29,11 @@ it('can initialize an empty condition', function () {
         ]);
 });
 
-it('can store a condition', function () {
+it('can update a condition', function () {
     Livewire::test(ConditionBuilderComponent::class)
         ->call('add', SubscriberClickedCampaignLinkQueryCondition::KEY)
-        ->set('storedConditions.0.comparison_operator', 'any');
+        ->set('storedConditions.0.comparison_operator', 'any')
+        ->assertHasNoErrors();
 });
 
 it('can load segment stored conditions', function () {
