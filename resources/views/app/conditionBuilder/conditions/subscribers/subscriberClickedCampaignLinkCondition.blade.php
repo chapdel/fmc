@@ -26,7 +26,7 @@
                     :label="__mc('Value')"
                     name="value-{{ $index }}"
                     :options="$options"
-                    wire:model="storedCondition.value.url"
+                    wire:model="storedCondition.value.link"
                     required
                 />
             </div>

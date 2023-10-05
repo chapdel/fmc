@@ -40,9 +40,11 @@ class SubscriberClickedCampaignLinkQueryCondition extends QueryCondition
 
     public function apply(Builder $baseQuery, ComparisonOperator $operator, mixed $value): Builder
     {
-        if (! $value instanceof SubscriberClickedCampaignLinkQueryConditionData) {
+        if (! is_array($value)) {
             throw ConditionException::unsupportedValue($value);
         }
+
+        $value = SubscriberClickedCampaignLinkQueryConditionData::fromArray($value);
 
         $this->ensureOperatorIsSupported($operator);
 

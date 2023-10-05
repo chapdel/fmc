@@ -11,6 +11,8 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
 
     public ?int $campaignId = null;
 
+    public ?string $link = null;
+
     public array $campaigns = [];
 
     public array $options = [];
@@ -35,7 +37,7 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
     {
         return [
             'campaignId' => $this->campaignId,
-            'url' => $this->value, // ??
+            'url' => $this->link,
         ];
     }
 

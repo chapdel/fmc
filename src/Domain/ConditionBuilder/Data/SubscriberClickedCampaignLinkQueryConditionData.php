@@ -10,15 +10,15 @@ readonly class SubscriberClickedCampaignLinkQueryConditionData
     ) {
     }
 
-    public static function make(string $campaignId, string $link = null): self
+    public static function fromArray(array $data): self
     {
-        return new self($campaignId, $link);
+        return new self($data['campaignId'], $data['link'] ?? null);
     }
 
     public function toArray(): array
     {
         return [
-            'campaign_id' => $this->campaignId,
+            'campaignId' => $this->campaignId,
             'link' => $this->link,
         ];
     }

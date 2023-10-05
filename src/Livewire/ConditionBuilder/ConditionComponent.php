@@ -30,6 +30,8 @@ abstract class ConditionComponent extends Component
 
     public function updated(): void
     {
+        $this->storedCondition['value'] = $this->getValue();
+
         $this->dispatch('storedConditionUpdated', $this->index, $this->storedCondition);
     }
 
