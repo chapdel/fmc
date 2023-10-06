@@ -25,6 +25,8 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
 
         $this->changeLabels();
 
+        $this->campaignId = $this->campaignId();
+        $this->link = $this->link();
         $this->campaigns = self::getCampaignClass()::query()
             ->has('contentItem.links')
             ->pluck('id', 'name')
@@ -37,7 +39,7 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
     {
         return [
             'campaignId' => $this->campaignId,
-            'url' => $this->link,
+            'link' => $this->link,
         ];
     }
 
@@ -60,7 +62,7 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
         $this->options = self::getLinkClass()::query()
             ->whereHas('contentItem', function ($query) {
                 $query
-                    ->where('model_id', $this->campaignId)
+                    ->where('model_id', $this->campaignId())
                     ->where('model_type', self::getCampaignClass());
             })
             ->distinct()
@@ -70,5 +72,15 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
             })->toArray();
 
         return view('mailcoach::app.conditionBuilder.conditions.subscribers.subscriberClickedCampaignLinkCondition');
+    }
+
+    protected function campaignId(): ?int
+    {
+        return $this->storedCondition['value']['campaignId'] ?? null;
+    }
+
+    protected function link(): ?string
+    {
+        return $this->storedCondition['value']['link'] ?? null;
     }
 }
