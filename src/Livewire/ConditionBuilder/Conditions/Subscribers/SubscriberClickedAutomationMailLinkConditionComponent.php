@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers;
 
+use Spatie\Mailcoach\Domain\ConditionBuilder\Data\SubscriberClickedAutomationMailLinkQueryConditionData;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Livewire\ConditionBuilder\ConditionComponent;
 
@@ -49,10 +50,10 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
 
     public function getValue(): mixed
     {
-        return [
-            'automationMailId' => $this->automationMailId,
-            'link' => $this->link,
-        ];
+        return SubscriberClickedAutomationMailLinkQueryConditionData::make(
+            automationMailId: $this->automationMailId,
+            link: $this->link,
+        )->toArray();
     }
 
     public function render()
