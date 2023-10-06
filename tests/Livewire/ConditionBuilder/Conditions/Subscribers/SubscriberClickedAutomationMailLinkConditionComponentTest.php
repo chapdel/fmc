@@ -3,33 +3,33 @@
 namespace Spatie\Mailcoach\Tests\Livewire\ConditionBuilder\Conditions\Subscribers;
 
 use Livewire\Livewire;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Subscribers\SubscriberClickedCampaignLinkQueryCondition;
 use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Content\Models\Link;
-use Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberClickedCampaignLinkConditionComponent;
+use Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberClickedAutomationMailLinkConditionComponent;
 
 beforeEach(function () {
 });
 
 it('can start with an empty condition collection', function () {
-    $campaigns = Campaign::factory()
+    $models = AutomationMail::factory()
         ->has(ContentItem::factory()->has(Link::factory(), 'links'), 'contentItem')
         ->create(['name' => fake()->words(3, true)]);
 
-    Livewire::test(SubscriberClickedCampaignLinkConditionComponent::class, ['storedCondition' => emptyStoredCondition()])
+    Livewire::test(SubscriberClickedAutomationMailLinkConditionComponent::class, ['storedCondition' => emptyStoredCondition()])
         ->assertHasNoErrors()
-        ->assertSet('campaigns', $campaigns->pluck('name', 'id')->toArray())
+        ->assertSet('automationMails', $models->pluck('name', 'id')->toArray())
         ->assertSet('storedCondition', emptyStoredCondition());
 });
 
 it('can add a condition', function () {
-    $campaign = Campaign::factory()
+    $model = AutomationMail::factory()
         ->has(ContentItem::factory()->has(Link::factory(), 'links'), 'contentItem')
         ->create(['name' => fake()->words(3, true)]);
 
-    Livewire::test(SubscriberClickedCampaignLinkConditionComponent::class, ['storedCondition' => emptyStoredCondition()])
-        ->set('campaignId', $campaign->id)
+    Livewire::test(SubscriberClickedAutomationMailLinkConditionComponent::class, ['storedCondition' => emptyStoredCondition()])
+        ->set('automationMailId', $model->id)
         ->set('storedCondition', emptyStoredCondition(comparison: 'any'))
         ->assertHasNoErrors();
 });

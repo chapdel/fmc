@@ -31,7 +31,7 @@ it('can compare with an equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Equals,
-        value: $automationMail->contentItem->links()->first()->url,
+        value: ['automationMailId' => $automationMail->id, 'link' => 'https://spatie.be'],
     );
 
     assertTrue($query->pluck('id')->contains($subscriberA->id));
@@ -40,7 +40,7 @@ it('can compare with an equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Equals,
-        value: 'https://unknown.com',
+        value: ['automationMailId' => $automationMail->id, 'link' => 'https://unknown.be'],
     );
 
     assertTrue($query->pluck('id')->doesntContain($subscriberA->id));
@@ -64,7 +64,7 @@ it('can compare with an non equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::NotEquals,
-        value: $automationMail->contentItem->links()->first()->url,
+        value: ['automationMailId' => $automationMail->id, 'link' => 'https://spatie.be'],
     );
 
     assertTrue($query->pluck('id')->doesntContain($subscriberA->id));
@@ -73,7 +73,7 @@ it('can compare with an non equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::NotEquals,
-        value: 'https://unknown.com',
+        value: ['automationMailId' => $automationMail->id, 'link' => 'https://unknown.be'],
     );
 
     assertTrue($query->pluck('id')->contains($subscriberA->id));
@@ -97,7 +97,7 @@ it('can compare with an any operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Any,
-        value: null,
+        value: ['automationMailId' => $automationMail->id],
     );
 
     assertTrue($query->pluck('id')->contains($subscriberA->id));
@@ -106,7 +106,7 @@ it('can compare with an any operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Any,
-        value: null,
+        value: ['automationMailId' => $automationMail->id],
     );
 
     assertTrue($query->pluck('id')->contains($subscriberA->id));
@@ -130,7 +130,7 @@ it('can compare with a none operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::None,
-        value: null,
+        value: ['automationMailId' => $automationMail->id],
     );
 
     assertTrue($query->pluck('id')->doesntContain($subscriberA->id));
@@ -139,7 +139,7 @@ it('can compare with a none operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::None,
-        value: null,
+        value: ['automationMailId' => $automationMail->id],
     );
 
     assertTrue($query->pluck('id')->doesntContain($subscriberA->id));
@@ -152,6 +152,6 @@ it('cannot use a non supported operator', function () {
     $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::In,
-        value: 'niels',
+        value: ['automationMailId' => 1, 'link' => 'niels'],
     );
 })->throws('Operator `in` is not allowed for condition `Subscriber Clicked Automation Mail Link`.');

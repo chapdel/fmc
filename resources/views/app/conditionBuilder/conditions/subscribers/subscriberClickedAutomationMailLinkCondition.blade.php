@@ -6,7 +6,7 @@
                 name="automationMail-{{ $index }}"
                 :options="$automationMails"
                 :sort="false"
-                wire:model="storedCondition.value.automation_mail_id"
+                wire:model="storedCondition.value.automationMailId"
                 required
             />
         </div>
@@ -26,7 +26,7 @@
                     :label="__mc('Value')"
                     name="value-{{ $index }}"
                     :options="$options"
-                    wire:model="storedCondition.value"
+                    wire:model="storedCondition.value.link"
                     required
                 />
             </div>
