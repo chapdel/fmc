@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\ConditionBuilder\Data;
 
-readonly class SubscriberClickedCampaignLinkQueryConditionData
+class SubscriberClickedCampaignLinkQueryConditionData extends ConditionData
 {
     protected function __construct(
         public int $campaignId,
@@ -10,12 +10,12 @@ readonly class SubscriberClickedCampaignLinkQueryConditionData
     ) {
     }
 
-    public static function make(int $campaignId, string $link = null): self
+    public static function make(int $campaignId, string $link = null): static
     {
         return new self($campaignId, $link);
     }
 
-    public static function fromArray(array $data): self
+    public static function fromArray(array $data): static
     {
         return new self($data['campaignId'], $data['link'] ?? null);
     }

@@ -42,11 +42,9 @@ class SubscriberClickedAutomationMailLinkQueryCondition extends QueryCondition
     {
         $this->ensureOperatorIsSupported($operator);
 
-        if (! is_array($value)) {
+        if (! $value instanceof SubscriberClickedAutomationMailLinkQueryConditionData) {
             throw ConditionException::unsupportedValue($value);
         }
-
-        $value = SubscriberClickedAutomationMailLinkQueryConditionData::fromArray($value);
 
         $automationMailClass = self::getAutomationMailClass();
         $automationMailMorphClass = (new $automationMailClass)->getMorphClass();
@@ -94,5 +92,10 @@ class SubscriberClickedAutomationMailLinkQueryCondition extends QueryCondition
                         ->where('model_type', $automationMailMorphClass);
                 });
             });
+    }
+
+    public function dto(): string
+    {
+        return SubscriberClickedAutomationMailLinkQueryConditionData::class;
     }
 }

@@ -40,11 +40,9 @@ class SubscriberClickedCampaignLinkQueryCondition extends QueryCondition
 
     public function apply(Builder $baseQuery, ComparisonOperator $operator, mixed $value): Builder
     {
-        if (! is_array($value)) {
+        if (! $value instanceof SubscriberClickedCampaignLinkQueryConditionData) {
             throw ConditionException::unsupportedValue($value);
         }
-
-        $value = SubscriberClickedCampaignLinkQueryConditionData::fromArray($value);
 
         $this->ensureOperatorIsSupported($operator);
 
@@ -94,5 +92,10 @@ class SubscriberClickedCampaignLinkQueryCondition extends QueryCondition
                         ->where('model_type', $campaignMorphClass);
                 });
             });
+    }
+
+    public function dto(): string
+    {
+        return SubscriberClickedCampaignLinkQueryConditionData::class;
     }
 }

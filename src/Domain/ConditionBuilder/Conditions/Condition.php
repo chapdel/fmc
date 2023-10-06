@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\ConditionBuilder\Conditions;
 
+use Spatie\Mailcoach\Domain\ConditionBuilder\Data\ConditionData;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Enums\ComparisonOperator;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Enums\ConditionCategory;
 
@@ -20,4 +21,7 @@ interface Condition
 
     /** @return array{key: string, label: string, input_type: string, comparison_operators: array} */
     public function toArray(): array;
+
+    /** @return class-string<ConditionData> */
+    public function dto(): string;
 }
