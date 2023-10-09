@@ -1,5 +1,13 @@
 <div class="form-grid">
     <style>
+        /* Override the styles set by Filament for EasyMDE */
+        .EasyMDEContainer .editor-toolbar button:before {
+            -webkit-mask-image: none !important;
+            mask-image: none !important;
+            display: none;
+            content: '';
+        }
+
         .cm-s-easymde .cm-header-1 {
             font-size: 1.875rem
         }
