@@ -100,7 +100,7 @@ class Mailcoach
                 "{$url}/@vite/client");
         } else {
             $scripts[] = <<<HTML
-                <script src="{$fullAssetPath}" data-navigate-once defer data-navigate-track></script>
+                <script type="module" src="{$fullAssetPath}" data-navigate-once defer data-navigate-track></script>
             HTML;
         }
 

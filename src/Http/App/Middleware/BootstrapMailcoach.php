@@ -7,8 +7,10 @@ use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentColor;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Vite;
 use Spatie\Mailcoach\Domain\Shared\Events\ServingMailcoach;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Mailcoach;
 
 class BootstrapMailcoach
 {
@@ -43,6 +45,16 @@ class BootstrapMailcoach
         });
 
         ServingMailcoach::dispatch();
+
+        foreach ([config('mailcoach.content_editor'), config('mailcoach.template_editor')] as $usedEditor) {
+            match ($usedEditor) {
+                \Spatie\Mailcoach\Domain\Editor\Unlayer\Editor::class => $this->bootUnlayer(),
+                \Spatie\Mailcoach\Domain\Editor\Codemirror\Editor::class => $this->bootCodemirror(),
+                \Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class => $this->bootEditorJs(),
+                \Spatie\Mailcoach\Domain\Editor\Markdown\Editor::class => $this->bootMarkdown(),
+                default => null,
+            };
+        }
 
         return $next($request);
     }
@@ -90,5 +102,36 @@ class BootstrapMailcoach
         // Transactional
         Route::model('transactionalMail', self::getTransactionalMailLogItemClass());
         Route::model('transactionalMailTemplate', self::getTransactionalMailClass());
+    }
+
+    protected function bootCodemirror(): void
+    {
+        Mailcoach::editorScript(\Spatie\Mailcoach\Domain\Editor\Codemirror\Editor::class, Vite::asset('resources/js/editors/codemirror/codemirror.js', 'vendor/mailcoach'));
+    }
+
+    protected function bootEditorJs(): void
+    {
+        Mailcoach::editorScript(\Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest');
+        Mailcoach::editorScript(\Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/header@latest');
+        Mailcoach::editorScript(\Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/list@latest');
+        Mailcoach::editorScript(\Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/image@latest');
+        Mailcoach::editorScript(\Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/quote@latest');
+        Mailcoach::editorScript(\Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest');
+        Mailcoach::editorScript(\Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/raw@latest');
+        Mailcoach::editorScript(\Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/table@latest');
+        Mailcoach::editorScript(\Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/code@latest');
+        Mailcoach::editorScript(\Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest');
+        Mailcoach::editorScript(\Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/editorjs-button@1.0.4');
+    }
+
+    protected function bootMarkdown(): void
+    {
+        Mailcoach::editorScript(\Spatie\Mailcoach\Domain\Editor\Markdown\Editor::class, Vite::asset('resources/js/editors/markdown/markdown.js', 'vendor/mailcoach'));
+        Mailcoach::editorStyle(\Spatie\Mailcoach\Domain\Editor\Markdown\Editor::class, 'https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css');
+    }
+
+    protected function bootUnlayer(): void
+    {
+        Mailcoach::editorScript(\Spatie\Mailcoach\Domain\Editor\Unlayer\Editor::class, 'https://editor.unlayer.com/embed.js');
     }
 }

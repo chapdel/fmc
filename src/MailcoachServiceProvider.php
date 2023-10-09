@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
-use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use LivewireUI\Spotlight\Spotlight;
@@ -234,19 +233,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ]);
     }
 
-    public function bootingPackage(): void
-    {
-        foreach ([config('mailcoach.content_editor'), config('mailcoach.template_editor')] as $usedEditor) {
-            match ($usedEditor) {
-                \Spatie\Mailcoach\Domain\Editor\Unlayer\Editor::class => $this->bootUnlayer(),
-                \Spatie\Mailcoach\Domain\Editor\Codemirror\Editor::class => $this->bootCodemirror(),
-                \Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class => $this->bootEditorJs(),
-                \Spatie\Mailcoach\Domain\Editor\Markdown\Editor::class => $this->bootMarkdown(),
-                default => null,
-            };
-        }
-    }
-
     public function packageRegistered(): void
     {
         $this->app->singleton(Version::class, fn () => new Version());
@@ -421,37 +407,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         $this->bootLivewireComponents();
 
         return $this;
-    }
-
-    protected function bootCodemirror(): void
-    {
-        Mailcoach::editorScript(Domain\Editor\Codemirror\Editor::class, Vite::asset('resources/js/editors/codemirror/codemirror.js', 'vendor/mailcoach'));
-    }
-
-    protected function bootEditorJs(): void
-    {
-        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/editorjs@latest');
-        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/header@latest');
-        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/list@latest');
-        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/image@latest');
-        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/quote@latest');
-        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/delimiter@latest');
-        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/raw@latest');
-        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/table@latest');
-        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/code@latest');
-        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/@editorjs/inline-code@latest');
-        Mailcoach::editorScript(Domain\Editor\EditorJs\Editor::class, 'https://cdn.jsdelivr.net/npm/editorjs-button@1.0.4');
-    }
-
-    protected function bootMarkdown(): void
-    {
-        Mailcoach::editorScript(Domain\Editor\Markdown\Editor::class, Vite::asset('resources/js/editors/markdown/markdown.js', 'vendor/mailcoach'));
-        Mailcoach::editorStyle(Domain\Editor\Markdown\Editor::class, 'https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css');
-    }
-
-    protected function bootUnlayer(): void
-    {
-        Mailcoach::editorScript(Domain\Editor\Unlayer\Editor::class, 'https://editor.unlayer.com/embed.js');
     }
 
     protected function bootMailgun(): static
