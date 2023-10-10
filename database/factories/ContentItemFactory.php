@@ -21,8 +21,8 @@ class ContentItemFactory extends Factory
     public function definition(): array
     {
         return [
-            //'model_type' => (new Campaign())->getMorphClass(),
-            //'model_id' => Campaign::factory()->recycle($this),
+            'model_type' => (new Campaign())->getMorphClass(),
+            'model_id' => Campaign::factory()->recycle($this),
             'subject' => $this->faker->sentence,
             'from_email' => $this->faker->email,
             'from_name' => $this->faker->name,

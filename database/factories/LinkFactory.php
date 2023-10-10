@@ -13,7 +13,7 @@ class LinkFactory extends Factory
     public function definition(): array
     {
         return [
-            //'content_item_id' => ContentItem::factory(),
+            'content_item_id' => ContentItem::factory(),
             'url' => $this->faker->url,
         ];
     }
