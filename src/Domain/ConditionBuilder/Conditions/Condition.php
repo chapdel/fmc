@@ -22,6 +22,6 @@ interface Condition
     /** @return array{key: string, label: string, input_type: string, comparison_operators: array} */
     public function toArray(): array;
 
-    /** @return class-string<ConditionData> */
-    public function dto(): string;
+    /** @return class-string<ConditionData>|null */
+    public function dto(): ?string;
 }

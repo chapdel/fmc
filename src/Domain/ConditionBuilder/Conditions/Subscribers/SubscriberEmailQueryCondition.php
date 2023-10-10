@@ -44,4 +44,9 @@ class SubscriberEmailQueryCondition extends QueryCondition
 
         return $baseQuery->where('email', 'like', "{$value}%");
     }
+
+    public function dto(): ?string
+    {
+        return null;
+    }
 }
