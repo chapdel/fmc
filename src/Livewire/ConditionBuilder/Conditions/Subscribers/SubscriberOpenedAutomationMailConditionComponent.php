@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers;
 
+use Spatie\Mailcoach\Domain\Content\Models\Open;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Livewire\ConditionBuilder\ConditionComponent;
 
@@ -24,7 +25,7 @@ class SubscriberOpenedAutomationMailConditionComponent extends ConditionComponen
                 $query->where('model_type', self::getAutomationMailTableName());
             })
             ->get()
-            ->mapWithKeys(function ($open) {
+            ->mapWithKeys(function (Open $open) {
                 return [$open->contentItem->model->id => $open->contentItem->model->name];
             })->toArray();
     }
