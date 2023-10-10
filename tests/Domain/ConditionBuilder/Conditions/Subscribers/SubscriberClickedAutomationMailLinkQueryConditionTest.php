@@ -32,7 +32,7 @@ it('can compare with an equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Equals,
-        value: ['automationMailId' => $automationMail->id, 'link' => 'https://spatie.be'],
+        value: SubscriberClickedAutomationMailLinkQueryConditionData::make($automationMail->id, 'https://spatie.be'),
     );
 
     assertTrue($query->pluck('id')->contains($subscriberA->id));
@@ -41,7 +41,7 @@ it('can compare with an equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Equals,
-        value: ['automationMailId' => $automationMail->id, 'link' => 'https://unknown.be'],
+        value: SubscriberClickedAutomationMailLinkQueryConditionData::make($automationMail->id, 'https://unknown.be'),
     );
 
     assertTrue($query->pluck('id')->doesntContain($subscriberA->id));
