@@ -59,7 +59,7 @@ it('can compare with an non equals to operator', function () {
         ->state(['name' => 'campaign name'])
         ->create();
 
-    Open::factory()->create([
+    $open = Open::factory()->create([
         'content_item_id' => $campaign->contentItem->id,
         'subscriber_id' => $subscriberA->id,
     ]);

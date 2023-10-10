@@ -64,7 +64,7 @@ class SubscriberOpenedCampaignQueryCondition extends QueryCondition
             return $baseQuery
                 ->whereHas('opens.contentItem', function (Builder $query) use ($value, $campaignMorphClass) {
                     $query
-                        ->where('model_id', $value)
+                        ->where('model_id', '!=', $value)
                         ->where('model_type', $campaignMorphClass);
                 })->orWhereDoesntHave('opens.contentItem', function (Builder $query) use ($value, $campaignMorphClass) {
                     $query

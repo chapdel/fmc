@@ -64,7 +64,7 @@ class SubscriberOpenedAutomationMailQueryCondition extends QueryCondition
             return $baseQuery
                 ->whereHas('opens.contentItem', function (Builder $query) use ($automationMailMorphClass, $value) {
                     $query
-                        ->where('model_id', $value)
+                        ->where('model_id', '!=', $value)
                         ->where('model_type', $automationMailMorphClass);
                 })->orWhereDoesntHave('opens.contentItem', function (Builder $query) use ($value, $automationMailMorphClass) {
                     $query
