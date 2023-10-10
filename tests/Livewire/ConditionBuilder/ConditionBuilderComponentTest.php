@@ -21,7 +21,6 @@ it('can initialize an empty condition', function () {
                         'equals' => 'Equals To',
                         'not-equals' => 'Not Equals To',
                     ],
-                    'data' => [],
                 ],
                 'comparison_operator' => null,
                 'value' => [],

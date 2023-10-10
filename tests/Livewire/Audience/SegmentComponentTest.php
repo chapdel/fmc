@@ -39,7 +39,6 @@ it('can store the stored conditions', function () {
                     'equals' => 'Equals To',
                     'not-equals' => 'Not Equals To',
                 ],
-                'data' => [],
             ],
             'comparison_operator' => 'any',
             'value' => [

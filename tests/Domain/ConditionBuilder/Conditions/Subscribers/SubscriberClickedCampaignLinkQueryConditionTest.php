@@ -4,6 +4,7 @@ use Spatie\Mailcoach\Database\Factories\CampaignFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Subscribers\SubscriberClickedCampaignLinkQueryCondition;
+use Spatie\Mailcoach\Domain\ConditionBuilder\Data\SubscriberClickedCampaignLinkQueryConditionData;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Enums\ComparisonOperator;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 
@@ -33,7 +34,7 @@ it('can compare with an equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Equals,
-        value: ['campaignId' => $campaign->id, 'link' => 'https://spatie.be'],
+        value: SubscriberClickedCampaignLinkQueryConditionData::make($campaign->id, 'https://spatie.be'),
     );
 
     assertTrue($query->pluck('id')->contains($subscriberA->id));
@@ -42,7 +43,7 @@ it('can compare with an equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Equals,
-        value: ['campaignId' => $campaign->id, 'link' => 'https://unknown.be'],
+        value: SubscriberClickedCampaignLinkQueryConditionData::make($campaign->id, 'https://unknown.be'),
     );
 
     assertTrue($query->pluck('id')->doesntContain($subscriberA->id));
@@ -66,7 +67,7 @@ it('can compare with an non equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::NotEquals,
-        value: ['campaignId' => $campaign->id, 'link' => 'https://spatie.be'],
+        value: SubscriberClickedCampaignLinkQueryConditionData::make($campaign->id, 'https://spatie.be'),
     );
 
     assertTrue($query->pluck('id')->doesntContain($subscriberA->id));
@@ -75,7 +76,7 @@ it('can compare with an non equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::NotEquals,
-        value: ['campaignId' => $campaign->id, 'link' => 'https://unknown.be'],
+        value: SubscriberClickedCampaignLinkQueryConditionData::make($campaign->id, 'https://unknown.be'),
     );
 
     assertTrue($query->pluck('id')->contains($subscriberA->id));
@@ -99,7 +100,7 @@ it('can compare with an any operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Any,
-        value: ['campaignId' => $campaign->id],
+        value: SubscriberClickedCampaignLinkQueryConditionData::make($campaign->id),
     );
 
     assertTrue($query->pluck('id')->contains($subscriberA->id));
@@ -108,7 +109,7 @@ it('can compare with an any operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Any,
-        value: ['campaignId' => $campaign->id],
+        value: SubscriberClickedCampaignLinkQueryConditionData::make($campaign->id),
     );
 
     assertTrue($query->pluck('id')->contains($subscriberA->id));
@@ -132,7 +133,7 @@ it('can compare with a none operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::None,
-        value: ['campaignId' => $campaign->id],
+        value: SubscriberClickedCampaignLinkQueryConditionData::make($campaign->id),
     );
 
     assertTrue($query->pluck('id')->doesntContain($subscriberA->id));
@@ -141,7 +142,7 @@ it('can compare with a none operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::None,
-        value: ['campaignId' => $campaign->id],
+        value: SubscriberClickedCampaignLinkQueryConditionData::make($campaign->id),
     );
 
     assertTrue($query->pluck('id')->doesntContain($subscriberA->id));
@@ -154,6 +155,6 @@ it('cannot use a non supported operator', function () {
     $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::In,
-        value: ['campaignId' => 1, 'link' => 'https://spatie.be'],
+        value: SubscriberClickedCampaignLinkQueryConditionData::make(1, 'https://spatie.be')
     );
 })->throws('Operator `in` is not allowed for condition `Subscriber Clicked Campaign Link`.');
