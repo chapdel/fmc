@@ -22,8 +22,8 @@ class ConditionCollection extends Collection
             SubscriberEmailQueryCondition::class,
             SubscriberOpenedAutomationMailQueryCondition::class,
             SubscriberOpenedCampaignQueryCondition::class,
-            /**SubscriberSubscribedAtQueryCondition::class,
-            SubscriberTagsQueryCondition::class,*/
+            SubscriberSubscribedAtQueryCondition::class,
+            SubscriberTagsQueryCondition::class,
         ]);
     }
 
