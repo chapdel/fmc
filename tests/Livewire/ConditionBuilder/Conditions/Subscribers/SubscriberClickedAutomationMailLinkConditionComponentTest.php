@@ -4,7 +4,6 @@ namespace Spatie\Mailcoach\Tests\Livewire\ConditionBuilder\Conditions\Subscriber
 
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Subscribers\SubscriberClickedCampaignLinkQueryCondition;
 use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Content\Models\Link;
 use Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberClickedAutomationMailLinkConditionComponent;
@@ -33,25 +32,3 @@ it('can add a condition', function () {
         ->set('storedCondition', emptyStoredCondition(comparison: 'any'))
         ->assertHasNoErrors();
 });
-
-function emptyStoredCondition(string $comparison = null, mixed $value = null): array
-{
-    return [
-        'condition' => [
-            'key' => SubscriberClickedCampaignLinkQueryCondition::KEY,
-            'label' => 'Subscriber Clicked Automation Mail Link',
-            'comparison_operators' => [
-                'any' => 'Clicked Any Link',
-                'none' => 'Did Not Click Any Link',
-                'equals' => 'Clicked A Specific Link',
-                'not-equals' => 'Did Not Click A Specific Link',
-            ],
-            'data' => [
-                'campaignId' => null,
-                'url' => null,
-            ],
-        ],
-        'comparison_operator' => $comparison,
-        'value' => $value,
-    ];
-}
