@@ -18,13 +18,11 @@ class SubscriberOpenedAutomationMailConditionComponent extends ConditionComponen
         $this->changeLabels();
 
         $this->options = self::getCampaignClass()::query()
-            ->whereHas('opens', function ($query) {
+            ->whereHas('contentItem.opens', function ($query) {
                 $query->where('subscriber_id', auth()->user()->id);
             })
-            ->pluck('name')
-            ->mapWithKeys(function (string $name) {
-                return [$name => $name];
-            })->toArray();
+            ->pluck('name', 'id')
+            ->toArray();
     }
 
     public function changeLabels(): void

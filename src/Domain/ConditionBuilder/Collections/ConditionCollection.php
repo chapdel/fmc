@@ -20,9 +20,9 @@ class ConditionCollection extends Collection
             //SubscriberAttributesQueryCondition::class,
             SubscriberClickedAutomationMailLinkQueryCondition::class,
             SubscriberClickedCampaignLinkQueryCondition::class,
-            /**SubscriberEmailQueryCondition::class,
+            SubscriberEmailQueryCondition::class,
             SubscriberOpenedAutomationMailQueryCondition::class,
-            SubscriberOpenedCampaignQueryCondition::class,
+            /**SubscriberOpenedCampaignQueryCondition::class,
             SubscriberSubscribedAtQueryCondition::class,
             SubscriberTagsQueryCondition::class,*/
         ]);
