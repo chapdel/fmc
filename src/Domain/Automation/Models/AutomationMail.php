@@ -17,7 +17,7 @@ class AutomationMail extends Sendable
         'add_subscriber_link_tags' => 'boolean',
     ];
 
-    public static function booted()
+    public static function booted(): void
     {
         static::created(function (AutomationMail $automationMail) {
             if (! $automationMail->contentItem) {

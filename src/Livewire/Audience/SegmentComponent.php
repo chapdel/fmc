@@ -29,7 +29,7 @@ class SegmentComponent extends Component
         'storedConditionsUpdated' => 'updateStoredConditions',
     ];
 
-    protected $queryString = [
+    protected array $queryString = [
         'tab' => ['except' => 'details'],
     ];
 

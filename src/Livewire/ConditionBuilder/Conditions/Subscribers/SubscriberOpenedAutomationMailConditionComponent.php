@@ -17,12 +17,16 @@ class SubscriberOpenedAutomationMailConditionComponent extends ConditionComponen
 
         $this->changeLabels();
 
-        $this->options = self::getCampaignClass()::query()
-            ->whereHas('contentItem.opens', function ($query) {
-                $query->where('subscriber_id', auth()->user()->id);
+        // @todo show all automation mails, linked to the email list
+        $this->options = self::getOpenClass()::query()
+            ->with('contentItem.model')
+            ->whereHas('contentItem', function ($query) {
+                $query->where('model_type', self::getAutomationMailTableName());
             })
-            ->pluck('name', 'id')
-            ->toArray();
+            ->get()
+            ->mapWithKeys(function ($open) {
+                return [$open->contentItem->model->id => $open->contentItem->model->name];
+            })->toArray();
     }
 
     public function changeLabels(): void
