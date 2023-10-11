@@ -4,7 +4,8 @@ namespace Spatie\Mailcoach\Http\Api\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class CampaignBounceResource extends JsonResource
+/** @mixin \Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem */
+class BounceResource extends JsonResource
 {
     public function toArray($request): array
     {

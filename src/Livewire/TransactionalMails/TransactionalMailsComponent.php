@@ -22,12 +22,12 @@ class TransactionalMailsComponent extends TableComponent
 
     protected function getTableQuery(): Builder
     {
-        return self::getTransactionalMailClass()::query();
+        return TransactionalMail::query();
     }
 
     protected function getDefaultTableSortColumn(): ?string
     {
-        return 'contentItem.subject';
+        return 'name';
     }
 
     protected function getTableColumns(): array
@@ -39,7 +39,6 @@ class TransactionalMailsComponent extends TableComponent
                 ->extraAttributes(['class' => 'link'])
                 ->searchable(),
             TextColumn::make('contentItem.subject')
-                ->sortable()
                 ->label(__mc('Subject'))
                 ->searchable(),
             TextColumn::make('to')

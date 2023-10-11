@@ -13,7 +13,7 @@ it('will automatically add html tags', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareEmailHtmlAction::class)->execute($campaign->contentItem);
 
     $campaign->refresh();
 
@@ -28,7 +28,7 @@ it('works with ampersands', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareEmailHtmlAction::class)->execute($campaign->contentItem);
 
     $campaign->refresh();
 
@@ -44,7 +44,7 @@ it('will not double encode ampersands', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareEmailHtmlAction::class)->execute($campaign->contentItem);
 
     $campaign->refresh();
 
@@ -59,7 +59,7 @@ it('will not add html tags if they are already present', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareEmailHtmlAction::class)->execute($campaign->contentItem);
 
     $campaign->refresh();
 
@@ -74,7 +74,7 @@ it('will not add html tags before the doctype', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareEmailHtmlAction::class)->execute($campaign->contentItem);
 
     $campaign->refresh();
 
@@ -89,7 +89,7 @@ it('will not change the doctype', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareEmailHtmlAction::class)->execute($campaign->contentItem);
 
     $campaign->refresh();
 
@@ -107,7 +107,7 @@ it('will add utm tags', function () {
         'utm_tags' => true,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareEmailHtmlAction::class)->execute($campaign->contentItem);
 
     $campaign->refresh();
 
@@ -126,7 +126,7 @@ it('will add utm tags to links that already have query parameters', function () 
         'utm_tags' => true,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareEmailHtmlAction::class)->execute($campaign->contentItem);
 
     $campaign->refresh();
 
@@ -145,7 +145,7 @@ it('will add utm tags to urls with paths correctly', function () {
         'utm_tags' => true,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareEmailHtmlAction::class)->execute($campaign->contentItem);
 
     $campaign->refresh();
 
@@ -164,7 +164,7 @@ it('will add utm tags to urls with paths correctly when the link is added twice'
         'utm_tags' => true,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareEmailHtmlAction::class)->execute($campaign->contentItem);
 
     $campaign->refresh();
 

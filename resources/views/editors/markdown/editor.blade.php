@@ -262,5 +262,4 @@
         <x-mailcoach::replacer-help-texts :model="$model" />
         <a class="link-dimmed" href="https://www.markdownguide.org/basic-syntax/" target="_blank">Markup syntax</a>
     </div>
-    <x-mailcoach::editor-buttons :preview-html="$fullHtml" :model="$model" />
 </div>

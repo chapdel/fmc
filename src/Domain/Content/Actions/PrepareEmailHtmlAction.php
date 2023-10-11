@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Content\Actions;
 
-use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 
 class PrepareEmailHtmlAction
 {
@@ -12,10 +12,8 @@ class PrepareEmailHtmlAction
     ) {
     }
 
-    public function execute(Sendable $sendable): void
+    public function execute(ContentItem $contentItem): void
     {
-        $contentItem = $sendable->contentItem;
-
         $contentItem->email_html = $contentItem->htmlWithInlinedCss();
 
         if (empty($contentItem->email_html)) {
@@ -25,7 +23,7 @@ class PrepareEmailHtmlAction
         }
 
         if ($contentItem->utm_tags) {
-            $contentItem->email_html = $this->addUtmTagsToHtmlAction->execute($contentItem->email_html, $sendable->name ?? '');
+            $contentItem->email_html = $this->addUtmTagsToHtmlAction->execute($contentItem->email_html, $contentItem->getModel()->name ?? '');
         }
 
         $contentItem->email_html = mb_convert_encoding($contentItem->email_html, 'UTF-8');

@@ -61,7 +61,7 @@ test('campaign name should replaced in email html', function () {
         'content_item_id' => $campaign->contentItem->id,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareEmailHtmlAction::class)->execute($campaign->contentItem);
     $result = app(PersonalizeTextAction::class)->execute($campaign->contentItem->email_html, $send);
     test()->assertMatchesHtmlSnapshot($result);
 });
@@ -79,7 +79,7 @@ test('campaign name should replaced in email html with twig', function () {
         'content_item_id' => $campaign->contentItem->id,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareEmailHtmlAction::class)->execute($campaign->contentItem);
     $result = app(PersonalizeTextAction::class)->execute($campaign->contentItem->email_html, $send);
     test()->assertMatchesHtmlSnapshot($result);
 });
@@ -97,7 +97,7 @@ test('campaign name should replace in url encoded html', function () {
         'content_item_id' => $campaign->contentItem->id,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareEmailHtmlAction::class)->execute($campaign->contentItem);
     $result = app(PersonalizeTextAction::class)->execute($campaign->contentItem->email_html, $send);
     $campaign->refresh();
     test()->assertMatchesHtmlSnapshot($result);
@@ -113,7 +113,7 @@ test('campaign name should replace in raw url encoded html with twig', function 
         'content_item_id' => $campaign->contentItem->id,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareEmailHtmlAction::class)->execute($campaign->contentItem);
 
     $result = app(PersonalizeTextAction::class)->execute($campaign->contentItem->email_html, $send);
     $this->assertStringContainsString('test1234', $result);
@@ -129,7 +129,7 @@ test('campaign name should replace in url encoded html with twig', function () {
         'content_item_id' => $campaign->contentItem->id,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($campaign);
+    app(PrepareEmailHtmlAction::class)->execute($campaign->contentItem);
 
     $result = app(PersonalizeTextAction::class)->execute($campaign->contentItem->email_html, $send);
     $this->assertStringContainsString('test1234', $result);

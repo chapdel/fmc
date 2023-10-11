@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\Mailcoach\Domain\Content\Models\Open;
 
 /** @mixin Open */
-class CampaignOpenResource extends JsonResource
+class OpenResource extends JsonResource
 {
     public function toArray($request)
     {

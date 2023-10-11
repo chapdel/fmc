@@ -23,9 +23,12 @@ it('will recalculate statistics at the right time', function (
     $campaign = CampaignFactory::new()->create([
         'status' => CampaignStatus::Sent,
         'sent_at' => $sentAt,
+        'statistics_calculated_at' => $statisticsCalculatedAt,
+    ]);
+
+    $campaign->contentItem->update([
         'all_sends_dispatched_at' => $sentAt,
         'all_sends_created_at' => $sentAt,
-        'statistics_calculated_at' => $statisticsCalculatedAt,
     ]);
 
     Send::factory()->create(['content_item_id' => $campaign->contentItem->id]);

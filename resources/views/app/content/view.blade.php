@@ -10,15 +10,21 @@
         </ul>
     </nav>
 
-    <x-mailcoach::card>
-        <x-mailcoach::text-field :label="__mc('Subject')" name="subject" :value="$campaign->subject" :disabled="true" />
-    </x-mailcoach::card>
+    <div class="grid gap-6 grid-cols-{{ $model->contentItems->count() > 1 ? '2' : '1' }}">
+        @foreach ($model->contentItems as $contentItem)
+            <div class="flex flex-col gap-y-4">
+                <x-mailcoach::card>
+                    <x-mailcoach::text-field :label="__mc('Subject')" name="subject" :value="$contentItem->subject" :disabled="true" />
+                </x-mailcoach::card>
 
-    <x-mailcoach::card x-show="show === 'content'">
-        <x-mailcoach::web-view src="{{ $campaign->webviewUrl() }}"/>
-    </x-mailcoach::card>
+                <x-mailcoach::card x-show="show === 'content'">
+                    <x-mailcoach::web-view src="{{ $model->webviewUrl() }}"/>
+                </x-mailcoach::card>
 
-    <x-mailcoach::card x-show="show === 'html'">
-        <x-mailcoach::html-field :label="__mc('Body (HTML)')" name="html" :value="$campaign->webview_html ?? $campaign->html" :disabled="! $campaign->isEditable()" />
-    </x-mailcoach::card>
+                <x-mailcoach::card x-show="show === 'html'">
+                    <x-mailcoach::html-field :label="__mc('Body (HTML)')" name="html" :value="$contentItem->webview_html ?? $contentItem->html" :disabled="! $model->isEditable()" />
+                </x-mailcoach::card>
+            </div>
+        @endforeach
+    </div>
 </div>

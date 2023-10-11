@@ -4,7 +4,11 @@
     'class' => '',
 ])
 
-<div @if($buttons) id="card-buttons-{{ $id }}" @endif class="{{ $buttons? 'card-buttons' : 'card form-grid' }} {{ $class }}" {{ $attributes->except('class') }}>
+<div
+    @if($buttons) id="card-buttons-{{ $id }}" @endif
+    class="{{ $buttons? 'card-buttons' : 'card form-grid' }} {{ $class }}"
+    {{ $attributes->except('class') }}
+>
     {{ $slot }}
 </div>
 

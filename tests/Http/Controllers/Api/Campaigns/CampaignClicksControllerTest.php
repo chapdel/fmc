@@ -27,9 +27,11 @@ it('can get the clicks of a campaign', function () {
         ->assertJsonCount(1, 'data')
         ->assertJsonStructure(['data' => [
             [
+                'uuid',
                 'url',
                 'unique_click_count',
                 'click_count',
+                'clicks',
             ],
         ]]);
 });

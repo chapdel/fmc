@@ -2,7 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Content\Actions;
 
-use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 
 class PrepareWebviewHtmlAction
 {
@@ -12,19 +13,19 @@ class PrepareWebviewHtmlAction
     ) {
     }
 
-    public function execute(Sendable $sendable): void
+    public function execute(ContentItem $contentItem): void
     {
-        if ($sendable->disable_webview) {
-            $sendable->contentItem->webview_html = null;
-            $sendable->contentItem->save();
+        $model = $contentItem->getModel();
+
+        if ($model instanceof Campaign && $model->disable_webview) {
+            $contentItem->webview_html = null;
+            $contentItem->save();
 
             return;
         }
 
-        $contentItem = $sendable->contentItem;
-
         $contentItem->webview_html = $contentItem->htmlWithInlinedCss();
-        $contentItem->webview_html = $this->replacePlaceholdersAction->execute($contentItem->webview_html, $sendable);
+        $contentItem->webview_html = $this->replacePlaceholdersAction->execute($contentItem->webview_html, $model);
 
         if (empty(trim($contentItem->webview_html))) {
             $contentItem->save();
@@ -33,7 +34,7 @@ class PrepareWebviewHtmlAction
         }
 
         if ($contentItem->utm_tags) {
-            $contentItem->webview_html = $this->addUtmTagsToHtmlAction->execute($contentItem->webview_html, $sendable->name);
+            $contentItem->webview_html = $this->addUtmTagsToHtmlAction->execute($contentItem->webview_html, $model->name ?? '');
         }
 
         $webviewHtml = mb_convert_encoding($contentItem->webview_html, 'UTF-8');

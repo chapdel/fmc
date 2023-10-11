@@ -139,10 +139,12 @@ return new class extends Migration
             $table->timestamp('sent_at')->nullable()->index();
             $table->timestamp('scheduled_at')->nullable();
 
-            $table->timestamp('all_sends_created_at')->nullable();
-            $table->timestamp('all_sends_dispatched_at')->nullable();
-
             $table->timestamp('summary_mail_sent_at')->nullable();
+
+            $table->integer('split_test_wait_time_in_minutes')->nullable();
+            $table->integer('split_test_split_size_percentage')->nullable();
+            $table->timestamp('split_test_started_at')->nullable();
+            $table->foreignId('split_test_winning_content_item_id')->nullable();
 
             $table->timestamps();
 
@@ -175,6 +177,9 @@ return new class extends Migration
             $table->boolean('utm_tags')->default(false);
             $table->boolean('add_subscriber_tags')->default(false);
             $table->boolean('add_subscriber_link_tags')->default(false);
+
+            $table->timestamp('all_sends_created_at')->nullable();
+            $table->timestamp('all_sends_dispatched_at')->nullable();
 
             $table->integer('sent_to_number_of_subscribers')->default(0);
             $table->integer('open_count')->default(0);

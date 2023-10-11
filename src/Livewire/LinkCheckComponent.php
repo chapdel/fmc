@@ -57,7 +57,7 @@ class LinkCheckComponent extends Component
         return <<<'blade'
             <span class="flex items-center">
                 <span class="inline-flex w-4 mr-1">
-                    <x-mailcoach::health-label title="{{ $error }}" class="-ml-2" reverse warning :test="$status" />
+                    <x-mailcoach::health-label title="{{ $error }}" reverse warning :test="$status" />
                 </span>
                 <a target="_blank" class="link break-words" href="{{ $strippedUrl }}">{{ $strippedUrl }}</a>
             </span>

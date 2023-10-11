@@ -9,11 +9,10 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Content\Models\Click;
-use Spatie\Mailcoach\Domain\Content\Models\Link;
 
 class LinkClicksComponent extends ContentItemTable
 {
-    public Link $link;
+    public string $linkUuids;
 
     protected function getDefaultTableSortColumn(): ?string
     {
@@ -27,7 +26,9 @@ class LinkClicksComponent extends ContentItemTable
 
     public function getTitle(): string
     {
-        return str_replace(['https://', 'http://'], '', $this->link->url).' '.__mc('clicks');
+        $firstUuid = explode(',', $this->linkUuids)[0];
+
+        return str_replace(['https://', 'http://'], '', self::getLinkClass()::findByUuid($firstUuid)->url).' '.__mc('clicks');
     }
 
     protected function getTableQuery(): Builder
@@ -49,7 +50,7 @@ class LinkClicksComponent extends ContentItemTable
             ->join(static::getLinkTableName(), static::getLinkTableName().'.id', '=', "{$ClickTable}.link_id")
             ->join($subscriberTableName, "{$subscriberTableName}.id", '=', "{$ClickTable}.subscriber_id")
             ->join($emailListTableName, "{$subscriberTableName}.email_list_id", '=', "{$emailListTableName}.id")
-            ->where(static::getLinkTableName().'.id', $this->link->id)
+            ->whereIn(static::getLinkTableName().'.uuid', explode(',', $this->linkUuids))
             ->groupBy("{$prefix}{$subscriberTableName}.uuid", "{$prefix}{$emailListTableName}.uuid", "{$prefix}{$subscriberTableName}.email");
     }
 

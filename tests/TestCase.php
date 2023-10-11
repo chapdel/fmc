@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Livewire\LivewireServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
 use Spatie\Feed\FeedServiceProvider;
 use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
@@ -91,6 +92,7 @@ abstract class TestCase extends Orchestra
             FeedServiceProvider::class,
 
             // Filament
+            BladeCaptureDirectiveServiceProvider::class,
             ActionsServiceProvider::class,
             FormsServiceProvider::class,
             NotificationsServiceProvider::class,

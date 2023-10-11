@@ -13,6 +13,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
 
@@ -56,7 +57,7 @@ class CalculateCampaignStatisticsJob implements ShouldBeUnique, ShouldQueue
                         return;
                     }
 
-                    $campaign->contentItem->dispatchCalculateStatistics();
+                    $campaign->contentItems->each->dispatchCalculateStatistics();
                 });
         });
     }
@@ -75,14 +76,17 @@ class CalculateCampaignStatisticsJob implements ShouldBeUnique, ShouldQueue
             })
             ->orWhere('status', CampaignStatus::Sending)
             ->get()
-            ->filter(function (Campaign $campaign) use ($recalculateThreshold) {
-                if (is_null($campaign->contentItem->statistics_calculated_at)) {
+            ->flatMap(fn (Campaign $campaign) => $campaign->contentItems)
+            ->filter(function (ContentItem $contentItem) use ($recalculateThreshold) {
+                if (is_null($contentItem->statistics_calculated_at)) {
                     return true;
                 }
 
                 $threshold = $this->now->copy()->subtract($recalculateThreshold);
 
-                return $campaign->contentItem->statistics_calculated_at->isBefore($threshold);
-            });
+                return $contentItem->statistics_calculated_at->isBefore($threshold);
+            })
+            ->map(fn (ContentItem $contentItem) => $contentItem->model)
+            ->unique('id');
     }
 }

@@ -10,15 +10,16 @@
     @apply whitespace-nowrap;
     @apply flex;
     @apply items-start;
-    @apply md:justify-end;
-    @apply md:text-right;
 }
 
 .dl dd {
-    @apply pb-6;
-    @apply mb-6;
     @apply grid;
     @apply gap-4;
+}
+
+.dl dd:not(:last-of-type) {
     @apply border-b;
     @apply border-indigo-700/20;
+    @apply mb-6;
+    @apply pb-6;
 }

@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Livewire\Editor;
 use Carbon\CarbonInterface;
 use Illuminate\Support\Arr;
 use Livewire\Attributes\Computed;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Rules\HtmlRule;
 use Spatie\Mailcoach\Domain\Content\Models\Concerns\HasHtmlContent;
@@ -194,9 +195,12 @@ abstract class EditorComponent extends Component
         $this->dispatch('editorSavedQuietly');
     }
 
+    #[On('saveContent')]
     public function save()
     {
         foreach ($this->templateFieldValues as $html) {
+            $html = is_array($html) ? $html['html'] : $html;
+
             if (! $this->isAllowedToSave($html)) {
                 return;
             }
@@ -205,12 +209,8 @@ abstract class EditorComponent extends Component
         $this->saveQuietly();
 
         if (! $this->quiet && ! $this->hasError) {
-            $contentItem = $this->model;
-
-            notify(__mc(':name was updated.', ['name' => $contentItem->getModel()->fresh()->name]));
+            $this->dispatch('editorSaved');
         }
-
-        $this->dispatch('editorSaved');
     }
 
     protected function filterNeededFields(array $fields, ?Template $template): array

@@ -24,6 +24,12 @@ class CampaignDeliveryComponent extends Component
 
     public bool $readyToLoad = false;
 
+    public int $split_test_wait_time_in_minutes;
+
+    public int $split_test_split_size_percentage;
+
+    public int $split_length;
+
     protected $listeners = [
         'send-campaign' => 'send',
     ];
@@ -35,11 +41,19 @@ class CampaignDeliveryComponent extends Component
         ];
     }
 
-    public function mount(Campaign $campaign): void
+    public function mount(Campaign $campaign)
     {
         $this->authorize('send', $this->campaign);
 
+        if (! $campaign->isEditable()) {
+            return $this->redirect(route('mailcoach.campaigns.summary', $this->campaign));
+        }
+
         $this->campaign = $campaign;
+        $this->split_test_wait_time_in_minutes = $this->campaign->split_test_wait_time_in_minutes ?? 240;
+        $this->split_test_split_size_percentage = $this->campaign->split_test_split_size_percentage ?? 30;
+
+        $this->split_length = $this->split_test_wait_time_in_minutes / 60;
 
         $this->scheduled_at_date = $campaign->scheduled_at ?? now()->setTimezone(config('mailcoach.timezone') ?? config('app.timezone'))->addHour()->startOfHour();
 
@@ -55,6 +69,21 @@ class CampaignDeliveryComponent extends Component
     public function updatedScheduledAt()
     {
         $this->scheduled_at_date = (new DateTimeFieldRule())->parseDateTime($this->scheduled_at);
+    }
+
+    public function saveSplitTestSettings(): void
+    {
+        $this->validate([
+            'split_length' => ['integer', 'min:1'],
+            'split_test_split_size_percentage' => ['integer', 'min:1'],
+        ]);
+
+        $this->campaign->update([
+            'split_test_split_size_percentage' => $this->split_test_split_size_percentage,
+            'split_test_wait_time_in_minutes' => $this->split_length * 60,
+        ]);
+
+        notify(__mc('Split test settings updated.'));
     }
 
     public function unschedule()

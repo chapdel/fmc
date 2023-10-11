@@ -192,74 +192,24 @@ parameters:
 			path: src/Http/Api/Requests/TagSegmentRequest.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignBounceResource\\:\\:\\$bounce_count\\.$#"
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\BounceResource\\:\\:\\$bounce_count\\.$#"
 			count: 1
-			path: src/Http/Api/Resources/CampaignBounceResource.php
+			path: src/Http/Api/Resources/BounceResource.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignBounceResource\\:\\:\\$created_at\\.$#"
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\BounceResource\\:\\:\\$subscriber_email\\.$#"
 			count: 1
-			path: src/Http/Api/Resources/CampaignBounceResource.php
+			path: src/Http/Api/Resources/BounceResource.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignBounceResource\\:\\:\\$subscriber_email\\.$#"
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\BounceResource\\:\\:\\$subscriber_email_list_uuid\\.$#"
 			count: 1
-			path: src/Http/Api/Resources/CampaignBounceResource.php
+			path: src/Http/Api/Resources/BounceResource.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignBounceResource\\:\\:\\$subscriber_email_list_uuid\\.$#"
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\BounceResource\\:\\:\\$subscriber_uuid\\.$#"
 			count: 1
-			path: src/Http/Api/Resources/CampaignBounceResource.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignBounceResource\\:\\:\\$subscriber_uuid\\.$#"
-			count: 1
-			path: src/Http/Api/Resources/CampaignBounceResource.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignBounceResource\\:\\:\\$type\\.$#"
-			count: 1
-			path: src/Http/Api/Resources/CampaignBounceResource.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignClickResource\\:\\:\\$click_count\\.$#"
-			count: 1
-			path: src/Http/Api/Resources/CampaignClickResource.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignClickResource\\:\\:\\$unique_click_count\\.$#"
-			count: 1
-			path: src/Http/Api/Resources/CampaignClickResource.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignClickResource\\:\\:\\$url\\.$#"
-			count: 1
-			path: src/Http/Api/Resources/CampaignClickResource.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignOpenResource\\:\\:\\$first_opened_at\\.$#"
-			count: 1
-			path: src/Http/Api/Resources/CampaignOpenResource.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignOpenResource\\:\\:\\$open_count\\.$#"
-			count: 1
-			path: src/Http/Api/Resources/CampaignOpenResource.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignOpenResource\\:\\:\\$subscriber_email\\.$#"
-			count: 1
-			path: src/Http/Api/Resources/CampaignOpenResource.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignOpenResource\\:\\:\\$subscriber_email_list_uuid\\.$#"
-			count: 1
-			path: src/Http/Api/Resources/CampaignOpenResource.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\CampaignOpenResource\\:\\:\\$subscriber_uuid\\.$#"
-			count: 1
-			path: src/Http/Api/Resources/CampaignOpenResource.php
+			path: src/Http/Api/Resources/BounceResource.php
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\EmailListResource\\:\\:\\$active_subscribers_count\\.$#"
@@ -267,34 +217,29 @@ parameters:
 			path: src/Http/Api/Resources/EmailListResource.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\EmailListResource\\:\\:\\$confirmation_mail_content\\.$#"
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\OpenResource\\:\\:\\$first_opened_at\\.$#"
 			count: 1
-			path: src/Http/Api/Resources/EmailListResource.php
+			path: src/Http/Api/Resources/OpenResource.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\EmailListResource\\:\\:\\$confirmation_mail_subject\\.$#"
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\OpenResource\\:\\:\\$open_count\\.$#"
 			count: 1
-			path: src/Http/Api/Resources/EmailListResource.php
+			path: src/Http/Api/Resources/OpenResource.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\SegmentResource\\:\\:\\$all_negative_tags_required\\.$#"
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\OpenResource\\:\\:\\$subscriber_email\\.$#"
 			count: 1
-			path: src/Http/Api/Resources/SegmentResource.php
+			path: src/Http/Api/Resources/OpenResource.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\SegmentResource\\:\\:\\$all_positive_tags_required\\.$#"
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\OpenResource\\:\\:\\$subscriber_email_list_uuid\\.$#"
 			count: 1
-			path: src/Http/Api/Resources/SegmentResource.php
+			path: src/Http/Api/Resources/OpenResource.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\SegmentResource\\:\\:\\$negativeTags\\.$#"
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\OpenResource\\:\\:\\$subscriber_uuid\\.$#"
 			count: 1
-			path: src/Http/Api/Resources/SegmentResource.php
-
-		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\SegmentResource\\:\\:\\$positiveTags\\.$#"
-			count: 1
-			path: src/Http/Api/Resources/SegmentResource.php
+			path: src/Http/Api/Resources/OpenResource.php
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\SubscriberImportResource\\:\\:\\$error_count\\.$#"
@@ -337,6 +282,11 @@ parameters:
 			path: src/Livewire/Automations/Actions/ConditionActionComponent.php
 
 		-
+			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$created_at\\.$#"
+			count: 2
+			path: src/Livewire/Campaigns/CampaignStatisticsComponent.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:draft\\(\\)\\.$#"
 			count: 1
 			path: src/Livewire/Campaigns/CampaignsComponent.php
@@ -355,6 +305,11 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:sent\\(\\)\\.$#"
 			count: 1
 			path: src/Livewire/Campaigns/CampaignsComponent.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasContentItems\\:\\:\\$name\\.$#"
+			count: 1
+			path: src/Livewire/Campaigns/OutboxComponent.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:bounced\\(\\)\\.$#"
@@ -422,6 +377,11 @@ parameters:
 			path: src/Livewire/Content/OpensComponent.php
 
 		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasContentItems\\:\\:\\$name\\.$#"
+			count: 1
+			path: src/Livewire/Content/UnsubscribesComponent.php
+
+		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasHtmlContent\\:\\:\\$template\\.$#"
 			count: 2
 			path: src/Livewire/Editor/EditorComponent.php
@@ -434,11 +394,6 @@ parameters:
 		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasHtmlContent\\:\\:\\$updated_at\\.$#"
 			count: 2
-			path: src/Livewire/Editor/EditorComponent.php
-
-		-
-			message: "#^Cannot access property \\$name on Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null\\.$#"
-			count: 1
 			path: src/Livewire/Editor/EditorComponent.php
 
 		-
@@ -465,8 +420,3 @@ parameters:
 			message: "#^Static method Spatie\\\\Mailcoach\\\\Mailcoach\\:\\:getAutomationActionClass\\(\\) invoked with 0 parameters, 2 required\\.$#"
 			count: 1
 			path: src/Mailcoach.php
-
-		-
-			message: "#^Static call to instance method Illuminate\\\\Foundation\\\\Vite\\:\\:asset\\(\\)\\.$#"
-			count: 1
-			path: src/MailcoachServiceProvider.php

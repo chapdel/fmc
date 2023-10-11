@@ -234,14 +234,19 @@ class CampaignsComponent extends TableComponent
             'segment_class' => $campaign->segment_class,
             'segment_id' => $campaign->segment_id,
         ]);
+        $duplicateCampaign->contentItem->delete();
 
-        $duplicateCampaign->contentItem->update([
-            'subject' => $campaign->contentItem->subject,
-            'template_id' => $campaign->contentItem->template_id,
-            'html' => $campaign->contentItem->html,
-            'structured_html' => $campaign->contentItem->structured_html,
-            'utm_tags' => (bool) $campaign->contentItem->utm_tags,
-        ]);
+        foreach ($campaign->contentItems as $contentItem) {
+            $duplicateCampaign->contentItem->create([
+                'model_id' => $duplicateCampaign->id,
+                'model_type' => $duplicateCampaign->getMorphClass(),
+                'subject' => $contentItem->subject,
+                'template_id' => $contentItem->template_id,
+                'html' => $contentItem->html,
+                'structured_html' => $contentItem->structured_html,
+                'utm_tags' => (bool) $contentItem->utm_tags,
+            ]);
+        }
 
         $duplicateCampaign->update([
             'segment_description' => $duplicateCampaign->getSegment()->description(),

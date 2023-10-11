@@ -4,16 +4,19 @@ namespace Spatie\Mailcoach\Http\Api\Queries;
 
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Api\Queries\Filters\FuzzyFilter;
 use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 class CampaignUnsubscribesQuery extends QueryBuilder
 {
+    use UsesMailcoachModels;
+
     public function __construct(Campaign $campaign, Request $request = null)
     {
         parent::__construct(
-            $campaign->contentItem->unsubscribes()->getQuery(),
+            self::getUnsubscribeClass()::whereIn('content_item_id', $campaign->contentItems->pluck('id')),
             $request,
         );
 

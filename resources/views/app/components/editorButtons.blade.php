@@ -1,6 +1,7 @@
 @props([
     'previewHtml' => '',
     'model' => null,
+    'showPreview' => true,
 ])
 @if($model instanceof \Spatie\Mailcoach\Domain\Shared\Models\Sendable)
     @pushonce('scripts')
@@ -16,31 +17,21 @@
 <x-mailcoach::form-buttons>
     <div class="flex gap-x-2">
         <x-mailcoach::button
-                @keydown.prevent.window.cmd.s="$wire.call('save')"
-                @keydown.prevent.window.ctrl.s="$wire.call('save')"
-                wire:click.prevent="save"
-                :label="__mc('Save content')"
+            @keydown.prevent.window.cmd.s="$wire.call('save')"
+            @keydown.prevent.window.ctrl.s="$wire.call('save')"
+            wire:click.prevent="save"
+            :label="__mc('Save content')"
         />
 
-        {{--
-        @todo: Weird livewire problem that breaks template selection when this is present
-        @if (method_exists($model, 'sendTestMail') && (\Spatie\Mailcoach\Mailcoach::defaultCampaignMailer() || \Spatie\Mailcoach\Mailcoach::defaultAutomationMailer() || \Spatie\Mailcoach\Mailcoach::defaultTransactionalMailer()))
-            <x-mailcoach::button x-on:click.prevent="$wire.saveQuietly() && $dispatch('open-modal', { id: 'send-test' })" :label="__mc('Save and send test')"/>
-            <x-mailcoach::modal name="send-test" :dismissable="true">
-                <livewire:mailcoach::send-test :model="$model" />
-            </x-mailcoach::modal>
-        @endif
-        --}}
-
-        @if (config('mailcoach.content_editor') !== \Spatie\Mailcoach\Domain\Editor\Unlayer\Editor::class)
+        @if ($showPreview && config('mailcoach.content_editor') !== \Spatie\Mailcoach\Domain\Editor\Unlayer\Editor::class)
             <x-mailcoach::button-secondary x-on:click.prevent="$dispatch('open-modal', { id: 'preview' })"
                                            :label="__mc('Preview')"/>
             <x-mailcoach::preview-modal name="preview" :html="$previewHtml"
                                         :title="__mc('Preview') . ($model->subject ? ' - ' . $model->subject : '')"/>
         @endif
-    </div>
 
-    {{ $slot }}
+        {{ $slot }}
+    </div>
 
     @if ($model instanceof \Spatie\Mailcoach\Domain\Template\Models\Template && ! preg_match_all('/\[\[\[(.*?)\]\]\]/', $previewHtml, $matches))
         <x-mailcoach::info class="mt-6">

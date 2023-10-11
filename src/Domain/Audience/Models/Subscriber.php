@@ -222,7 +222,7 @@ class Subscriber extends Model
     public function scopeWithoutSendsForCampaign(Builder $query, Campaign $campaign)
     {
         return $query->whereDoesntHave('sends', function (Builder $query) use ($campaign) {
-            $query->where('content_item_id', $campaign->contentItem->id);
+            $query->whereIn('content_item_id', $campaign->contentItems->pluck('id'));
         });
     }
 

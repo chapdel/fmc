@@ -16,14 +16,14 @@ class SmtpSetupWizardComponent extends WizardComponent
     public function mount()
     {
         if ($this->mailer->isReadyForUse()) {
-            $this->currentStepName = SummaryStepComponent::class;
+            $this->currentStepName = 'mailcoach::smtp-summary-step';
         }
     }
 
     public function initialState(): ?array
     {
         return [
-            SummaryStepComponent::class => [
+            'mailcoach::smtp-summary-step' => [
                 'mailerId' => $this->mailer->id,
             ],
         ];

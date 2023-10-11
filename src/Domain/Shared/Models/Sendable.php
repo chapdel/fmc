@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Content\Models\Concerns\HasContentItems;
 use Spatie\Mailcoach\Domain\Content\Models\Concerns\InteractsWithContentItems;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\Template\Models\Concerns\HasTemplate;
 
@@ -51,24 +52,30 @@ abstract class Sendable extends Model implements HasContentItems
         return $this;
     }
 
-    public function hasCustomMailable(): bool
+    public function hasCustomMailable(ContentItem $contentItem = null): bool
     {
-        return $this->contentItem->hasCustomMailable();
+        return $contentItem?->hasCustomMailable() ?? $this->contentItem->hasCustomMailable();
     }
 
-    public function contentFromMailable(): string
+    public function contentFromMailable(ContentItem $contentItem = null): string
     {
-        return $this->contentItem->contentFromMailable();
+        return $contentItem?->contentFromMailable() ?? $this->contentItem->contentFromMailable();
     }
 
-    public function pullSubjectFromMailable(): void
+    public function pullSubjectFromMailable(ContentItem $contentItem = null): void
     {
+        if ($contentItem) {
+            $contentItem->pullSubjectFromMailable();
+
+            return;
+        }
+
         $this->contentItem->pullSubjectFromMailable();
     }
 
-    public function htmlWithInlinedCss(): string
+    public function htmlWithInlinedCss(ContentItem $contentItem = null): string
     {
-        return $this->contentItem->htmlWithInlinedCss();
+        return $contentItem?->htmlWithInlinedCss() ?? $this->contentItem->htmlWithInlinedCss();
     }
 
     public function from(string $email, string $name = null): static
@@ -132,7 +139,7 @@ abstract class Sendable extends Model implements HasContentItems
     {
     }
 
-    abstract public function sendTestMail(string|array $emails): void;
+    abstract public function sendTestMail(string|array $emails, ContentItem $contentItem = null): void;
 
     abstract public function webviewUrl(): string;
 

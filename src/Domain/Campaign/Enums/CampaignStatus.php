@@ -17,6 +17,7 @@ enum CampaignStatus: string implements HasLabel
         return match ($this) {
             self::Draft => __mc('Draft'),
             self::Sending => __mc('Sending'),
+            self::Paused => __mc('Paused'),
             self::Sent => __mc('Sent'),
             self::Cancelled => __mc('Cancelled'),
         };

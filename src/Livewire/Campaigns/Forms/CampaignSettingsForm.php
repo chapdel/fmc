@@ -7,6 +7,7 @@ use Livewire\Form;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\ValidationRules\Rules\Delimited;
 
@@ -90,15 +91,19 @@ class CampaignSettingsForm extends Form
             'disable_webview' => $this->disable_webview,
         ]);
 
-        $this->campaign->contentItem->fill([
-            'from_email' => $this->from_email,
-            'from_name' => $this->from_name,
-            'reply_to_email' => $this->reply_to_email,
-            'reply_to_name' => $this->reply_to_name,
-            'utm_tags' => $this->utm_tags,
-            'add_subscriber_tags' => $this->add_subscriber_tags,
-            'add_subscriber_link_tags' => $this->add_subscriber_link_tags,
-        ]);
+        $this->campaign->contentItems->each(function (ContentItem $contentItem) {
+            $contentItem->fill([
+                'from_email' => $this->from_email,
+                'from_name' => $this->from_name,
+                'reply_to_email' => $this->reply_to_email,
+                'reply_to_name' => $this->reply_to_name,
+                'utm_tags' => $this->utm_tags,
+                'add_subscriber_tags' => $this->add_subscriber_tags,
+                'add_subscriber_link_tags' => $this->add_subscriber_link_tags,
+            ]);
+
+            $contentItem->save();
+        });
 
         $segmentClass = SubscribersWithTagsSegment::class;
 
@@ -118,8 +123,6 @@ class CampaignSettingsForm extends Form
         ]);
 
         $this->campaign->save();
-        $this->campaign->contentItem->save();
-
         $this->campaign->update(['segment_description' => $this->campaign->getSegment()->description()]);
     }
 }

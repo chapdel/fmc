@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignMailsAction;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\SendCampaignTimeLimitApproaching;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
 
@@ -49,7 +50,7 @@ class SendCampaignMailsJob implements ShouldBeUnique, ShouldQueue
         self::getCampaignClass()::query()
             ->sendingOrSent()
             ->each(function (Campaign $campaign) use ($sendCampaignMailsAction, $maxRuntimeInSeconds) {
-                if (! $campaign->contentItem->sends()->pending()->count()) {
+                if (! $campaign->contentItems->sum(fn (ContentItem $contentItem) => $contentItem->sends()->pending()->count())) {
                     return;
                 }
 

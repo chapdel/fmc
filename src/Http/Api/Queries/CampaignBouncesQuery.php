@@ -42,7 +42,7 @@ class CampaignBouncesQuery extends QueryBuilder
             ->join($feedBackTable, $sendTable.'.id', '=', "{$feedBackTable}.send_id")
             ->join($subscriberTableName, "{$subscriberTableName}.id", '=', "{$sendTable}.subscriber_id")
             ->join($emailListTableName, "{$subscriberTableName}.email_list_id", '=', "{$emailListTableName}.id")
-            ->where("{$contentItemTable}.id", '=', $campaign->contentItem->id);
+            ->whereIn("{$contentItemTable}.id", $campaign->contentItems->pluck('id'));
 
         $this->totalCount = $query->count();
 

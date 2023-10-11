@@ -175,7 +175,7 @@
                                     <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
                                 </button>
                             </div>
-                            <div x-show="!collapsed">
+                            <div x-show="!collapsed" x-collapse>
                                 <livewire:mailcoach::automation-builder name="{{ $uuid }}-yes-actions" :automation="$automation" :actions="$yesActions" key="{{ $uuid }}-yes-actions" />
                             </div>
                         </div>
@@ -193,7 +193,7 @@
                                     <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
                                 </button>
                             </div>
-                            <div x-show="!collapsed">
+                            <div x-show="!collapsed" x-collapse>
                                 <livewire:mailcoach::automation-builder name="{{ $uuid }}-no-actions" :automation="$automation" :actions="$noActions" key="{{ $uuid}}-no-actions" />
                             </div>
                         </div>
@@ -220,7 +220,7 @@
                                         <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
                                     </button>
                                 </div>
-                                <div class="grid gap-3" x-show="!collapsed">
+                                <div class="grid gap-3" x-show="!collapsed" x-collapse>
                                     @foreach ($yesActions as $index => $action)
                                         @livewire($action['class']::getComponent() ?: 'mailcoach::automation-action', array_merge([
                                             'index' => $index,
@@ -249,7 +249,7 @@
                                         <i x-show="collapsed" @click="collapsed = false" class="fas fa-chevron-down"></i>
                                     </button>
                                 </div>
-                                <div class="grid gap-3" x-show="!collapsed">
+                                <div class="grid gap-3" x-show="!collapsed" x-collapse>
                                     @foreach ($noActions as $index => $action)
                                         @livewire($action['class']::getComponent() ?: 'mailcoach::automation-action', array_merge([
                                             'index' => $index,

@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Livewire\Content;
 use Closure;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Content\Models\Link;
@@ -27,14 +28,27 @@ class ClicksComponent extends ContentItemTable
         return __mc('Clicks');
     }
 
+    public function getTableRecordKey(Model $record): string
+    {
+        return 'uuid';
+    }
+
     protected function getTableQuery(): Builder
     {
-        return $this->contentItem->links()->getQuery();
+        return self::getLinkClass()::query()
+            ->whereIn('content_item_id', $this->contentItems->pluck('id'))
+            ->groupBy('url')
+            ->select(
+                \DB::raw('group_concat(uuid) as uuid'),
+                'url',
+                \DB::raw('sum(unique_click_count) as unique_click_count'),
+                \DB::raw('sum(click_count) as click_count')
+            );
     }
 
     protected function getTableEmptyStateDescription(): ?string
     {
-        if (! is_null($this->contentItem->click_count)) {
+        if (! is_null($this->model->clickCount())) {
             return __mc('No clicks yet. Stay tuned.');
         }
 
@@ -49,10 +63,10 @@ class ClicksComponent extends ContentItemTable
                 ->sortable()
                 ->extraAttributes(['class' => 'link'])
                 ->searchable(),
-            $this->contentItem->add_subscriber_link_tags
+            $this->contentItems->filter->add_subscriber_link_tags->count()
                 ? TextColumn::make('tag')
                     ->label(__mc('Tag'))
-                    ->getStateUsing(fn (Link $record) => '<span class="tag-neutral">'.LinkHasher::hash($this->contentItem->model, $record->url).'</span>')
+                    ->getStateUsing(fn (Link $record) => '<span class="tag-neutral">'.LinkHasher::hash($this->model, $record->url).'</span>')
                     ->html()
                 : null,
             TextColumn::make('unique_click_count')
@@ -72,8 +86,8 @@ class ClicksComponent extends ContentItemTable
     {
         return function (Link $record) {
             return match (true) {
-                $this->contentItem->model instanceof Campaign => route('mailcoach.campaigns.link-clicks', [$this->contentItem->model, $record]),
-                $this->contentItem->model instanceof AutomationMail => route('mailcoach.automations.mails.link-clicks', [$this->contentItem->model, $record]),
+                $this->model instanceof Campaign => route('mailcoach.campaigns.link-clicks', [$this->model, $record->uuid]),
+                $this->model instanceof AutomationMail => route('mailcoach.automations.mails.link-clicks', [$this->model, $record->uuid]),
             };
         };
     }

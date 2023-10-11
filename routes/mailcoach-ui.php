@@ -77,7 +77,7 @@ Route::prefix('campaigns')->group(function () {
         Route::get('summary', Mailcoach::getLivewireClass(CampaignSummaryComponent::class))->name('summary');
         Route::get('opens', Mailcoach::getLivewireClass(OpensComponent::class))->name('opens');
         Route::get('clicks', Mailcoach::getLivewireClass(ClicksComponent::class))->name('clicks');
-        Route::get('clicks/{link}', Mailcoach::getLivewireClass(LinkClicksComponent::class))->name('link-clicks');
+        Route::get('clicks/{linkUuids}', Mailcoach::getLivewireClass(LinkClicksComponent::class))->name('link-clicks');
         Route::get('unsubscribes', Mailcoach::getLivewireClass(UnsubscribesComponent::class))->name('unsubscribes');
         Route::get('outbox', Mailcoach::getLivewireClass(OutboxComponent::class))->name('outbox');
     });
@@ -138,7 +138,7 @@ Route::prefix('automation-emails')->group(function () {
 
         Route::get('opens', Mailcoach::getLivewireClass(OpensComponent::class))->name('opens');
         Route::get('clicks', Mailcoach::getLivewireClass(ClicksComponent::class))->name('clicks');
-        Route::get('clicks/{Link}', Mailcoach::getLivewireClass(LinkClicksComponent::class))->name('link-clicks');
+        Route::get('clicks/{linkUuids}', Mailcoach::getLivewireClass(LinkClicksComponent::class))->name('link-clicks');
         Route::get('unsubscribes', Mailcoach::getLivewireClass(UnsubscribesComponent::class))->name('unsubscribes');
         Route::get('outbox', Mailcoach::getLivewireClass(OutboxComponent::class))->name('outbox');
     });

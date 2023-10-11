@@ -6,7 +6,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\Mailcoach\Domain\Content\Models\Unsubscribe;
 
 /** @mixin Unsubscribe */
-class CampaignUnsubscribeResource extends JsonResource
+class UnsubscribeResource extends JsonResource
 {
     public function toArray($request)
     {

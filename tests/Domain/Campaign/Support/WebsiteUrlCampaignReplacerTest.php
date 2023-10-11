@@ -25,7 +25,7 @@ beforeEach(function () {
 });
 
 it('replaces the placeholder with the URL of the website', function () {
-    app(PrepareEmailHtmlAction::class)->execute($this->campaign);
+    app(PrepareEmailHtmlAction::class)->execute($this->campaign->contentItem);
     $result = app(PersonalizeTextAction::class)->execute($this->campaign->contentItem->email_html, $this->send);
 
     expect($result)->toContain($this->campaign->emailList->websiteUrl());
@@ -36,7 +36,7 @@ it('will replace the placeholder with an empty string if the email list does not
         'has_website' => false,
     ]);
 
-    app(PrepareEmailHtmlAction::class)->execute($this->campaign);
+    app(PrepareEmailHtmlAction::class)->execute($this->campaign->contentItem);
     $result = app(PersonalizeTextAction::class)->execute($this->campaign->email_html, $this->send);
 
     expect($result)

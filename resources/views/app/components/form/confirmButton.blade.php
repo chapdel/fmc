@@ -7,6 +7,7 @@
     'disabled' => false,
 ])
 <form
+    class="flex"
     method="POST"
     action="{{ $action }}"
     {{ $attributes->except('class') }}

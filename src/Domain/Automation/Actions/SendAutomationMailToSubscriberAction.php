@@ -29,7 +29,7 @@ class SendAutomationMailToSubscriberAction
         /** @var PrepareEmailHtmlAction $prepareEmailHtmlAction */
         $prepareEmailHtmlAction = Mailcoach::getSharedActionClass('prepare_email_html', PrepareEmailHtmlAction::class);
 
-        $prepareEmailHtmlAction->execute($automationMail);
+        $prepareEmailHtmlAction->execute($automationMail->contentItem);
 
         return $this;
     }
@@ -39,7 +39,7 @@ class SendAutomationMailToSubscriberAction
         /** @var \Spatie\Mailcoach\Domain\Content\Actions\PrepareWebviewHtmlAction $prepareWebviewHtmlAction */
         $prepareWebviewHtmlAction = Mailcoach::getSharedActionClass('prepare_webview_html', PrepareWebviewHtmlAction::class);
 
-        $prepareWebviewHtmlAction->execute($automationMail);
+        $prepareWebviewHtmlAction->execute($automationMail->contentItem);
 
         return $this;
     }

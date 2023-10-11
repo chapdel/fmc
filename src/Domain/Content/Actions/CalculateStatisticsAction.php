@@ -37,9 +37,8 @@ class CalculateStatisticsAction
         [$unsubscribeCount, $unsubscribeRate] = $this->calculateUnsubscribeMetrics($contentItem, $sentToNumberOfSubscribers);
         [$bounceCount, $bounceRate] = $this->calculateBounceMetrics($contentItem, $sentToNumberOfSubscribers);
 
-        $contentItem->sent_to_number_of_subscribers = $sentToNumberOfSubscribers;
-
         $contentItem->update([
+            'sent_to_number_of_subscribers' => $sentToNumberOfSubscribers,
             'open_count' => $openCount,
             'unique_open_count' => $uniqueOpenCount,
             'open_rate' => $openRate,

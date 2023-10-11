@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Content\Models;
 
+use Carbon\CarbonInterface;
 use DOMElement;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -303,6 +304,34 @@ class ContentItem extends Model implements HasHtmlContent
         return $this->sends()->whereNotNull('sent_at')->where('subscriber_id', $subscriber->id)->exists();
     }
 
+    public function allSendsCreated(): bool
+    {
+        return ! is_null($this->all_sends_created_at);
+    }
+
+    public function markAsAllSendsCreated(): self
+    {
+        $this->update([
+            'all_sends_created_at' => now(),
+        ]);
+
+        return $this;
+    }
+
+    public function allMailSendingJobsDispatched(): bool
+    {
+        return ! is_null($this->all_sends_dispatched_at);
+    }
+
+    public function markAsAllMailSendingJobsDispatched(): self
+    {
+        $this->update([
+            'all_sends_dispatched_at' => now(),
+        ]);
+
+        return $this;
+    }
+
     public function getReplacers(): Collection
     {
         return match (true) {
@@ -332,6 +361,43 @@ class ContentItem extends Model implements HasHtmlContent
     public function sendsWithErrors(): HasMany
     {
         return $this->sends()->whereNotNull('failed_at');
+    }
+
+    public function getStatsBefore(?CarbonInterface $dateTime): array
+    {
+        $dateTime ??= now();
+
+        $sentToNumberOfSubscribers = $this->sends()->where('sent_at', '<=', $dateTime)->count();
+        $sendIds = $this->sends()->where('sent_at', '<=', $dateTime)->select(self::getSendTableName().'.id');
+
+        $openCount = $this->opens()->whereIn('send_id', $sendIds)->count();
+        $uniqueOpenCount = $this->opens()->groupBy('subscriber_id')->whereIn('send_id', $sendIds)->toBase()->select('subscriber_id')->getCountForPagination(['subscriber_id']);
+        $clickCount = $this->clicks()->whereIn('send_id', $sendIds)->count();
+        $uniqueClickCount = $this->clicks()->groupBy('subscriber_id')->whereIn('send_id', $sendIds)->toBase()->select('subscriber_id')->getCountForPagination(['subscriber_id']);
+        $unsubscribeCount = $this->unsubscribes()->where('created_at', '<=', $dateTime)->count();
+        $bounceCount = $this->bounces()->whereIn('send_id', $sendIds)->count();
+
+        return [
+            'sent_to_number_of_subscribers' => $sentToNumberOfSubscribers,
+            'open_count' => $openCount,
+            'unique_open_count' => $uniqueOpenCount,
+            'open_rate' => $sentToNumberOfSubscribers
+                ? round($uniqueOpenCount / $sentToNumberOfSubscribers, 4) * 10000
+                : 0,
+            'click_count' => $clickCount,
+            'unique_click_count' => $uniqueClickCount,
+            'click_rate' => $sentToNumberOfSubscribers
+                ? round($uniqueClickCount / $sentToNumberOfSubscribers, 4) * 10000
+                : 0,
+            'unsubscribe_count' => $unsubscribeCount,
+            'unsubscribe_rate' => $sentToNumberOfSubscribers
+                ? round($unsubscribeCount / $sentToNumberOfSubscribers, 4) * 10000
+                : 0,
+            'bounce_count' => $bounceCount,
+            'bounce_rate' => $sentToNumberOfSubscribers
+                ? round($bounceCount / $sentToNumberOfSubscribers, 4) * 10000
+                : 0,
+        ];
     }
 
     public function hasCustomMailable(): bool

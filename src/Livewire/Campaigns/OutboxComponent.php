@@ -10,6 +10,7 @@ use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\RetrySendingFailedSendsJob;
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Livewire\Content\ContentItemTable;
 
@@ -27,7 +28,7 @@ class OutboxComponent extends ContentItemTable
 
     protected function getTableHeaderActions(): array
     {
-        $count = $this->contentItem->sends()->failed()->count();
+        $count = $this->contentItems->sum(fn ($contentItem) => $contentItem->sends()->failed()->count());
 
         return [
             Action::make('failed_sends')
@@ -35,7 +36,7 @@ class OutboxComponent extends ContentItemTable
                 ->action('retryFailedSends')
                 ->color('danger')
                 ->requiresConfirmation()
-                ->hidden(fn () => $this->contentItem->sends()->failed()->count() === 0),
+                ->hidden(fn () => $count === 0 || ! $this->model instanceof Campaign),
         ];
     }
 
@@ -43,7 +44,7 @@ class OutboxComponent extends ContentItemTable
     {
         return self::getSendClass()::query()
             ->with(['feedback', 'subscriber'])
-            ->where('content_item_id', $this->contentItem->id)
+            ->whereIn('content_item_id', $this->contentItems->pluck('id'))
             ->whereNull('invalidated_at');
     }
 
@@ -113,7 +114,7 @@ class OutboxComponent extends ContentItemTable
                                 'sent' => $send->sent_at->toMailcoachFormat(),
                             ];
                         },
-                        title: "{$this->contentItem->model->name} outbox",
+                        title: "{$this->model->name} outbox",
                     );
                 }),
         ];
@@ -132,21 +133,25 @@ class OutboxComponent extends ContentItemTable
 
     public function retryFailedSends()
     {
-        $this->authorize('update', $this->contentItem->model);
+        $this->authorize('update', $this->model);
 
-        $failedSendsCount = $this->contentItem->sends()->failed()->count();
+        $failedSendsCount = $this->contentItems->sum(fn ($contentItem) => $contentItem->sends()->failed()->count());
 
         if ($failedSendsCount === 0) {
-            notify(__mc('There are no failed mails to resend anymore.'), 'error');
+            notifyError(__mc('There are no failed mails to resend anymore.'));
 
             return;
         }
 
-        dispatch(new RetrySendingFailedSendsJob($this->contentItem->model));
+        if (! $this->model instanceof Campaign) {
+            return;
+        }
+
+        dispatch(new RetrySendingFailedSendsJob($this->model));
 
         notify(__mc('Retrying to send :failedSendsCount mails...', ['failedSendsCount' => $failedSendsCount]), 'warning');
 
-        return redirect()->route('mailcoach.campaigns.summary', $this->contentItem->model);
+        return redirect()->route('mailcoach.campaigns.summary', $this->model);
     }
 
     public function getTitle(): string

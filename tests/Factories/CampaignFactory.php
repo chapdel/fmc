@@ -57,6 +57,8 @@ class CampaignFactory
             'template_id',
             'utm_tags',
             'statistics_calculated_at',
+            'all_sends_dispatched_at',
+            'all_sends_created_at',
         ];
 
         $campaign = Campaign::factory()
@@ -72,10 +74,15 @@ class CampaignFactory
 
     public static function createSentAt(string $dateTime): Campaign
     {
-        return Campaign::factory()->create([
+        $campaign = Campaign::factory()->create([
             'sent_at' => Carbon::createFromFormat('Y-m-d H:i:s', $dateTime),
+        ]);
+
+        $campaign->contentItem->update([
             'all_sends_dispatched_at' => Carbon::createFromFormat('Y-m-d H:i:s', $dateTime),
             'all_sends_created_at' => Carbon::createFromFormat('Y-m-d H:i:s', $dateTime),
         ]);
+
+        return $campaign;
     }
 }

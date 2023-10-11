@@ -14,7 +14,7 @@ it('will automatically add html tags', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareWebviewHtmlAction::class)->execute($sendable);
+    app(PrepareWebviewHtmlAction::class)->execute($sendable->contentItem);
 
     $sendable->refresh();
 
@@ -29,7 +29,7 @@ it('works with ampersands', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareWebviewHtmlAction::class)->execute($sendable);
+    app(PrepareWebviewHtmlAction::class)->execute($sendable->contentItem);
 
     $sendable->refresh();
 
@@ -45,7 +45,7 @@ it('will not double encode ampersands', function () {
         'utm_tags' => true,
     ]);
 
-    app(PrepareWebviewHtmlAction::class)->execute($sendable);
+    app(PrepareWebviewHtmlAction::class)->execute($sendable->contentItem);
 
     $sendable->refresh();
 
@@ -60,7 +60,7 @@ it('will not add html tags if they are already present', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareWebviewHtmlAction::class)->execute($sendable);
+    app(PrepareWebviewHtmlAction::class)->execute($sendable->contentItem);
 
     $sendable->refresh();
 
@@ -75,7 +75,7 @@ it('will not add html tags before the doctype', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareWebviewHtmlAction::class)->execute($sendable);
+    app(PrepareWebviewHtmlAction::class)->execute($sendable->contentItem);
 
     $sendable->refresh();
 
@@ -90,7 +90,7 @@ it('will not change the doctype', function () {
         'html' => $myHtml,
     ]);
 
-    app(PrepareWebviewHtmlAction::class)->execute($sendable);
+    app(PrepareWebviewHtmlAction::class)->execute($sendable->contentItem);
 
     $sendable->refresh();
 
@@ -108,7 +108,7 @@ it('will add utm tags', function () {
         'utm_tags' => true,
     ]);
 
-    app(PrepareWebviewHtmlAction::class)->execute($sendable);
+    app(PrepareWebviewHtmlAction::class)->execute($sendable->contentItem);
 
     $sendable->refresh();
 
@@ -127,7 +127,7 @@ it('will add utm tags to links that already have query parameters', function () 
         'utm_tags' => true,
     ]);
 
-    app(PrepareWebviewHtmlAction::class)->execute($sendable);
+    app(PrepareWebviewHtmlAction::class)->execute($sendable->contentItem);
 
     $sendable->refresh();
 
@@ -146,7 +146,7 @@ it('will add utm tags to urls with paths correctly', function () {
         'utm_tags' => true,
     ]);
 
-    app(PrepareWebviewHtmlAction::class)->execute($sendable);
+    app(PrepareWebviewHtmlAction::class)->execute($sendable->contentItem);
 
     $sendable->refresh();
 
@@ -165,7 +165,7 @@ it('will add utm tags to urls with paths correctly when the link is added twice'
         'utm_tags' => true,
     ]);
 
-    app(PrepareWebviewHtmlAction::class)->execute($sendable);
+    app(PrepareWebviewHtmlAction::class)->execute($sendable->contentItem);
 
     $sendable->refresh();
 
@@ -185,7 +185,7 @@ it('will not change img source', function () {
         'utm_tags' => true,
     ]);
 
-    app(PrepareWebviewHtmlAction::class)->execute($sendable);
+    app(PrepareWebviewHtmlAction::class)->execute($sendable->contentItem);
 
     $sendable->refresh();
 
@@ -204,7 +204,7 @@ it('can remove parts from the webview', function () {
         'utm_tags' => true,
     ]);
 
-    app(PrepareWebviewHtmlAction::class)->execute($sendable);
+    app(PrepareWebviewHtmlAction::class)->execute($sendable->contentItem);
 
     expect($sendable->contentItem->webview_html)->not()->toContain('<p>This is hidden</p>');
 });
@@ -220,7 +220,7 @@ it('can remove multiple parts from the webview', function () {
         'utm_tags' => true,
     ]);
 
-    app(PrepareWebviewHtmlAction::class)->execute($sendable);
+    app(PrepareWebviewHtmlAction::class)->execute($sendable->contentItem);
 
     expect($sendable->contentItem->webview_html)->not()->toContain('<p>This is also hidden</p>');
     expect($sendable->contentItem->webview_html)->not()->toContain('<p>This is hidden</p>');
@@ -236,7 +236,7 @@ it('will not generate a webview when disabled in campaign settings', function ()
         'disable_webview' => true,
     ]);
 
-    app(PrepareWebviewHtmlAction::class)->execute($campaign);
+    app(PrepareWebviewHtmlAction::class)->execute($campaign->contentItem);
 
     $campaign->refresh();
 
@@ -251,7 +251,7 @@ it('uses replacers', function () {
         'name' => 'My Campaign',
     ]);
 
-    app(PrepareWebviewHtmlAction::class)->execute($campaign);
+    app(PrepareWebviewHtmlAction::class)->execute($campaign->contentItem);
 
     $campaign->refresh();
 

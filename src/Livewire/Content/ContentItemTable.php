@@ -2,16 +2,21 @@
 
 namespace Spatie\Mailcoach\Livewire\Content;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Content\Models\Concerns\HasContentItems;
 use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\MainNavigation;
 
 abstract class ContentItemTable extends TableComponent
 {
-    public ContentItem $contentItem;
+    /** @var \Illuminate\Support\Collection<ContentItem> */
+    public Collection $contentItems;
+
+    public HasContentItems $model;
 
     public function mount()
     {
@@ -24,11 +29,12 @@ abstract class ContentItemTable extends TableComponent
                 ?? self::getAutomationMailClass()::findByUuid($sendable);
         }
 
-        $this->contentItem = $sendable->contentItem;
+        $this->model = $sendable;
+        $this->contentItems = $this->model->contentItems;
 
-        app(MainNavigation::class)->activeSection()?->add($this->contentItem->model->name, match (true) {
-            $this->contentItem->model instanceof Campaign => route('mailcoach.campaigns'),
-            $this->contentItem->model instanceof AutomationMail => route('mailcoach.automations.mails'),
+        app(MainNavigation::class)->activeSection()?->add($this->model->name, match (true) {
+            $this->model instanceof Campaign => route('mailcoach.campaigns'),
+            $this->model instanceof AutomationMail => route('mailcoach.automations.mails'),
             default => '',
         });
     }
@@ -36,8 +42,8 @@ abstract class ContentItemTable extends TableComponent
     public function getLayout(): string
     {
         return match (true) {
-            $this->contentItem->model instanceof Campaign => 'mailcoach::app.campaigns.layouts.campaign',
-            $this->contentItem->model instanceof AutomationMail => 'mailcoach::app.automations.mails.layouts.automationMail',
+            $this->model instanceof Campaign => 'mailcoach::app.campaigns.layouts.campaign',
+            $this->model instanceof AutomationMail => 'mailcoach::app.automations.mails.layouts.automationMail',
             default => '',
         };
     }
@@ -45,8 +51,8 @@ abstract class ContentItemTable extends TableComponent
     public function getLayoutData(): array
     {
         return [
-            'campaign' => $this->contentItem->model,
-            'mail' => $this->contentItem->model,
+            'campaign' => $this->model,
+            'mail' => $this->model,
         ];
     }
 }

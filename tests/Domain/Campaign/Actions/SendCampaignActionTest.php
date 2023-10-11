@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Mail\MailManager;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
@@ -41,7 +40,7 @@ beforeEach(function () {
 function runAction(Campaign $campaign = null)
 {
     test()->action->execute($campaign ?? test()->campaign);
-    Artisan::call('mailcoach:send-campaign-mails');
+    test()->artisan('mailcoach:send-campaign-mails')->assertSuccessful();
     test()->action->execute($campaign ?? test()->campaign);
 }
 
@@ -195,13 +194,13 @@ it('will dispatch create jobs and not dispatch twice', function () {
     $campaign->send();
     runAction($campaign);
 
-    expect($campaign->fresh()->allSendsCreated())->toBeFalse();
+    expect($campaign->contentItem->allSendsCreated())->toBeFalse();
 
     Queue::assertPushed(CreateCampaignSendJob::class, 1);
 
     runAction($campaign);
 
-    expect($campaign->fresh()->allSendsCreated())->toBeFalse();
+    expect($campaign->contentItem->allSendsCreated())->toBeFalse();
     Queue::assertPushed(CreateCampaignSendJob::class, 1);
 });
 
@@ -222,7 +221,7 @@ it('will set all sends created when they are', function () {
     $campaign->send();
     runAction($campaign);
 
-    expect($campaign->fresh()->allSendsCreated())->toBeFalse();
+    expect($campaign->contentItem->allSendsCreated())->toBeFalse();
 
     Queue::assertPushed(CreateCampaignSendJob::class, 1);
     Queue::assertPushed(SendCampaignMailJob::class, 0);
@@ -237,7 +236,7 @@ it('will set all sends created when they are', function () {
     runAction($campaign);
     (new SendCampaignMailsAction())->execute($campaign);
 
-    expect($campaign->fresh()->allSendsCreated())->toBeTrue();
+    expect($campaign->contentItem->allSendsCreated())->toBeTrue();
     Queue::assertPushed(CreateCampaignSendJob::class, 1);
     Queue::assertPushed(SendCampaignMailJob::class, 1);
 });
@@ -264,7 +263,7 @@ it('handles an unsubscribed user while sending', function () {
     $campaign->send();
     test()->action->execute($campaign);
 
-    expect($campaign->fresh()->allSendsCreated())->toBeFalse();
+    expect($campaign->contentItem->allSendsCreated())->toBeFalse();
 
     Queue::assertPushed(CreateCampaignSendJob::class, 2);
     Queue::assertPushed(SendCampaignMailJob::class, 0);
@@ -277,7 +276,7 @@ it('handles an unsubscribed user while sending', function () {
 
     test()->action->execute($campaign);
 
-    expect($campaign->fresh()->allSendsCreated())->toBeTrue();
+    expect($campaign->contentItem->allSendsCreated())->toBeTrue();
 
     app(SendCampaignMailsAction::class)->execute($campaign);
 
@@ -527,4 +526,74 @@ test('custom replacers work in body from custom mailable', function () {
     expect($messages->filter(function (SentMessage $message) {
         return Str::contains($message->getOriginalMessage()->toString(), 'The custom replacer works');
     })->count() > 0)->toBeTrue();
+});
+
+it('can handle split tested campaigns', function () {
+    TestTime::freeze();
+
+    $campaign = (new CampaignFactory())
+        ->withSubscriberCount(10)
+        ->create([
+            'split_test_wait_time_in_minutes' => 10,
+            'split_test_split_size_percentage' => 20,
+        ]);
+
+    $campaign->contentItem->replicate([
+        'uuid',
+    ])->save();
+
+    expect($campaign->contentItems->count())->toBe(2);
+
+    $campaign->send();
+
+    expect($campaign->status)->toBe(CampaignStatus::Sending);
+
+    test()->action->execute($campaign);
+
+    $firstContentItem = $campaign->contentItems->first();
+    $secondContentItem = $campaign->contentItems->skip(1)->first();
+
+    expect($firstContentItem->sends()->pending()->count())->toBe(1);
+    expect($secondContentItem->sends()->pending()->count())->toBe(1);
+
+    $this->artisan('mailcoach:send-campaign-mails')->assertSuccessful();
+
+    expect($firstContentItem->sends()->pending()->count())->toBe(0);
+    expect($secondContentItem->sends()->pending()->count())->toBe(0);
+
+    test()->action->execute($campaign);
+
+    expect($campaign->split_test_started_at->format('Y-m-d H:i:s'))->toBe(now()->format('Y-m-d H:i:s'));
+    expect($campaign->splitWaitTimeIsOver())->toBeFalse();
+
+    TestTime::addMinutes(10);
+
+    expect($campaign->splitWaitTimeIsOver())->toBeTrue();
+
+    $secondContentItem->sends()->first()->registerOpen();
+
+    test()->action->execute($campaign->fresh());
+
+    $campaign->refresh();
+
+    expect($campaign->hasSplitTestWinner())->toBeTrue();
+    expect($campaign->splitTestWinner->is($secondContentItem))->toBeTrue();
+
+    expect($firstContentItem->sends()->pending()->count())->toBe(0);
+    expect($secondContentItem->sends()->pending()->count())->toBe(8);
+
+    $this->artisan('mailcoach:send-campaign-mails')->assertSuccessful();
+
+    expect($firstContentItem->sentSends()->count())->toBe(1);
+    expect($secondContentItem->sentSends()->count())->toBe(9);
+
+    test()->action->execute($campaign);
+
+    expect($campaign->status)->toBe(CampaignStatus::Sent);
+
+    $firstContentItem->dispatchCalculateStatistics();
+    $secondContentItem->dispatchCalculateStatistics();
+
+    expect($firstContentItem->fresh()->sent_to_number_of_subscribers)->toBe(1);
+    expect($secondContentItem->fresh()->sent_to_number_of_subscribers)->toBe(9);
 });

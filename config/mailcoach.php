@@ -297,6 +297,7 @@ return [
     'middleware' => [
         'web' => [
             'web',
+            'auth',
             Spatie\Mailcoach\Http\App\Middleware\Authorize::class,
             Spatie\Mailcoach\Http\App\Middleware\BootstrapMailcoach::class,
             Spatie\Mailcoach\Http\App\Middleware\BootstrapNavigation::class,

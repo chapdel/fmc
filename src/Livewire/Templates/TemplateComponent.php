@@ -10,6 +10,7 @@ use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\Template\Models\Template as TemplateModel;
 use Spatie\Mailcoach\Domain\Template\Support\TemplateRenderer;
@@ -63,8 +64,10 @@ class TemplateComponent extends Component
             ->where('status', CampaignStatus::Draft)
             ->whereHas('contentItem', fn (Builder $query) => $query->where('template_id', $this->template->id))
             ->each(function (Campaign $campaign) use ($templateRenderer) {
-                $campaign->contentItem->setHtml($templateRenderer->render($campaign->contentItem->getTemplateFieldValues()));
-                $campaign->contentItem->save();
+                $campaign->contentItems->where('template_id', $this->template->id)->each(function (ContentItem $contentItem) use ($templateRenderer) {
+                    $contentItem->setHtml($templateRenderer->render($contentItem->getTemplateFieldValues()));
+                    $contentItem->save();
+                });
             });
 
         self::getTransactionalMailClass()::query()

@@ -4,7 +4,9 @@ namespace Spatie\Mailcoach\Livewire\Content;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Route;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
@@ -17,23 +19,22 @@ class EditContentComponent extends Component
     use AuthorizesRequests;
     use UsesMailcoachModels;
 
-    public ContentItem $contentItem;
+    public Campaign|AutomationMail $model;
 
-    public ?string $subject;
+    public Collection $contentItems;
+
+    public array $content = [];
 
     public array $templateOptions;
 
     public ?string $mailer;
 
-    protected $listeners = [
-        'editorSaved' => 'save',
-        'editorSavedQuietly' => 'save',
-    ];
+    public bool $canBeSplitTested = false;
 
     protected function rules(): array
     {
         return [
-            'subject' => ['nullable', 'string'],
+            'content.*.subject' => ['nullable', 'string'],
         ];
     }
 
@@ -47,47 +48,103 @@ class EditContentComponent extends Component
                 ?? self::getAutomationMailClass()::findByUuid($sendable);
         }
 
-        $this->contentItem = $sendable->contentItem;
-        $this->subject = $this->contentItem->subject;
+        if ($sendable instanceof Campaign) {
+            $this->canBeSplitTested = true;
+        }
 
-        $this->authorize('update', $this->contentItem->model);
+        $this->model = $sendable;
+        $this->contentItems = $this->model->contentItems;
+        $this->content = $this->contentItems->mapWithKeys(function (ContentItem $contentItem) {
+            return [
+                $contentItem->uuid => [
+                    'html' => $contentItem->getHtml(),
+                    'structured_html' => $contentItem->getStructuredHtml(),
+                    'subject' => $contentItem->subject,
+                ],
+            ];
+        })->toArray();
+
+        $this->authorize('update', $this->model);
 
         $this->templateOptions = self::getTemplateClass()::all()
             ->pluck('name', 'id')
             ->toArray();
 
-        app(MainNavigation::class)->activeSection()?->add($this->contentItem->model->name, match (true) {
-            $this->contentItem->model instanceof Campaign => route('mailcoach.campaigns.content', $this->contentItem->model),
-            $this->contentItem->model instanceof AutomationMail => route('mailcoach.automations.mails.content', $this->contentItem->model),
+        app(MainNavigation::class)->activeSection()?->add($this->model->name, match (true) {
+            $this->model instanceof Campaign => route('mailcoach.campaigns.content', $this->model),
+            $this->model instanceof AutomationMail => route('mailcoach.automations.mails.content', $this->model),
             default => '',
         });
+    }
+
+    public function addSplitTest(string $uuid = null): void
+    {
+        $this->contentItems
+            ->when($uuid, fn ($contentItems) => $contentItems->where('uuid', $uuid))
+            ->last()
+            ->replicate(['uuid'])
+            ->save();
+
+        notify(__mc('Split test added'));
+
+        $this->redirect(match (true) {
+            $this->model instanceof Campaign => route('mailcoach.campaigns.content', $this->model),
+            $this->model instanceof AutomationMail => route('mailcoach.automations.mails.content', $this->model),
+            default => '',
+        }, navigate: true);
+    }
+
+    public function deleteSplitTest(ContentItem $contentItem): void
+    {
+        $contentItem->delete();
+
+        notify(__mc('Split test deleted'));
+
+        $this->redirect(match (true) {
+            $this->model instanceof Campaign => route('mailcoach.campaigns.content', $this->model),
+            $this->model instanceof AutomationMail => route('mailcoach.automations.mails.content', $this->model),
+            default => '',
+        }, navigate: true);
     }
 
     public function save(): void
     {
         $this->validate();
 
-        $this->contentItem->subject = $this->subject;
-        $this->contentItem->save();
+        $this->dispatch('saveContent');
+
+        foreach ($this->content as $uuid => $item) {
+            $this->contentItems->firstWhere('uuid', $uuid)->update([
+                'subject' => $item['subject'],
+            ]);
+        }
+    }
+
+    #[On('editorSaved')]
+    public function notifySave(): void
+    {
+        once(function () {
+            notify(__mc(':name was updated.', ['name' => $this->model->fresh()->name]));
+        });
     }
 
     public function render(): View
     {
-        $this->mailer = $this->contentItem->getMailerKey();
+        $this->mailer = $this->model->getMailerKey();
 
-        $view = $this->contentItem->model->isEditable()
+        $view = $this->model->isEditable()
             ? 'mailcoach::app.content.edit'
             : 'mailcoach::app.content.view';
 
         $layout = match (true) {
-            $this->contentItem->model instanceof Campaign => 'mailcoach::app.campaigns.layouts.campaign',
-            $this->contentItem->model instanceof AutomationMail => 'mailcoach::app.automations.mails.layouts.automationMail',
+            $this->model instanceof Campaign => 'mailcoach::app.campaigns.layouts.campaign',
+            $this->model instanceof AutomationMail => 'mailcoach::app.automations.mails.layouts.automationMail',
             default => '',
         };
 
         return view($view)->layout($layout, [
-            'campaign' => $this->contentItem->model,
-            'mail' => $this->contentItem->model,
+            'campaign' => $this->model,
+            'mail' => $this->model,
             'title' => __mc('Content'),
         ]);
     }

@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Mailcoach;
 
 class CreateCampaignSendJob implements ShouldBeUnique, ShouldQueue
@@ -34,8 +35,11 @@ class CreateCampaignSendJob implements ShouldBeUnique, ShouldQueue
         return "{$this->campaign->id}-{$this->subscriber->id}";
     }
 
-    public function __construct(protected Campaign $campaign, protected Subscriber $subscriber)
-    {
+    public function __construct(
+        protected Campaign $campaign,
+        protected ContentItem $contentItem,
+        protected Subscriber $subscriber
+    ) {
         $this->queue = config('mailcoach.campaigns.perform_on_queue.send_campaign_job');
 
         $this->connection ??= Mailcoach::getQueueConnection();
@@ -47,7 +51,7 @@ class CreateCampaignSendJob implements ShouldBeUnique, ShouldQueue
             return;
         }
 
-        $pendingSend = $this->campaign->contentItem->sends()
+        $pendingSend = $this->contentItem->sends()
             ->where('subscriber_id', $this->subscriber->id)
             ->exists();
 
@@ -55,7 +59,7 @@ class CreateCampaignSendJob implements ShouldBeUnique, ShouldQueue
             return;
         }
 
-        $this->campaign->contentItem->sends()->create([
+        $this->contentItem->sends()->create([
             'subscriber_id' => $this->subscriber->id,
             'uuid' => (string) Str::uuid(),
         ]);

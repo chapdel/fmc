@@ -38,21 +38,29 @@ class CampaignStatisticsComponent extends Component
             return collect();
         }
 
-        if (! $this->campaign->contentItem->opens()->count()) {
+        if (! $this->campaign->openCount()) {
             return collect();
         }
 
         $start = $this->campaign->sent_at->startOfHour()->toImmutable();
 
-        if ($this->campaign->contentItem->open_count > 0) {
-            $firstOpenCreatedAt = $this->campaign->contentItem->opens()->first()?->created_at;
+        if ($this->campaign->openCount() > 0) {
+            $firstOpenCreatedAt = self::getOpenClass()::query()
+                ->whereIn('content_item_id', $this->campaign->contentItems->pluck('id'))
+                ->orderBy('created_at')
+                ->first()
+                ?->created_at;
 
             if ($firstOpenCreatedAt && $firstOpenCreatedAt < $start) {
                 $start = $firstOpenCreatedAt->startOfHour()->toImmutable();
             }
         }
 
-        $end = $this->campaign->contentItem->opens()->latest('created_at')->first('created_at')?->created_at;
+        $end = self::getOpenClass()::query()
+            ->whereIn('content_item_id', $this->campaign->contentItems->pluck('id'))
+            ->orderByDesc('created_at')
+            ->first()
+            ?->created_at;
         $limit = $start->copy()->addHours(24 * 2);
 
         if (is_null($end) || $limit->isBefore($end)) {
@@ -66,7 +74,7 @@ class CampaignStatisticsComponent extends Component
         $createdAtDateFormat = database_date_format_function('created_at', '%Y-%m-%d %H:%I');
 
         $opensPerMinute = DB::table($openTable)
-            ->where('content_item_id', $this->campaign->contentItem->id)
+            ->whereIn('content_item_id', $this->campaign->contentItems->pluck('id'))
             ->selectRaw("{$createdAtDateFormat} as minute, COUNT(*) as opens")
             ->groupBy('minute')
             ->get();
@@ -75,7 +83,7 @@ class CampaignStatisticsComponent extends Component
 
         $clicksPerMinute = DB::table($clickTable)
             ->join($linkTable, 'link_id', '=', $linkTable.'.id')
-            ->where('content_item_id', $this->campaign->contentItem->id)
+            ->whereIn('content_item_id', $this->campaign->contentItems->pluck('id'))
             ->selectRaw("{$clickTableCreatedAtDateFormat} as minute, COUNT(*) as clicks")
             ->groupBy('minute')
             ->get();

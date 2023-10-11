@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\ValidationRules\Rules\Delimited;
@@ -47,9 +48,15 @@ class SendTestComponent extends Component
             config()->set('mail.from.address', $this->from_email);
         }
 
+        $contentItem = null;
+        if ($this->model instanceof ContentItem) {
+            $contentItem = $this->model;
+            $this->model = $contentItem->getModel();
+        }
+
         if ($this->model instanceof Sendable) {
             try {
-                $this->model->sendTestMail($emails);
+                $this->model->sendTestMail($emails, $contentItem);
             } catch (\Throwable $e) {
                 notifyError($e->getMessage());
                 $this->dispatch('modal-closed', ['modal' => 'send-test']);

@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Models;
 
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use League\HTMLToMarkdown\HtmlConverter;
@@ -20,6 +20,7 @@ use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\CanBeScheduled;
 use Spatie\Mailcoach\Domain\Content\Actions\CreateDomDocumentFromHtmlAction;
 use Spatie\Mailcoach\Domain\Content\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
 use Spatie\Mailcoach\Domain\Shared\Actions\InitializeMjmlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
@@ -44,12 +45,13 @@ class Campaign extends Sendable implements Feedable
         'campaigns_feed_enabled' => 'boolean',
         'add_subscriber_tags' => 'boolean',
         'add_subscriber_link_tags' => 'boolean',
-        'all_sends_created_at' => 'datetime',
-        'all_sends_dispatched_at' => 'datetime',
         'summary_mail_sent_at' => 'datetime',
         'status' => CampaignStatus::class,
         'show_publicly' => 'boolean',
         'disable_webview' => 'boolean',
+        'split_test_wait_time_in_minutes' => 'integer',
+        'split_test_split_size_percentage' => 'integer',
+        'split_test_started_at' => 'datetime',
     ];
 
     public static function booted()
@@ -64,9 +66,6 @@ class Campaign extends Sendable implements Feedable
     public static function scopeSentBetween(Builder $query, CarbonInterface $periodStart, CarbonInterface $periodEnd): void
     {
         $query
-            ->whereNotNull('sent_at')
-            ->whereNotNull('all_sends_dispatched_at')
-            ->whereNotNull('all_sends_created_at')
             ->where('sent_at', '>=', $periodStart)
             ->where('sent_at', '<', $periodEnd);
     }
@@ -94,6 +93,11 @@ class Campaign extends Sendable implements Feedable
     public function scopeSending(Builder $query): void
     {
         $query->where('status', CampaignStatus::Sending);
+    }
+
+    public function scopeSendingOrPaused(Builder $query): void
+    {
+        $query->whereIn('status', [CampaignStatus::Sending, CampaignStatus::Paused]);
     }
 
     public function scopeNeedsSummaryToBeReported(Builder $query)
@@ -342,14 +346,14 @@ class Campaign extends Sendable implements Feedable
         return $this->isSent();
     }
 
-    public function sendTestMail(string|array $emails): void
+    public function sendTestMail(string|array $emails, ContentItem $contentItem = null): void
     {
-        if ($this->hasCustomMailable()) {
-            $this->pullSubjectFromMailable();
+        if ($this->hasCustomMailable($contentItem)) {
+            $this->pullSubjectFromMailable($contentItem);
         }
 
-        collect($emails)->each(function (string $email) {
-            dispatch_sync(new SendCampaignTestJob($this, $email));
+        collect($emails)->each(function (string $email) use ($contentItem) {
+            dispatch_sync(new SendCampaignTestJob($this, $email, $contentItem));
         });
     }
 
@@ -389,21 +393,43 @@ class Campaign extends Sendable implements Feedable
 
     public function sendsCount(): int
     {
-        return $this->contentItem->sentSends()->count();
+        return $this->contentItems->sum(function (ContentItem $contentItem) {
+            return $contentItem->sentSends()->count();
+        });
     }
 
-    public function sendsWithoutInvalidated(): HasMany
+    public function hasPendingSends(): bool
     {
-        return $this->contentItem->sends()->whereNull('invalidated_at');
-    }
-
-    public function wasSentToAllSubscribers(): bool
-    {
-        if (! $this->isSent()) {
-            return false;
+        foreach ($this->contentItems as $contentItem) {
+            if ($contentItem->sends()->pending()->count()) {
+                return true;
+            }
         }
 
-        return $this->contentItem->sends()->pending()->count() === 0;
+        return false;
+    }
+
+    public function isSplitTestStarted(): bool
+    {
+        return ! is_null($this->split_test_started_at);
+    }
+
+    public function markSplitTestStarted(): static
+    {
+        $this->update([
+            'split_test_started_at' => now(),
+        ]);
+
+        return $this;
+    }
+
+    public function splitTestWinnerDecidedAt(): ?CarbonInterface
+    {
+        if (! $this->split_test_started_at) {
+            return null;
+        }
+
+        return $this->split_test_started_at->addMinutes($this->split_test_wait_time_in_minutes ?? 240);
     }
 
     protected function ensureUpdatable(): void
@@ -437,7 +463,7 @@ class Campaign extends Sendable implements Feedable
 
     public function isPreparing(): bool
     {
-        return $this->isSending() && ! $this->sent_to_number_of_subscribers;
+        return $this->isSending() && ! $this->sentToNumberOfSubscribers();
     }
 
     public function isSending(): bool
@@ -484,34 +510,6 @@ class Campaign extends Sendable implements Feedable
         return Str::limit($text, 300);
     }
 
-    public function allSendsCreated(): bool
-    {
-        return ! is_null($this->all_sends_created_at);
-    }
-
-    public function markAsAllSendsCreated(): self
-    {
-        $this->update([
-            'all_sends_created_at' => now(),
-        ]);
-
-        return $this;
-    }
-
-    public function allMailSendingJobsDispatched(): bool
-    {
-        return ! is_null($this->all_sends_dispatched_at);
-    }
-
-    public function markAsAllMailSendingJobsDispatched(): self
-    {
-        $this->update([
-            'all_sends_dispatched_at' => now(),
-        ]);
-
-        return $this;
-    }
-
     protected static function newFactory(): CampaignFactory
     {
         return new CampaignFactory();
@@ -537,6 +535,61 @@ class Campaign extends Sendable implements Feedable
         }
 
         return $preheader->textContent;
+    }
+
+    public function isPaused(): bool
+    {
+        return $this->status === CampaignStatus::Paused;
+    }
+
+    public function pause(): self
+    {
+        if ($this->isPaused()) {
+            return $this;
+        }
+
+        $this->update([
+            'status' => CampaignStatus::Paused,
+        ]);
+
+        return $this;
+    }
+
+    public function unpause(): self
+    {
+        if (! $this->isPaused()) {
+            return $this;
+        }
+
+        $this->update([
+            'status' => CampaignStatus::Sending,
+        ]);
+
+        return $this;
+    }
+
+    public function isSplitTested(): bool
+    {
+        return $this->contentItems->count() > 1;
+    }
+
+    public function hasSplitTestWinner(): bool
+    {
+        return ! is_null($this->split_test_winning_content_item_id);
+    }
+
+    public function splitWaitTimeIsOver(): bool
+    {
+        $waitTimeInMinutes = $this->split_test_wait_time_in_minutes
+            // 4 hours by default
+            ?? 60 * 4;
+
+        return $this->split_test_started_at?->addMinutes($waitTimeInMinutes)->isPast();
+    }
+
+    public function splitTestWinner(): BelongsTo
+    {
+        return $this->belongsTo(self::getContentItemClass(), 'split_test_winning_content_item_id');
     }
 
     public static function defaultReplacers(): Collection

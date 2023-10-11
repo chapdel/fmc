@@ -14,12 +14,17 @@ class CreateTemplateAction
         $html = $attributes['body'] ?? $template?->html;
         $structured_html = $template?->getStructuredHtml();
 
-        return self::getTransactionalMailClass()::create([
+        $mail = self::getTransactionalMailClass()::create([
             'name' => $attributes['name'],
             'type' => $attributes['type'],
+        ]);
+
+        $mail->contentItem->update([
             'template_id' => $template?->id,
-            'body' => $html,
+            'html' => $html,
             'structured_html' => $structured_html,
         ]);
+
+        return $mail;
     }
 }

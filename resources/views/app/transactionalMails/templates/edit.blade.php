@@ -44,7 +44,7 @@
                     'blade-markdown' => 'Blade with Markdown',
                 ][$template->type] }}" name="html" wire:model.lazy="html"/>
 
-                <x-mailcoach::editor-buttons :model="$template" :preview-html="$template->body"/>
+                <x-mailcoach::editor-buttons :model="$template" :preview-html="$template->contentItem->html"/>
             @endif
         </x-mailcoach::fieldset>
     </form>

@@ -28,7 +28,9 @@ class UnsubscribesComponent extends ContentItemTable
 
     protected function getTableQuery(): Builder
     {
-        return $this->contentItem->unsubscribes()->with(['subscriber'])->getQuery();
+        return self::getUnsubscribeClass()::query()
+            ->with('subscriber')
+            ->whereIn('content_item_id', $this->contentItems->pluck('id'));
     }
 
     protected function getTableColumns(): array
@@ -86,7 +88,7 @@ class UnsubscribesComponent extends ContentItemTable
                                 'unsubscribed_at' => $unsubscribe->created_at->toMailcoachFormat(),
                             ];
                         },
-                        title: "{$this->contentItem->model->name} unsubscribes",
+                        title: "{$this->model->name} unsubscribes",
                     );
                 }),
         ];

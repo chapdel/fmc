@@ -6,6 +6,7 @@ use Spatie\Mailcoach\Database\Factories\AutomationMailFactory;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailTestJob;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Content\Jobs\CalculateStatisticsJob;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 
 class AutomationMail extends Sendable
@@ -51,14 +52,14 @@ class AutomationMail extends Sendable
         return $this;
     }
 
-    public function sendTestMail(string|array $emails): void
+    public function sendTestMail(string|array $emails, ContentItem $contentItem = null): void
     {
-        if ($this->hasCustomMailable()) {
-            $this->pullSubjectFromMailable();
+        if ($this->hasCustomMailable($contentItem)) {
+            $this->pullSubjectFromMailable($contentItem);
         }
 
-        collect($emails)->each(function (string $email) {
-            (new SendAutomationMailTestJob($this, $email))->handle();
+        collect($emails)->each(function (string $email) use ($contentItem) {
+            (new SendAutomationMailTestJob($this, $email, $contentItem))->handle();
         });
     }
 

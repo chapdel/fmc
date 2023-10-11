@@ -528,6 +528,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component(ReplacerHelpTextsComponent::class, 'mailcoach::replacer-help-texts');
 
         Blade::component('mailcoach::app.components.dropdown', 'mailcoach::dropdown');
+        Blade::component('mailcoach::app.components.lineTitle', 'mailcoach::line-title');
 
         Blade::component('mailcoach::app.layouts.app', 'mailcoach::layout');
         Blade::component('mailcoach::app.automations.layouts.automation', 'mailcoach::layout-automation');

@@ -77,28 +77,29 @@ $horizonStatus = app(\Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus::clas
             </div>
         </x-mailcoach::tile>
 
+        <?php /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $latestCampaign */ ?>
         @if ($latestCampaign)
             <x-mailcoach::tile class="" cols="4" icon="paper-plane" link="{{ route('mailcoach.campaigns.summary', $latestCampaign) }}">
                 <h2 class="dashboard-title">{{ $latestCampaign->name }}</h2>
 
                 <div class="flex justify-between">
                     <a href="{{ route('mailcoach.campaigns.opens', $latestCampaign) }}" class="dashboard-link">
-                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->contentItem->unique_open_count) }}</span>
+                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->uniqueOpenCount()) }}</span>
                         <span class="dashboard-label">{{ __mc('Opens') }}</span>
                     </a>
 
                     <a href="{{ route('mailcoach.campaigns.clicks', $latestCampaign) }}" class="dashboard-link">
-                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->contentItem->unique_click_count) }}</span>
+                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->uniqueClickCount()) }}</span>
                         <span class="dashboard-label">{{ __mc('Clicks') }}</span>
                     </a>
 
                     <a href="{{ route('mailcoach.campaigns.unsubscribes', $latestCampaign) }}" class="dashboard-link">
-                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->contentItem->unsubscribe_count) }}</span>
+                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->unsubscribeCount()) }}</span>
                         <span class="dashboard-label">{{ __mc('Unsubscribes') }}</span>
                     </a>
 
                     <a href="{{ route('mailcoach.campaigns.outbox', $latestCampaign) }}" class="dashboard-link">
-                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->contentItem->bounce_count) }}</span>
+                        <span class="dashboard-value">{{ $this->abbreviateNumber($latestCampaign->bounceCount()) }}</span>
                         <span class="dashboard-label">{{ __mc('Bounces') }}</span>
                     </a>
                 </div>

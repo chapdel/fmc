@@ -25,7 +25,7 @@ class OpensComponent extends ContentItemTable
 
     protected function getTableEmptyStateDescription(): ?string
     {
-        if (! is_null($this->contentItem->open_count)) {
+        if (! is_null($this->model->openCount())) {
             return __mc('No opens yet. Stay tuned.');
         }
 
@@ -50,7 +50,7 @@ class OpensComponent extends ContentItemTable
             ->join(static::getContentItemTableName(), static::getContentItemTableName().'.id', '=', "{$openTableName}.content_item_id")
             ->join($subscriberTableName, "{$subscriberTableName}.id", '=', "{$openTableName}.subscriber_id")
             ->join($emailListTableName, "{$subscriberTableName}.email_list_id", '=', "{$emailListTableName}.id")
-            ->where(static::getContentItemTableName().'.id', $this->contentItem->id)
+            ->whereIn(static::getContentItemTableName().'.id', $this->contentItems->pluck('id'))
             ->groupBy("{$prefix}{$subscriberTableName}.uuid", "{$prefix}{$emailListTableName}.uuid", "{$prefix}{$subscriberTableName}.email");
     }
 

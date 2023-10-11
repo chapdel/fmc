@@ -1,1 +1,1 @@
-{!! $campaign->contentItem->webview_html !!}
+{!! $campaign->isSplitTested() ? $campaign->splitTestWinner->webview_html : $campaign->contentItem->webview_html !!}

@@ -37,7 +37,7 @@ class CampaignSummaryComponent extends Component
         $this->authorize('view', $this->campaign);
 
         return view('mailcoach::app.campaigns.summary', [
-            'failedSendsCount' => $this->campaign->contentItem->sends()->failed()->count(),
+            'failedSendsCount' => $this->campaign->contentItems->sum(fn ($contentItem) => $contentItem->sends()->failed()->count()),
         ])->layout('mailcoach::app.campaigns.layouts.campaign', [
             'campaign' => $this->campaign,
             'title' => __mc('Performance'),
