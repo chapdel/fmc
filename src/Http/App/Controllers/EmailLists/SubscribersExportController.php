@@ -2,12 +2,12 @@
 
 namespace Spatie\Mailcoach\Http\App\Controllers\EmailLists;
 
+use DB;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Http\App\Queries\EmailListSubscribersQuery;
 use Spatie\SimpleExcel\SimpleExcelWriter;
-use DB;
 
 class SubscribersExportController
 {
