@@ -7,6 +7,8 @@ use Filament\Tables\Actions\Action;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Livewire\TableComponent;
 
@@ -25,7 +27,7 @@ class ListsComponent extends TableComponent
                 ->label(__mc('Active'))
                 ->sortable()
                 ->numeric()
-                ->view('mailcoach::app.emailLists.columns.activeSubscribersCount'),
+                ->getStateUsing(fn (EmailList $record) => Str::shortNumber($record->active_subscribers_count)),
             TextColumn::make('created_at')
                 ->label(__mc('Created'))
                 ->sortable()
@@ -68,7 +70,15 @@ class ListsComponent extends TableComponent
 
     protected function getTableQuery(): Builder
     {
-        return self::getEmailListClass()::query();
+        return self::getEmailListClass()::query()
+            ->select(self::getEmailListTableName().'.*')
+            ->selectSub(
+                query: self::getSubscriberClass()::query()
+                    ->subscribed()
+                    ->where('email_list_id', DB::raw(self::getEmailListTableName().'.id'))
+                    ->select(DB::raw('count(*)')),
+                as: 'active_subscribers_count'
+            );
     }
 
     public function getTitle(): string
