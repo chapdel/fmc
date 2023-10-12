@@ -309,7 +309,7 @@ class Mailcoach
             'subscriber_export' => \Spatie\Mailcoach\Domain\Audience\Models\SubscriberExport::class,
             'tag' => \Spatie\Mailcoach\Domain\Audience\Models\Tag::class,
             'tag_segment' => \Spatie\Mailcoach\Domain\Audience\Models\TagSegment::class,
-            'template' => Domain\Template\Models\Template::class,
+            'template' => \Spatie\Mailcoach\Domain\Template\Models\Template::class,
             'transactional_mail_log_item' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem::class,
             'transactional_mail' => \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail::class,
             'automation' => \Spatie\Mailcoach\Domain\Automation\Models\Automation::class,

@@ -22,7 +22,7 @@ class TransactionalMailsComponent extends TableComponent
 
     protected function getTableQuery(): Builder
     {
-        return TransactionalMail::query();
+        return self::getTransactionalMailClass()::query();
     }
 
     protected function getDefaultTableSortColumn(): ?string
