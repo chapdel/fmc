@@ -80,4 +80,9 @@ class SubscriberTagsQueryCondition extends QueryCondition
             default => $baseQuery,
         };
     }
+
+    public function dto(): ?string
+    {
+        return null;
+    }
 }

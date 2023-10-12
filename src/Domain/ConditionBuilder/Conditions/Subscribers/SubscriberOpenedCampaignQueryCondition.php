@@ -56,27 +56,32 @@ class SubscriberOpenedCampaignQueryCondition extends QueryCondition
             });
         }
 
-        if (! is_string($value)) {
+        if (! is_int($value)) {
             throw ConditionException::unsupportedValue($value);
         }
 
         if ($operator === ComparisonOperator::NotEquals) {
             return $baseQuery
-                ->whereHas('opens.contentItem', function (Builder $query) use ($campaignMorphClass, $value) {
-                    $query->where('model_type', $campaignMorphClass)
-                        ->whereHas('model', function (Builder $query) use ($value) {
-                            $query->whereNot('name', $value);
-                        });
-                })->orWhereDoesntHave('opens.contentItem', function (Builder $query) use ($campaignMorphClass) {
-                    $query->where('model_type', $campaignMorphClass);
+                ->whereHas('opens.contentItem', function (Builder $query) use ($value, $campaignMorphClass) {
+                    $query
+                        ->where('model_id', '!=', $value)
+                        ->where('model_type', $campaignMorphClass);
+                })->orWhereDoesntHave('opens.contentItem', function (Builder $query) use ($value, $campaignMorphClass) {
+                    $query
+                        ->where('model_id', $value)
+                        ->where('model_type', $campaignMorphClass);
                 });
         }
 
-        return $baseQuery->whereHas('opens.contentItem', function (Builder $query) use ($campaignMorphClass, $operator, $value) {
-            $query->where('model_type', $campaignMorphClass)
-                ->whereHas('model', function (Builder $query) use ($operator, $value) {
-                    $query->where('name', $operator->toSymbol(), $value);
-                });
+        return $baseQuery->whereHas('opens.contentItem', function (Builder $query) use ($campaignMorphClass, $value) {
+            $query
+                ->where('model_id', $value)
+                ->where('model_type', $campaignMorphClass);
         });
+    }
+
+    public function dto(): ?string
+    {
+        return null;
     }
 }

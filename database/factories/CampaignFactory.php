@@ -11,12 +11,12 @@ class CampaignFactory extends Factory
 {
     use UsesMailcoachModels;
 
-    public function modelName()
+    public function modelName(): string
     {
         return static::getCampaignClass();
     }
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'status' => CampaignStatus::Draft,

@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers;
 
+use Spatie\Mailcoach\Domain\Content\Models\Open;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Livewire\ConditionBuilder\ConditionComponent;
 
@@ -17,13 +18,15 @@ class SubscriberOpenedAutomationMailConditionComponent extends ConditionComponen
 
         $this->changeLabels();
 
-        $this->options = self::getCampaignClass()::query()
-            ->whereHas('opens', function ($query) {
-                $query->where('subscriber_id', auth()->user()->id);
+        // @todo show all automation mails, linked to the email list
+        $this->options = self::getOpenClass()::query()
+            ->with('contentItem.model')
+            ->whereHas('contentItem', function ($query) {
+                $query->where('model_type', self::getAutomationMailTableName());
             })
-            ->pluck('name')
-            ->mapWithKeys(function (string $name) {
-                return [$name => $name];
+            ->get()
+            ->mapWithKeys(function (Open $open) {
+                return [$open->contentItem->model->id => $open->contentItem->model->name];
             })->toArray();
     }
 

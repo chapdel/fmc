@@ -23,8 +23,15 @@ abstract class ConditionComponent extends Component
             ->label();
     }
 
+    public function getValue(): mixed
+    {
+        return $this->storedCondition['value'];
+    }
+
     public function updated(): void
     {
+        $this->storedCondition['value'] = $this->getValue();
+
         $this->dispatch('storedConditionUpdated', $this->index, $this->storedCondition);
     }
 

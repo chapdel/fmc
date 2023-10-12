@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers;
 
+use Spatie\Mailcoach\Domain\ConditionBuilder\Data\SubscriberClickedCampaignLinkQueryConditionData;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Livewire\ConditionBuilder\ConditionComponent;
 
@@ -10,6 +11,8 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
     use UsesMailcoachModels;
 
     public ?int $campaignId = null;
+
+    public ?string $link = null;
 
     public array $campaigns = [];
 
@@ -23,12 +26,22 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
 
         $this->changeLabels();
 
+        $this->campaignId = $this->campaignId();
+        $this->link = $this->link();
         $this->campaigns = self::getCampaignClass()::query()
-            ->has('links')
+            ->has('contentItem.links')
             ->pluck('id', 'name')
             ->mapWithKeys(function (string $id, string $name) {
                 return [$id => $name];
             })->toArray();
+    }
+
+    public function getValue(): mixed
+    {
+        return SubscriberClickedCampaignLinkQueryConditionData::make(
+            campaignId: $this->campaignId,
+            link: $this->link,
+        )->toArray();
     }
 
     public function changeLabels(): void
@@ -48,7 +61,11 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
     public function render()
     {
         $this->options = self::getLinkClass()::query()
-            ->where('campaign_id', $this->campaignId)
+            ->whereHas('contentItem', function ($query) {
+                $query
+                    ->where('model_id', $this->campaignId())
+                    ->where('model_type', self::getCampaignClass());
+            })
             ->distinct()
             ->pluck('url')
             ->mapWithKeys(function (string $url) {
@@ -56,5 +73,15 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
             })->toArray();
 
         return view('mailcoach::app.conditionBuilder.conditions.subscribers.subscriberClickedCampaignLinkCondition');
+    }
+
+    protected function campaignId(): ?int
+    {
+        return $this->storedCondition['value']['campaignId'] ?? null;
+    }
+
+    protected function link(): ?string
+    {
+        return $this->storedCondition['value']['link'] ?? null;
     }
 }

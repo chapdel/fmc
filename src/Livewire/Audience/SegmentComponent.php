@@ -29,7 +29,7 @@ class SegmentComponent extends Component
         'storedConditionsUpdated' => 'updateStoredConditions',
     ];
 
-    protected $queryString = [
+    protected array $queryString = [
         'tab' => ['except' => 'details'],
     ];
 
@@ -38,11 +38,11 @@ class SegmentComponent extends Component
         return [
             'name' => 'required',
             'storedConditions' => ['array'],
-            //'storedConditions.*' => [new StoredConditionRule()], // @todo issue with interface not found
+            //'storedConditions.*' => [new StoredConditionRule()], // @todo get this working
         ];
     }
 
-    public function mount(EmailList $emailList, TagSegment $segment, MainNavigation $mainNavigation)
+    public function mount(EmailList $emailList, TagSegment $segment, MainNavigation $mainNavigation): void
     {
         $this->authorize('update', $emailList);
         $this->authorize('update', $segment);
@@ -59,7 +59,7 @@ class SegmentComponent extends Component
             });
     }
 
-    public function save()
+    public function save(): void
     {
         $this->validate();
 

@@ -14,13 +14,12 @@ class SubscriberOpenedCampaignConditionComponent extends ConditionComponent
 
         $this->changeLabels();
 
-        $this->options = self::getOpenClass()::query()
-            ->join(self::getAutomationMailTableName(), self::getAutomationMailTableName().'.id', '=', self::getOpenTableName().'.automation_mail_id')
-            ->where('subscriber_id', auth()->user()->id)
-            ->pluck('name')
-            ->mapWithKeys(function (string $name) {
-                return [$name => $name];
-            })->toArray();
+        $this->options = self::getCampaignClass()::query()
+            ->whereHas('contentItem.opens', function ($query) {
+                $query->where('subscriber_id', auth()->user()->id);
+            })
+            ->pluck('name', 'id')
+            ->toArray();
     }
 
     public function changeLabels(): void

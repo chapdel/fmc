@@ -6,7 +6,7 @@
                 name="campaign-{{ $index }}"
                 :options="$campaigns"
                 :sort="false"
-                wire:model="campaignId"
+                wire:model="storedCondition.value.campaignId"
                 required
             />
         </div>
@@ -26,7 +26,7 @@
                     :label="__mc('Value')"
                     name="value-{{ $index }}"
                     :options="$options"
-                    wire:model="storedCondition.value"
+                    wire:model="storedCondition.value.link"
                     required
                 />
             </div>

@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers;
 
+use Spatie\Mailcoach\Domain\ConditionBuilder\Data\SubscriberClickedAutomationMailLinkQueryConditionData;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Livewire\ConditionBuilder\ConditionComponent;
 
@@ -10,6 +11,8 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
     use UsesMailcoachModels;
 
     public ?int $automationMailId = null;
+
+    public ?string $link = null;
 
     public array $automationMails = [];
 
@@ -21,8 +24,10 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
 
         $this->changeLabels();
 
+        $this->automationMailId = $this->automationMailId();
+        $this->link = $this->link();
         $this->automationMails = self::getAutomationMailClass()::query()
-            ->has('links')
+            ->has('contentItem.links')
             ->pluck('id', 'name')
             ->mapWithKeys(function (string $id, string $name) {
                 return [$id => $name];
@@ -43,10 +48,22 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
         }
     }
 
+    public function getValue(): mixed
+    {
+        return SubscriberClickedAutomationMailLinkQueryConditionData::make(
+            automationMailId: $this->automationMailId,
+            link: $this->link,
+        )->toArray();
+    }
+
     public function render()
     {
         $this->options = self::getLinkClass()::query()
-            ->where('automation_mail_id', $this->automationMailId)
+            ->whereHas('contentItem', function ($query) {
+                $query
+                    ->where('model_id', $this->automationMailId())
+                    ->where('model_type', self::getAutomationMailClass());
+            })
             ->distinct()
             ->pluck('url')
             ->mapWithKeys(function (string $url) {
@@ -54,5 +71,15 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
             })->toArray();
 
         return view('mailcoach::app.conditionBuilder.conditions.subscribers.subscriberClickedAutomationMailLinkCondition');
+    }
+
+    protected function automationMailId(): ?int
+    {
+        return $this->storedCondition['value']['automationMailId'] ?? null;
+    }
+
+    protected function link(): ?string
+    {
+        return $this->storedCondition['value']['link'] ?? null;
     }
 }

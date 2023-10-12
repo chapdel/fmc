@@ -3,6 +3,7 @@
 use Illuminate\Contracts\Filesystem\Filesystem;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
+use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Subscribers\SubscriberClickedCampaignLinkQueryCondition;
 use Spatie\Mailcoach\Domain\Vendor\Mailgun\MailgunWebhookConfig;
 use Spatie\Mailcoach\Tests\TestCase;
 
@@ -77,4 +78,26 @@ function getSendinblueStub(string $name): array
 function getSesStub(string $name): array
 {
     return getStubs($name, 'Ses');
+}
+
+function emptyStoredCondition(string $comparison = null, mixed $value = null): array
+{
+    return [
+        'condition' => [
+            'key' => SubscriberClickedCampaignLinkQueryCondition::KEY,
+            'label' => 'Subscriber Clicked Automation Mail Link',
+            'comparison_operators' => [
+                'any' => 'Clicked Any Link',
+                'none' => 'Did Not Click Any Link',
+                'equals' => 'Clicked A Specific Link',
+                'not-equals' => 'Did Not Click A Specific Link',
+            ],
+            'data' => [
+                'campaignId' => null,
+                'url' => null,
+            ],
+        ],
+        'comparison_operator' => $comparison,
+        'value' => $value,
+    ];
 }

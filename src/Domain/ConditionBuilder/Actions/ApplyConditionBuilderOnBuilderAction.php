@@ -20,7 +20,7 @@ class ApplyConditionBuilderOnBuilderAction
                 $builder = $condition->apply(
                     baseQuery: $builder,
                     operator: $storedCondition->comparisonOperator,
-                    value: $storedCondition->value
+                    value: $condition->dto() ? $condition->dto()::fromArray($storedCondition->value) : $storedCondition->value,
                 );
             });
 

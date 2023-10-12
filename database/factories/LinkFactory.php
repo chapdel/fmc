@@ -10,7 +10,7 @@ class LinkFactory extends Factory
 {
     protected $model = Link::class;
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'content_item_id' => ContentItem::factory(),

@@ -56,27 +56,32 @@ class SubscriberOpenedAutomationMailQueryCondition extends QueryCondition
             });
         }
 
-        if (! is_string($value)) {
+        if (! is_int($value)) {
             throw ConditionException::unsupportedValue($value);
         }
 
         if ($operator === ComparisonOperator::NotEquals) {
             return $baseQuery
                 ->whereHas('opens.contentItem', function (Builder $query) use ($automationMailMorphClass, $value) {
-                    $query->where('model_type', $automationMailMorphClass)
-                        ->whereHas('model', function (Builder $query) use ($value) {
-                            $query->whereNot('name', $value);
-                        });
-                })->orWhereDoesntHave('opens.contentItem', function (Builder $query) use ($automationMailMorphClass) {
-                    $query->where('model_type', $automationMailMorphClass);
+                    $query
+                        ->where('model_id', '!=', $value)
+                        ->where('model_type', $automationMailMorphClass);
+                })->orWhereDoesntHave('opens.contentItem', function (Builder $query) use ($value, $automationMailMorphClass) {
+                    $query
+                        ->where('model_id', $value)
+                        ->where('model_type', $automationMailMorphClass);
                 });
         }
 
-        return $baseQuery->whereHas('opens.contentItem', function (Builder $query) use ($automationMailMorphClass, $operator, $value) {
-            $query->where('model_type', $automationMailMorphClass)
-                ->whereHas('model', function (Builder $query) use ($operator, $value) {
-                    $query->where('name', $operator->toSymbol(), $value);
-                });
+        return $baseQuery->whereHas('opens.contentItem', function (Builder $query) use ($automationMailMorphClass, $value) {
+            $query
+                ->where('model_id', $value)
+                ->where('model_type', $automationMailMorphClass);
         });
+    }
+
+    public function dto(): ?string
+    {
+        return null;
     }
 }

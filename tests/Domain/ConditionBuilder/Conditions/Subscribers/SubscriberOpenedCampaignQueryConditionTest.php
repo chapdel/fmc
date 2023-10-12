@@ -34,7 +34,7 @@ it('can compare with an equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Equals,
-        value: $campaign->name,
+        value: $campaign->id,
     );
 
     assertTrue($query->pluck('id')->contains($subscriberA->id));
@@ -43,7 +43,7 @@ it('can compare with an equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::Equals,
-        value: 'unknown campaign name',
+        value: 502,
     );
 
     assertTrue($query->pluck('id')->doesntContain($subscriberA->id));
@@ -59,7 +59,7 @@ it('can compare with an non equals to operator', function () {
         ->state(['name' => 'campaign name'])
         ->create();
 
-    Open::factory()->create([
+    $open = Open::factory()->create([
         'content_item_id' => $campaign->contentItem->id,
         'subscriber_id' => $subscriberA->id,
     ]);
@@ -69,7 +69,7 @@ it('can compare with an non equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::NotEquals,
-        value: $campaign->name,
+        value: $campaign->id,
     );
 
     assertTrue($query->pluck('id')->doesntContain($subscriberA->id));
@@ -78,7 +78,7 @@ it('can compare with an non equals to operator', function () {
     $query = $condition->apply(
         baseQuery: Subscriber::query(),
         operator: ComparisonOperator::NotEquals,
-        value: 'unknown campaign name',
+        value: 502,
     );
 
     assertTrue($query->pluck('id')->contains($subscriberA->id));

@@ -35,7 +35,7 @@ class TagSegment extends Model
 
     public function campaigns(): HasMany
     {
-        return $this->hasMany(self::getCampaignClass());
+        return $this->hasMany(self::getCampaignClass(), 'segment_id');
     }
 
     public function emailList(): BelongsTo

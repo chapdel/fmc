@@ -68,4 +68,9 @@ class SubscriberSubscribedAtQueryCondition extends QueryCondition
                 $endDate->endOfDay(),
             ]);
     }
+
+    public function dto(): ?string
+    {
+        return null;
+    }
 }

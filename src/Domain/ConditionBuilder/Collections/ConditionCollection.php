@@ -17,7 +17,6 @@ class ConditionCollection extends Collection
     public static function defaultConditions(): Collection
     {
         return collect([
-            //SubscriberAttributesQueryCondition::class,
             SubscriberClickedAutomationMailLinkQueryCondition::class,
             SubscriberClickedCampaignLinkQueryCondition::class,
             SubscriberEmailQueryCondition::class,
