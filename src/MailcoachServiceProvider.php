@@ -354,6 +354,12 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootRoutes(): static
     {
+        Route::macro('mailgunFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.MailgunWebhookController::class));
+        Route::macro('postmarkFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.PostmarkWebhookController::class));
+        Route::macro('sendgridFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SendgridWebhookController::class));
+        Route::macro('sendinblueFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SendinblueWebhookController::class));
+        Route::macro('sesFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SesWebhookController::class));
+
         Route::macro('mailcoach', function (
             string $url = '',
             bool $registerFeedback = true,
@@ -361,11 +367,11 @@ class MailcoachServiceProvider extends PackageServiceProvider
             Route::middleware([BootstrapMailcoach::class])->group(function () use ($url, $registerFeedback) {
                 if ($registerFeedback) {
                     Route::namespace(null)->group(function () {
-                        Route::macro('mailgunFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.MailgunWebhookController::class));
-                        Route::macro('postmarkFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.PostmarkWebhookController::class));
-                        Route::macro('sendgridFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SendgridWebhookController::class));
-                        Route::macro('sendinblueFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SendinblueWebhookController::class));
-                        Route::macro('sesFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SesWebhookController::class));
+                        Route::mailgunFeedback('mailgun-feedback');
+                        Route::postmarkFeedback('postmark-feedback');
+                        Route::sendgridFeedback('sendgrid-feedback');
+                        Route::sendinblueFeedback('sendinblue-feedback');
+                        Route::sesFeedback('ses-feedback');
                     });
                 }
 
