@@ -22,9 +22,9 @@
             </button>
         @endif
         @if ($deletable)
-            <button type="button" wire:key="delete-{{ $index }}" onclick="confirm('{{ __mc('Are you sure you want to delete this action?') }}') || event.stopImmediatePropagation()" wire:click="delete">
+            <x-mailcoach::confirm-button :confirm-text="__mc('Are you sure you want to delete this action?')" on-confirm="() => $wire.delete()">
                 <i class="icon-button link-danger far fa-trash-alt"></i>
-            </button>
+            </x-mailcoach::confirm-button>
         @endif
     </div>
 

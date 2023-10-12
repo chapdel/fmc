@@ -2,7 +2,7 @@
 
 namespace Spatie\Mailcoach\Livewire\Automations\Actions;
 
-use Illuminate\Support\Str;
+use Livewire\Attributes\On;
 use Spatie\Mailcoach\Livewire\Automations\AutomationActionComponent;
 
 class SplitActionComponent extends AutomationActionComponent
@@ -13,8 +13,6 @@ class SplitActionComponent extends AutomationActionComponent
 
     public array $rightActions = [];
 
-    protected $listeners = ['automationBuilderUpdated', 'editAction', 'actionSaved', 'actionDeleted'];
-
     public function getData(): array
     {
         return [
@@ -23,28 +21,31 @@ class SplitActionComponent extends AutomationActionComponent
         ];
     }
 
-    public function automationBuilderUpdated(array $data): void
+    #[On('automationBuilderUpdated.{uuid}-left-actions')]
+    public function leftActionsUpdated(array $data)
     {
-        if (! Str::startsWith($data['name'], $this->uuid)) {
-            return;
-        }
+        $this->leftActions = $data['actions'];
 
-        if ($data['name'] === $this->uuid.'-left-actions') {
-            $this->leftActions = $data['actions'];
-        }
-
-        if ($data['name'] === $this->uuid.'-right-actions') {
-            $this->rightActions = $data['actions'];
-        }
-
-        $this->dispatch('actionUpdated', $this->getData());
+        $this->dispatch("actionUpdated.{$this->builderName}", $this->getData());
     }
 
+    #[On('automationBuilderUpdated.{uuid}-right-actions')]
+    public function rightActionsUpdated(array $data): void
+    {
+        $this->rightActions = $data['actions'];
+
+        $this->dispatch("actionUpdated.{$this->builderName}", $this->getData());
+    }
+
+    #[On('editAction.{uuid}-left-actions')]
+    #[On('editAction.{uuid}-right-actions')]
     public function editAction(string $uuid)
     {
         $this->editingActions[] = $uuid;
     }
 
+    #[On('actionSaved.{uuid}-left-actions')]
+    #[On('actionSaved.{uuid}-right-actions')]
     public function actionSaved(string $uuid)
     {
         $actions = array_filter($this->editingActions, function ($actionUuid) use ($uuid) {
@@ -54,6 +55,8 @@ class SplitActionComponent extends AutomationActionComponent
         $this->editingActions = $actions;
     }
 
+    #[On('actionDeleted.{uuid}-left-actions')]
+    #[On('actionDeleted.{uuid}-right-actions')]
     public function actionDeleted(string $uuid)
     {
         $actions = array_filter($this->editingActions, function ($actionUuid) use ($uuid) {

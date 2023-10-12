@@ -21,7 +21,9 @@ class HasTagCondition implements Condition
 
     public static function getDescription(array $data): string
     {
-        return (string) __mc(':tag', ['tag' => $data['tag']]);
+        $tag = is_array($data['tag']) ? $data['tag']['value'] : $data['tag'];
+
+        return (string) __mc(':tag', ['tag' => $tag]);
     }
 
     public static function rules(): array
@@ -35,6 +37,10 @@ class HasTagCondition implements Condition
     {
         $this->subscriber->load('tags');
 
-        return $this->subscriber->hasTag($this->data['tag']);
+        $tag = is_array($this->data['tag'])
+            ? $this->data['tag']['value']
+            : $this->data['tag'];
+
+        return $this->subscriber->hasTag($tag);
     }
 }

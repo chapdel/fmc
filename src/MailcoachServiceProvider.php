@@ -102,7 +102,7 @@ use Spatie\Mailcoach\Livewire\Automations\Actions\SubscribeToEmailListActionComp
 use Spatie\Mailcoach\Livewire\Automations\Actions\WaitActionComponent;
 use Spatie\Mailcoach\Livewire\Automations\AutomationActionComponent;
 use Spatie\Mailcoach\Livewire\Automations\AutomationActionsComponent;
-use Spatie\Mailcoach\Livewire\Automations\AutomationBuilder;
+use Spatie\Mailcoach\Livewire\Automations\AutomationBuilderComponent;
 use Spatie\Mailcoach\Livewire\Automations\AutomationMailsComponent;
 use Spatie\Mailcoach\Livewire\Automations\AutomationMailSettingsComponent;
 use Spatie\Mailcoach\Livewire\Automations\AutomationMailSummaryComponent;
@@ -571,7 +571,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Livewire::component('mailcoach::text-area-editor', Mailcoach::getLivewireClass(TextAreaEditorComponent::class));
         Livewire::component('mailcoach::link-check', Mailcoach::getLivewireClass(LinkCheckComponent::class));
 
-        Livewire::component('mailcoach::automation-builder', Mailcoach::getLivewireClass(AutomationBuilder::class));
+        Livewire::component('mailcoach::automation-builder', Mailcoach::getLivewireClass(AutomationBuilderComponent::class));
 
         Livewire::component('mailcoach::automation-action', Mailcoach::getLivewireClass(AutomationActionComponent::class));
         Livewire::component('mailcoach::automation-mail-action', Mailcoach::getLivewireClass(AutomationMailActionComponent::class));

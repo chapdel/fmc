@@ -4,6 +4,8 @@ namespace Spatie\Mailcoach\Livewire\Automations;
 
 class AutomationActionComponent extends AutomationComponent
 {
+    public string $builderName;
+
     public array $action;
 
     public string $uuid;
@@ -25,7 +27,7 @@ class AutomationActionComponent extends AutomationComponent
     {
         $this->editing = true;
 
-        $this->dispatch('editAction', $this->uuid);
+        $this->dispatch("editAction.{$this->builderName}", $this->uuid);
     }
 
     public function save()
@@ -34,14 +36,16 @@ class AutomationActionComponent extends AutomationComponent
             $this->validate();
         }
 
-        $this->dispatch('actionSaved', $this->uuid, $this->getData());
+        $this->dispatch("actionSaved.{$this->builderName}", $this->uuid, $this->getData());
 
         $this->editing = false;
     }
 
     public function delete()
     {
-        $this->dispatch('actionDeleted', $this->uuid);
+        $this->dispatch("actionDeleted.{$this->builderName}", $this->uuid);
+
+        notify(__mc('Action deleted'));
     }
 
     public function getData(): array

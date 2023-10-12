@@ -9,7 +9,7 @@
             <ul>
                 @foreach ($actions as $action)
                     <li>
-                        <a class="block link py-2 whitespace-nowrap" href="#" wire:click.prevent="addAction('{{ addslashes($action) }}', {{ $index }})">
+                        <a class="block link py-2 whitespace-nowrap" href="#" wire:click.prevent="addAction('{{ addslashes($action) }}', {{ $index ?? 0 }})">
                             {{ $action::getName() }}
                         </a>
                     </li>

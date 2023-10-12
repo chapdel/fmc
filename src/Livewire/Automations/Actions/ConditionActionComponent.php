@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Livewire\Automations\Actions;
 
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Livewire\Attributes\On;
 use Spatie\Mailcoach\Domain\Automation\Enums\WaitUnit;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\AttributeCondition;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\Condition;
@@ -31,8 +32,6 @@ class ConditionActionComponent extends AutomationActionComponent
     public array $conditionOptions = [];
 
     public array $conditionData = [];
-
-    protected $listeners = ['automationBuilderUpdated', 'editAction', 'actionSaved', 'actionDeleted'];
 
     public function getData(): array
     {
@@ -87,28 +86,31 @@ class ConditionActionComponent extends AutomationActionComponent
         $this->unit = Str::plural($this->unit);
     }
 
-    public function automationBuilderUpdated(array $data): void
+    #[On('automationBuilderUpdated.{uuid}-yes-actions')]
+    public function yesActionsUpdated(array $data)
     {
-        if (! Str::startsWith($data['name'], $this->uuid)) {
-            return;
-        }
+        $this->yesActions = $data['actions'];
 
-        if ($data['name'] === $this->uuid.'-yes-actions') {
-            $this->yesActions = $data['actions'];
-        }
-
-        if ($data['name'] === $this->uuid.'-no-actions') {
-            $this->noActions = $data['actions'];
-        }
-
-        $this->dispatch('actionUpdated', $this->getData());
+        $this->dispatch("actionUpdated.{$this->builderName}", $this->getData());
     }
 
+    #[On('automationBuilderUpdated.{uuid}-no-actions')]
+    public function noActionsUpdated(array $data): void
+    {
+        $this->noActions = $data['actions'];
+
+        $this->dispatch("actionUpdated.{$this->builderName}", $this->getData());
+    }
+
+    #[On('editAction.{uuid}-yes-actions')]
+    #[On('editAction.{uuid}-no-actions')]
     public function editAction(string $uuid)
     {
         $this->editingActions[] = $uuid;
     }
 
+    #[On('actionSaved.{uuid}-yes-actions')]
+    #[On('actionSaved.{uuid}-no-actions')]
     public function actionSaved(string $uuid)
     {
         $actions = array_filter($this->editingActions, function ($actionUuid) use ($uuid) {
@@ -118,6 +120,8 @@ class ConditionActionComponent extends AutomationActionComponent
         $this->editingActions = $actions;
     }
 
+    #[On('actionDeleted.{uuid}-yes-actions')]
+    #[On('actionDeleted.{uuid}-no-actions')]
     public function actionDeleted(string $uuid)
     {
         $actions = array_filter($this->editingActions, function ($actionUuid) use ($uuid) {

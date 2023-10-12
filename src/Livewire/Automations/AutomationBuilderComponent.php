@@ -3,20 +3,19 @@
 namespace Spatie\Mailcoach\Livewire\Automations;
 
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
+use Livewire\Component;
+use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 
-class AutomationBuilder extends AutomationActionComponent
+class AutomationBuilderComponent extends Component
 {
     public string $name = '';
 
+    public Automation $automation;
+
     public array $actions = [];
 
-    protected $listeners = [
-        'actionSaved',
-        'actionDeleted',
-        'validationFailed',
-        'saveActions',
-    ];
-
+    #[On('actionSaved.{name}')]
     public function actionSaved(string $uuid, array $actionData): void
     {
         $index = collect($this->actions)->search(function ($action) use ($uuid) {
@@ -29,9 +28,10 @@ class AutomationBuilder extends AutomationActionComponent
 
         $this->actions[$index]['data'] = $actionData;
 
-        $this->dispatch('automationBuilderUpdated', $this->getData());
+        $this->dispatch("automationBuilderUpdated.{$this->name}", $this->getData());
     }
 
+    #[On('actionDeleted.{name}')]
     public function actionDeleted(string $uuid): void
     {
         $index = collect($this->actions)->search(function ($action) use ($uuid) {
@@ -46,7 +46,7 @@ class AutomationBuilder extends AutomationActionComponent
 
         $this->actions = array_values($this->actions);
 
-        $this->dispatch('automationBuilderUpdated', $this->getData());
+        $this->dispatch("automationBuilderUpdated.{$this->name}", $this->getData());
     }
 
     public function addAction(string $actionClass, int $index): void
@@ -63,13 +63,14 @@ class AutomationBuilder extends AutomationActionComponent
             ],
             'active' => 0,
             'completed' => 0,
+            'halted' => 0,
         ]]);
 
         if ($editable) {
-            $this->dispatch('editAction', $uuid);
+            $this->dispatch("editAction.{$this->name}", $uuid);
         }
 
-        $this->dispatch('automationBuilderUpdated', $this->getData());
+        $this->dispatch("automationBuilderUpdated.{$this->name}", $this->getData());
     }
 
     public function getData(): array
@@ -95,6 +96,6 @@ class AutomationBuilder extends AutomationActionComponent
     {
         $this->resetValidation($fieldName);
 
-        $this->dispatch('automationBuilderUpdated', $this->getData());
+        $this->dispatch("automationBuilderUpdated.{$this->name}", $this->getData());
     }
 }
