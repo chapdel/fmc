@@ -110,6 +110,7 @@ class SegmentsComponent extends TableComponent
         $duplicateSegment = self::getTagSegmentClass()::create([
             'name' => "{$segment->name} - ".__mc('copy'),
             'email_list_id' => $segment->email_list_id,
+            'stored_conditions' => $segment->stored_conditions,
         ]);
 
         notify(__mc('Segment :segment was duplicated.', ['segment' => $segment->name]));
