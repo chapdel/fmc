@@ -67,8 +67,14 @@ class DashboardChart extends Component
 
     public function render()
     {
-        $this->startSubscriptionsCount = self::getSubscriberClass()::subscribed()
+        $this->startSubscriptionsCount = self::getSubscriberClass()::query()
+            ->whereNotNull('subscribed_at')
             ->where('subscribed_at', '<', $this->start)
+            ->where(function ($query) {
+                $query
+                    ->whereNull('unsubscribed_at')
+                    ->orWhere('unsubscribed_at', '>=', $this->start);
+            })
             ->count();
 
         $this->stats = $this->createStats();
@@ -85,7 +91,6 @@ class DashboardChart extends Component
         $subscribes = DB::table(self::getSubscriberTableName())
             ->selectRaw("count(*) as subscribed_count, {$subscribedAtDateFormat} as subscribed_day")
             ->whereBetween('subscribed_at', [$start, $end])
-            ->whereNull('unsubscribed_at')
             ->orderBy('subscribed_day')
             ->groupBy('subscribed_day')
             ->get();
@@ -98,7 +103,6 @@ class DashboardChart extends Component
         $unsubscribes = DB::table(self::getSubscriberTableName())
             ->selectRaw("count(*) as unsubscribe_count, {$unsubscribedAtDateFormat} as unsubscribe_day")
             ->whereBetween('unsubscribed_at', [$start, $end])
-            ->whereNotNull('unsubscribed_at')
             ->orderBy('unsubscribe_day')
             ->groupBy('unsubscribe_day')
             ->get();
