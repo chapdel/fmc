@@ -40,6 +40,6 @@ class AddUtmTagsToUrlAction
 
         $fragment = isset($parsedUrl['fragment']) ? "#{$parsedUrl['fragment']}" : '';
 
-        return "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}{$fragment}?{$query}";
+        return "{$parsedUrl['scheme']}://{$parsedUrl['host']}{$path}?{$query}{$fragment}";
     }
 }
