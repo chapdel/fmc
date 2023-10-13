@@ -1,7 +1,7 @@
 <x-mailcoach::card class="flex flex-col gap-y-4 {{ $contentItems->count() > 1 ? 'p-6' : '' }}">
     @foreach ($contentItems as $index => $contentItem)
         <div
-            class="border border-indigo-700/10 rounded bg-indigo-200/10 p-6 mb-6"
+            @if ($contentItems->count() > 1) class="border border-indigo-700/10 rounded bg-indigo-200/10 p-6 mb-6" @endif
             wire:key="{{ $contentItem->uuid }}"
             x-data="{
                 collapsed: false,
