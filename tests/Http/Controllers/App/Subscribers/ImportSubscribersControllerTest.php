@@ -215,6 +215,21 @@ it('can handle an xlsx file', function () {
     expect(test()->emailList->subscribers)->toHaveCount(1);
 });
 
+it('can unsubscribe', function () {
+    uploadStub('unsubscribe.csv');
+
+    expect(test()->emailList->subscribers)->toHaveCount(0);
+    expect(test()->emailList->isSubscribed('john@example.com'))->toBeFalse();
+
+    $unsubscribed = Subscriber::query()
+        ->where('first_name', 'John')
+        ->where('last_name', 'Doe')
+        ->first();
+
+    expect($unsubscribed->isUnsubscribed())->toBeTrue();
+    expect($unsubscribed->unsubscribed_at)->not->toBeNull();
+});
+
 // Helpers
 function uploadStub(string $stubName, array $parameters = [], string $asFilename = 'import.csv', string $asMimetype = 'text/csv')
 {

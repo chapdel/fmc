@@ -27,6 +27,8 @@ class PendingSubscriber
 
     public ?CarbonInterface $subscribedAt = null;
 
+    public ?CarbonInterface $unsubscribedAt = null;
+
     public function __construct(string $email, array $attributes = [])
     {
         $this->email = $email;
@@ -83,6 +85,13 @@ class PendingSubscriber
     public function subscribedAt(CarbonInterface $subscribedAt): self
     {
         $this->subscribedAt = $subscribedAt;
+
+        return $this;
+    }
+
+    public function unsubscribedAt(?CarbonInterface $unsubscribedAt): self
+    {
+        $this->unsubscribedAt = $unsubscribedAt;
 
         return $this;
     }

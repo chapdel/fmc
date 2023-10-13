@@ -1,0 +1,2 @@
+email,first_name,last_name,extra_attributes.job_title,tags,unsubscribed_at
+john@example.com,John,Doe,Developer,tag1;tag2,2023-01-01 00:00:00
