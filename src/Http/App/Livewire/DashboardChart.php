@@ -65,7 +65,7 @@ class DashboardChart extends Component
         $this->startSubscriptionsCount = self::getSubscriberClass()::query()
             ->whereNotNull('subscribed_at')
             ->where('subscribed_at', '<', $this->start)
-            ->where(function($query) {
+            ->where(function ($query) {
                 $query
                     ->whereNull('unsubscribed_at')
                     ->orWhere('unsubscribed_at', '>=', $this->start);
