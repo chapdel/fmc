@@ -1,34 +1,63 @@
-<div class="grid grid-cols-3 gap-6 justify-start items-end max-w-xl">
-    @if ($mail->open_count)
-        <x-mailcoach::statistic :href="route('mailcoach.automations.mails.opens', $mail)" class="col-start-1"
-                     numClass="text-4xl font-semibold" :stat="number_format($mail->unique_open_count)" :label="__mc('Unique Opens')"/>
-        <x-mailcoach::statistic :stat="number_format($mail->open_count)" :label="__mc('Opens')"/>
-        <x-mailcoach::statistic :stat="$mail->open_rate / 100" :label="__mc('Open Rate')" suffix="%"/>
-    @else
-        <div class="col-start-1 col-span-3">
-            <div class="text-4xl font-semibold">–</div>
-            <div class="text-sm">{{ __mc('No opens tracked') }}</div>
-        </div>
-    @endif
+<?php /** @var \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail $mail */ ?>
+<x-mailcoach::card>
+    <div class="grid grid-cols-3 xl:grid-cols-5 gap-12 justify-start items-start">
+        <x-mailcoach::statistic
+            :href="route('mailcoach.automations.mails.outbox', $mail)"
+            :stat="number_format($mail->sentToNumberOfSubscribers())"
+            :label="__mc('Recipients')"
+            :progress="$mail->sentToNumberOfSubscribers() > 0 ? 100 : 0"
+        />
 
-    @if($mail->click_count)
-        <x-mailcoach::statistic :href="route('mailcoach.automations.mails.clicks', $mail)" class="col-start-1"
-                     numClass="text-4xl font-semibold" :stat="number_format($mail->unique_click_count)" :label="__mc('Unique Clicks')"/>
-        <x-mailcoach::statistic :stat="number_format($mail->click_count)" :label="__mc('Clicks')"/>
-        <x-mailcoach::statistic :stat="$mail->click_rate / 100" :label="__mc('Click Rate')" suffix="%"/>
-    @else
-        <div class="col-start-1 col-span-3">
-            <div class="text-4xl font-semibold">–</div>
-            <div class="text-sm">{{ __mc('No clicks tracked') }}</div>
-        </div>
-    @endif
+        @if ($mail->openCount())
+            <x-mailcoach::statistic
+                :href="route('mailcoach.automations.mails.opens', $mail)"
+                :stat="$mail->openRate() / 100"
+                :label="__mc('Open Rate')"
+                suffix="%"
+                :progress="$mail->openRate() / 100"
+                :progress-tooltip="$mail->uniqueOpenCount()"
+            />
+        @else
+            <div class="">
+                <div class="leading-none text-4xl font-semibold">–</div>
+                <div class="text-sm">{{ __mc('No opens tracked') }}</div>
+            </div>
+        @endif
 
-    <x-mailcoach::statistic :href="route('mailcoach.automations.mails.unsubscribes', $mail)" numClass="text-4xl font-semibold"
-                 :stat="number_format($mail->unsubscribe_count)" :label="__mc('Unsubscribes')"/>
-    <x-mailcoach::statistic :stat="$mail->unsubscribe_rate / 100" :label="__mc('Unsubscribe Rate')" suffix="%"/>
+        @if($mail->clickCount())
+            <x-mailcoach::statistic
+                :href="route('mailcoach.automations.mails.clicks', $mail)"
+                :stat="$mail->clickRate() / 100"
+                :label="__mc('Click Rate')"
+                suffix="%"
+                :progress="$mail->clickRate() / 100"
+                :progress-tooltip="$mail->uniqueClickCount()"
+            />
+        @else
+            <div class="">
+                <div class="leading-none text-4xl font-semibold">–</div>
+                <div class="text-sm">{{ __mc('No clicks tracked') }}</div>
+            </div>
+        @endif
 
-    <x-mailcoach::statistic :href="route('mailcoach.automations.mails.outbox', $mail) . '?filter[type]=bounced'"
-                 class="col-start-1" numClass="text-4xl font-semibold" :stat="number_format($mail->bounce_count)"
-                 :label="__mc('Bounces')"/>
-    <x-mailcoach::statistic :stat="$mail->bounce_rate / 100" :label="__mc('Bounce Rate')" suffix="%"/>
-</div>
+        <x-mailcoach::statistic
+            :href="route('mailcoach.automations.mails.unsubscribes', $mail)"
+            :stat="$mail->unsubscribeRate() / 100"
+            :label="__mc('Unsubscribe Rate')"
+            suffix="%"
+            :progress="$mail->unsubscribeRate() / 100"
+            :progress-tooltip="$mail->unsubscribeCount()"
+            progress-class="bg-red-500"
+        />
+
+        <x-mailcoach::statistic
+            :href="route('mailcoach.automations.mails.outbox', $mail) . '?filter[type]=bounced'"
+            :stat="$mail->bounceRate() / 100"
+            :label="__mc('Bounce Rate')"
+            suffix="%"
+            :progress="$mail->bounceRate() / 100"
+            :progress-tooltip="$mail->bounceCount()"
+            progress-class="bg-red-500"
+        />
+    </div>
+</x-mailcoach::card>
