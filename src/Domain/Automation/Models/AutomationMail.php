@@ -8,6 +8,7 @@ use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailToSubscriberJob;
 use Spatie\Mailcoach\Domain\Content\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
+use Spatie\Mailcoach\Mailcoach;
 
 class AutomationMail extends Sendable
 {
@@ -76,5 +77,10 @@ class AutomationMail extends Sendable
     protected static function newFactory(): AutomationMailFactory
     {
         return new AutomationMailFactory();
+    }
+
+    public function getMailerKey(): string
+    {
+        return Mailcoach::defaultAutomationMailer();
     }
 }

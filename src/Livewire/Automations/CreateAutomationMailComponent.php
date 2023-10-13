@@ -42,10 +42,14 @@ class CreateAutomationMailComponent extends Component
 
         $this->authorize('create', $automationMailClass);
 
+        $data = $this->validate();
+
         $automationMail = resolve(UpdateAutomationMailAction::class)->execute(
-            new $automationMailClass,
-            $this->validate(),
-            self::getTemplateClass()::find($this->template_id),
+            automationMail: self::getAutomationMailClass()::create(),
+            attributes: $data,
+            template: $this->template_id
+                ? self::getTemplateClass()::find($this->template_id)
+                : null,
         );
 
         notify(__mc('Email :name was created.', ['name' => $automationMail->name]));
