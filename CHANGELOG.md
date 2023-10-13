@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.27.5 - 2023-10-13
+
+- Subscriber imports with an unsubscribed_at column are now imported as unsubscribed
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.27.4...6.27.5
+
 ## 6.27.4 - 2023-10-13
 
 ### What's Changed
