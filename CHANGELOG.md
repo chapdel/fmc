@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.27.4 - 2023-10-13
+
+### What's Changed
+
+- Fix broken counts on "Audience Growth" dashboard chart by @timothyasp in https://github.com/spatie/laravel-mailcoach/pull/1391
+- Fix an issue with settings not being cached when there were none
+- Fix #1384 - Fragments should come after query parameters
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.27.3...6.27.4
+
 ## 6.27.3 - 2023-10-02
 
 ### What's Changed
