@@ -66,9 +66,16 @@ trait UsesSettings
 
     public function getSettings(): ?Setting
     {
-        return Cache::rememberForever($this->getCacheKey(), function () {
-            return self::getSettingClass()::where('key', $this->getKeyName())->first();
+        $settings = Cache::rememberForever($this->getCacheKey(), function () {
+            // We return 'none' if there are not settings, because null does not get cached
+            return self::getSettingClass()::where('key', $this->getKeyName())->first() ?? 'none';
         });
+
+        if ($settings === 'none') {
+            return null;
+        }
+
+        return $settings;
     }
 
     abstract public function getKeyName(): string;
