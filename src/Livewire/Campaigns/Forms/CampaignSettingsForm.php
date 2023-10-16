@@ -111,7 +111,7 @@ class CampaignSettingsForm extends Form
                 'utm_tags' => $this->utm_tags,
                 'utm_source' => $this->utm_tags ? $this->utm_source : null,
                 'utm_medium' => $this->utm_tags ? $this->utm_medium : null,
-                'utm_campaign' => $this->utm_tags ? $this->utm_campaign : null,
+                'utm_campaign' => $this->utm_tags ? Str::slug($this->utm_campaign) : null,
                 'add_subscriber_tags' => $this->add_subscriber_tags,
                 'add_subscriber_link_tags' => $this->add_subscriber_link_tags,
             ]);

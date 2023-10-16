@@ -34,7 +34,7 @@ class PrepareWebviewHtmlAction
         }
 
         if ($contentItem->utm_tags) {
-            $contentItem->webview_html = $this->addUtmTagsToHtmlAction->execute($contentItem->webview_html, $model->name ?? '');
+            $contentItem->webview_html = $this->addUtmTagsToHtmlAction->execute($contentItem->webview_html, $contentItem);
         }
 
         $webviewHtml = mb_convert_encoding($contentItem->webview_html, 'UTF-8');

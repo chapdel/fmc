@@ -69,7 +69,7 @@ class HasClickedAutomationMail implements Condition
             $url = $this->data['automation_mail_link_url'];
 
             if ($mail->contentItem->utm_tags) {
-                $url = app(AddUtmTagsToUrlAction::class)->execute($url, $mail->name);
+                $url = app(AddUtmTagsToUrlAction::class)->execute($url, $mail->contentItem);
             }
 
             $query->whereHas('link', function (Builder $query) use ($url) {

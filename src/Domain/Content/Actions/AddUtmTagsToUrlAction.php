@@ -3,19 +3,20 @@
 namespace Spatie\Mailcoach\Domain\Content\Actions;
 
 use Illuminate\Support\Str;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 
 class AddUtmTagsToUrlAction
 {
-    public function execute(string $url, string $campaignName): string
+    public function execute(string $url, ContentItem $contentItem): string
     {
         if (str_starts_with($url, '::') || str_starts_with($url, '{{')) {
             return $url;
         }
 
         $tags = [
-            'utm_source' => 'newsletter',
-            'utm_medium' => 'email',
-            'utm_campaign' => Str::slug($campaignName),
+            'utm_source' => $contentItem->utm_source ?? 'newsletter',
+            'utm_medium' => $contentItem->utm_medium ?? 'email',
+            'utm_campaign' => $contentItem->utm_campaign ?? Str::slug($contentItem->model->name),
         ];
 
         $parsedUrl = parse_url($url);

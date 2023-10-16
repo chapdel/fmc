@@ -48,7 +48,7 @@ it('checks correctly that a user clicked an automation mail with utm tags', func
     expect($condition->check())->toBeFalse();
 
     $link = Link::factory()->create([
-        'url' => app(AddUtmTagsToUrlAction::class)->execute('https://spatie.be', $automationMail->name),
+        'url' => app(AddUtmTagsToUrlAction::class)->execute('https://spatie.be', $automationMail->contentItem),
         'content_item_id' => $automationMail->contentItem->id,
     ]);
     $click = Click::factory()->create([
