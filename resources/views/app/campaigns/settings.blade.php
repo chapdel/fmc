@@ -140,9 +140,9 @@
             <x-mailcoach::help>
                 <p class="text-sm mb-2">{{ __mc('The following UTM Tags will automatically get added to any links in your campaign:') }}</p>
                 <dl class="markup-dl">
-                    <dt><strong>utm_source</strong></dt><dd>newsletter</dd>
-                    <dt><strong>utm_medium</strong></dt><dd>email</dd>
-                    <dt><strong>utm_campaign</strong></dt><dd>{{ \Illuminate\Support\Str::slug($campaign->name) }}</dd>
+                    <dt><strong>utm_source</strong></dt><dd>{{ $form->utm_source }}</dd>
+                    <dt><strong>utm_medium</strong></dt><dd>{{ $form->utm_medium }}</dd>
+                    <dt><strong>utm_campaign</strong></dt><dd>{{ $form->utm_campaign }}</dd>
                 </dl>
             </x-mailcoach::help>
         @endif

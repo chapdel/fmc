@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Livewire\Campaigns\Forms;
 
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
@@ -31,6 +32,12 @@ class CampaignSettingsForm extends Form
 
     public ?bool $utm_tags = false;
 
+    public ?string $utm_source = 'newsletter';
+
+    public ?string $utm_medium = 'email';
+
+    public ?string $utm_campaign = null;
+
     public ?bool $add_subscriber_tags = false;
 
     public ?bool $add_subscriber_link_tags = false;
@@ -56,6 +63,7 @@ class CampaignSettingsForm extends Form
         $this->reply_to_email = $campaign->contentItem->reply_to_email;
         $this->reply_to_name = $campaign->contentItem->reply_to_name;
         $this->utm_tags = $campaign->contentItem->utm_tags ?? false;
+        $this->utm_campaign = Str::slug($campaign->name);
         $this->add_subscriber_tags = $campaign->contentItem->add_subscriber_tags ?? false;
         $this->add_subscriber_link_tags = $campaign->contentItem->add_subscriber_link_tags ?? false;
     }
