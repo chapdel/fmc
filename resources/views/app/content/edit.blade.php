@@ -32,7 +32,7 @@
                         </button>
                         <x-mailcoach::preview-modal
                             id="preview-{{ $contentItem->uuid }}"
-                            :html="$contentItem->html"
+                            :html="$contentItem->getHtml()"
                             :title="__mc('Preview') . ($contentItem->subject ? ' - ' . $contentItem->subject : '')"/>
                         <x-mailcoach::confirm-button on-confirm="() => $wire.deleteSplitTest('{{ $contentItem->uuid }}')" confirm-text="{{ __mc('Are you sure you want to delete this split test?') }}" x-tooltip="'{{ __mc('Delete') }}'">
                             <x-icon class="w-5 h-5 link-danger" name="heroicon-o-trash" />
@@ -63,11 +63,10 @@
     @endforeach
 
     <x-mailcoach::form-buttons>
-        <x-mailcoach::editor-buttons :show-preview="$contentItems->count() === 1" :model="$contentItem">
+        <x-mailcoach::editor-buttons :preview-html="$contentItem->getHtml()" :show-preview="$contentItems->count() === 1" :model="$contentItem">
             @if ($canBeSplitTested)
                 <x-mailcoach::button-secondary wire:click.prevent="addSplitTest" :label="__mc('Add split test')" />
             @endif
         </x-mailcoach::editor-buttons>
-
     </x-mailcoach::form-buttons>
 </x-mailcoach::card>

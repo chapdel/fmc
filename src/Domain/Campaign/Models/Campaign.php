@@ -119,7 +119,8 @@ class Campaign extends Sendable implements Feedable
     {
         $query
             ->whereNotNull('sent_at')
-            ->where('sent_at', '<=', now()->subDays($daysAgo)->toDateTimeString());
+            ->where('sent_at', '<=', now()->subDays($daysAgo)->toDateTimeString())
+            ->where('sent_at', '>', now()->subDays(7)->toDateTimeString());
     }
 
     /**

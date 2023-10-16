@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Spatie\Mailcoach\Http\Api\Controllers\Editors\EditorJs\RenderEditorController;
+use Spatie\Mailcoach\Http\Api\Controllers\Editors\Markdown\RenderMarkdownController;
 use Spatie\Mailcoach\Http\Api\Controllers\UploadsController;
 use Spatie\Mailcoach\Http\App\Middleware\BootstrapSettingsNavigation;
 use Spatie\Mailcoach\Livewire\Audience\ListMailersComponent;
@@ -65,6 +67,9 @@ Route::post('uploads', UploadsController::class);
 
 Route::get('export', ExportComponent::class)->name('export');
 Route::get('import', ImportComponent::class)->name('import');
+
+Route::post('render', '\\'.RenderEditorController::class);
+Route::post('render-markdown', '\\'.RenderMarkdownController::class)->name('mailcoach-markdown-editor.render-markdown');
 
 Route::prefix('campaigns')->group(function () {
     Route::get('/', Mailcoach::getLivewireClass(CampaignsComponent::class))->name('mailcoach.campaigns');

@@ -185,7 +185,8 @@
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'X-CSRF-Token': '{{ csrf_token() }}',
                     },
                     body: JSON.stringify({
                         markdown: instance.markdown,

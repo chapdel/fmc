@@ -65,13 +65,13 @@ trait UsesMailcoachModels
     /** @return class-string<Link> */
     public static function getLinkClass(): string
     {
-        return config('mailcoach.models.campaign_link', Link::class);
+        return config('mailcoach.models.link', Link::class);
     }
 
     /** @return class-string<Click> */
     public static function getClickClass(): string
     {
-        return config('mailcoach.models.campaign_click', Click::class);
+        return config('mailcoach.models.click', Click::class);
     }
 
     /** @return class-string<Open> */
@@ -83,7 +83,7 @@ trait UsesMailcoachModels
     /** @return class-string<Unsubscribe> */
     public static function getUnsubscribeClass(): string
     {
-        return config('mailcoach.models.campaign_unsubscribe', Unsubscribe::class);
+        return config('mailcoach.models.unsubscribe', Unsubscribe::class);
     }
 
     /** @return class-string<EmailList> */
