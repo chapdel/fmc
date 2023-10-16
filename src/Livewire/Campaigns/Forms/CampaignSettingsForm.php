@@ -48,7 +48,7 @@ class CampaignSettingsForm extends Form
 
     public ?bool $disable_webview = false;
 
-    public function setCampaign(Campaign $campaign)
+    public function setCampaign(Campaign $campaign): void
     {
         $this->campaign = $campaign;
 
@@ -79,6 +79,9 @@ class CampaignSettingsForm extends Form
             'reply_to_name' => ['nullable', new Delimited('string')],
             'email_list_id' => Rule::exists(self::getEmailListTableName(), 'id'),
             'utm_tags' => 'bool',
+            'utm_source' => 'nullable',
+            'utm_medium' => 'nullable',
+            'utm_campaign' => 'nullable|alpha_dash',
             'add_subscriber_tags' => 'bool',
             'add_subscriber_link_tags' => 'bool',
             'segment_id' => ['required_if:segment,segment'],
@@ -106,6 +109,9 @@ class CampaignSettingsForm extends Form
                 'reply_to_email' => $this->reply_to_email,
                 'reply_to_name' => $this->reply_to_name,
                 'utm_tags' => $this->utm_tags,
+                'utm_source' => $this->utm_tags ? $this->utm_source : null,
+                'utm_medium' => $this->utm_tags ? $this->utm_medium : null,
+                'utm_campaign' => $this->utm_tags ? $this->utm_campaign : null,
                 'add_subscriber_tags' => $this->add_subscriber_tags,
                 'add_subscriber_link_tags' => $this->add_subscriber_link_tags,
             ]);
