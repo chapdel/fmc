@@ -1,4 +1,4 @@
-<form class="form-grid w-64"
+<form class="form-grid"
       wire:submit="saveAutomationMail"
       @keydown.prevent.window.cmd.s="$wire.call('saveAutomationMail')"
       @keydown.prevent.window.ctrl.s="$wire.call('saveAutomationMail')"
