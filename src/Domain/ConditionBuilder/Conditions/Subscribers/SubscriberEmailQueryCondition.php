@@ -38,6 +38,8 @@ class SubscriberEmailQueryCondition extends QueryCondition
     {
         $this->ensureOperatorIsSupported($operator);
 
+        $value = empty($value) ? null : $value;
+
         if ($operator === ComparisonOperator::EndsWith) {
             return $baseQuery->where('email', 'like', "%{$value}");
         }
