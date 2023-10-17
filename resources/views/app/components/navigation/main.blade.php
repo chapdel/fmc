@@ -31,7 +31,7 @@
                 >
                     <a x-on:click="select"
                        class="relative mb-[-2px] inline-flex items-center py-2 md:px-3 lg:px-6 md:h-12"
-                       href="{{ $item['url'] }}" wire:navigate data-dirty-warn>
+                       href="{{ $item['url'] }}" data-dirty-warn>
                         <h3 class="group-hover:text-white {{ $item['active'] ? 'text-white' : 'text-white/80' }} uppercase md:text-xs font-bold tracking-wider">
                             {{ $item['title'] }}
                         </h3>
@@ -43,7 +43,7 @@
                         <!-- md:block md:opacity-100 -->
                         <div class="navigation-dropdown md:hidden md:opacity-0">
                             @foreach ($item['children'] as $child)
-                                <a x-on:click="select" class="navigation-link" href="{{ $child['url'] }}" wire:navigate
+                                <a x-on:click="select" class="navigation-link" href="{{ $child['url'] }}"
                                    data-dirty-warn>{{ $child['title'] }}</a>
                             @endforeach
                         </div>

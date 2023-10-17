@@ -10,7 +10,7 @@
         </button>
     </form>
 @else
-    <a x-on:click="select" class="navigation-link" wire:navigate href="{{ $item->url }}">
+    <a x-on:click="select" class="navigation-link" href="{{ $item->url }}">
         @if ($item->icon)
             <x-mailcoach::icon-label x-on:click="select" icon="fas fa-fw {{ $item->icon }}" :text="$item->label" />
         @else
