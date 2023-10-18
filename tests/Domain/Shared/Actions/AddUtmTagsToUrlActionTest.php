@@ -1,5 +1,6 @@
 <?php
 
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Content\Actions\AddUtmTagsToUrlAction;
 
 beforeEach(function () {
@@ -11,7 +12,11 @@ beforeEach(function () {
  * @param  string  $urlWithTags
  */
 it('adds utm tags to an url', function (string $url, string $urlWithTags) {
-    expect(test()->action->execute($url, 'My Campaign'))->toEqual($urlWithTags);
+    $campaign = Campaign::factory()->create([
+        'name' => 'My Campaign',
+    ]);
+
+    expect(test()->action->execute($url, $campaign->contentItem))->toEqual($urlWithTags);
 })->with('urlProvider');
 
 // Datasets
