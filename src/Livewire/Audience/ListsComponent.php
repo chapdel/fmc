@@ -27,6 +27,7 @@ class ListsComponent extends TableComponent
                 ->label(__mc('Active'))
                 ->sortable()
                 ->numeric()
+                /** @phpstan-ignore-next-line The query adds this field */
                 ->getStateUsing(fn (EmailList $record) => Str::shortNumber($record->active_subscribers_count)),
             TextColumn::make('created_at')
                 ->label(__mc('Created'))
