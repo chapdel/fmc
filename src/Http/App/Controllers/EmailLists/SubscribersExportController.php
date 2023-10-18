@@ -22,7 +22,9 @@ class SubscribersExportController
         return response()->streamDownload(function () use ($emailList) {
             $subscribersQuery = new EmailListSubscribersQuery($emailList);
 
-            $subscriberCsv = SimpleExcelWriter::streamDownload("{$emailList->name} subscribers.csv");
+            $filename = str($emailList->name)->slug();
+
+            $subscriberCsv = SimpleExcelWriter::streamDownload("{$filename} subscribers.csv");
 
             $header = [
                 'email' => null,
@@ -59,7 +61,7 @@ class SubscribersExportController
                 });
 
             $subscriberCsv->close();
-        }, "{$emailList->name} subscribers.csv", [
+        }, "{$filename} subscribers.csv", [
             'Content-Type' => 'text/csv',
         ]);
     }

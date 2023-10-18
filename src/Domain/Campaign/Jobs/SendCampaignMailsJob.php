@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Jobs;
 
 use Carbon\CarbonInterface;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -11,7 +12,6 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignMailsAction;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\SendCampaignTimeLimitApproaching;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
@@ -47,17 +47,15 @@ class SendCampaignMailsJob implements ShouldBeUnique, ShouldQueue
 
         $maxRuntimeInSeconds = max(60, config('mailcoach.campaigns.send_campaign_maximum_job_runtime_in_seconds'));
 
-        self::getCampaignClass()::query()
-            ->sendingOrSent()
-            ->each(function (Campaign $campaign) use ($sendCampaignMailsAction, $maxRuntimeInSeconds) {
-                if (! $campaign->contentItems->sum(fn (ContentItem $contentItem) => $contentItem->sends()->pending()->count())) {
-                    return;
-                }
-
+        self::getContentItemClass()::query()
+            ->whereHas('sends', fn (Builder $query) => $query->pending())
+            ->where('model_type', (new (self::getCampaignClass()))->getMorphClass())
+            ->lazyById()
+            ->each(function (ContentItem $contentItem) use ($sendCampaignMailsAction, $maxRuntimeInSeconds) {
                 $stopExecutingAt = now()->addSeconds($maxRuntimeInSeconds);
 
                 try {
-                    $sendCampaignMailsAction->execute($campaign, $stopExecutingAt);
+                    $sendCampaignMailsAction->execute($contentItem->model, $stopExecutingAt);
                 } catch (SendCampaignTimeLimitApproaching) {
                     return;
                 }
