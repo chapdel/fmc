@@ -48,6 +48,11 @@ parameters:
 			path: src/Domain/Automation/Models/Automation.php
 
 		-
+			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:pending\\(\\)\\.$#"
+			count: 1
+			path: src/Domain/Campaign/Jobs/SendCampaignMailsJob.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\:\\:scheduled\\(\\)\\.$#"
 			count: 1
 			path: src/Domain/Campaign/Models/Campaign.php
