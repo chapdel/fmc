@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Campaign\Jobs;
 
 use Carbon\CarbonInterface;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -48,11 +49,9 @@ class SendCampaignMailsJob implements ShouldBeUnique, ShouldQueue
 
         self::getCampaignClass()::query()
             ->sendingOrSent()
+            ->whereHas('sends', fn (Builder $query) => $query->pending())
+            ->lazyById()
             ->each(function (Campaign $campaign) use ($sendCampaignMailsAction, $maxRuntimeInSeconds) {
-                if (! $campaign->sends()->pending()->count()) {
-                    return;
-                }
-
                 $stopExecutingAt = now()->addSeconds($maxRuntimeInSeconds);
 
                 try {
