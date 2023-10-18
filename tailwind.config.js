@@ -68,7 +68,7 @@ export default {
                 32: '8rem',
             },
             maxWidth: {
-                layout: '100rem',
+                layout: '110rem',
             },
             backgroundSize: {
                 'size-200': '200% 200%',
