@@ -3,11 +3,7 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Domain\Template\Models\Template;
-use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 
 class ContentItemFactory extends Factory
 {
@@ -21,8 +17,8 @@ class ContentItemFactory extends Factory
     public function definition(): array
     {
         return [
-            'model_type' => (new Campaign())->getMorphClass(),
-            'model_id' => Campaign::factory()->recycle($this),
+            'model_type' => (new (self::getCampaignClass())())->getMorphClass(),
+            'model_id' => self::getCampaignClass()::factory()->recycle($this),
             'subject' => $this->faker->sentence,
             'from_email' => $this->faker->email,
             'from_name' => $this->faker->name,
@@ -33,7 +29,7 @@ class ContentItemFactory extends Factory
                 ],
             ], JSON_THROW_ON_ERROR),
             'uuid' => $this->faker->uuid,
-            'template_id' => Template::factory(),
+            'template_id' => self::getTemplateClass()::factory(),
         ];
     }
 
@@ -41,8 +37,8 @@ class ContentItemFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'model_type' => (new Campaign())->getMorphClass(),
-                'model_id' => Campaign::factory()->recycle($this),
+                'model_type' => (new (self::getCampaignClass())())->getMorphClass(),
+                'model_id' => self::getCampaignClass()::factory()->recycle($this),
             ];
         });
     }
@@ -51,8 +47,8 @@ class ContentItemFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'model_type' => (new AutomationMail())->getMorphClass(),
-                'model_id' => AutomationMail::factory()->recycle($this),
+                'model_type' => (new (self::getAutomationMailClass())())->getMorphClass(),
+                'model_id' => self::getAutomationMailClass()::factory()->recycle($this),
             ];
         });
     }
@@ -61,8 +57,8 @@ class ContentItemFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'model_type' => (new TransactionalMailLogItem())->getMorphClass(),
-                'model_id' => TransactionalMailLogItem::factory()->recycle($this),
+                'model_type' => (new (self::getTransactionalMailLogItemClass()))->getMorphClass(),
+                'model_id' => self::getTransactionalMailLogItemClass()::factory()->recycle($this),
             ];
         });
     }

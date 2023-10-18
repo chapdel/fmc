@@ -3,8 +3,6 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class SendFactory extends Factory
@@ -20,8 +18,8 @@ class SendFactory extends Factory
     {
         return [
             'uuid' => $this->faker->uuid,
-            'content_item_id' => ContentItem::factory(),
-            'subscriber_id' => Subscriber::factory(),
+            'content_item_id' => self::getContentItemClass()::factory(),
+            'subscriber_id' => self::getSubscriberClass()::factory(),
         ];
     }
 
@@ -29,7 +27,7 @@ class SendFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'content_item_id' => ContentItem::factory()->automationMail(),
+                'content_item_id' => self::getContentItemClass()::factory()->automationMail(),
             ];
         });
     }
@@ -38,7 +36,7 @@ class SendFactory extends Factory
     {
         return $this->state(function (array $attributes) {
             return [
-                'content_item_id' => ContentItem::factory()->transactionalMailLogItem(),
+                'content_item_id' => self::getContentItemClass()::factory()->transactionalMailLogItem(),
             ];
         });
     }

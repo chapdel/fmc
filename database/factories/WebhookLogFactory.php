@@ -3,20 +3,24 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
-use Spatie\Mailcoach\Domain\Settings\Models\WebhookLog;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\WebhookServer\Events\WebhookCallFailedEvent;
 use Spatie\WebhookServer\Events\WebhookCallSucceededEvent;
 
 class WebhookLogFactory extends Factory
 {
-    protected $model = WebhookLog::class;
+    use UsesMailcoachModels;
+
+    public function modelName()
+    {
+        return self::getWebhookLogClass();
+    }
 
     public function definition(): array
     {
         return [
             'uuid' => $this->faker->uuid,
-            'webhook_configuration_id' => WebhookConfiguration::factory(),
+            'webhook_configuration_id' => self::getWebhookConfigurationClass()::factory(),
             'webhook_event_type' => $this->faker->randomElement([
                 WebhookCallFailedEvent::class,
                 WebhookCallSucceededEvent::class,

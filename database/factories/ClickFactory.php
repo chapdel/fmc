@@ -3,20 +3,23 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Content\Models\Click;
-use Spatie\Mailcoach\Domain\Content\Models\Link;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class ClickFactory extends Factory
 {
-    protected $model = Click::class;
+    use UsesMailcoachModels;
+
+    public function modelName()
+    {
+        return self::getClickClass();
+    }
 
     public function definition()
     {
         return [
             'send_id' => SendFactory::new(),
-            'link_id' => Link::factory(),
-            'subscriber_id' => Subscriber::factory(),
+            'link_id' => self::getLinkClass()::factory(),
+            'subscriber_id' => self::getSubscriberClass()::factory(),
         ];
     }
 }
