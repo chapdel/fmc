@@ -26,12 +26,13 @@ it('emits correct data', function () {
     $uuid = Str::uuid()->toString();
 
     Livewire::test(RemoveTagsActionComponent::class, [
+        'builderName' => 'default',
         'action' => test()->action,
         'uuid' => $uuid,
     ])->set('tags', 'some,tags')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertDispatched('actionSaved', $uuid, [
+        ->assertDispatched('actionSaved.default', $uuid, [
             'tags' => 'some,tags',
         ]);
 });

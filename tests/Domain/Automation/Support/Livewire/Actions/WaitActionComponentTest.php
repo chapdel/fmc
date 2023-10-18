@@ -71,13 +71,14 @@ it('emits correct data', function () {
     $uuid = Str::uuid()->toString();
 
     Livewire::test(WaitActionComponent::class, [
+        'builderName' => 'default',
         'action' => test()->action,
         'uuid' => $uuid,
     ])->set('length', '5')
         ->set('unit', 'days')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertDispatched('actionSaved', $uuid, [
+        ->assertDispatched('actionSaved.default', $uuid, [
             'seconds' => 432000,
             'unit' => 'days',
             'length' => '5',
@@ -90,13 +91,14 @@ it('can use a weekday unit', function () {
     $uuid = Str::uuid()->toString();
 
     Livewire::test(WaitActionComponent::class, [
+        'builderName' => 'default',
         'action' => test()->action,
         'uuid' => $uuid,
     ])->set('length', '5')
         ->set('unit', WaitUnit::Weekdays->value)
         ->call('save')
         ->assertHasNoErrors()
-        ->assertDispatched('actionSaved', $uuid, [
+        ->assertDispatched('actionSaved.default', $uuid, [
             'seconds' => 604800,
             'unit' => 'weekdays',
             'length' => '5',

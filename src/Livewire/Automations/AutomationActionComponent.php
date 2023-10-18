@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Livewire\Automations;
 
 class AutomationActionComponent extends AutomationComponent
 {
-    public string $builderName;
+    public string $builderName = '';
 
     public array $action;
 

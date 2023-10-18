@@ -49,12 +49,13 @@ it('emits correct data', function () {
     $mail = AutomationMail::factory()->create();
 
     Livewire::test(AutomationMailActionComponent::class, [
+        'builderName' => 'default',
         'action' => test()->action,
         'uuid' => $uuid,
     ])->set('automation_mail_id', $mail->id)
         ->call('save')
         ->assertHasNoErrors()
-        ->assertDispatched('actionSaved', $uuid, [
+        ->assertDispatched('actionSaved.default', $uuid, [
             'automation_mail_id' => $mail->id,
         ]);
 });

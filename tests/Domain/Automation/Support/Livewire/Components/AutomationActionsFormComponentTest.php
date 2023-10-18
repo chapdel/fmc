@@ -19,13 +19,13 @@ it('listens to edit and saved events to disable the save button', function () {
     Livewire::test(AutomationActionsComponent::class, [
         'automation' => $automation,
     ])->assertDontSee('disabled')
-        ->dispatch('editAction', $someActionUuid)
+        ->dispatch('editAction.default', $someActionUuid)
         ->assertSee('disabled')
-        ->dispatch('actionSaved', $someActionUuid, [])
+        ->dispatch('actionSaved.default', $someActionUuid, [])
         ->assertDontSee('disabled')
-        ->dispatch('editAction', $someActionUuid)
+        ->dispatch('editAction.default', $someActionUuid)
         ->assertSee('disabled')
-        ->dispatch('actionDeleted', $someActionUuid)
+        ->dispatch('actionDeleted.default', $someActionUuid)
         ->assertDontSee('disabled');
 });
 
@@ -38,9 +38,7 @@ it('puts actions from the automation builder in the form', function () {
 
     Livewire::test(AutomationActionsComponent::class, [
         'automation' => $automation,
-    ])->assertSee(json_encode([
-        $automation->actions->first()->toLivewireArray(),
-    ]));
+    ])->assertSee($automation->actions->first()->toLivewireArray()['uuid']);
 });
 
 it('updates actions when the default builder is updated', function () {
@@ -52,10 +50,8 @@ it('updates actions when the default builder is updated', function () {
 
     Livewire::test(AutomationActionsComponent::class, [
         'automation' => $automation,
-    ])->assertSee(json_encode([
-        $automation->actions->first()->toLivewireArray(),
-    ]))->dispatch('automationBuilderUpdated', [
-        'name' => 'default',
+    ])->assertSee($automation->actions->first()->toLivewireArray()['uuid']
+    )->dispatch('automationBuilderUpdated.default', [
         'actions' => [
             [
                 'uuid' => '486b38a0-1421-43c9-ab3f-debd0e959650',
@@ -79,24 +75,5 @@ it('updates actions when the default builder is updated', function () {
             'active' => 0,
             'completed' => 0,
         ],
-    ]);
-});
-
-it('doesnt update when other builders get updated', function () {
-    /** @var Automation $automation */
-    $automation = Automation::factory()->create();
-    $automation->chain([
-        new UnsubscribeAction(),
-    ]);
-
-    Livewire::test(AutomationActionsComponent::class, [
-        'automation' => $automation,
-    ])->assertSee(json_encode([
-        $automation->actions->first()->toLivewireArray(),
-    ]))->dispatch('automationBuilderUpdated', [
-        'name' => 'some-other',
-        'actions' => [],
-    ])->assertSet('actions', [
-        $automation->actions->first()->toLivewireArray(),
     ]);
 });

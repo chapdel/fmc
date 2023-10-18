@@ -105,6 +105,7 @@ it('emits an event', function () {
     $uuid = Str::uuid()->toString();
 
     Livewire::test(ConditionActionComponent::class, [
+        'builderName' => 'default',
         'automation' => test()->automation,
         'action' => test()->action,
         'uuid' => $uuid,
@@ -114,7 +115,7 @@ it('emits an event', function () {
         ->set('conditionData.tag', 'some-tag')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertDispatched('actionSaved', function ($event, $params) use ($uuid) {
+        ->assertDispatched('actionSaved.default', function ($event, $params) use ($uuid) {
             expect($params[0])->toBe($uuid);
             expect($params[1])->toBe([
                 'length' => 5,

@@ -69,6 +69,8 @@ abstract class TestCase extends Orchestra
         );
 
         View::addLocation(__DIR__.'/views');
+
+        $this->withoutVite();
     }
 
     protected function tearDown(): void
