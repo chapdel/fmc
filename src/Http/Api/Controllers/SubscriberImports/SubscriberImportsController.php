@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Response;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
@@ -21,7 +22,14 @@ class SubscriberImportsController
     {
         $this->authorize('viewAny', self::getEmailListClass());
 
-        $subscribersImport = self::getSubscriberImportClass()::query()->with(['emailList'])->paginate();
+        $subscribersImport = self::getSubscriberImportClass()::query()
+            ->with(['emailList'])
+            ->when(request('filter.email_list_uuid'), function (Builder $query) {
+                $query->whereHas('emailList', function (Builder $query) {
+                    $query->where('uuid', request('filter.email_list_uuid'));
+                });
+            })
+            ->paginate();
 
         return SubscriberImportResource::collection($subscribersImport);
     }

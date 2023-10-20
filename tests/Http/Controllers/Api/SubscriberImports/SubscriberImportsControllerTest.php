@@ -27,6 +27,15 @@ it('can list all subscriber imports', function () {
     }
 });
 
+it('can filter on email list uuid', function () {
+    $subscriberImports = SubscriberImport::factory(3)->create();
+
+    $response = $this
+        ->getJson(action([SubscriberImportsController::class, 'index']).'?filter[email_list_uuid]='.$subscriberImports->first()->emailList->uuid)
+        ->assertSuccessful()
+        ->assertJsonCount(1, 'data');
+});
+
 it('can show a subscriber import', function () {
     $subscriberImport = SubscriberImport::factory()->create();
 
