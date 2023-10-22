@@ -19,10 +19,10 @@ class SubscribersExportController
 
         ini_set('max_execution_time', '0');
 
-        return response()->streamDownload(function () use ($emailList) {
-            $subscribersQuery = new EmailListSubscribersQuery($emailList);
+        $filename = str($emailList->name)->slug();
 
-            $filename = str($emailList->name)->slug();
+        return response()->streamDownload(function () use ($emailList, $filename) {
+            $subscribersQuery = new EmailListSubscribersQuery($emailList);
 
             $subscriberCsv = SimpleExcelWriter::streamDownload("{$filename} subscribers.csv");
 
