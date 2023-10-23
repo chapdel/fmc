@@ -10,6 +10,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\SubscriberImportRequest;
+use Spatie\Mailcoach\Http\Api\Resources\SubscriberImportIndexResource;
 use Spatie\Mailcoach\Http\Api\Resources\SubscriberImportResource;
 
 class SubscriberImportsController
@@ -23,6 +24,16 @@ class SubscriberImportsController
         $this->authorize('viewAny', self::getEmailListClass());
 
         $subscribersImport = self::getSubscriberImportClass()::query()
+            ->select([
+                'uuid',
+                'status',
+                'subscribe_unsubscribed',
+                'unsubscribe_others',
+                'replace_tags',
+                'imported_subscribers_count',
+                'errors',
+                'email_list_id',
+            ])
             ->with(['emailList'])
             ->when(request('filter.email_list_uuid'), function (Builder $query) {
                 $query->whereHas('emailList', function (Builder $query) {
@@ -31,7 +42,7 @@ class SubscriberImportsController
             })
             ->paginate();
 
-        return SubscriberImportResource::collection($subscribersImport);
+        return SubscriberImportIndexResource::collection($subscribersImport);
     }
 
     public function show(SubscriberImport $subscriberImport)

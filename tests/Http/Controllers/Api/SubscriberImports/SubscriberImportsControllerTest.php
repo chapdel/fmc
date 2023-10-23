@@ -15,7 +15,9 @@ beforeEach(function () {
 });
 
 it('can list all subscriber imports', function () {
-    $subscriberImports = SubscriberImport::factory(3)->create();
+    $subscriberImports = SubscriberImport::factory(3)->create([
+        'subscribers_csv' => 'some-csv',
+    ]);
 
     $response = $this
         ->getJson(action([SubscriberImportsController::class, 'index']))
@@ -24,6 +26,7 @@ it('can list all subscriber imports', function () {
 
     foreach ($subscriberImports as $subscriberImport) {
         $response->assertJsonFragment(['uuid' => $subscriberImport->uuid]);
+        $response->assertJsonMissingPath('subscribers_csv');
     }
 });
 
