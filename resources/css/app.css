@@ -1,6 +1,7 @@
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 
+@import './vendor/codemirror.css';
 @import './vendor/easy-mde-overrides.css';
 @import './vendor/choices.css';
 @import './vendor/filament.css';
