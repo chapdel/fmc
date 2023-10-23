@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.27.8 - 2023-10-22
+
+- Fix an issue with filename not being defined in exports
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.27.7...6.27.8
+
+## 6.27.7 - 2023-10-18
+
+- Improve the SendCampaignMailsJob to not load in all sending & sent campaigns
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.27.6...6.27.7
+
 ## 6.27.6 - 2023-10-13
 
 - Fix an issue with email list exports from lists that contain special characters in the name

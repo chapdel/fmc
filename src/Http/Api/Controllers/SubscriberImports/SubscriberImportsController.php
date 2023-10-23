@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\Api\Controllers\SubscriberImports;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Response;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
@@ -9,6 +10,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Http\Api\Requests\SubscriberImportRequest;
+use Spatie\Mailcoach\Http\Api\Resources\SubscriberImportIndexResource;
 use Spatie\Mailcoach\Http\Api\Resources\SubscriberImportResource;
 
 class SubscriberImportsController
@@ -21,9 +23,26 @@ class SubscriberImportsController
     {
         $this->authorize('viewAny', self::getEmailListClass());
 
-        $subscribersImport = self::getSubscriberImportClass()::query()->with(['emailList'])->paginate();
+        $subscribersImport = self::getSubscriberImportClass()::query()
+            ->select([
+                'uuid',
+                'status',
+                'subscribe_unsubscribed',
+                'unsubscribe_others',
+                'replace_tags',
+                'imported_subscribers_count',
+                'errors',
+                'email_list_id',
+            ])
+            ->with(['emailList'])
+            ->when(request('filter.email_list_uuid'), function (Builder $query) {
+                $query->whereHas('emailList', function (Builder $query) {
+                    $query->where('uuid', request('filter.email_list_uuid'));
+                });
+            })
+            ->paginate();
 
-        return SubscriberImportResource::collection($subscribersImport);
+        return SubscriberImportIndexResource::collection($subscribersImport);
     }
 
     public function show(SubscriberImport $subscriberImport)

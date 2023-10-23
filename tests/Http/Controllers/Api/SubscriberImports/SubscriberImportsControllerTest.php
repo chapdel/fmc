@@ -15,7 +15,9 @@ beforeEach(function () {
 });
 
 it('can list all subscriber imports', function () {
-    $subscriberImports = SubscriberImport::factory(3)->create();
+    $subscriberImports = SubscriberImport::factory(3)->create([
+        'subscribers_csv' => 'some-csv',
+    ]);
 
     $response = $this
         ->getJson(action([SubscriberImportsController::class, 'index']))
@@ -24,7 +26,17 @@ it('can list all subscriber imports', function () {
 
     foreach ($subscriberImports as $subscriberImport) {
         $response->assertJsonFragment(['uuid' => $subscriberImport->uuid]);
+        $response->assertJsonMissingPath('subscribers_csv');
     }
+});
+
+it('can filter on email list uuid', function () {
+    $subscriberImports = SubscriberImport::factory(3)->create();
+
+    $response = $this
+        ->getJson(action([SubscriberImportsController::class, 'index']).'?filter[email_list_uuid]='.$subscriberImports->first()->emailList->uuid)
+        ->assertSuccessful()
+        ->assertJsonCount(1, 'data');
 });
 
 it('can show a subscriber import', function () {
