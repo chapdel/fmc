@@ -203,8 +203,13 @@ class SubscribersComponent extends TableComponent
                     }
 
                     return $query->whereHas('opens', function (Builder $query) use ($data) {
-                        $query->whereIn('campaign_id',
-                            self::getCampaignClass()::whereIn('uuid', $data['values'])->select('id'));
+                        $query->whereIn(
+                            'content_item_id',
+                            self::getContentItemClass()::query()
+                                ->where('model_type', (new (self::getCampaignClass()))->getMorphClass())
+                                ->whereIn('model_id', self::getCampaignClass()::whereIn('uuid', $data['values'])->select('id'))
+                                ->select('id')
+                        );
                     });
                 }),
             SelectFilter::make('opened_automation_mail')
@@ -217,9 +222,14 @@ class SubscribersComponent extends TableComponent
                         return $query;
                     }
 
-                    return $query->whereHas('automationMailOpens', function (Builder $query) use ($data) {
-                        $query->whereIn('automation_mail_id',
-                            self::getAutomationMailClass()::whereIn('uuid', $data['values'])->select('id'));
+                    return $query->whereHas('opens', function (Builder $query) use ($data) {
+                        $query->whereIn(
+                            'content_item_id',
+                            self::getContentItemClass()::query()
+                                ->where('model_type', (new (self::getAutomationMailClass()))->getMorphClass())
+                                ->whereIn('model_id', self::getAutomationMailClass()::whereIn('uuid', $data['values'])->select('id'))
+                                ->select('id')
+                        );
                     });
                 }),
             SelectFilter::make('clicked_campaign')
@@ -234,7 +244,13 @@ class SubscribersComponent extends TableComponent
 
                     return $query->whereHas('clicks', function (Builder $query) use ($data) {
                         $query->whereHas('link', function (Builder $query) use ($data) {
-                            $query->whereIn('campaign_id', self::getCampaignClass()::whereIn('uuid', $data['values'])->select('id'));
+                            $query->whereIn(
+                                'content_item_id',
+                                self::getContentItemClass()::query()
+                                    ->where('model_type', (new (self::getCampaignClass()))->getMorphClass())
+                                    ->whereIn('model_id', self::getCampaignClass()::whereIn('uuid', $data['values'])->select('id'))
+                                    ->select('id')
+                            );
                         });
                     });
                 }),
@@ -248,9 +264,15 @@ class SubscribersComponent extends TableComponent
                         return $query;
                     }
 
-                    return $query->whereHas('automationMailClicks', function (Builder $query) use ($data) {
+                    return $query->whereHas('clicks', function (Builder $query) use ($data) {
                         $query->whereHas('link', function (Builder $query) use ($data) {
-                            $query->whereIn('automation_mail_id', self::getAutomationMailClass()::whereIn('uuid', $data['values'])->select('id'));
+                            $query->whereIn(
+                                'content_item_id',
+                                self::getContentItemClass()::query()
+                                    ->where('model_type', (new (self::getAutomationMailClass()))->getMorphClass())
+                                    ->whereIn('model_id', self::getAutomationMailClass()::whereIn('uuid', $data['values'])->select('id'))
+                                    ->select('id')
+                            );
                         });
                     });
                 }),
@@ -258,15 +280,13 @@ class SubscribersComponent extends TableComponent
                 ->label(__mc('Has opened any email'))
                 ->toggle()
                 ->query(fn (Builder $query) => $query->where(function (Builder $query) {
-                    $query->whereHas('opens')
-                        ->orWhereHas('automationMailOpens');
+                    $query->whereHas('opens');
                 })),
             Filter::make('clicks')
                 ->label(__mc('Has clicked any email'))
                 ->toggle()
                 ->query(fn (Builder $query) => $query->where(function (Builder $query) {
-                    $query->whereHas('clicks')
-                        ->orWhereHas('automationMailClicks');
+                    $query->whereHas('clicks');
                 })),
         ];
     }
