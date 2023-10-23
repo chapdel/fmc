@@ -168,7 +168,6 @@ class CampaignsComponent extends TableComponent
                 Action::make('Duplicate')
                     ->action(function (Campaign $record) {
                         $this->duplicateCampaign($record);
-                        notify(__mc('Campaign :campaign was duplicated.', ['campaign' => $record->name]));
                     })
                     ->icon('heroicon-o-clipboard')
                     ->label(__mc('Duplicate')),
@@ -256,7 +255,7 @@ class CampaignsComponent extends TableComponent
 
         notify(__mc('Campaign :campaign was duplicated.', ['campaign' => $campaign->name]));
 
-        return redirect()->route('mailcoach.campaigns.settings', $duplicateCampaign);
+        $this->redirect(route('mailcoach.campaigns.settings', $duplicateCampaign));
     }
 
     public function getLayoutData(): array
