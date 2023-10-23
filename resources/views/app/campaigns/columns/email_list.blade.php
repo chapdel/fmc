@@ -1,5 +1,5 @@
 @php($campaign = $getRecord())
-<div class="fi-ta-text-item inline-flex items-center gap-1.5 text-sm">
+<div class="fi-ta-text-item inline-flex items-center gap-1.5">
     @if (! $campaign->emailList)
         &ndash;
     @else

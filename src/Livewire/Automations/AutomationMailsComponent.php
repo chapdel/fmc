@@ -29,11 +29,13 @@ class AutomationMailsComponent extends TableComponent
                 ->sortable()
                 ->searchable()
                 ->label(__mc('Name'))
+                ->size('base')
                 ->extraAttributes(['class' => 'link']),
             TextColumn::make('sent_to_number_of_subscribers')
                 ->sortable()
                 ->label(__mc('Emails'))
                 ->numeric()
+                ->size('base')
                 ->getStateUsing(fn (AutomationMail $record) => number_format($record->contentItem->sent_to_number_of_subscribers) ?: '–'),
             TextColumn::make('unique_open_count')
                 ->sortable()
@@ -48,6 +50,7 @@ class AutomationMailsComponent extends TableComponent
             TextColumn::make('created_at')
                 ->sortable()
                 ->label(__mc('Created'))
+                ->size('base')
                 ->date(config('mailcoach.date_format')),
         ];
     }

@@ -44,7 +44,6 @@ class SuppressionListComponent extends TableComponent
                 ->label(__mc('Email'))
                 ->sortable()
                 ->searchable(),
-            //->view('mailcoach::app.tableField'),
             TextColumn::make('reason')
                 ->label(__mc('Reason'))
                 ->sortable()

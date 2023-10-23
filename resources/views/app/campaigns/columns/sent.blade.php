@@ -1,5 +1,5 @@
 @php($campaign = $getRecord())
-<div class="fi-ta-text-item inline-flex flex-col justify-center gap-1.5 text-sm">
+<div class="fi-ta-text-item inline-flex flex-col justify-center gap-1.5">
     @if($campaign->isSent())
         {{ optional($campaign->sent_at)->toMailcoachFormat() }}
     @elseif($campaign->isSending())

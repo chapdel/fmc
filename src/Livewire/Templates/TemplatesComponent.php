@@ -29,6 +29,7 @@ class TemplatesComponent extends TableComponent
             TextColumn::make('name')
                 ->sortable()
                 ->searchable()
+                ->size('base')
                 ->extraAttributes(['class' => 'link']),
             IconColumn::make('contains_placeholders')
                 ->label(__mc('Placeholders'))
@@ -43,10 +44,12 @@ class TemplatesComponent extends TableComponent
             TextColumn::make('created_at')
                 ->sortable()
                 ->alignRight()
+                ->size('base')
                 ->date(config('mailcoach.date_format')),
             TextColumn::make('updated_at')
                 ->alignRight()
                 ->sortable()
+                ->size('base')
                 ->date(config('mailcoach.date_format')),
         ];
     }

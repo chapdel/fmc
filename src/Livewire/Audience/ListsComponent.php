@@ -21,16 +21,17 @@ class ListsComponent extends TableComponent
                 ->label(__mc('Name'))
                 ->sortable()
                 ->searchable()
-                ->view('mailcoach::app.emailLists.columns.name')
-                ->extraAttributes(['class' => 'link']),
+                ->view('mailcoach::app.emailLists.columns.name'),
             TextColumn::make('active_subscribers_count')
                 ->label(__mc('Active'))
                 ->sortable()
+                ->size('base')
                 ->numeric()
                 /** @phpstan-ignore-next-line The query adds this field */
                 ->getStateUsing(fn (EmailList $record) => Str::shortNumber($record->active_subscribers_count)),
             TextColumn::make('created_at')
                 ->label(__mc('Created'))
+                ->size('base')
                 ->sortable()
                 ->date(config('mailcoach.date_format')),
         ];

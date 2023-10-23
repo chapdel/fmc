@@ -42,16 +42,19 @@ class TransactionalMailLogItemsComponent extends TableComponent
                 ->color(fn (TransactionalMailLogItem $record) => $record->fake ? 'primary' : 'success'),
             TextColumn::make('contentItem.subject')
                 ->extraAttributes(['class' => 'link'])
+                ->size('base')
                 ->label(__mc('Subject'))
                 ->searchable(),
             TextColumn::make('to')
+                ->size('base')
                 ->getStateUsing(fn (TransactionalMailLogItem $record) => $record->toString())
                 ->searchable(),
-            TextColumn::make('contentItem.opens_count')->label(__mc('Opens'))->numeric(),
-            TextColumn::make('contentItem.clicks_count')->label(__mc('Clicks'))->numeric(),
+            TextColumn::make('contentItem.opens_count')->size('base')->label(__mc('Opens'))->numeric(),
+            TextColumn::make('contentItem.clicks_count')->size('base')->label(__mc('Clicks'))->numeric(),
             TextColumn::make('created_at')
                 ->label(__mc('Sent'))
                 ->sortable()
+                ->size('base')
                 ->date(config('mailcoach.date_format')),
         ];
     }

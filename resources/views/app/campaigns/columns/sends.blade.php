@@ -2,7 +2,7 @@
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
     $campaign = $getRecord()
 )
-<div class="fi-ta-text-item inline-flex items-center gap-1.5 text-sm">
+<div class="fi-ta-text-item inline-flex items-center gap-1.5">
     @if (! $campaign->isCancelled() && $campaign->sentToNumberOfSubscribers())
         {{ number_format($campaign->sentToNumberOfSubscribers()) }}
     @elseif ($sentSendsCount = $campaign->contentItems->sum(fn (\Spatie\Mailcoach\Domain\Content\Models\ContentItem $contentItem) => $contentItem->sent_sends_count))

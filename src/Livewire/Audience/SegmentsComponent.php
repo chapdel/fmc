@@ -66,6 +66,7 @@ class SegmentsComponent extends TableComponent
                 ->getStateUsing(fn (TagSegment $record) => cache()->remember("segment-population-count-{$record->id}", now()->addMinutes(10), fn () => Str::shortNumber($record->getSubscribersQuery()->count())))
                 ->alignRight(),
             TextColumn::make('created_at')
+                ->size('base')
                 ->date(config('mailcoach.date_format'))
                 ->alignRight()
                 ->sortable(),

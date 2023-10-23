@@ -3,7 +3,7 @@
     $campaign = $getRecord()
 )
 
-<div class="fi-ta-text-item inline-flex flex-col justify-center gap-1.5 text-sm">
+<div class="fi-ta-text-item inline-flex flex-col justify-center gap-1.5">
     @if($campaign->clickCount())
         {{ number_format($campaign->uniqueClickCount()) }}
         <div class="td-secondary-line">{{ $campaign->clickRate() / 100 }}%</div>

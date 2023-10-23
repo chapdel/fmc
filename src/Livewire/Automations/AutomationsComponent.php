@@ -32,9 +32,11 @@ class AutomationsComponent extends TableComponent
                 ->label(__mc('Name'))
                 ->sortable()
                 ->searchable()
+                ->size('base')
                 ->extraAttributes(['class' => 'link']),
             TextColumn::make('updated_at')
                 ->sortable()
+                ->size('base')
                 ->date(config('mailcoach.date_format')),
         ];
     }
