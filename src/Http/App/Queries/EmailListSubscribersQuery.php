@@ -20,7 +20,7 @@ class EmailListSubscribersQuery extends QueryBuilder
 
     public function __construct(EmailList $emailList, Request $request = null)
     {
-        $subscriberTableNameWithPrefix = DB::getTablePrefix() . self::getSubscriberTableName();
+        $subscriberTableNameWithPrefix = DB::getTablePrefix().self::getSubscriberTableName();
 
         $subscribersQuery = self::getSubscriberClass()::query()
             ->fromSub(self::getSubscriberClass()::query()
