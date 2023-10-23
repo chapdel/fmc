@@ -9,7 +9,7 @@
             wire:model.live="start"
             label="{{ __mc('From') }}"
             class="flex-row gap-0"
-            inputClass="w-32"
+            inputClass="w-40"
         />
         <x-mailcoach::date-field
             min-date="{{ $start }}"
@@ -19,7 +19,7 @@
             wire:model.live="end"
             label="{{ __mc('To') }}"
             class="flex-row gap-0"
-            inputClass="w-32"
+            inputClass="w-40"
         />
     </div>
     @if ($readyToLoad)
