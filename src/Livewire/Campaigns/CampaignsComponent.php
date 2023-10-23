@@ -23,17 +23,19 @@ class CampaignsComponent extends TableComponent
 {
     public function getTableQuery(): Builder
     {
+        $campaignsTable = self::getCampaignTableName();
+
         return self::getCampaignClass()::query()
             ->select(self::getCampaignTableName().'.*')
             ->with(['emailList', 'contentItem' => function ($query) {
                 $query->withCount('sentSends');
             }])
-            ->addSelect(DB::raw(<<<'SQL'
+            ->addSelect(DB::raw(<<<"SQL"
                 CASE
-                    WHEN status = 'draft' AND scheduled_at IS NULL THEN CONCAT(999999999, id)
-                    WHEN scheduled_at IS NOT NULL THEN scheduled_at
-                    WHEN sent_at IS NOT NULL THEN sent_at
-                    ELSE updated_at
+                    WHEN status = 'draft' AND scheduled_at IS NULL THEN CONCAT(999999999, {$campaignsTable}.id)
+                    WHEN {$campaignsTable}.scheduled_at IS NOT NULL THEN {$campaignsTable}.scheduled_at
+                    WHEN {$campaignsTable}.sent_at IS NOT NULL THEN {$campaignsTable}.sent_at
+                    ELSE {$campaignsTable}.updated_at
                 END as 'sent_sort'
             SQL));
     }
