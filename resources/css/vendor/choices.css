@@ -170,6 +170,7 @@
     @apply hover:border-indigo-700/30;
     @apply placeholder:text-indigo-900/50;
     @apply py-0;
+    @apply text-base;
 }
 
 /* SPATIE: changed */
