@@ -207,14 +207,14 @@
             <x-slot name="editor">
                 <div class="markup markup-editor markup-lists markup-links markup-code"
                     wire:ignore x-data="{
-                    html: @entangle('templateFieldValues.' . $field['name'] . '.html'),
-                    markdown: @entangle('templateFieldValues.' . $field['name'] . '.markdown'),
-                    theme: @entangle('templateFieldValues.' . $field['name'] . '.theme'),
+                    html: @entangle('templateFieldValues.' . $field['name'] . '.html').live,
+                    markdown: @entangle('templateFieldValues.' . $field['name'] . '.markdown').live,
+                    theme: @entangle('templateFieldValues.' . $field['name'] . '.theme').live,
                     init: init,
                 }">
                     <textarea x-ref="editor" data-dirty-check></textarea>
 
-                    <div class="form-field -mt-4 mb-4" x-show="markdown.includes('```')" x-cloak>
+                    <div class="form-field mt-2 mb-4" x-show="markdown.includes('```')" x-cloak>
                         <label class="label" for="theme">
                             Syntax highlighting theme
                         </label>

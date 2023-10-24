@@ -105,8 +105,8 @@
             <x-slot name="editor">
                 <div class="markup markup-lists markup-links markup-code pr-16 max-w-[750px]">
                     <div class="px-6 py-4 input bg-white" wire:ignore x-data="{
-                        html: @entangle('templateFieldValues.' . $field['name'] . '.html'),
-                        json: @entangle('templateFieldValues.' . $field['name'] . '.json'),
+                        html: @entangle('templateFieldValues.' . $field['name'] . '.html').live,
+                        json: @entangle('templateFieldValues.' . $field['name'] . '.json').live,
                         init: init,
                     }">
                         <div x-ref="editor" data-dirty-check></div>

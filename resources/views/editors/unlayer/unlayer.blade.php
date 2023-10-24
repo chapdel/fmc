@@ -125,8 +125,8 @@
 
     <div class="max-w-full flex flex-col">
         <div wire:ignore x-data="{
-            html: @entangle('templateFieldValues.html'),
-            json: @entangle('templateFieldValues.json'),
+            html: @entangle('templateFieldValues.html').live,
+            json: @entangle('templateFieldValues.json').live,
             init: init,
         }" class="overflow-hidden -mx-10 flex-1 h-full mb-6">
             <div id="editor" class="h-full -ml-2 pr-3 py-1" style="min-height: 75vh; height: 75vh" data-dirty-check></div>

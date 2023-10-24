@@ -3,7 +3,7 @@
     'html' => '',
     'title' => 'Preview',
 ])
-@push('modals')
+@teleport('body')
     <x-filament::modal id="{{ $id }}" slide-over width="2xl">
         <x-slot:heading>
             <p class="mb-2">{{ $title }}</p>
@@ -13,4 +13,4 @@
             src="data:text/html;base64,{{ base64_encode($html) }}"
             style="width: 100%; height: 100%;" id="{{ $id }}-iframe"></iframe>
     </x-filament::modal>
-@endpush
+@endteleport

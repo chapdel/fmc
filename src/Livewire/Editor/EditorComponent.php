@@ -98,6 +98,8 @@ abstract class EditorComponent extends Component
     public function updated()
     {
         $this->renderFullHtml();
+
+        $this->dispatch('editorUpdated', $this->model->uuid, $this->previewHtml());
     }
 
     public function renderFullHtml()

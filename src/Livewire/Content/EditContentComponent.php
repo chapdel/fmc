@@ -25,6 +25,8 @@ class EditContentComponent extends Component
 
     public array $content = [];
 
+    public array $preview = [];
+
     public array $templateOptions;
 
     public ?string $mailer;
@@ -61,6 +63,11 @@ class EditContentComponent extends Component
                     'structured_html' => $contentItem->getStructuredHtml(),
                     'subject' => $contentItem->subject,
                 ],
+            ];
+        })->toArray();
+        $this->preview = $this->contentItems->mapWithKeys(function (ContentItem $contentItem) {
+            return [
+                $contentItem->uuid => $contentItem->getHtml(),
             ];
         })->toArray();
 
@@ -126,6 +133,12 @@ class EditContentComponent extends Component
         once(function () {
             notify(__mc(':name was updated.', ['name' => $this->model->fresh()->name]));
         });
+    }
+
+    #[On('editorUpdated')]
+    public function updatePreviewHtml($uuid, $previewHtml)
+    {
+        $this->preview[$uuid] = $previewHtml;
     }
 
     public function render(): View
