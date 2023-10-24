@@ -37,6 +37,9 @@ class AutomationsComponent extends TableComponent
             TextColumn::make('updated_at')
                 ->sortable()
                 ->size('base')
+                ->extraAttributes([
+                    'class' => 'tabular-nums',
+                ])
                 ->date(config('mailcoach.date_format')),
         ];
     }

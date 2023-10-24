@@ -1,5 +1,5 @@
 @php($campaign = $getRecord())
-<div class="fi-ta-text-item gap-1.5">
+<div class="fi-ta-text-item gap-1.5 px-3">
     <span class="link">{{ $campaign->name }}</span>
     @if ($campaign->sends_with_errors_count)
         <div class="flex items-center text-orange-500 text-xs mt-1">

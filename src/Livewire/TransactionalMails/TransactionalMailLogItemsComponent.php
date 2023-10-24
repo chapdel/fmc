@@ -55,6 +55,9 @@ class TransactionalMailLogItemsComponent extends TableComponent
                 ->label(__mc('Sent'))
                 ->sortable()
                 ->size('base')
+                ->extraAttributes([
+                    'class' => 'tabular-nums',
+                ])
                 ->date(config('mailcoach.date_format')),
         ];
     }

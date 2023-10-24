@@ -45,11 +45,17 @@ class TemplatesComponent extends TableComponent
                 ->sortable()
                 ->alignRight()
                 ->size('base')
+                ->extraAttributes([
+                    'class' => 'tabular-nums',
+                ])
                 ->date(config('mailcoach.date_format')),
             TextColumn::make('updated_at')
                 ->alignRight()
                 ->sortable()
                 ->size('base')
+                ->extraAttributes([
+                    'class' => 'tabular-nums',
+                ])
                 ->date(config('mailcoach.date_format')),
         ];
     }

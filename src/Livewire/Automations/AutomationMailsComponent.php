@@ -51,6 +51,9 @@ class AutomationMailsComponent extends TableComponent
                 ->sortable()
                 ->label(__mc('Created'))
                 ->size('base')
+                ->extraAttributes([
+                    'class' => 'tabular-nums',
+                ])
                 ->date(config('mailcoach.date_format')),
         ];
     }

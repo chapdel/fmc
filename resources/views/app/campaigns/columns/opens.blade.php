@@ -2,7 +2,7 @@
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
     $campaign = $getRecord()
 )
-<div class="fi-ta-text-item inline-flex flex-col justify-center gap-1.5">
+<div class="fi-ta-text-item inline-flex flex-col justify-center gap-1.5 px-3">
     @if (! $campaign->openCount())
         &ndash;
     @else

@@ -67,6 +67,9 @@ class SegmentsComponent extends TableComponent
                 ->alignRight(),
             TextColumn::make('created_at')
                 ->size('base')
+                ->extraAttributes([
+                    'class' => 'tabular-nums',
+                ])
                 ->date(config('mailcoach.date_format'))
                 ->alignRight()
                 ->sortable(),

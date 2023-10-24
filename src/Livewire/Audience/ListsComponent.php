@@ -33,6 +33,9 @@ class ListsComponent extends TableComponent
                 ->label(__mc('Created'))
                 ->size('base')
                 ->sortable()
+                ->extraAttributes([
+                    'class' => 'tabular-nums',
+                ])
                 ->date(config('mailcoach.date_format')),
         ];
     }

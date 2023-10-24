@@ -10,6 +10,10 @@
     @apply p-0;
 }
 
+.fi-ta-cell {
+    font-variant-numeric: tabular-nums;
+}
+
 .fi-ta-cell:has(label > .fi-checkbox-input) {
     width: 1em;
     padding-right: 0;
