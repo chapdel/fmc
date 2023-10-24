@@ -31,7 +31,7 @@
                     </x-mailcoach::success>
                 @endif
             @else
-                <x-mailcoach::error class="shadow">
+                <x-mailcoach::error class="shadow" full>
                     {{ __mc('You need to check some settings before you can deliver this campaign.') }}
                 </x-mailcoach::error>
             @endif
@@ -83,7 +83,7 @@
 
             <dd>
                 <div>
-                    @if($campaign->emailListSubscriberCount())
+                    @if($subscribersCount = $campaign->emailListSubscriberCount())
                         {{ $campaign->emailList->name }}
                         @if($campaign->usesSegment())
                             ({{ $campaign->getSegment()->description() }})
@@ -315,7 +315,7 @@
         @endforeach
     </div>
 
-    @if ($campaign->isSplitTested())
+    @if ($campaign->isSplitTested() && $subscribersCount)
         <x-mailcoach::line-title>
             {{ __mc('Split test settings') }}
         </x-mailcoach::line-title>
@@ -369,8 +369,8 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <p>{{ __mc('Each split will receive') }} <span class="font-semibold" x-text="subscribers_per_split + ' {{ __mc('emails') }}'"></span>.</p>
-                    <p>{{ __mc('The winner will receive the remaining') }} <span class="font-semibold" x-text="(subscriber_count - (subscribers_per_split * split_count)) + ' {{ __mc('emails') }}'"></span></p>
+                    <p>{{ __mc('Each split will receive') }} <span class="font-semibold" x-text="subscribers_per_split + (subscribers_per_split === 1 ? ' {{  __mc('email') }}' : ' {{  __mc('emails') }}')"></span>.</p>
+                    <p>{{ __mc('The winner will receive the remaining') }} <span class="font-semibold" x-text="(Math.max(0, subscriber_count - (subscribers_per_split * split_count))) + ' {{ __mc('emails') }}'"></span></p>
                 </div>
             </div>
 
@@ -469,6 +469,10 @@
                         </div>
                     </x-mailcoach::modal>
                 </div>
+            @else
+                <x-mailcoach::error class="shadow" full>
+                    {{ __mc('You need to check some settings before you can deliver this campaign.') }}
+                </x-mailcoach::error>
             @endif
         </div>
     </x-mailcoach::card>

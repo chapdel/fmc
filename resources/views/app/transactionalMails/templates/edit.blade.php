@@ -28,24 +28,39 @@
             />
 
             @if ($template->type === 'html')
-                <div class="mt-6">
-                    @livewire(\Livewire\Livewire::getAlias(config('mailcoach.content_editor')), ['model' => $template->contentItem])
-                </div>
+                @livewire(config('mailcoach.content_editor'), ['model' => $template->contentItem])
             @else
-                    <?php
-                    $editor = config('mailcoach.content_editor',
-                        \Spatie\Mailcoach\Livewire\Editor\TextAreaEditorComponent::class);
-                    $editorName = (new ReflectionClass($editor))->getShortName();
-                    ?>
                 <x-mailcoach::html-field label="{{ [
-                    'html' => 'HTML (' . $editorName . ')',
                     'markdown' => 'Markdown',
                     'blade' => 'Blade',
                     'blade-markdown' => 'Blade with Markdown',
                 ][$template->type] }}" name="html" wire:model.lazy="html"/>
-
-                <x-mailcoach::editor-buttons :model="$template" :preview-html="$template->contentItem->html"/>
             @endif
+
+            <x-mailcoach::form-buttons>
+                <div class="flex gap-x-2">
+                    <x-mailcoach::button
+                        @keydown.prevent.window.cmd.s="$wire.call('save')"
+                        @keydown.prevent.window.ctrl.s="$wire.call('save')"
+                        wire:click.prevent="save"
+                        :label="__mc('Save content')"
+                    />
+
+                    @if (config('mailcoach.content_editor') !== \Spatie\Mailcoach\Domain\Editor\Unlayer\Editor::class)
+                        <x-mailcoach::button-secondary
+                            x-on:click.prevent="$dispatch('open-modal', { id: 'preview-{{ md5($html) }}' })"
+                            :label="__mc('Preview')"
+                        />
+                        @teleport('body')
+                            <x-mailcoach::preview-modal
+                                id="preview-{{ md5($html) }}"
+                                :html="$html"
+                                :title="__mc('Preview')"
+                            />
+                        @endteleport
+                    @endif
+                </div>
+            </x-mailcoach::form-buttons>
         </x-mailcoach::fieldset>
     </form>
 

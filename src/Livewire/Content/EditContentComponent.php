@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Livewire\Content;
 
+use Carbon\CarbonInterface;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
@@ -27,11 +28,13 @@ class EditContentComponent extends Component
 
     public array $preview = [];
 
-    public array $templateOptions;
-
     public ?string $mailer;
 
     public bool $canBeSplitTested = false;
+
+    public bool $autosaveConflict = false;
+
+    public ?CarbonInterface $lastSavedAt = null;
 
     protected function rules(): array
     {
@@ -55,6 +58,9 @@ class EditContentComponent extends Component
         }
 
         $this->model = $sendable;
+
+        $this->authorize('update', $this->model);
+
         $this->contentItems = $this->model->contentItems;
         $this->content = $this->contentItems->mapWithKeys(function (ContentItem $contentItem) {
             return [
@@ -71,11 +77,7 @@ class EditContentComponent extends Component
             ];
         })->toArray();
 
-        $this->authorize('update', $this->model);
-
-        $this->templateOptions = self::getTemplateClass()::all()
-            ->pluck('name', 'id')
-            ->toArray();
+        $this->lastSavedAt = $this->model->updated_at;
 
         app(MainNavigation::class)->activeSection()?->add($this->model->name, match (true) {
             $this->model instanceof Campaign => route('mailcoach.campaigns.content', $this->model),
@@ -125,6 +127,25 @@ class EditContentComponent extends Component
                 'subject' => $item['subject'],
             ]);
         }
+    }
+
+    public function autosave()
+    {
+        if ($this->lastSavedAt && $this->lastSavedAt->timestamp !== $this->model->fresh()->updated_at->timestamp) {
+            $this->autosaveConflict = true;
+
+            return;
+        }
+
+        $this->dispatch('saveContentQuietly');
+    }
+
+    #[On('editorSavedQuietly')]
+    public function onSavedQuietly()
+    {
+        $this->model->touch();
+        $this->lastSavedAt = $this->model->updated_at;
+        $this->autosaveConflict = false;
     }
 
     #[On('editorSaved')]

@@ -1,3 +1,11 @@
+@pushonce('scripts')
+    <script>
+        document.addEventListener('livewire:init', function () {
+            setInterval(() => @this.autosave(), 20000);
+        });
+    </script>
+@endpushonce
+
 <x-mailcoach::card class="flex flex-col gap-y-4 {{ $contentItems->count() > 1 ? 'p-6' : '' }}">
     @foreach ($contentItems as $index => $contentItem)
         <div
@@ -30,15 +38,16 @@
                         <button type="button" x-tooltip="'{{ __mc('Preview') }}'" x-on:click.prevent="$dispatch('open-modal', { id: 'preview-{{ $contentItem->uuid }}' })">
                             <x-icon class="w-5 h-5" name="heroicon-o-eye" />
                         </button>
-                        <x-mailcoach::preview-modal
-                            id="preview-{{ $contentItem->uuid }}"
-                            :html="$preview[$contentItem->uuid]"
-                            :title="__mc('Preview') . ($contentItem->subject ? ' - ' . $contentItem->subject : '')"/>
                         <x-mailcoach::confirm-button on-confirm="() => $wire.deleteSplitTest('{{ $contentItem->uuid }}')" confirm-text="{{ __mc('Are you sure you want to delete this split test?') }}" x-tooltip="'{{ __mc('Delete') }}'">
                             <x-icon class="w-5 h-5 link-danger" name="heroicon-o-trash" />
                         </x-mailcoach::confirm-button>
                     </div>
                 </div>
+                <x-mailcoach::preview-modal
+                    id="preview-{{ $contentItem->uuid }}"
+                    :html="$preview[$contentItem->uuid]"
+                    :title="__mc('Preview') . ($contentItem->subject ? ' - ' . $contentItem->subject : '')"
+                />
             @endif
 
             <div class="form-grid" wire:ignore x-show="!collapsed" x-collapse>
@@ -63,10 +72,40 @@
     @endforeach
 
     <x-mailcoach::form-buttons>
-        <x-mailcoach::editor-buttons :preview-html="$preview[$contentItem->uuid]" :show-preview="$contentItems->count() === 1" :model="$contentItem">
+        <x-mailcoach::replacer-help-texts :model="$contentItem->getModel()" />
+
+        <div class="flex gap-x-2">
+            <x-mailcoach::button
+                @keydown.prevent.window.cmd.s="$wire.call('save')"
+                @keydown.prevent.window.ctrl.s="$wire.call('save')"
+                wire:click.prevent="save"
+                :label="__mc('Save content')"
+            />
+
+            @if ($contentItems->count() === 1 && config('mailcoach.content_editor') !== \Spatie\Mailcoach\Domain\Editor\Unlayer\Editor::class)
+                <x-mailcoach::button-secondary
+                    x-on:click.prevent="$dispatch('open-modal', { id: 'preview-{{ md5($preview[$contentItem->uuid]) }}' })"
+                    :label="__mc('Preview')"
+                />
+                <x-mailcoach::preview-modal
+                    id="preview-{{ md5($preview[$contentItem->uuid]) }}"
+                    :html="$preview[$contentItem->uuid]"
+                    :title="__mc('Preview') . ($contentItem->subject ? ' - ' . $contentItem->subject : '')"
+                />
+            @endif
+
             @if ($canBeSplitTested)
                 <x-mailcoach::button-secondary wire:click.prevent="addSplitTest" :label="__mc('Add split test')" />
             @endif
-        </x-mailcoach::editor-buttons>
+        </div>
+
+        @if ($this->autosaveConflict)
+            <x-mailcoach::warning class="mt-4">
+                {{ __mc('Autosave disabled, the content was saved somewhere else. Refresh the page to get the latest content or save manually to override.') }}
+            </x-mailcoach::warning>
+        @else
+            <p class="text-xs mt-3">{{ __mc("We autosave every 20 seconds") }}
+                - {{ __mc('Last saved at') }} {{ $this->lastSavedAt->toMailcoachFormat() }}</p>
+        @endif
     </x-mailcoach::form-buttons>
 </x-mailcoach::card>

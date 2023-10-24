@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Livewire\Templates;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
@@ -29,10 +30,6 @@ class TemplateComponent extends Component
     #[Rule('required')]
     public ?string $html;
 
-    protected $listeners = [
-        'editorSaved' => 'save',
-    ];
-
     public function mount(TemplateModel $template)
     {
         $this->authorize('update', $template);
@@ -46,6 +43,8 @@ class TemplateComponent extends Component
     {
         $this->validate();
 
+        $this->dispatch('saveContent');
+
         $this->template->refresh();
 
         $this->template->name = $this->name;
@@ -54,6 +53,12 @@ class TemplateComponent extends Component
         $this->reRenderEmailsUsingTemplate();
 
         notify(__mc('Template :template was updated.', ['template' => $this->template->name]));
+    }
+
+    #[On('editorUpdated')]
+    public function updatePreviewHtml($uuid, $previewHtml)
+    {
+        $this->html = $previewHtml;
     }
 
     private function reRenderEmailsUsingTemplate(): void

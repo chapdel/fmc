@@ -2,7 +2,6 @@
 
 namespace Spatie\Mailcoach\Livewire\Editor;
 
-use Carbon\CarbonInterface;
 use Illuminate\Support\Arr;
 use Livewire\Attributes\Computed;
 use Livewire\Attributes\On;
@@ -42,10 +41,6 @@ abstract class EditorComponent extends Component
 
     public bool $hasError = false;
 
-    public ?CarbonInterface $lastSavedAt = null;
-
-    public bool $autosaveConflict = false;
-
     private Mjml $mjml;
 
     public function __construct()
@@ -56,7 +51,6 @@ abstract class EditorComponent extends Component
     public function mount(HasHtmlContent $model)
     {
         $this->model = $model;
-        $this->lastSavedAt = $model->updated_at;
 
         $this->templateFieldValues = $model->getTemplateFieldValues();
 
@@ -153,17 +147,7 @@ abstract class EditorComponent extends Component
         })->toArray();
     }
 
-    public function autosave()
-    {
-        if ($this->lastSavedAt && $this->lastSavedAt->timestamp !== $this->model->fresh()->updated_at->timestamp) {
-            $this->autosaveConflict = true;
-
-            return;
-        }
-
-        $this->saveQuietly();
-    }
-
+    #[On('saveContentQuietly')]
     public function saveQuietly()
     {
         $fieldValues = $this->filterNeededFields($this->templateFieldValues, $this->template);
@@ -192,8 +176,6 @@ abstract class EditorComponent extends Component
         $this->model->setHtml($this->fullHtml);
         $this->model->setTemplateFieldValues($fieldValues);
         $this->model->save();
-        $this->lastSavedAt = $this->model->updated_at;
-        $this->autosaveConflict = false;
         $this->dispatch('editorSavedQuietly');
     }
 
@@ -201,7 +183,9 @@ abstract class EditorComponent extends Component
     public function save()
     {
         foreach ($this->templateFieldValues as $html) {
-            $html = is_array($html) ? $html['html'] : $html;
+            $html = is_array($html)
+                ? $html['html'] ?? ''
+                : $html;
 
             if (! $this->isAllowedToSave($html)) {
                 return;

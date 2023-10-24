@@ -115,8 +115,4 @@
             </x-slot>
         </x-mailcoach::editor-fields>
     @endforeach
-
-    <x-mailcoach::replacer-help-texts :model="$model" />
-
-    <x-mailcoach::editor-buttons :preview-html="$fullHtml" :model="$model" />
 </div>

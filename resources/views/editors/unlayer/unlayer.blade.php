@@ -95,13 +95,12 @@
                 }).then(data => done({ progress: 100, url: data.file.url }))
             });
 
-            const mergeTags = [];
-            @foreach ($replacers as $replacerName => $replacerDescription)
-                mergeTags.push({
-                    name: "{!! $replacerName !!}",
-                    value: "::{!! $replacerName !!}::"
-                });
-            @endforeach
+            const mergeTags = @js(collect($replacers)->map(function (string $description, string $name) {
+                return [
+                    'name' => $name,
+                    'value' => "{{ $name }} "
+                ];
+            })->toArray());
 
             unlayer.setMergeTags(mergeTags);
 
@@ -132,17 +131,13 @@
             <div id="editor" class="h-full -ml-2 pr-3 py-1" style="min-height: 75vh; height: 75vh" data-dirty-check></div>
         </div>
 
-        <x-mailcoach::replacer-help-texts :model="$model" />
+        @isset($errors)
+            @error('html')
+            <p class="form-error" role="alert">{{ $message }}</p>
+            @enderror
+        @endisset
 
-        <x-mailcoach::editor-buttons :preview-html="$fullHtml" :model="$model">
-            @isset($errors)
-                @error('html')
-                <p class="form-error" role="alert">{{ $message }}</p>
-                @enderror
-            @endisset
-
-            <x-mailcoach::button-secondary x-on:click.prevent="$store.modals.open('load-unlayer-template')" :label="__mc('Load Unlayer template')"/>
-        </x-mailcoach::editor-buttons>
+        <x-mailcoach::button-secondary x-on:click.prevent="$store.modals.open('load-unlayer-template')" :label="__mc('Load Unlayer template')"/>
     </div>
 </div>
 

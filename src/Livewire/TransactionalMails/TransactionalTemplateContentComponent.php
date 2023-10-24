@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Livewire\TransactionalMails;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Arr;
+use Livewire\Attributes\On;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
@@ -33,10 +34,6 @@ class TransactionalTemplateContentComponent extends Component
     public ?string $html = null;
 
     public ?string $structured_html = null;
-
-    protected $listeners = [
-        'editorSaved' => 'save',
-    ];
 
     protected function rules(): array
     {
@@ -93,7 +90,23 @@ class TransactionalTemplateContentComponent extends Component
             ]);
 
             notify(__mc('Template :template was updated.', ['template' => $this->template->name]));
+        } else {
+            $this->dispatch('saveContent');
         }
+    }
+
+    #[On('editorSaved')]
+    public function notifySave(): void
+    {
+        once(function () {
+            notify(__mc('Template :name was updated.', ['name' => $this->template->name]));
+        });
+    }
+
+    #[On('editorUpdated')]
+    public function updatePreviewHtml($uuid, $previewHtml)
+    {
+        $this->html = $previewHtml;
     }
 
     public function render(): View

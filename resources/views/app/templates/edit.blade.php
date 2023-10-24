@@ -19,6 +19,38 @@
                 'model' => $template,
                 'quiet' => true,
             ])
+
+            <x-mailcoach::form-buttons>
+                <x-mailcoach::replacer-help-texts :model="$template" />
+
+                <x-mailcoach::form-buttons>
+                    <div class="flex gap-x-2">
+                        <x-mailcoach::button
+                            wire:click.prevent="save"
+                            :label="__mc('Save template')"
+                        />
+
+                        @if (config('mailcoach.template_editor') !== \Spatie\Mailcoach\Domain\Editor\Unlayer\Editor::class)
+                            <x-mailcoach::button-secondary
+                                x-on:click.prevent="$dispatch('open-modal', { id: 'preview-{{ md5($html) }}' })"
+                                :label="__mc('Preview')"
+                            />
+                            <x-mailcoach::preview-modal
+                                id="preview-{{ md5($html) }}"
+                                :html="$html"
+                                :title="__mc('Preview')"
+                            />
+                        @endif
+                    </div>
+
+                    @if (! preg_match_all('/\[\[\[(.*?)\]\]\]/', $html, $matches))
+                        <x-mailcoach::info class="mt-6">
+                            {!! __mc('We found no slots in this template. You can add slots by adding the name in triple brackets, for example: <code>[[[content]]]</code>.') !!}
+                        </x-mailcoach::info>
+                    @endif
+                </x-mailcoach::form-buttons>
+
+            </x-mailcoach::form-buttons>
         </form>
     </x-mailcoach::card>
 

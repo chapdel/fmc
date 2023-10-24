@@ -87,6 +87,12 @@ class Mailcoach
             }
 
             foreach ($editorScripts as $script) {
+                if (str_contains($script, 'unlayer')) {
+                    $scripts[] = "<script src=\"{$script}\" data-navigate-track></script>";
+
+                    continue;
+                }
+
                 $scripts[] = "<script type=\"module\" src=\"{$script}\" data-navigate-track></script>";
             }
         }

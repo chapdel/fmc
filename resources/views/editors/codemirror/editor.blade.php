@@ -1,4 +1,4 @@
-<div class="form-grid" wire:ignore>
+<div class="form-grid">
     <script>
         window.debounce = function(func, timeout = 300) {
             let timer;
@@ -18,6 +18,7 @@
         <x-mailcoach::editor-fields :name="$field['name']" :type="$field['type']" :label="$field['name']">
             <x-slot name="editor">
                 <div
+                    wire:ignore
                     x-data="{
                     html: @entangle('templateFieldValues.' . $field['name']).live,
                 }" x-init="
@@ -30,7 +31,4 @@
             </x-slot>
         </x-mailcoach::editor-fields>
     @endforeach
-
-    <x-mailcoach::replacer-help-texts :model="$model" />
-    <x-mailcoach::editor-buttons :preview-html="$fullHtml" :model="$model" />
 </div>
