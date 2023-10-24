@@ -49,8 +49,11 @@
 }
 
 .fi-ta .fi-ta-search-field {
-    @apply input;
-    @apply rounded-md;
+    @apply px-0;
+    @apply w-auto;
+}
+
+.fi-ta .fi-ta-search-field .fi-input-wrp {
     @apply px-0;
     @apply w-auto;
 }
@@ -67,9 +70,8 @@
 }
 
 .fi-ta .fi-input-wrp {
-    @apply border !important;
-    border-style: solid;
-    @apply rounded-lg !important;
+    @apply input;
+    @apply rounded-md;
 }
 
 .fi-ta .fi-select-input {
