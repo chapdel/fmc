@@ -10,7 +10,7 @@
     <x-slot:afterCreate>
         @if (\Illuminate\Support\Facades\Route::is('mailcoach.emailLists.subscribers'))
         <div class="buttons flex">
-            <x-mailcoach::dropdown direction="right" triggerClass="-ml-2 rounded-l-none button">
+            <x-mailcoach::dropdown direction="left" listClass="mt-2" triggerClass="-ml-2 px-3 rounded-l-none button">
                 <ul>
                     <li>
                         <a href="{{route('mailcoach.emailLists.import-subscribers', $emailList)}}">
