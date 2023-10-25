@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Domain\Content\Models\Concerns;
 
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Template\Models\Template;
 
 /**
@@ -11,7 +12,7 @@ use Spatie\Mailcoach\Domain\Template\Models\Template;
  * @property int|string|null $template_id
  * @property ?CarbonInterface $updated_at
  *
- * @mixin Model
+ * @mixin ContentItem
  */
 interface HasHtmlContent
 {

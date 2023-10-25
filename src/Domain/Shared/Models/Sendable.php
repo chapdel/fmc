@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Shared\Models;
 
+use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -22,6 +23,7 @@ use Spatie\Mailcoach\Domain\Template\Models\Concerns\HasTemplate;
  * @property int $sent_to_number_of_subscribers
  * @property ?bool $disable_webview
  * @property ?\Spatie\Mailcoach\Domain\Content\Models\ContentItem $contentItem
+ * @property-read ?CarbonInterface $updated_at
  */
 abstract class Sendable extends Model implements HasContentItems
 {

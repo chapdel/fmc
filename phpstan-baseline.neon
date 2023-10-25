@@ -247,6 +247,11 @@ parameters:
 			path: src/Http/Api/Resources/OpenResource.php
 
 		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\SubscriberImportIndexResource\\:\\:\\$error_count\\.$#"
+			count: 1
+			path: src/Http/Api/Resources/SubscriberImportIndexResource.php
+
+		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\SubscriberImportResource\\:\\:\\$error_count\\.$#"
 			count: 1
 			path: src/Http/Api/Resources/SubscriberImportResource.php
@@ -397,12 +402,7 @@ parameters:
 			path: src/Livewire/Editor/EditorComponent.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasHtmlContent\\:\\:\\$updated_at\\.$#"
-			count: 2
-			path: src/Livewire/Editor/EditorComponent.php
-
-		-
-			message: "#^Cannot access property \\$updated_at on Illuminate\\\\Database\\\\Eloquent\\\\Model\\|null\\.$#"
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasHtmlContent\\:\\:\\$uuid\\.$#"
 			count: 1
 			path: src/Livewire/Editor/EditorComponent.php
 
