@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 6.27.9 - 2023-10-23
+
+### What's Changed
+
+- Make sure DB prefix is taken into account by @bberlijn in https://github.com/spatie/laravel-mailcoach/pull/1396
+- Don't include subscribers_csv in the GET endpoint of the subscriberImports API
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.27.8...6.27.9
+
 ## 6.27.8 - 2023-10-22
 
 - Fix an issue with filename not being defined in exports
