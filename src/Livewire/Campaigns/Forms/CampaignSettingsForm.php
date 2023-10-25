@@ -32,9 +32,9 @@ class CampaignSettingsForm extends Form
 
     public ?bool $utm_tags = false;
 
-    public ?string $utm_source = 'newsletter';
+    public ?string $utm_source = null;
 
-    public ?string $utm_medium = 'email';
+    public ?string $utm_medium = null;
 
     public ?string $utm_campaign = null;
 
@@ -63,7 +63,9 @@ class CampaignSettingsForm extends Form
         $this->reply_to_email = $campaign->contentItem->reply_to_email;
         $this->reply_to_name = $campaign->contentItem->reply_to_name;
         $this->utm_tags = $campaign->contentItem->utm_tags ?? false;
-        $this->utm_campaign = Str::slug($campaign->name);
+        $this->utm_medium = $campaign->contentItem->utm_medium ?? 'email';
+        $this->utm_source = $campaign->contentItem->utm_source ?? 'newsletter';
+        $this->utm_campaign = $campaign->contentItem->utm_campaign ?? Str::slug($campaign->name);
         $this->add_subscriber_tags = $campaign->contentItem->add_subscriber_tags ?? false;
         $this->add_subscriber_link_tags = $campaign->contentItem->add_subscriber_link_tags ?? false;
     }
