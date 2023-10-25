@@ -260,9 +260,10 @@
                                     </button>
                                 </div>
                                 <ul class="grid gap-2 ml-1" x-show="!collapsed" x-collapse>
-                                    @foreach ($links as $link)
+                                    @foreach ($links as $index => $link)
+                                        @php($key = $contentItem->id . $link)
                                         <li>
-                                            <livewire:mailcoach::link-check lazy :url="$link" wire:key="{{ $link }}"/>
+                                            <livewire:mailcoach::link-check lazy :url="$link" wire:key="{{ $key }}"/>
                                             @php($tags[] = \Spatie\Mailcoach\Domain\Content\Support\LinkHasher::hash($campaign, $link))
                                         </li>
                                     @endforeach
