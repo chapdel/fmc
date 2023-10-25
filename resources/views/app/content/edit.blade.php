@@ -6,18 +6,17 @@
     </script>
 @endpushonce
 
-<x-mailcoach::card class="flex flex-col gap-y-4 {{ $contentItems->count() > 1 ? 'p-6' : '' }}">
+<x-mailcoach::card class="flex flex-col gap-y-4 p-6">
     @foreach ($contentItems as $index => $contentItem)
         <div
             @if ($contentItems->count() > 1) class="border border-indigo-700/10 rounded bg-indigo-200/10 p-6 mb-6" @endif
-            wire:key="{{ $contentItem->uuid }}"
             x-data="{
                 collapsed: false,
             }"
         >
-            @if ($contentItems->count() > 1)
-                <div class="flex items-center" x-bind:class="collapsed ? '' : 'mb-6'" x-cloak>
-                    <div class="flex items-center gap-x-2">
+            <div class="flex items-center relative z-10 pointer-events-none" x-bind:class="collapsed ? '' : '{{ $contentItems->count() > 1 ? 'mb-6' : '-mb-6' }}'" x-cloak>
+                @if ($contentItems->count() > 1)
+                    <div class="flex items-center gap-x-2 pointer-events-auto">
                         <button type="button" x-tooltip="'{{ __mc('Expand') }}'" x-show="collapsed" x-on:click="collapsed = !collapsed">
                             <x-icon class="w-5 h-5" name="heroicon-o-chevron-up" />
                         </button>
@@ -31,24 +30,21 @@
                             {{ $contentItem->subject }}
                         </h3>
                     </div>
-                    <div class="ml-auto flex items-center gap-x-4">
-                        <button type="button" x-tooltip="'{{ __mc('Add split test') }}'" wire:click="addSplitTest('{{ $contentItem->uuid }}')">
-                            <x-icon class="w-5 h-5" name="heroicon-o-document-plus" />
-                        </button>
-                        <button type="button" x-tooltip="'{{ __mc('Preview') }}'" x-on:click.prevent="$dispatch('open-modal', { id: 'preview-{{ $contentItem->uuid }}' })">
-                            <x-icon class="w-5 h-5" name="heroicon-o-eye" />
-                        </button>
+                @endif
+                <div class="ml-auto flex items-center gap-x-4 pointer-events-auto">
+                    <button type="button" x-tooltip="'{{ __mc('Add split test') }}'" wire:click="addSplitTest('{{ $contentItem->uuid }}')">
+                        <x-icon class="w-5 h-5" name="heroicon-o-document-plus" />
+                    </button>
+                    <button type="button" x-tooltip="'{{ __mc('Preview') }}'" x-on:click.prevent="$dispatch('open-modal', { id: 'preview-{{ $contentItem->uuid }}' })">
+                        <x-icon class="w-5 h-5" name="heroicon-o-eye" />
+                    </button>
+                    @if ($contentItems->count() > 1)
                         <x-mailcoach::confirm-button on-confirm="() => $wire.deleteSplitTest('{{ $contentItem->uuid }}')" confirm-text="{{ __mc('Are you sure you want to delete this split test?') }}" x-tooltip="'{{ __mc('Delete') }}'">
                             <x-icon class="w-5 h-5 link-danger" name="heroicon-o-trash" />
                         </x-mailcoach::confirm-button>
-                    </div>
+                    @endif
                 </div>
-                <x-mailcoach::preview-modal
-                    id="preview-{{ $contentItem->uuid }}"
-                    :html="$preview[$contentItem->uuid]"
-                    :title="__mc('Preview') . ($contentItem->subject ? ' - ' . $contentItem->subject : '')"
-                />
-            @endif
+            </div>
 
             <div class="form-grid" wire:ignore x-show="!collapsed" x-collapse>
                 <form
@@ -72,9 +68,7 @@
     @endforeach
 
     <x-mailcoach::form-buttons>
-        <x-mailcoach::replacer-help-texts :model="$contentItem->getModel()" />
-
-        <div class="flex gap-x-2">
+        <div class="flex items-center gap-x-4">
             <x-mailcoach::button
                 @keydown.prevent.window.cmd.s="$wire.call('save')"
                 @keydown.prevent.window.ctrl.s="$wire.call('save')"
@@ -82,21 +76,7 @@
                 :label="__mc('Save content')"
             />
 
-            @if ($contentItems->count() === 1 && config('mailcoach.content_editor') !== \Spatie\Mailcoach\Domain\Editor\Unlayer\Editor::class)
-                <x-mailcoach::button-secondary
-                    x-on:click.prevent="$dispatch('open-modal', { id: 'preview-{{ md5($preview[$contentItem->uuid]) }}' })"
-                    :label="__mc('Preview')"
-                />
-                <x-mailcoach::preview-modal
-                    id="preview-{{ md5($preview[$contentItem->uuid]) }}"
-                    :html="$preview[$contentItem->uuid]"
-                    :title="__mc('Preview') . ($contentItem->subject ? ' - ' . $contentItem->subject : '')"
-                />
-            @endif
-
-            @if ($canBeSplitTested)
-                <x-mailcoach::button-secondary wire:click.prevent="addSplitTest" :label="__mc('Add split test')" />
-            @endif
+            <x-mailcoach::replacer-help-texts :model="$contentItem" />
         </div>
 
         @if ($this->autosaveConflict)
@@ -104,8 +84,18 @@
                 {{ __mc('Autosave disabled, the content was saved somewhere else. Refresh the page to get the latest content or save manually to override.') }}
             </x-mailcoach::warning>
         @else
-            <p class="text-xs mt-3">{{ __mc("We autosave every 20 seconds") }}
+            <p class="text-xs mt-3">{{ __mc("Autosaving every 20 seconds") }}
                 - {{ __mc('Last saved at') }} {{ $this->lastSavedAt->toMailcoachFormat() }}</p>
         @endif
     </x-mailcoach::form-buttons>
+
+    @foreach ($contentItems as $index => $contentItem)
+        <div class="absolute" wire:key="preview-modal-{{ md5($preview[$contentItem->uuid]) }}">
+            <x-mailcoach::preview-modal
+                id="preview-{{ $contentItem->uuid }}"
+                :html="$preview[$contentItem->uuid]"
+                :title="__mc('Preview') . ($contentItem->subject ? ' - ' . $contentItem->subject : '')"
+            />
+        </div>
+    @endforeach
 </x-mailcoach::card>

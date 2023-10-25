@@ -260,7 +260,7 @@
     @endforeach
 
     <div class="-mt-4 flex gap-4">
-        <x-mailcoach::replacer-help-texts :model="$model" />
+        <x-mailcoach::replacer-help-texts :model="$model->model" />
         <a class="link-dimmed" href="https://www.markdownguide.org/basic-syntax/" target="_blank">Markup syntax</a>
     </div>
 </div>
