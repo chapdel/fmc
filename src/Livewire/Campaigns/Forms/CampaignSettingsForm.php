@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Livewire\Campaigns\Forms;
 
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Form;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
@@ -31,6 +32,12 @@ class CampaignSettingsForm extends Form
 
     public ?bool $utm_tags = false;
 
+    public ?string $utm_source = null;
+
+    public ?string $utm_medium = null;
+
+    public ?string $utm_campaign = null;
+
     public ?bool $add_subscriber_tags = false;
 
     public ?bool $add_subscriber_link_tags = false;
@@ -41,7 +48,7 @@ class CampaignSettingsForm extends Form
 
     public ?bool $disable_webview = false;
 
-    public function setCampaign(Campaign $campaign)
+    public function setCampaign(Campaign $campaign): void
     {
         $this->campaign = $campaign;
 
@@ -56,6 +63,9 @@ class CampaignSettingsForm extends Form
         $this->reply_to_email = $campaign->contentItem->reply_to_email;
         $this->reply_to_name = $campaign->contentItem->reply_to_name;
         $this->utm_tags = $campaign->contentItem->utm_tags ?? false;
+        $this->utm_medium = $campaign->contentItem->utm_medium ?? 'email';
+        $this->utm_source = $campaign->contentItem->utm_source ?? 'newsletter';
+        $this->utm_campaign = $campaign->contentItem->utm_campaign ?? Str::slug($campaign->name);
         $this->add_subscriber_tags = $campaign->contentItem->add_subscriber_tags ?? false;
         $this->add_subscriber_link_tags = $campaign->contentItem->add_subscriber_link_tags ?? false;
     }
@@ -71,6 +81,9 @@ class CampaignSettingsForm extends Form
             'reply_to_name' => ['nullable', new Delimited('string')],
             'email_list_id' => Rule::exists(self::getEmailListTableName(), 'id'),
             'utm_tags' => 'bool',
+            'utm_source' => 'nullable',
+            'utm_medium' => 'nullable',
+            'utm_campaign' => 'nullable|alpha_dash',
             'add_subscriber_tags' => 'bool',
             'add_subscriber_link_tags' => 'bool',
             'segment_id' => ['required_if:segment,segment'],
@@ -98,6 +111,9 @@ class CampaignSettingsForm extends Form
                 'reply_to_email' => $this->reply_to_email,
                 'reply_to_name' => $this->reply_to_name,
                 'utm_tags' => $this->utm_tags,
+                'utm_source' => $this->utm_tags ? $this->utm_source : null,
+                'utm_medium' => $this->utm_tags ? $this->utm_medium : null,
+                'utm_campaign' => $this->utm_tags ? Str::slug($this->utm_campaign) : null,
                 'add_subscriber_tags' => $this->add_subscriber_tags,
                 'add_subscriber_link_tags' => $this->add_subscriber_link_tags,
             ]);

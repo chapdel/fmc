@@ -175,6 +175,9 @@ return new class extends Migration
             $table->json('mailable_arguments')->nullable();
 
             $table->boolean('utm_tags')->default(false);
+            $table->string('utm_source')->nullable();
+            $table->string('utm_medium')->nullable();
+            $table->string('utm_campaign')->nullable();
             $table->boolean('add_subscriber_tags')->default(false);
             $table->boolean('add_subscriber_link_tags')->default(false);
 
