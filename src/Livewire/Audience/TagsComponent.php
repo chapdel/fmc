@@ -4,6 +4,7 @@ namespace Spatie\Mailcoach\Livewire\Audience;
 
 use Closure;
 use Filament\Tables\Actions\Action;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Database\Eloquent\Builder;
@@ -118,6 +119,30 @@ class TagsComponent extends TableComponent
                 ->color('danger')
                 ->action(fn (Tag $record) => $this->deleteTag($record))
                 ->requiresConfirmation(),
+        ];
+    }
+
+    protected function getTableBulkActions(): array
+    {
+        return [
+            BulkAction::make('Delete')
+                ->label(__mc('Delete'))
+                ->icon('heroicon-o-trash')
+                ->requiresConfirmation()
+                ->color('danger')
+                ->action(function ($records) {
+                    $this->authorize('delete', self::getTagClass());
+
+                    foreach ($records as $tag) {
+                        $tag->subscribers->each(function ($subscriber) use ($tag) {
+                            event(new TagRemovedEvent($subscriber, $tag));
+                        });
+
+                        $tag->delete();
+                    }
+
+                    notify(__mc('Successfully deleted :count tags', ['count' => $records->count()]));
+                }),
         ];
     }
 
