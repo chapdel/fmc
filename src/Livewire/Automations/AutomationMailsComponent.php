@@ -128,12 +128,12 @@ class AutomationMailsComponent extends TableComponent
     {
         $this->authorize('create', $automationMail);
 
-        /** @var AutomationMail $automationMail */
-        $automationMail = self::getAutomationMailClass()::create([
+        /** @var AutomationMail $newAutomationMail */
+        $newAutomationMail = self::getAutomationMailClass()::create([
             'name' => __mc('Duplicate of').' '.$automationMail->name,
         ]);
 
-        $automationMail->contentItem->update([
+        $newAutomationMail->contentItem->update([
             'subject' => $automationMail->contentItem->subject,
             'template_id' => $automationMail->contentItem->template_id,
             'html' => $automationMail->contentItem->html,
@@ -142,9 +142,9 @@ class AutomationMailsComponent extends TableComponent
             'utm_tags' => $automationMail->contentItem->utm_tags,
         ]);
 
-        notify(__mc('Email :name was duplicated.', ['name' => $automationMail->name]));
+        notify(__mc('Email :name was duplicated.', ['name' => $newAutomationMail->name]));
 
-        return redirect()->route('mailcoach.automations.mails.settings', $automationMail);
+        return redirect()->route('mailcoach.automations.mails.settings', $newAutomationMail);
     }
 
     public function getTitle(): string
