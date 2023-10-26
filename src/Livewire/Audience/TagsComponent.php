@@ -54,6 +54,10 @@ class TagsComponent extends TableComponent
     {
         return [
             'emailList' => $this->emailList,
+            'create' => 'tag',
+            'createData' => [
+                'emailList' => $this->emailList,
+            ],
         ];
     }
 

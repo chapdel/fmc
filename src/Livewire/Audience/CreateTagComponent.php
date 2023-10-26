@@ -42,7 +42,7 @@ class CreateTagComponent extends Component
 
         notify(__mc('Tag :tag was created', ['tag' => $tag->name]));
 
-        return redirect()->route('mailcoach.emailLists.tags', $this->emailList);
+        return redirect()->route('mailcoach.emailLists.tags.edit', [$this->emailList, $tag]);
     }
 
     public function render()
