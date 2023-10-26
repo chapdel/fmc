@@ -38,6 +38,8 @@ class TagsComponent extends TableComponent
         $tag->delete();
 
         notify(__mc('Tag :tag was deleted', ['tag' => $tag->name]));
+
+        $this->redirect(route('mailcoach.emailLists.tags', $this->emailList));
     }
 
     public function getTitle(): string
