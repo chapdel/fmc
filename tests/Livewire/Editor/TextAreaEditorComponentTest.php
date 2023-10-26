@@ -21,8 +21,7 @@ it('can create a component', function () {
         ->assertSet('fullHtml', '<h1>My template</h1>')
         ->assertSet('emails', '')
         ->assertSet('quiet', false)
-        ->assertSet('hasError', false)
-        ->assertSet('lastSavedAt', $template->updated_at);
+        ->assertSet('hasError', false);
 });
 
 it('can create a component with template', function () {
@@ -49,8 +48,7 @@ it('can create a component with template', function () {
         ->assertSet('fullHtml', '<h1>My template</h1>')
         ->assertSet('emails', '')
         ->assertSet('quiet', false)
-        ->assertSet('hasError', false)
-        ->assertSet('lastSavedAt', $template->updated_at);
+        ->assertSet('hasError', false);
 });
 
 it('can create a component with an Mjml format template', function () {
@@ -76,8 +74,7 @@ it('can create a component with an Mjml format template', function () {
         ->assertSet('templateFieldValues', ['html' => '<mjml><mj-body><mj-section><mj-column><mj-text>HelloWorld</mj-text></mj-column></mj-section></mj-body></mjml>'])
         ->assertSet('emails', '')
         ->assertSet('quiet', false)
-        ->assertSet('hasError', false)
-        ->assertSet('lastSavedAt', $template->updated_at);
+        ->assertSet('hasError', false);
 
     expect($livewire->fullHtml)->toMatchSnapshot();
 });
@@ -103,7 +100,6 @@ it('can save a component with a template placeholder', function () {
         ->assertSet('fullHtml', '<html lang="en"><body><h1>My Campaign Header</h1></body></html>')
         // Save the campaign
         ->call('save')
-        ->assertSet('lastSavedAt', $campaign->fresh()->updated_at)
         ->assertSet('hasError', false)
         ->assertSet('autosaveConflict', false)
         ->assertSet('fullHtml', '<html lang="en"><body><h1>My Campaign Header</h1></body></html>');

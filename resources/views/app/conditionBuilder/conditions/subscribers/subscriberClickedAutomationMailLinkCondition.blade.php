@@ -6,7 +6,7 @@
                 name="automationMail-{{ $index }}"
                 :options="$automationMails"
                 :sort="false"
-                wire:model.live.debounce.250ms="storedCondition.value.automationMailId"
+                wire:model.live="storedCondition.value.automationMailId"
                 required
             />
         </div>

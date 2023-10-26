@@ -24,6 +24,7 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
 
         $this->changeLabels();
 
+        $this->automationMailId = $this->automationMailId();
         $this->link = $this->link();
         $this->automationMails = self::getAutomationMailClass()::query()
             ->has('contentItem.links')
