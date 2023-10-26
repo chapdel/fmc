@@ -22,6 +22,11 @@ class AutomationMailsComponent extends TableComponent
         return self::getAutomationMailClass()::query();
     }
 
+    protected function getDefaultTableSortColumn(): ?string
+    {
+        return 'name';
+    }
+
     protected function getTableColumns(): array
     {
         return [
