@@ -22,7 +22,7 @@ class SendAutomationMailTestJob implements ShouldQueue
     /** @var string */
     public $queue;
 
-    public function __construct(public AutomationMail $mail, public string $email, public ContentItem $contentItem = null)
+    public function __construct(public AutomationMail $mail, public string $email, public ?ContentItem $contentItem = null)
     {
         $this->queue = config('mailcoach.automation.perform_on_queue.send_test_mail_job');
 
