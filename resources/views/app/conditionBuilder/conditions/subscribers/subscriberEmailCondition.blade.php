@@ -13,7 +13,7 @@
         <x-mailcoach::text-field
             :label="__mc('Value')"
             name="value-{{ $index }}"
-            wire:model="storedCondition.value"
+            wire:model.live.debounce.250ms="storedCondition.value"
             required
         />
     </div>

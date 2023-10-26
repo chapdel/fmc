@@ -15,7 +15,7 @@
             <x-mailcoach::date-field
                 :label="__mc('First')"
                 name="value-{{ $index }}0"
-                wire:model="storedCondition.value.0"
+                wire:model.live.debounce.250ms="storedCondition.value.0"
                 minDate=null
                 maxDate="today"
                 required
@@ -26,7 +26,7 @@
             <x-mailcoach::date-field
                 :label="__mc('last')"
                 name="value-{{ $index }}1"
-                wire:model="storedCondition.value.1"
+                wire:model.live.debounce.250ms="storedCondition.value.1"
                 minDate=null
                 maxDate="null"
                 required
@@ -37,7 +37,7 @@
             <x-mailcoach::select-field
                 :label="__mc('Comparison')"
                 name="operator-{{ $index }}"
-                wire:model="storedCondition.comparison_operator"
+                wire:model.live.debounce.250ms="storedCondition.comparison_operator"
                 :options="$storedCondition['condition']['comparison_operators'] ?? []"
                 :sort="false"
                 required
@@ -48,7 +48,7 @@
             <x-mailcoach::date-field
                 :label="__mc('Value')"
                 name="value-{{ $index }}"
-                wire:model="storedCondition.value"
+                wire:model.live.debounce.250ms="storedCondition.value"
                 minDate=null
                 maxDate=null
                 required

@@ -15,7 +15,7 @@
                 :label="__mc('Value')"
                 name="value-{{ $index }}"
                 :options="$options"
-                wire:model="storedCondition.value"
+                wire:model.live.debounce.250ms="storedCondition.value"
                 required
             />
         </div>

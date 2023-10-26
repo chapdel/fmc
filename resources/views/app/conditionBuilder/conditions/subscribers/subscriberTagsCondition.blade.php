@@ -15,7 +15,7 @@
             name="value-{{ $index }}"
             :options="$options"
             multiple
-            wire:model="storedCondition.value"
+            wire:model.live.debounce.250ms="storedCondition.value"
             required
         />
     </div>
