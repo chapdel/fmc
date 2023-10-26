@@ -495,7 +495,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.card', 'mailcoach::card');
         Blade::component('mailcoach::app.components.tile', 'mailcoach::tile');
 
-        Blade::component('mailcoach::app.components.dataTable', 'mailcoach::data-table');
         Blade::component('mailcoach::app.components.table.tableStatus', 'mailcoach::table-status');
         Blade::component('mailcoach::app.components.table.th', 'mailcoach::th');
 
