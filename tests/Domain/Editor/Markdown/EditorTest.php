@@ -1,10 +1,11 @@
 <?php
 
 use Livewire\Livewire;
-use Spatie\Mailcoach\Domain\Template\Models\Template;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 
 it('can render a view', function () {
-    $template = Template::factory()->create();
-    Livewire::test('mailcoach::editor-markdown', ['model' => $template])
+    $contentItem = ContentItem::factory()->create();
+
+    Livewire::test('mailcoach::editor-markdown', ['model' => $contentItem])
         ->assertSee('window.init');
 });
