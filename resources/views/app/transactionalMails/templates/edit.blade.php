@@ -51,13 +51,13 @@
                             x-on:click.prevent="$dispatch('open-modal', { id: 'preview-{{ md5($html) }}' })"
                             :label="__mc('Preview')"
                         />
-                        @teleport('body')
+                        <template x-teleport="body">
                             <x-mailcoach::preview-modal
                                 id="preview-{{ md5($html) }}"
                                 :html="$html"
                                 :title="__mc('Preview')"
                             />
-                        @endteleport
+                        </template>
                     @endif
                 </div>
             </x-mailcoach::form-buttons>
