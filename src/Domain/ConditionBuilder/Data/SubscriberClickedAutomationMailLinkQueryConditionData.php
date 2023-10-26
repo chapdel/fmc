@@ -5,12 +5,12 @@ namespace Spatie\Mailcoach\Domain\ConditionBuilder\Data;
 class SubscriberClickedAutomationMailLinkQueryConditionData extends ConditionData
 {
     protected function __construct(
-        public int $automationMailId,
+        public ?int $automationMailId,
         public ?string $link = null,
     ) {
     }
 
-    public static function make(int $automationMailId, string $link = null): self
+    public static function make(?int $automationMailId, string $link = null): self
     {
         return new self($automationMailId, $link);
     }

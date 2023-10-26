@@ -24,7 +24,6 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
 
         $this->changeLabels();
 
-        $this->automationMailId = $this->automationMailId();
         $this->link = $this->link();
         $this->automationMails = self::getAutomationMailClass()::query()
             ->has('contentItem.links')
@@ -51,7 +50,7 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
     public function getValue(): mixed
     {
         return SubscriberClickedAutomationMailLinkQueryConditionData::make(
-            automationMailId: $this->automationMailId,
+            automationMailId: $this->automationMailId(),
             link: $this->link,
         )->toArray();
     }

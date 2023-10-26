@@ -39,7 +39,7 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
     public function getValue(): mixed
     {
         return SubscriberClickedCampaignLinkQueryConditionData::make(
-            campaignId: $this->campaignId,
+            campaignId: $this->campaignId(),
             link: $this->link,
         )->toArray();
     }
