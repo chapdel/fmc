@@ -88,7 +88,7 @@
                 <br>
             </x-mailcoach::info>
 
-            <div x-data="{ attributes: @entangle('extra_attributes').defer }">
+            <div x-data="{ attributes: @entangle('extra_attributes').live }">
                 <template x-for="(attribute, index) in attributes" x-bind:key="index">
                     <div class="my-4 flex items-center w-full gap-x-2">
                         <div class="relative w-full flex items-center">
