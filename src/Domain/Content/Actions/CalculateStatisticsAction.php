@@ -21,10 +21,12 @@ class CalculateStatisticsAction
         }
 
         $contentItem->update(['statistics_calculated_at' => now()]);
+        $contentItem->fresh('model');
 
-        match ($contentItem->model::class) {
-            static::getCampaignClass() => event(new CampaignStatisticsCalculatedEvent($contentItem->model)),
-            static::getAutomationMailClass() => event(new AutomationMailStatisticsCalculatedEvent($contentItem->model)),
+        match (true) {
+            $contentItem->getModel() instanceof (static::getCampaignClass()) => event(new CampaignStatisticsCalculatedEvent($contentItem->getModel())),
+            $contentItem->getModel() instanceof (static::getAutomationMailClass()) => event(new AutomationMailStatisticsCalculatedEvent($contentItem->getModel())),
+            default => null,
         };
     }
 
