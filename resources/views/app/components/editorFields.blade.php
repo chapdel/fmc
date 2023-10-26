@@ -15,7 +15,7 @@
         <x-mailcoach::text-field
             name="templateFieldValues.{{ $name }}"
             wire:model.lazy="templateFieldValues.{{ $name }}"
-            data-dirty-check
+
         />
     @elseif ($type === 'image')
         <div class="mb-4">

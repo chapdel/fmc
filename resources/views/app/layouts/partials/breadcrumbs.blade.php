@@ -6,7 +6,7 @@
         @if (! $loop->first)
             <i class="fa fa-angle-right text-gray-400"></i>
         @endif
-        <a class="hover:text-blue-800 last:font-semibold min-w-0 truncate" href="{{ $breadcrumb['url'] }}" data-dirty-warn>{{ $breadcrumb['title'] }}</a>
+        <a class="hover:text-blue-800 last:font-semibold min-w-0 truncate" href="{{ $breadcrumb['url'] }}">{{ $breadcrumb['title'] }}</a>
         @php($previousBreadcrumb = $breadcrumb)
     @endforeach
 

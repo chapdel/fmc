@@ -171,7 +171,6 @@
 
             editor.codemirror.on("change", debounce(() => {
                 this.markdown = editor.value();
-                this.$refs.editor.dirty = true;
                 renderToHtml(this);
             }));
 
@@ -212,7 +211,7 @@
                     theme: @entangle('templateFieldValues.' . $field['name'] . '.theme').live,
                     init: init,
                 }">
-                    <textarea x-ref="editor" data-dirty-check></textarea>
+                    <textarea x-ref="editor"></textarea>
 
                     <div class="form-field mt-2 mb-4" x-show="markdown.includes('```')" x-cloak>
                         <label class="label" for="theme">

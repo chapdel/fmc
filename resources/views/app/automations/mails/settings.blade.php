@@ -4,7 +4,7 @@
     @keydown.prevent.window.cmd.s="$wire.call('save')"
     @keydown.prevent.window.ctrl.s="$wire.call('save')"
     method="POST"
-    data-dirty-check
+
 >
 <x-mailcoach::card>
     <x-mailcoach::text-field :label="__mc('Name')" name="name" wire:model.lazy="name" required  />

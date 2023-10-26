@@ -125,7 +125,6 @@
 
             editor.codemirror.on("change", () => {
                 this.markdown = editor.value();
-                this.$refs.editor.dirty = true;
             });
         }
     </script>
@@ -145,6 +144,6 @@
             markdown: @entangle($wireModelAttribute),
             init: init,
         }">
-        <textarea x-ref="editor" data-dirty-check></textarea>
+        <textarea x-ref="editor"></textarea>
     </div>
 </div>

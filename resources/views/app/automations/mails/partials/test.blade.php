@@ -1,7 +1,7 @@
 <form
     action="{{ route('mailcoach.automations.mails.sendTestEmail', $mail) }}"
     method="POST"
-    data-dirty-check
+
 >
     @csrf
 

@@ -111,22 +111,6 @@
         </x-mailcoach::form-buttons>
     </x-mailcoach::modal>
 
-    <x-mailcoach::modal :title="__mc('Confirm navigation')" name="dirty-warning">
-        {{ __mc('There are unsaved changes. Are you sure you want to continue?') }}
-
-        <x-mailcoach::form-buttons>
-            <x-mailcoach::button
-                type="button"
-                x-on:click="$store.modals.onConfirm && $store.modals.onConfirm()"
-                :label=" __mc('Confirm')"
-            />
-            <x-mailcoach::button-cancel
-                x-on:click="$dispatch('close-modal', { id: 'dirty-warning' })"
-                :label=" __mc('Cancel')"
-            />
-        </x-mailcoach::form-buttons>
-    </x-mailcoach::modal>
-
     @stack('modals')
 </div>
 

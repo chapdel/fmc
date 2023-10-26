@@ -109,7 +109,6 @@
                 unlayer.exportHtml(function(data) {
                     component.html = data.html;
                     component.json = JSON.parse(JSON.stringify(data.design));
-                    document.getElementById('editor').dirty = true;
                 });
             });
 
@@ -128,7 +127,7 @@
             json: @entangle('templateFieldValues.json').live,
             init: init,
         }" class="overflow-hidden -mx-10 flex-1 h-full mb-6">
-            <div id="editor" class="h-full -ml-2 pr-3 py-1" style="min-height: 75vh; height: 75vh" data-dirty-check></div>
+            <div id="editor" class="h-full -ml-2 pr-3 py-1" style="min-height: 75vh; height: 75vh"></div>
         </div>
 
         @isset($errors)
