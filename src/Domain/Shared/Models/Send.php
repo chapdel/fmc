@@ -227,9 +227,10 @@ class Send extends Model
         }
 
         if (! $softBounce) {
-            optional($this->subscriber)->update(['unsubscribed_at' => now()]);
-
-            self::getSuppressionClass()::for($this->subscriber->email);
+            if ($this->subscriber) {
+                $this->subscriber->update(['unsubscribed_at' => now()]);
+                self::getSuppressionClass()::for($this->subscriber->email);
+            }
 
             event(new BounceRegisteredEvent($this));
         }
