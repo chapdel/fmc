@@ -13,7 +13,7 @@
 {{ __mc_choice('There was 1 error.|There were :count errors.', count($subscriberExport->errors ?? [])) }}
 @endif
 
-@component('mailcoach::mails.layout.button', ['url' => route('mailcoach.mailcoach.emailLists.subscriber-exports', $subscriberExport->emailList)])
+@component('mailcoach::mails.layout.button', ['url' => route('mailcoach.emailLists.subscriber-exports', $subscriberExport->emailList)])
 {{ __mc('View exports') }}
 @endcomponent
 
