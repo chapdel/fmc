@@ -18,7 +18,9 @@ class HtmlRule implements ValidationRule
         try {
             app(CreateDomDocumentFromHtmlAction::class)->execute($value, false);
         } catch (Exception $exception) {
-            $fail($this->getMessage($exception, $value));
+            $message = $this->getMessage($exception, $value);
+
+            $fail($message);
         }
     }
 
