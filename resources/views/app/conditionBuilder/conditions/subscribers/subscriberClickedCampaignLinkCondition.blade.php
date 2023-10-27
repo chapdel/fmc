@@ -1,12 +1,12 @@
 <x-mailcoach::condition :index="$index" :title="$title">
-    <div wire:key="campaign-{{ $campaignId }}-options" class="grid">
+    <div wire:key="campaign-{{ $campaignId }}-options" class="col-span-12 grid grid-cols-12 gap-4 w-full">
         <div class="col-span-4">
             <x-mailcoach::select-field
                 :label="__mc('Campaign')"
                 name="campaign-{{ $index }}"
                 :options="$campaigns"
                 :sort="false"
-                wire:model.live.debounce.250ms="storedCondition.value.campaignId"
+                wire:model.live="storedCondition.value.campaignId"
                 required
             />
         </div>
@@ -14,7 +14,7 @@
             <x-mailcoach::select-field
                 :label="__mc('Comparison')"
                 name="operator-{{ $index }}"
-                wire:model="storedCondition.comparison_operator"
+                wire:model.live="storedCondition.comparison_operator"
                 :options="$storedCondition['condition']['comparison_operators'] ?? []"
                 :sort="false"
                 required
@@ -26,7 +26,7 @@
                     :label="__mc('Value')"
                     name="value-{{ $index }}"
                     :options="$options"
-                    wire:model.live.debounce.250ms="storedCondition.value.link"
+                    wire:model.live="storedCondition.value.link"
                     required
                 />
             </div>

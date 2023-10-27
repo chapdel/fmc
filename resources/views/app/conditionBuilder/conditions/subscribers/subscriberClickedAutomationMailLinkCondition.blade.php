@@ -1,5 +1,5 @@
 <x-mailcoach::condition :index="$index" :title="$title">
-    <div wire:key="automationMail-{{ $automationMailId }}-options" class="grid">
+    <div wire:key="automationMail-{{ $automationMailId }}-options" class="col-span-12 grid grid-cols-12 gap-4 w-full">
         <div class="col-span-4">
             <x-mailcoach::select-field
                 :label="__mc('Automation Mail')"

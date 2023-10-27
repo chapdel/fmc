@@ -24,6 +24,9 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
 
         $this->changeLabels();
 
+        $this->storedCondition['value']['automationMailId'] ??= null;
+        $this->storedCondition['value']['link'] ??= null;
+
         $this->automationMailId = $this->automationMailId();
         $this->link = $this->link();
         $this->automationMails = self::getAutomationMailClass()::query()

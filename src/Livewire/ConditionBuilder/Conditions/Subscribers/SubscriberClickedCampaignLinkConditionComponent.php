@@ -29,6 +29,9 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
 
         $this->changeLabels();
 
+        $this->storedCondition['value']['campaignId'] ??= null;
+        $this->storedCondition['value']['link'] ??= null;
+
         $this->campaignId = $this->campaignId();
         $this->link = $this->link();
         $this->campaigns = self::getCampaignClass()::query()
