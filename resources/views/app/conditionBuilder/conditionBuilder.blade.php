@@ -3,6 +3,7 @@
         @livewire(app(\Spatie\Mailcoach\Domain\ConditionBuilder\Actions\CreateConditionFromKeyAction::class)->execute($storedCondition['condition']['key'])->getComponent(), [
             'index' => $index,
             'storedCondition' => $storedCondition,
+            'emailList' => $emailList,
         ], key('stored-condition-' . $storedCondition['condition']['key'] . '-' . $index))
         @unless($loop->last)
             <div class="text-center uppercase tracking-wide text-xs">{{ __mc('And') }}</div>

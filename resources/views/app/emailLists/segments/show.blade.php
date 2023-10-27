@@ -34,7 +34,7 @@
                 <label class="label label-required">
                     {{ __mc('Conditions') }}
                 </label>
-                <livewire:mailcoach::condition-builder :storedConditions="$segment->stored_conditions->castToArray()" />
+                <livewire:mailcoach::condition-builder :email-list="$emailList" :storedConditions="$segment->stored_conditions->castToArray()" />
             </div>
 
             <x-mailcoach::form-buttons>

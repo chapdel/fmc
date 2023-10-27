@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers;
 
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Data\SubscriberClickedCampaignLinkQueryConditionData;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Livewire\ConditionBuilder\ConditionComponent;
@@ -9,6 +10,8 @@ use Spatie\Mailcoach\Livewire\ConditionBuilder\ConditionComponent;
 class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
 {
     use UsesMailcoachModels;
+
+    public EmailList $emailList;
 
     public ?int $campaignId = null;
 
@@ -29,6 +32,7 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
         $this->campaignId = $this->campaignId();
         $this->link = $this->link();
         $this->campaigns = self::getCampaignClass()::query()
+            ->where('email_list_id', $this->emailList->id)
             ->has('contentItem.links')
             ->pluck('id', 'name')
             ->mapWithKeys(function (string $id, string $name) {

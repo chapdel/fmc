@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Livewire\ConditionBuilder;
 
 use Livewire\Component;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Actions\CreateConditionFromKeyAction;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Collections\ConditionCollection;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Condition;
@@ -10,6 +11,8 @@ use Spatie\Mailcoach\Domain\ConditionBuilder\ValueObjects\StoredCondition;
 
 class ConditionBuilderComponent extends Component
 {
+    public EmailList $emailList;
+
     /** @var array<StoredCondition> */
     public array $storedConditions;
 
