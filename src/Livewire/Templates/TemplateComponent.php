@@ -44,7 +44,11 @@ class TemplateComponent extends Component
         $this->validate();
 
         $this->dispatch('saveContent');
+    }
 
+    #[On('editorSaved')]
+    public function updateTemplate()
+    {
         $this->template->refresh();
 
         $this->template->name = $this->name;

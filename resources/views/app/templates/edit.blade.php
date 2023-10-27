@@ -35,11 +35,13 @@
                                 x-on:click.prevent="$dispatch('open-modal', { id: 'preview-{{ md5($html) }}' })"
                                 :label="__mc('Preview')"
                             />
-                            <x-mailcoach::preview-modal
-                                id="preview-{{ md5($html) }}"
-                                :html="$html"
-                                :title="__mc('Preview')"
-                            />
+                            <template x-teleport="body">
+                                <x-mailcoach::preview-modal
+                                    id="preview-{{ md5($html) }}"
+                                    :html="$html"
+                                    :title="__mc('Preview')"
+                                />
+                            </template>
                         @endif
                     </div>
 

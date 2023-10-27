@@ -1,34 +1,21 @@
 @if(isset($src) || isset($html))
-    @php($uuid = \Illuminate\Support\Str::uuid())
-    @php($key = \Illuminate\Support\Str::random())
+    @php($html ??= file_get_contents($src))
+    <div wire:ignore x-data="{
+        html: @js($html),
+    }">
+            <embedded-webview x-bind:html="html" />
 
-    <embedded-webview-{{ $uuid }} @isset($src) src="{{ $src }}" @endisset>
-    </embedded-webview-{{ $uuid }}>
+            <script>
+                class EmbeddedWebview extends HTMLElement {
+                    static observedAttributes = ["html"];
 
-    @isset($html)
-    <script>
-        class EmbeddedWebview{{ $key }} extends HTMLElement {
-            connectedCallback() {
-                const shadow = this.attachShadow({ mode: 'closed' });
-                shadow.innerHTML = @js(str_contains($html, '<html') ? $html : "<pre>{$html}</pre>");
-            }
-        }
-    </script>
-    @else
-        <script>
-            class EmbeddedWebview{{ $key }} extends HTMLElement {
-                connectedCallback() {
-                    fetch(this.getAttribute('src'))
-                    .then(response => response.text())
-                    .then(html => {
+                    attributeChangedCallback(name, oldValue, newValue) {
                         const shadow = this.attachShadow({ mode: 'closed' });
-                        shadow.innerHTML = html;
-                    });
+                        shadow.innerHTML = newValue;
+                    }
                 }
-            }
-        </script>
-    @endif
-    <script>
-        window.customElements.define('embedded-webview-{{ $uuid }}', EmbeddedWebview{{ $key }});
-    </script>
+
+                window.customElements.define('embedded-webview', EmbeddedWebview);
+            </script>
+    </div>
 @endif

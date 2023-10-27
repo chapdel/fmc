@@ -37,8 +37,6 @@ abstract class EditorComponent extends Component
 
     public string $emails = '';
 
-    public bool $quiet = false;
-
     public bool $hasError = false;
 
     private Mjml $mjml;
@@ -68,6 +66,8 @@ abstract class EditorComponent extends Component
         }
 
         $this->renderFullHtml();
+
+        $this->dispatch('editorUpdated', $this->model->uuid, $this->previewHtml());
     }
 
     public function updatingTemplateId(int|string|null $templateId)
@@ -162,15 +162,13 @@ abstract class EditorComponent extends Component
 
         $this->hasError = false;
 
-        if (! $this->quiet) {
-            try {
-                Mailcoach::getSharedActionClass('render_twig', RenderTwigAction::class)->execute(htmlspecialchars_decode($this->fullHtml));
-            } catch (\Throwable $e) {
-                notifyError($e->getMessage());
-                $this->hasError = true;
+        try {
+            Mailcoach::getSharedActionClass('render_twig', RenderTwigAction::class)->execute(htmlspecialchars_decode($this->fullHtml));
+        } catch (\Throwable $e) {
+            notifyError($e->getMessage());
+            $this->hasError = true;
 
-                return;
-            }
+            return;
         }
 
         $this->model->setHtml($this->fullHtml);
@@ -194,7 +192,7 @@ abstract class EditorComponent extends Component
 
         $this->saveQuietly();
 
-        if (! $this->quiet && ! $this->hasError) {
+        if (! $this->hasError) {
             $this->dispatch('editorSaved');
         }
     }
