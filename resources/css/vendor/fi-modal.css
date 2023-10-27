@@ -2,6 +2,13 @@
     @apply rounded-md !important;
 }
 
+.fi-modal-window.fi-modal-slide-over-window {
+    @apply rounded-none !important;
+    @apply p-0 !important;
+    @apply h-full;
+    @apply min-h-screen;
+}
+
 .fi-modal-header {
     @apply bg-indigo-700/5;
     @apply py-4 !important;
