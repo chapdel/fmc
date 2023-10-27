@@ -58,7 +58,9 @@
                     'sends' => __mc_choice('send|sends', $pendingCount)
                 ]),
                 'sync' => true,
-                'progress' => (($campaign->sendsCount() - $pendingCount) / $campaign->sendsCount()) * 100,
+                'progress' => $campaign->sendsCount()
+                    ? (($campaign->sendsCount() - $pendingCount) / $campaign->sendsCount()) * 100
+                    : 0,
             ])
         @endif
 
