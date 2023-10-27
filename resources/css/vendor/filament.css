@@ -78,6 +78,16 @@
     @apply rounded-md;
 }
 
+.fi-ta-filters .fi-input-wrp:has(.choices__inner),
+.fi-ta-filters .fi-input-wrp:has(.fi-select-input) {
+    @apply px-0;
+}
+
+.fi-ta-filters .fi-input-wrp .choices__inner {
+    @apply rounded-md;
+    @apply border-none;
+}
+
 .fi-ta .fi-select-input {
     @apply input;
     @apply pr-8;
