@@ -14,6 +14,7 @@
             :label="__mc('Value')"
             name="value-{{ $index }}"
             :options="$options"
+            :sort="false"
             multiple
             wire:model.live.debounce.250ms="storedCondition.value"
             required

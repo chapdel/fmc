@@ -12,7 +12,11 @@ class SubscriberTagsConditionComponent extends ConditionComponent
     {
         parent::mount();
 
-        $this->options = self::getTagClass()::pluck('name', 'id')->toArray();
+        $this->options = self::getTagClass()::query()
+            ->orderBy('type')
+            ->orderBy('name')
+            ->pluck('name', 'id')
+            ->toArray();
     }
 
     public function render()
