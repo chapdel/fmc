@@ -58,6 +58,14 @@ it('will fill the correct attributes', function () {
     expect($subscriber->extra_attributes->job_title)->toEqual('Developer');
 });
 
+it('will lowercase the email address', function () {
+    uploadStub('single.csv');
+
+    /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+    $subscriber = Subscriber::first();
+    expect($subscriber->email)->toEqual('john@example.com');
+});
+
 it('will subscribe the emails immediately even if the list requires confirmation', function () {
     $this->emailList->update(['requires_confirmation' => true]);
 

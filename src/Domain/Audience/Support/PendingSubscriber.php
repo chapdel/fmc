@@ -30,6 +30,8 @@ class PendingSubscriber
         if (Validator::make(compact('email'), ['email' => 'email'])->fails()) {
             throw CouldNotSubscribe::invalidEmail($email);
         }
+
+        $this->email = strtolower($this->email);
     }
 
     public function withAttributes(array $attributes): self
