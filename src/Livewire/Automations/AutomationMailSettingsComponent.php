@@ -22,9 +22,6 @@ class AutomationMailSettingsComponent extends Component
     #[Rule('required')]
     public string $name;
 
-    #[Rule(['nullable'])]
-    public ?string $subject = null;
-
     #[Rule(['nullable', 'email:rfc'])]
     public ?string $from_email;
 
@@ -53,6 +50,7 @@ class AutomationMailSettingsComponent extends Component
         $this->authorize('update', $this->mail);
 
         $this->fill($this->mail->toArray());
+        $this->fill($this->mail->contentItem->toArray());
 
         app(MainNavigation::class)->activeSection()?->add($this->mail->name, route('mailcoach.automations.mails'));
     }
@@ -61,8 +59,10 @@ class AutomationMailSettingsComponent extends Component
     {
         $this->validate();
 
-        $this->mail->fill(Arr::except($this->all(), ['mail']));
-        $this->mail->save();
+        $this->mail->update([
+            'name' => $this->name,
+        ]);
+        $this->mail->contentItem->update(Arr::except($this->all(), ['name', 'mail']));
 
         notify(__mc('Email :name was updated.', ['name' => $this->mail->name]));
     }
