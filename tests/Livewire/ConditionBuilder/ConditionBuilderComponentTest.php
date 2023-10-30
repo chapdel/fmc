@@ -3,11 +3,14 @@
 namespace Spatie\Mailcoach\Tests\Livewire\ConditionBuilder;
 
 use Livewire\Livewire;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Subscribers\SubscriberClickedCampaignLinkQueryCondition;
 use Spatie\Mailcoach\Livewire\ConditionBuilder\ConditionBuilderComponent;
 
 it('can initialize an empty condition', function () {
-    Livewire::test(ConditionBuilderComponent::class)
+    Livewire::test(ConditionBuilderComponent::class, [
+        'emailList' => EmailList::factory()->create(),
+    ])
         ->call('add', SubscriberClickedCampaignLinkQueryCondition::KEY)
         ->assertHasNoErrors()
         ->assertSet('storedConditions', [
