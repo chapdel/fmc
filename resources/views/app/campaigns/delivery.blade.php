@@ -194,7 +194,7 @@
                             @endif
                             @if ($contentItem->sizeInKb() >= 102)
                                 <p class="markup-code">
-                                    {{ __mc("Your email's content size is larger than 102kb (:size). This could cause Gmail to clip your campaign.", ['size' => "{$campaign->sizeInKb()}kb"]) }}
+                                    {{ __mc("Your email's content size is larger than 102kb (:size). This could cause Gmail to clip your campaign.", ['size' => "{$contentItem->sizeInKb()}kb"]) }}
                                 </p>
                             @endif
 
