@@ -19,7 +19,7 @@ it('can start with an empty condition collection', function () {
     Livewire::test(SubscriberClickedAutomationMailLinkConditionComponent::class, ['storedCondition' => emptyStoredCondition()])
         ->assertHasNoErrors()
         ->assertSet('automationMails', $models->pluck('name', 'id')->toArray())
-        ->assertSet('storedCondition', emptyStoredCondition());
+        ->assertSet('storedCondition', emptyStoredCondition(value: ['automationMailId' => null, 'link' => null]));
 });
 
 it('can add a condition', function () {
