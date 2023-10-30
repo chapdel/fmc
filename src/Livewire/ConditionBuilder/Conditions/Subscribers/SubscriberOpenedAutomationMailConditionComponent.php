@@ -22,7 +22,7 @@ class SubscriberOpenedAutomationMailConditionComponent extends ConditionComponen
         $this->options = self::getOpenClass()::query()
             ->with('contentItem.model')
             ->whereHas('contentItem', function ($query) {
-                $query->where('model_type', self::getAutomationMailTableName());
+                $query->where('model_type', (new (self::getAutomationMailClass()))->getMorphClass());
             })
             ->get()
             ->mapWithKeys(function (Open $open) {
