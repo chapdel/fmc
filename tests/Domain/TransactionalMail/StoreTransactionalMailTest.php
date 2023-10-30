@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
+use Spatie\Mailcoach\Domain\Content\Events\ContentOpenedEvent;
+use Spatie\Mailcoach\Domain\Content\Events\LinkClickedEvent;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
-use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailLinkClickedEvent;
-use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailOpenedEvent;
 use Spatie\Mailcoach\Domain\TransactionalMail\Events\TransactionalMailStored;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Tests\Domain\TransactionalMail\Concerns\SendsTestTransactionalMail;
@@ -26,16 +26,13 @@ test('a transactional mail will be stored in the db', function () {
 
     $transactionalMail = TransactionalMailLogItem::first();
 
-    test()->assertEquals(
-        [['email' => config('mail.from.address'), 'name' => config('mail.from.name')]],
-        $transactionalMail->from,
-    );
-    expect($transactionalMail->subject)->toEqual('This is the subject');
-    expect($transactionalMail->body)->toContain('This is the content for John Doe');
+    expect($transactionalMail->from)->toEqual([['email' => config('mail.from.address'), 'name' => config('mail.from.name')]]);
+    expect($transactionalMail->contentItem->subject)->toEqual('This is the subject');
+    expect($transactionalMail->contentItem->html)->toContain('This is the content for John Doe');
     expect($transactionalMail->attachments)->toContain('example.pdf');
     expect($transactionalMail->mailable_class)->toEqual(TestTransactionMail::class);
     expect($transactionalMail->send)->toBeInstanceOf(Send::class);
-    expect(Send::first())->transactionalMailLogItem->toBeInstanceOf(TransactionalMailLogItem::class);
+    expect(Send::first())->contentItem->model->toBeInstanceOf(TransactionalMailLogItem::class);
 });
 
 it('can store a mailable that uses envelope and content methods', function () {
@@ -43,7 +40,7 @@ it('can store a mailable that uses envelope and content methods', function () {
 
     $transactionalMail = TransactionalMailLogItem::first();
 
-    expect($transactionalMail->subject)->toEqual('Test mail envelope style');
+    expect($transactionalMail->contentItem->subject)->toEqual('Test mail envelope style');
 });
 
 it('can store the various recipients', function () {
@@ -57,25 +54,13 @@ it('can store the various recipients', function () {
 
     $transactionalMail = TransactionalMailLogItem::first();
 
-    test()->assertEquals(
-        [['email' => 'ringo@example.com', 'name' => 'Ringo']],
-        $transactionalMail->from,
-    );
+    expect($transactionalMail->from)->toEqual([['email' => 'ringo@example.com', 'name' => 'Ringo']]);
 
-    test()->assertEquals(
-        [['email' => 'john@example.com', 'name' => '']],
-        $transactionalMail->to,
-    );
+    expect($transactionalMail->to)->toEqual([['email' => 'john@example.com', 'name' => '']]);
 
-    test()->assertEquals(
-        [['email' => 'paul@example.com', 'name' => 'Paul']],
-        $transactionalMail->cc,
-    );
+    expect($transactionalMail->cc)->toEqual([['email' => 'paul@example.com', 'name' => 'Paul']]);
 
-    test()->assertEquals(
-        [['email' => 'george@example.com', 'name' => 'George']],
-        $transactionalMail->bcc,
-    );
+    expect($transactionalMail->bcc)->toEqual([['email' => 'george@example.com', 'name' => 'George']]);
 });
 
 test('storing a transactional mail dispatches an event', function () {
@@ -86,7 +71,7 @@ test('storing a transactional mail dispatches an event', function () {
     });
 
     Event::assertDispatched(TransactionalMailStored::class, function (TransactionalMailStored $event) {
-        test()->assertNotNull($event->transactionalMail->id);
+        expect($event->transactionalMail->id)->not->toBeNull();
 
         return $event;
     });
@@ -100,7 +85,7 @@ test('by default it will not store any mails', function () {
 });
 
 test('a send for a transactional mail can be marked as opened', function () {
-    Event::fake([TransactionalMailOpenedEvent::class]);
+    Event::fake([ContentOpenedEvent::class]);
 
     test()->sendTestMail();
 
@@ -109,13 +94,13 @@ test('a send for a transactional mail can be marked as opened', function () {
 
     $send->registerOpen();
 
-    expect($send->transactionalMailOpens)->toHaveCount(1);
+    expect($send->opens)->toHaveCount(1);
 
-    Event::assertDispatched(TransactionalMailOpenedEvent::class);
+    Event::assertDispatched(ContentOpenedEvent::class);
 });
 
 test('a send for a transactional mail can be marked as clicked', function () {
-    Event::fake([TransactionalMailLinkClickedEvent::class]);
+    Event::fake([LinkClickedEvent::class]);
 
     test()->sendTestMail();
 
@@ -124,7 +109,7 @@ test('a send for a transactional mail can be marked as clicked', function () {
 
     $send->registerClick('https://spatie.be');
 
-    expect($send->transactionalMailClicks)->toHaveCount(1);
+    expect($send->clicks)->toHaveCount(1);
 
-    Event::assertDispatched(TransactionalMailLinkClickedEvent::class);
+    Event::assertDispatched(LinkClickedEvent::class);
 });

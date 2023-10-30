@@ -24,18 +24,22 @@ class StoreTransactionalMail
         }
 
         $transactionalMail = static::getTransactionalMailLogItemClass()::create([
-            'subject' => $message->getSubject(),
             'from' => $this->convertToNamedArray($message->getFrom()),
             'to' => $this->convertToNamedArray($message->getTo()),
             'cc' => $this->convertToNamedArray($message->getCc()),
             'bcc' => $this->convertToNamedArray($message->getBcc()),
-            'body' => $message->getHtmlBody() ?? $message->getTextBody(),
             'mailable_class' => $messageConfig->getMailableClass(),
             'attachments' => collect($message->getAttachments())->map(fn (DataPart $dataPart) => $dataPart->getFilename()),
+            'fake' => $sending->data['fake'] ?? false,
+        ]);
+
+        $transactionalMail->contentItem->update([
+            'subject' => $message->getSubject(),
+            'html' => $message->getHtmlBody() ?? $message->getTextBody(),
         ]);
 
         $send = self::getSendClass()::create([
-            'transactional_mail_log_item_id' => $transactionalMail->id,
+            'content_item_id' => $transactionalMail->contentItem->id,
             'sent_at' => now(),
         ]);
 

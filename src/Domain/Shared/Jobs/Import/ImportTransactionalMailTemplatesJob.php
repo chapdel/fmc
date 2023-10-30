@@ -23,14 +23,19 @@ class ImportTransactionalMailTemplatesJob extends ImportJob
 
         $reader = SimpleExcelReader::create($this->tmpDisk->path('tmp/transactional_mail_templates.csv'));
         $columns = Schema::getColumnListing(self::getTransactionalMailTableName());
+        $contentItemColumns = Schema::getColumnListing(self::getContentItemTableName());
 
         $total = $this->getMeta('transactional_mail_templates_count', 0);
         foreach ($reader->getRows() as $index => $row) {
-            self::getTransactionalMailClass()::firstOrCreate([
+            $transactionalMail = self::getTransactionalMailClass()::firstOrCreate([
                 'name' => $row['name'],
-                'subject' => $row['subject'],
                 'type' => $row['type'],
             ], array_filter(Arr::except(Arr::only($row, $columns), ['id'])));
+
+            $contentAttributes = array_filter(Arr::except(Arr::only($row, $contentItemColumns), ['id']));
+            $contentAttributes['html'] = $row['body'] ?? $row['html'] ?? '';
+
+            $transactionalMail->contentItem->update($contentAttributes);
 
             $this->updateJobProgress($index, $total);
         }

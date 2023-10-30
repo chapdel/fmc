@@ -91,8 +91,6 @@
     @apply -bottom-px;
     @apply -mx-6;
     @apply px-6;
-    @apply md:-mx-10;
-    @apply md:px-10;
     @apply py-3;
     @apply -mb-3;
     @apply transition-shadow;
@@ -102,7 +100,9 @@
     @apply bg-white;
     @apply border-t;
     @apply border-indigo-700/20;
-    box-shadow: rgba(37, 99, 235, 0.05) 0px -10px 15px -3px, rgba(37, 99, 235, 0.05) 0px -4px 6px -4px !important;
+    box-shadow:
+        rgba(37, 99, 235, 0.05) 0px -10px 15px -3px,
+        rgba(37, 99, 235, 0.05) 0px -4px 6px -4px !important;
 }
 
 .form-error {

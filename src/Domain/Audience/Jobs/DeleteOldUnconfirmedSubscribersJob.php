@@ -25,8 +25,8 @@ class DeleteOldUnconfirmedSubscribersJob implements ShouldBeUnique, ShouldQueue
 
     public function __construct()
     {
-        $this->onQueue(config('mailcoach.shared.perform_on_queue.schedule'));
-        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
+        $this->onQueue(config('mailcoach.perform_on_queue.schedule'));
+        $this->connection ??= Mailcoach::getQueueConnection();
     }
 
     public function handle()

@@ -9,6 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailTestAction;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Mailcoach;
 
 class SendAutomationMailTestJob implements ShouldQueue
@@ -18,22 +19,14 @@ class SendAutomationMailTestJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public AutomationMail $mail;
-
-    public string $email;
-
     /** @var string */
     public $queue;
 
-    public function __construct(AutomationMail $mail, string $email)
+    public function __construct(public AutomationMail $mail, public string $email, public ?ContentItem $contentItem = null)
     {
-        $this->mail = $mail;
-
-        $this->email = $email;
-
         $this->queue = config('mailcoach.automation.perform_on_queue.send_test_mail_job');
 
-        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
+        $this->connection ??= Mailcoach::getQueueConnection();
     }
 
     public function handle()
@@ -41,6 +34,6 @@ class SendAutomationMailTestJob implements ShouldQueue
         /** @var \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailTestAction $sendTestMailAction */
         $sendTestMailAction = Mailcoach::getAutomationActionClass('send_test_mail', SendAutomationMailTestAction::class);
 
-        $sendTestMailAction->execute($this->mail, $this->email);
+        $sendTestMailAction->execute($this->mail, $this->email, $this->contentItem);
     }
 }

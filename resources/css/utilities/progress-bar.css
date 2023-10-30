@@ -1,10 +1,9 @@
 .progress-bar {
-    @apply h-3;
+    @apply h-2;
     @apply rounded-full;
     @apply overflow-hidden;
     @apply border;
-    @apply border-gray-200;
-    @apply shadow;
+    @apply border-gray-300;
 }
 
 .progress-bar-value {

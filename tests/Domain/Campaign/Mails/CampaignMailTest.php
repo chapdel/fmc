@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Database\Factories\SendFactory;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Content\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 
 it('will set transport id', function () {
@@ -11,7 +11,7 @@ it('will set transport id', function () {
     $send = SendFactory::new()->create();
 
     $campaignMailable = (new MailcoachMail())
-        ->setSendable($send->campaign)
+        ->setContentItem($send->contentItem)
         ->setSend($send)
         ->setHtmlContent('dummy content')
         ->subject('test mail');
@@ -20,10 +20,7 @@ it('will set transport id', function () {
 
     $domain = '@'.Str::after($campaignMailable->from[0]['address'], '@');
 
-    test()->assertStringEndsWith(
-        $domain,
-        $send->refresh()->transport_message_id
-    );
+    expect($send->refresh()->transport_message_id)->toEndWith($domain);
 });
 
 it('can send to multiple reply-to users', function () {
@@ -35,18 +32,18 @@ it('can send to multiple reply-to users', function () {
     ]);
 
     /** @var \Spatie\Mailcoach\Domain\Shared\Models\Send $send */
-    $send = SendFactory::new()->create();
-
-    $send->campaign()->associate($campaign)->save();
+    $send = SendFactory::new()->create([
+        'content_item_id' => $campaign->contentItem->id,
+    ]);
 
     $campaignMailable = (new MailcoachMail())
-        ->setSendable($send->campaign)
+        ->setContentItem($send->contentItem)
         ->setSend($send)
         ->setHtmlContent('dummy content')
         ->subject('test mail')
         ->build();
 
-    test()->assertSame([
+    expect($campaignMailable->replyTo)->toBe([
         [
             'name' => 'Jan',
             'address' => 'jan@example.com',
@@ -55,5 +52,5 @@ it('can send to multiple reply-to users', function () {
             'name' => 'Piet',
             'address' => 'piet@example.com',
         ],
-    ], $campaignMailable->replyTo);
+    ]);
 });

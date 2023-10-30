@@ -1,8 +1,7 @@
 build
 composer.lock
-vendor
+/vendor
 !resources/css/vendor
-resources/dist/monaco
 resources/hot
 coverage
 .php_cs.cache
@@ -12,5 +11,6 @@ auth.json
 .phpunit.result.cache
 .php-cs-fixer.cache
 phpstan.neon
-
+dump.rdb
 /.fleet
+.env

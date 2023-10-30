@@ -132,8 +132,8 @@
                         tagsInput.setValue([tagsInput.input.value]);
                         tagsInput.clearInput();
 
-                        $wire.emit('tags-updated', tagsInput.getValue(true));
-                        $wire.emit('tags-updated-{{ $name }}', tagsInput.getValue(true));
+                        $wire.dispatch('tags-updated', tagsInput.getValue(true));
+                        $wire.dispatch('tags-updated-{{ $name }}', tagsInput.getValue(true));
                     }
                 });
 
@@ -152,8 +152,8 @@
 
                 this.$refs.select.addEventListener('change', () => {
                     this.value = tagsInput.getValue(true)
-                    $wire.emit('tags-updated', this.value);
-                    $wire.emit('tags-updated-{{ $name }}', this.value);
+                    $wire.dispatch('tags-updated', this.value);
+                    $wire.dispatch('tags-updated-{{ $name }}', this.value);
                 })
             })
         }

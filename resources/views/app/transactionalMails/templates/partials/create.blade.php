@@ -1,6 +1,6 @@
 <form
     class="form-grid"
-    wire:submit.prevent="saveTemplate"
+    wire:submit="saveTemplate"
     @keydown.prevent.window.cmd.s="$wire.call('saveTemplate')"
     @keydown.prevent.window.ctrl.s="$wire.call('saveTemplate')"
     method="POST"
@@ -15,7 +15,7 @@
 
     <?php
         $editor = config('mailcoach.template_editor', \Spatie\Mailcoach\Domain\Shared\Support\Editor\TextEditor::class);
-        $editorName = (new ReflectionClass($editor))->getShortName();
+    $editorName = (new ReflectionClass($editor))->getShortName();
     ?>
     <x-mailcoach::select-field
         :label="__mc('Type')"
@@ -41,6 +41,6 @@
 
     <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__mc('Create email')" />
-        <x-mailcoach::button-cancel x-on:click="$store.modals.close('create-transactional-template')" />
+        <x-mailcoach::button-cancel x-on:click="$dispatch('close-modal', { id: 'create-transactional-template' })" />
     </x-mailcoach::form-buttons>
 </form>

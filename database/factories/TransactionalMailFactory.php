@@ -19,13 +19,11 @@ class TransactionalMailFactory extends Factory
     {
         return [
             'uuid' => $this->faker->uuid,
-            'name' => $this->faker->word,
-            'subject' => $this->faker->sentence,
+            'name' => $this->faker->slug,
             'from' => $this->faker->email,
             'to' => [$this->faker->email],
             'cc' => [$this->faker->email],
             'bcc' => [$this->faker->email],
-            'body' => $this->faker->randomHtml(),
             'type' => 'blade',
             'test_using_mailable' => TestMailableWithTemplate::class,
         ];

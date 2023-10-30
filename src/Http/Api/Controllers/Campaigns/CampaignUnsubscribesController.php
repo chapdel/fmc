@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Http\Api\Controllers\Campaigns;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Http\Api\Resources\CampaignUnsubscribeResource;
-use Spatie\Mailcoach\Http\App\Queries\CampaignUnsubscribesQuery;
+use Spatie\Mailcoach\Http\Api\Queries\CampaignUnsubscribesQuery;
+use Spatie\Mailcoach\Http\Api\Resources\UnsubscribeResource;
 
 class CampaignUnsubscribesController
 {
@@ -16,8 +16,8 @@ class CampaignUnsubscribesController
         $this->authorize('view', $campaign);
 
         $unsubscribes = (new CampaignUnsubscribesQuery($campaign));
-        $unsubscribes->with(['campaign', 'subscriber']);
+        $unsubscribes->with(['contentItem.model', 'subscriber']);
 
-        return CampaignUnsubscribeResource::collection($unsubscribes->paginate());
+        return UnsubscribeResource::collection($unsubscribes->paginate());
     }
 }

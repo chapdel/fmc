@@ -14,7 +14,7 @@ it('deletes only processed webhooks older than the default 1 hour interval', fun
 
     test()->artisan(CleanupProcessedFeedbackCommand::class)->assertExitCode(0);
 
-    test()->assertNotNull($keep->refresh());
+    expect($keep->refresh())->not->toBeNull();
     test()->assertModelMissing($delete);
 });
 
@@ -25,8 +25,8 @@ it('can be passed the hours interval in the command options', function () {
 
     test()->artisan(CleanupProcessedFeedbackCommand::class, ['--hours' => 5])->assertExitCode(0);
 
-    test()->assertNotNull($keep1->refresh());
-    test()->assertNotNull($keep2->refresh());
+    expect($keep1->refresh())->not->toBeNull();
+    expect($keep2->refresh())->not->toBeNull();
     test()->assertModelMissing($delete);
 });
 
@@ -39,7 +39,7 @@ it('only deletes calls that are from the feedback packages', function () {
 
     test()->artisan(CleanupProcessedFeedbackCommand::class, ['--hours' => 5])->assertExitCode(0);
 
-    test()->assertNotNull($keep->refresh());
+    expect($keep->refresh())->not->toBeNull();
     test()->assertModelMissing($delete1);
     test()->assertModelMissing($delete2);
     test()->assertModelMissing($delete3);

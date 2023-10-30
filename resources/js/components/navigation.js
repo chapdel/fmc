@@ -1,5 +1,5 @@
 document.addEventListener('alpine:init', () => {
-    window.Alpine.data('navigation', () => ({
+    Alpine.data('navigation', () => ({
         show: true,
         hasOpened: false,
 
@@ -36,7 +36,7 @@ document.addEventListener('alpine:init', () => {
 
             document
                 .querySelectorAll('.navigation-dropdown')
-                .forEach(el => el.classList.add('md:hidden', 'md:opacity-0'));
+                .forEach((el) => el.classList.add('md:hidden', 'md:opacity-0'));
 
             const target = event.target.classList.contains('navigation-dropdown-trigger')
                 ? event.target
@@ -77,7 +77,7 @@ document.addEventListener('alpine:init', () => {
                 return;
             }
 
-            document.querySelectorAll('.navigation-dropdown').forEach(el => {
+            document.querySelectorAll('.navigation-dropdown').forEach((el) => {
                 el.classList.remove('md:block', 'md:opacity-100');
                 el.classList.add('md:hidden', 'md:opacity-0');
             });

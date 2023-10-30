@@ -2,38 +2,31 @@
 
 namespace Spatie\Mailcoach\Domain\Campaign\Rules;
 
+use Closure;
 use Exception;
-use Illuminate\Contracts\Validation\Rule;
-use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
+use Illuminate\Contracts\Validation\ValidationRule;
+use Spatie\Mailcoach\Domain\Content\Actions\CreateDomDocumentFromHtmlAction;
 
-class HtmlRule implements Rule
+class HtmlRule implements ValidationRule
 {
-    private ?Exception $exception;
-
-    private ?string $value;
-
-    public function passes($attribute, $value)
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         if (is_array($value)) {
             $value = $value['html'];
         }
 
-        $this->value = $value;
-
         try {
             app(CreateDomDocumentFromHtmlAction::class)->execute($value, false);
-
-            return true;
         } catch (Exception $exception) {
-            $this->exception = $exception;
+            $message = $this->getMessage($exception, $value);
 
-            return false;
+            $fail($message);
         }
     }
 
-    public function message(): string
+    public function getMessage(Exception $exception, mixed $value): string
     {
-        preg_match('/Tag (.*) invalid in Entity.*/', $this->exception->getMessage(), $match);
+        preg_match('/Tag (.*) invalid in Entity.*/', $exception->getMessage(), $match);
 
         if (isset($match[1])) {
             return __mc('Your HTML contains a &lt;:tag&gt; tag which is not supported in a lot of mail clients.', [
@@ -41,16 +34,16 @@ class HtmlRule implements Rule
             ]);
         }
 
-        preg_match('/line: (.*)/', $this->exception->getMessage(), $match);
+        preg_match('/line: (.*)/', $exception->getMessage(), $match);
 
         $line = $match[1] ?? null;
         if ($line) {
-            $lines = explode("\n", $this->value);
+            $lines = explode("\n", $value);
 
             $code = trim($lines[$line - 1] ?? $lines[$line]);
         }
 
-        $message = str_replace('DOMDocument::loadHTML(): ', '', $this->exception->getMessage());
+        $message = str_replace('DOMDocument::loadHTML(): ', '', $exception->getMessage());
 
         if (isset($code)) {
             $code = htmlentities($code);

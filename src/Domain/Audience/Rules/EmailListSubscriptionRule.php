@@ -8,13 +8,10 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 
 class EmailListSubscriptionRule implements Rule
 {
-    protected EmailList $emailList;
-
     protected string $attribute;
 
-    public function __construct(EmailList $emailList)
+    public function __construct(protected EmailList $emailList)
     {
-        $this->emailList = $emailList;
     }
 
     public function passes($attribute, $value)

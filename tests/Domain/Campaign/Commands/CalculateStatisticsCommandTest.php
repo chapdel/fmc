@@ -4,9 +4,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
+use Spatie\Mailcoach\Domain\Content\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\TestTime\TestTime;
 
 beforeEach(function () {
@@ -20,15 +20,18 @@ it('will recalculate statistics at the right time', function (
 ) {
     Queue::fake();
 
-    $campaign = Campaign::factory()->create([
+    $campaign = CampaignFactory::new()->create([
         'status' => CampaignStatus::Sent,
         'sent_at' => $sentAt,
-        'all_sends_dispatched_at' => $sentAt,
-        'all_sends_created_at' => $sentAt,
         'statistics_calculated_at' => $statisticsCalculatedAt,
     ]);
 
-    Send::factory()->create(['campaign_id' => $campaign->id]);
+    $campaign->contentItem->update([
+        'all_sends_dispatched_at' => $sentAt,
+        'all_sends_created_at' => $sentAt,
+    ]);
+
+    Send::factory()->create(['content_item_id' => $campaign->contentItem->id]);
 
     test()->artisan(CalculateStatisticsCommand::class)->assertExitCode(0);
     $this->processQueuedJobs();
@@ -41,7 +44,7 @@ it('will recalculate statistics at the right time', function (
 it('will not calculate statistics of campaigns that are not sent or cancelled', function () {
     Queue::fake();
 
-    $campaign = Campaign::factory()->create([
+    $campaign = CampaignFactory::new()->create([
         'status' => CampaignStatus::Sent,
         'sent_at' => now()->subMinutes(2),
         'all_sends_dispatched_at' => now()->subMinutes(2),
@@ -49,7 +52,7 @@ it('will not calculate statistics of campaigns that are not sent or cancelled', 
         'statistics_calculated_at' => now()->subMinute(),
     ]);
 
-    Campaign::factory()->create([
+    CampaignFactory::new()->create([
         'status' => CampaignStatus::Cancelled,
         'sent_at' => now()->subMinutes(2),
         'all_sends_dispatched_at' => now()->subMinutes(2),
@@ -57,7 +60,7 @@ it('will not calculate statistics of campaigns that are not sent or cancelled', 
         'statistics_calculated_at' => now()->subMinute(),
     ]);
 
-    Campaign::factory()->create([
+    CampaignFactory::new()->create([
         'status' => CampaignStatus::Draft,
         'sent_at' => now()->subMinutes(2),
         'all_sends_dispatched_at' => now()->subMinutes(2),
@@ -65,7 +68,7 @@ it('will not calculate statistics of campaigns that are not sent or cancelled', 
         'statistics_calculated_at' => now()->subMinute(),
     ]);
 
-    Send::factory()->create(['campaign_id' => $campaign->id]);
+    Send::factory()->create(['content_item_id' => $campaign->contentItem->id]);
 
     test()->artisan(CalculateStatisticsCommand::class)->assertExitCode(0);
     $this->processQueuedJobs();
@@ -74,7 +77,7 @@ it('will not calculate statistics of campaigns that are not sent or cancelled', 
 });
 
 it('can recalculate the statistics of a single campaign', function () {
-    $campaign = Campaign::factory()->create([
+    $campaign = CampaignFactory::new()->create([
         'sent_at' => now()->subYear(),
         'all_sends_dispatched_at' => now()->subYear(),
         'all_sends_created_at' => now()->subYear(),
@@ -83,7 +86,7 @@ it('can recalculate the statistics of a single campaign', function () {
 
     test()->artisan(CalculateStatisticsCommand::class, ['campaignId' => $campaign->id])->assertExitCode(0);
 
-    test()->assertNotNull($campaign->refresh()->statistics_calculated_at);
+    expect($campaign->refresh()->contentItem->statistics_calculated_at)->not->toBeNull();
 });
 
 // Datasets

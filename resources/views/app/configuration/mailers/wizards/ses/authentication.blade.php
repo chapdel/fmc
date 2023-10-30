@@ -15,7 +15,7 @@
         <p>Mailcoach needs the <strong>AmazonSESFullAccess</strong> and <strong>AmazonSNSFullAccess</strong> permissions to set up.</p>
     </x-mailcoach::help>
 
-        <form class="form-grid" wire:submit.prevent="submit">
+        <form class="form-grid" wire:submit="submit">
             <x-mailcoach::text-field
                 wire:model.defer="key"
                 :label="__mc('Key')"

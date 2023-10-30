@@ -3,16 +3,21 @@
 use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Mail;
-use Spatie\Mailcoach\Domain\Campaign\Actions\SendMailAction;
+use Spatie\Mailcoach\Domain\Audience\Events\SubscriberSuppressedEvent;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\Suppression;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignMailSentEvent;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Content\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Shared\Actions\SendMailAction;
+use Spatie\Mailcoach\Domain\Shared\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
+use Spatie\Mailcoach\Domain\Shared\Models\SendFeedbackItem;
 
 beforeEach(function () {
     $this->action = resolve(SendMailAction::class);
 
     /** @var Send $send */
-    $this->send = Send::factory()->create(['automation_mail_id' => null]);
+    $this->send = Send::factory()->create();
 });
 
 it('sends a pending send', function () {
@@ -60,4 +65,30 @@ it('sets message headers', function () {
     $this->action->execute($this->send);
 
     expect($assertionsPassed)->toBeTrue();
+});
+
+it('will not sent to subscribers registered as suppressed', function () {
+    Mail::fake();
+    Event::fake();
+
+    $suppressed = Suppression::factory()->create(['email' => 'invalid@example.com']);
+    $subscriber = Subscriber::factory()->create(['email' => $suppressed->email]);
+
+    $this->send = Send::factory()->create([
+        'subscriber_id' => $subscriber->id,
+    ]);
+
+    $this->action->execute($this->send);
+
+    Mail::assertNothingSent();
+    Event::assertNotDispatched(CampaignMailSentEvent::class);
+    Event::assertDispatched(SubscriberSuppressedEvent::class, 1);
+
+    expect($this->send->wasAlreadySent())->toBeTrue();
+    expect($subscriber->refresh()->unsubscribed_at)->not()->toBeNull();
+
+    $this->assertDatabaseHas(SendFeedbackItem::getSendFeedbackItemTableName(), [
+        'send_id' => $this->send->id,
+        'type' => SendFeedbackType::Suppressed,
+    ]);
 });

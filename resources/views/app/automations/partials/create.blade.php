@@ -1,6 +1,6 @@
 <form
     class="form-grid"
-    wire:submit.prevent="saveAutomation"
+    wire:submit="saveAutomation"
     @keydown.prevent.window.cmd.s="$wire.call('saveAutomation')"
     @keydown.prevent.window.ctrl.s="$wire.call('saveAutomation')"
     method="POST"
@@ -26,14 +26,14 @@
 
         <x-mailcoach::form-buttons>
             <x-mailcoach::button :label="__mc('Create automation')"/>
-            <x-mailcoach::button-cancel :label="__mc('Cancel')" x-on:click="$store.modals.close('create-automation')" />
+            <x-mailcoach::button-cancel :label="__mc('Cancel')" x-on:click="$dispatch('close-modal', { id: 'create-automation' })" />
         </x-mailcoach::form-buttons>
     @else
         <p>{!! __mc('You\'ll need to create a list first. <a class="link" href=":url">Create one here</a>', [
             'url' => route('mailcoach.emailLists') . '#create-list'
         ]) !!}</p>
         <x-mailcoach::form-buttons>
-            <x-mailcoach::button-cancel x-on:click="$store.modals.close('create-automation')" />
+            <x-mailcoach::button-cancel x-on:click="$dispatch('close-modal', { id: 'create-automation' })" />
         </x-mailcoach::form-buttons>
     @endif
 

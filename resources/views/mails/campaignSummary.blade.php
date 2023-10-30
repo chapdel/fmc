@@ -1,27 +1,33 @@
+<?php /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */ ?>
 @component('mailcoach::mails.layout.message')
 {{ __mc('Hi') }},
 
-{{ __mc('Campaign **:campaignName** was sent to **:numberOfSubscribers** subscribers (list :emailListName) on :sentAt', ['campaignName'=>$campaign->name,'numberOfSubscribers'=>($campaign->sent_to_number_of_subscribers ?? 0 ),'emailListName'=>$campaign->emailList->name,'sentAt'=>$campaign->sent_at->toMailcoachFormat()]) }}.
+{{ __mc('Campaign **:campaignName** was sent to **:numberOfSubscribers** subscribers (list :emailListName) on :sentAt', [
+    'campaignName' => $campaign->name,
+    'numberOfSubscribers' => ($campaign->sentToNumberOfSubscribers() ?? 0 ),
+    'emailListName' => $campaign->emailList->name,
+    'sentAt' => $campaign->sent_at->toMailcoachFormat()
+]) }}.
 
 <table class="stats">
 <tr>
-@if ($campaign->open_count)
+@if ($campaign->openCount())
 <td>
 @include('mailcoach::mails.partials.statistic', [
 'href' => route('mailcoach.campaigns.opens', $campaign),
-'stat' => $campaign->open_count,
+'stat' => $campaign->openCount(),
 'label' => __mc('Opens'),
 ])
 </td>
 <td>
 @include('mailcoach::mails.partials.statistic', [
-'stat' => $campaign->unique_open_count,
+'stat' => $campaign->uniqueOpenCount(),
 'label' => __mc('Unique Opens'),
 ])
 </td>
 <td>
 @include('mailcoach::mails.partials.statistic', [
-'stat' => number_format(($campaign->open_rate / 100), 2),
+'stat' => number_format(($campaign->openRate() / 100), 2),
 'suffix' => '%',
 'label' => __mc('Open Rate'),
 ])
@@ -35,23 +41,23 @@
 </tr>
 
 <tr>
-@if($campaign->click_count)
+@if($campaign->clickCount())
 <td>
 @include('mailcoach::mails.partials.statistic', [
 'href' => route('mailcoach.campaigns.clicks', $campaign),
-'stat' => $campaign->click_count,
+'stat' => $campaign->clickCount(),
 'label' => __mc('Clicks'),
 ])
 </td>
 <td>
 @include('mailcoach::mails.partials.statistic', [
-'stat' => $campaign->unique_click_count,
+'stat' => $campaign->uniqueClickCount(),
 'label' => __mc('Unique Clicks'),
 ])
 </td>
 <td>
 @include('mailcoach::mails.partials.statistic', [
-'stat' => number_format(($campaign->click_rate / 100), 2),
+'stat' => number_format(($campaign->clickRate() / 100), 2),
 'suffix' => '%',
 'label' => __mc('Clicks Rate'),
 ])
@@ -68,13 +74,13 @@
 <td>
 @include('mailcoach::mails.partials.statistic', [
 'href' => route('mailcoach.campaigns.unsubscribes', $campaign),
-'stat' => $campaign->unsubscribe_count,
+'stat' => $campaign->unsubscribeCount(),
 'label' => __mc('Unsubscribes'),
 ])
 </td>
 <td>
 @include('mailcoach::mails.partials.statistic', [
-'stat' => number_format(($campaign->unsubscribe_rate / 100), 2),
+'stat' => number_format(($campaign->unsubscribeRate() / 100), 2),
 'label' => __mc('Unsubscribe Rate'),
 'suffix' => '%'
 ])
@@ -86,13 +92,13 @@
 <td>
 @include('mailcoach::mails.partials.statistic', [
 'href' => route('mailcoach.campaigns.outbox', $campaign),
-'stat' => $campaign->bounce_count,
+'stat' => $campaign->bounceCount(),
 'label' => 'Bounces',
 ])
 </td>
 <td>
 @include('mailcoach::mails.partials.statistic', [
-'stat' => number_format(($campaign->bounce_rate / 100), 2),
+'stat' => number_format(($campaign->bounceRate() / 100), 2),
 'label' => 'Bounce Rate',
 'suffix' => '%'
 ])

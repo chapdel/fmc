@@ -27,7 +27,7 @@ it('runs automations that are started', function () {
 
     Artisan::call(RunAutomationActionsCommand::class);
 
-    test()->assertNotNull($automation->fresh()->run_at);
+    expect($automation->fresh()->run_at)->not->toBeNull();
 });
 
 it('respects the interval', function () {

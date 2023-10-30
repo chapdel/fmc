@@ -33,6 +33,8 @@ class SubscriberImport extends Model implements HasMedia
         'replace_tags' => 'boolean',
         'status' => SubscriberImportStatus::class,
         'errors' => 'array',
+        'subscribe_unsubscribed' => 'boolean',
+        'unsubscribe_missing' => 'boolean',
     ];
 
     public static function booted()

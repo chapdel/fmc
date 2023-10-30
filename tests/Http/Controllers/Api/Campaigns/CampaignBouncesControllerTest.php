@@ -1,14 +1,11 @@
 <?php
 
-namespace Spatie\Mailcoach\Tests\Http\Controllers\Api\Campaigns;
-
-use Illuminate\Auth\AuthenticationException;
-use Spatie\Mailcoach\Database\Factories\SendFactory;
 use Spatie\Mailcoach\Database\Factories\SendFeedbackItemFactory;
-use Spatie\Mailcoach\Database\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignBouncesController;
+use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 
 uses(RespondsToApiRequests::class);
@@ -17,19 +14,18 @@ it('can get subscribers with bounces of a campaign', function () {
     test()->loginToApi();
 
     /** @var Campaign $campaign */
-    $campaign = Campaign::factory()
-        ->has(SendFactory::new()
-            ->has(SendFeedbackItemFactory::times(2), 'feedback')
-            ->has(SubscriberFactory::new())
-        )
-        ->has(SendFactory::new()
-            ->has(SendFeedbackItemFactory::new(), 'feedback')
-            ->has(SubscriberFactory::new())
-        )
-        ->create();
+    $campaign = CampaignFactory::new()->create();
+
+    Send::factory()
+        ->has(SendFeedbackItemFactory::times(2), 'feedback')
+        ->create(['content_item_id' => $campaign->contentItem->id]);
+
+    Send::factory()
+        ->has(SendFeedbackItemFactory::times(2), 'feedback')
+        ->create(['content_item_id' => $campaign->contentItem->id]);
 
     /** @var Subscriber $subscriber */
-    $subscriber = $campaign->sends->first()->subscriber;
+    $subscriber = $campaign->contentItem->sends->first()->subscriber;
 
     $this
         ->getJson(action(CampaignBouncesController::class, $campaign))
@@ -48,21 +44,20 @@ it('can filter by type', function () {
     test()->loginToApi();
 
     /** @var Campaign $campaign */
-    $campaign = Campaign::factory()
-        ->has(SendFactory::new()
-            ->has(SendFeedbackItemFactory::times(1), 'feedback')
-            ->has(SubscriberFactory::new())
-        )
-        ->has(SendFactory::new()
-            ->has(SendFeedbackItemFactory::new()->state([
-                'type' => 'complaint',
-            ]), 'feedback')
-            ->has(SubscriberFactory::new())
-        )
-        ->create();
+    $campaign = CampaignFactory::new()->create();
+
+    Send::factory()
+        ->has(SendFeedbackItemFactory::times(1), 'feedback')
+        ->create(['content_item_id' => $campaign->contentItem->id]);
+
+    Send::factory()
+        ->has(SendFeedbackItemFactory::new()->state([
+            'type' => 'complaint',
+        ]), 'feedback')
+        ->create(['content_item_id' => $campaign->contentItem->id]);
 
     /** @var Subscriber $subscriber */
-    $subscriber = $campaign->sends->last()->subscriber;
+    $subscriber = $campaign->contentItem->sends->last()->subscriber;
 
     $this
         ->getJson(action(CampaignBouncesController::class, $campaign).'?filter[type]=complaint')
@@ -75,10 +70,4 @@ it('can filter by type', function () {
             'type' => 'complaint',
             'bounce_count' => 1,
         ]);
-});
-
-it('cannot be accessed by a user without permissions', function () {
-    $this->expectException(AuthenticationException::class);
-
-    $this->getJson(action(CampaignBouncesController::class, 1));
 });

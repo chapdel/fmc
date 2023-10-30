@@ -2,28 +2,6 @@
 
 use Spatie\Mailcoach\Tests\Factories\TransactionalMailFactory;
 
-test('the open relation works', function () {
-    $transactionalMailWithoutOpen = TransactionalMailFactory::new()->create();
-
-    $transactionalMailWithOpen = TransactionalMailFactory::new()
-        ->withOpen()
-        ->create();
-
-    expect($transactionalMailWithoutOpen->opens)->toHaveCount(0);
-    expect($transactionalMailWithOpen->opens)->toHaveCount(1);
-});
-
-test('the click relation works', function () {
-    $transactionalMailWithoutClick = TransactionalMailFactory::new()->create();
-
-    $transactionalMailWithClick = TransactionalMailFactory::new()
-        ->withClick()
-        ->create();
-
-    expect($transactionalMailWithoutClick->clicks)->toHaveCount(0);
-    expect($transactionalMailWithClick->clicks)->toHaveCount(1);
-});
-
 it('can group clicks per url', function () {
     /** @var \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem $transactionalMail */
     $transactionalMail = TransactionalMailFactory::new()
@@ -31,7 +9,7 @@ it('can group clicks per url', function () {
         ->withClick(['url' => 'https://mailcoach.app'], 3)
         ->create();
 
-    expect($transactionalMail->clicks)->toHaveCount(5);
+    expect($transactionalMail->contentItem->clicks()->count())->toBe(5);
 
     $groupedPerUrl = $transactionalMail->clicksPerUrl();
 

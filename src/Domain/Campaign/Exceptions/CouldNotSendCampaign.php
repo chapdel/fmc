@@ -5,20 +5,12 @@ namespace Spatie\Mailcoach\Domain\Campaign\Exceptions;
 use Exception;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\Segment;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
 
 class CouldNotSendCampaign extends Exception
 {
     public static function beingSent(Campaign $campaign): self
     {
         return new static("The campaign with id `{$campaign->id}` can't be sent, because it is already being sent.");
-    }
-
-    public static function invalidMailableClass(Campaign $campaign, string $invalidMailableClass): self
-    {
-        $mustExtend = MailcoachMail::class;
-
-        return new static("The campaign with id `{$campaign->id}` can't be sent, because an invalid mailable class `{$invalidMailableClass}` is set. A valid mailable class must extend `{$mustExtend}`.");
     }
 
     public static function invalidSegmentClass($sendsToSegment, string $invalidSegmentClass): self
@@ -66,5 +58,10 @@ class CouldNotSendCampaign extends Exception
     public static function requirementsNotMet(Campaign $campaign): self
     {
         return new static("The campaign with id `{$campaign->id}` can't be sent because its requirements have not been met: ".implode(', ', $campaign->validateRequirements()));
+    }
+
+    public static function invalidMjml(Campaign $campaign): self
+    {
+        return new static("The campaign with id `{$campaign->id}` contains invalid Mjml. Please check if the template and content are valid.");
     }
 }

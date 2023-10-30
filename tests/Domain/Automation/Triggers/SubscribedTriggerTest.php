@@ -12,7 +12,7 @@ use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
 use Spatie\TestTime\TestTime;
 
 beforeEach(function () {
-    test()->automationMail = AutomationMail::factory()->create(['subject' => 'Welcome']);
+    test()->automationMail = AutomationMail::factory()->create();
 
     test()->emailList = EmailList::factory()->create();
 });

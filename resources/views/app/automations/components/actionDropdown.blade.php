@@ -1,5 +1,3 @@
-
-
 <div class="flex justify-center -my-1.5">
         <x-mailcoach::dropdown direction="right">
         <x-slot name="trigger">
@@ -12,6 +10,5 @@
         <div class="p-6">
             @include('mailcoach::app.automations.components.actionCategories')
         </div>
-
     </x-mailcoach::dropdown>
 </div>

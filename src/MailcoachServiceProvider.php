@@ -3,21 +3,20 @@
 namespace Spatie\Mailcoach;
 
 use Exception;
-use Illuminate\Contracts\Auth\Access\Authorizable;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\QueryException;
 use Illuminate\Mail\Events\MessageSending;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Collection;
+use Illuminate\Mail\Events\MessageSent;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use LivewireUI\Spotlight\Spotlight;
-use Spatie\Flash\Flash;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Spatie\Mailcoach\Components\DateTimeFieldComponent;
@@ -29,43 +28,23 @@ use Spatie\Mailcoach\Domain\Automation\Commands\CalculateAutomationMailStatistic
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationActionsCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\RunAutomationTriggersCommand;
 use Spatie\Mailcoach\Domain\Automation\Commands\SendAutomationMailsCommand;
-use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailLinkClickedEvent;
-use Spatie\Mailcoach\Domain\Automation\Events\AutomationMailOpenedEvent;
-use Spatie\Mailcoach\Domain\Automation\Listeners\AddAutomationMailClickedTag;
-use Spatie\Mailcoach\Domain\Automation\Listeners\AddAutomationMailOpenedTag;
 use Spatie\Mailcoach\Domain\Automation\Models\Trigger;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AddTagsActionComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AutomationMailActionComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\ConditionActionComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\RemoveTagsActionComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\SendWebhookActionComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\SplitActionComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\SubscribeToEmailListActionComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationActionComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\AutomationBuilder;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\DateTriggerComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\NoTriggerComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagAddedTriggerComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\TagRemovedTriggerComponent;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Triggers\WebhookTriggerComponent;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\TriggeredByEvents;
 use Spatie\Mailcoach\Domain\Campaign\Commands\CalculateStatisticsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendCampaignMailsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendCampaignSummaryMailCommand;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendScheduledCampaignsCommand;
-use Spatie\Mailcoach\Domain\Campaign\Events\CampaignLinkClickedEvent;
-use Spatie\Mailcoach\Domain\Campaign\Events\CampaignOpenedEvent;
 use Spatie\Mailcoach\Domain\Campaign\Events\CampaignSentEvent;
-use Spatie\Mailcoach\Domain\Campaign\Events\WebhookCallProcessedEvent;
-use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignClickedTag;
-use Spatie\Mailcoach\Domain\Campaign\Listeners\AddCampaignOpenedTag;
+use Spatie\Mailcoach\Domain\Campaign\Listeners\AddClickedTag;
 use Spatie\Mailcoach\Domain\Campaign\Listeners\SendCampaignSentEmail;
-use Spatie\Mailcoach\Domain\Campaign\Listeners\SetWebhookCallProcessedAt;
-use Spatie\Mailcoach\Domain\Settings\Commands\MakeUserCommand;
-use Spatie\Mailcoach\Domain\Settings\Commands\PrepareGitIgnoreCommand;
+use Spatie\Mailcoach\Domain\Content\Events\ContentOpenedEvent;
+use Spatie\Mailcoach\Domain\Content\Events\LinkClickedEvent;
+use Spatie\Mailcoach\Domain\Content\Listeners\AddOpenedTag;
 use Spatie\Mailcoach\Domain\Settings\Commands\PublishCommand;
-use Spatie\Mailcoach\Domain\Settings\Policies\PersonalAccessTokenPolicy;
+use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookEventSubscriber;
+use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookFailedAttemptsSubscriber;
+use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookLogEventSubscriber;
+use Spatie\Mailcoach\Domain\Settings\Models\MailcoachUser;
 use Spatie\Mailcoach\Domain\Settings\SettingsNavigation;
 use Spatie\Mailcoach\Domain\Settings\Support\AppConfiguration\AppConfiguration;
 use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfiguration;
@@ -73,127 +52,151 @@ use Spatie\Mailcoach\Domain\Shared\Commands\CheckLicenseCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\DeleteOldExportsCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\RetryPendingSendsCommand;
+use Spatie\Mailcoach\Domain\Shared\Events\WebhookCallProcessedEvent;
+use Spatie\Mailcoach\Domain\Shared\Listeners\SetWebhookCallProcessedAt;
 use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottleCache;
 use Spatie\Mailcoach\Domain\Shared\Support\Version;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
-use Spatie\Mailcoach\Http\App\Controllers\HomeController;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateListComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateSegmentComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateSubscriberComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\CreateTagComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\ListMailersComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\ListOnboardingComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\ListsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\ListSettingsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\ListSummaryComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\SegmentComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\SegmentsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\SegmentSubscribersComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\SubscriberComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\SubscriberImportsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\SubscribersComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\SubscriberSendsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\TagComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\TagsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Audience\WebsiteComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationActionsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailClicksComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailContentComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOpensComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailOutboxComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailSettingsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailSummaryComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationMailUnsubscribesComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\AutomationSettingsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomationComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\CreateAutomationMailComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Automations\RunAutomationComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignClicksComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignContentComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignDeliveryComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignLinkClicksComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOpensComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignOutboxComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSettingsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignStatisticsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignSummaryComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CampaignUnsubscribesComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateCampaignComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\CreateTemplateComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\TemplateComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Campaigns\TemplatesComponent;
-use Spatie\Mailcoach\Http\App\Livewire\DashboardChart;
-use Spatie\Mailcoach\Http\App\Livewire\DashboardComponent;
-use Spatie\Mailcoach\Http\App\Livewire\DataTableComponent;
-use Spatie\Mailcoach\Http\App\Livewire\EmailListCountComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Export\ExportComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Import\ImportComponent;
-use Spatie\Mailcoach\Http\App\Livewire\LinkCheckComponent;
-use Spatie\Mailcoach\Http\App\Livewire\SegmentPopulationCountComponent;
-use Spatie\Mailcoach\Http\App\Livewire\SendsWithErrorsCountComponent;
-use Spatie\Mailcoach\Http\App\Livewire\SendTestComponent;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\AutomationEmailsCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\AutomationsCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\CampaignsCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\CreateAutomationCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\CreateAutomationMailCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\CreateCampaignCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\CreateListCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\CreateTemplateCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\CreateTransactionalTemplateCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\HomeCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ListsCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowAutomationCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowAutomationMailCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowCampaignCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowListCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowTemplateCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\ShowTransactionalTemplateCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TemplatesCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TransactionalLogCommand;
-use Spatie\Mailcoach\Http\App\Livewire\Spotlight\TransactionalTemplatesCommand;
-use Spatie\Mailcoach\Http\App\Livewire\TagPopulationCountComponent;
-use Spatie\Mailcoach\Http\App\Livewire\TextAreaEditorComponent;
-use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\CreateTransactionalTemplateComponent;
-use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailContentComponent;
-use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailLogItemsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailPerformanceComponent;
-use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailResendComponent;
-use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalMailsComponent;
-use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateContentComponent;
-use Spatie\Mailcoach\Http\App\Livewire\TransactionalMails\TransactionalTemplateSettingsComponent;
-use Spatie\Mailcoach\Http\App\Middleware\SetMailcoachDefaults;
-use Spatie\Mailcoach\Http\App\ViewComposers\FooterComposer;
-use Spatie\Mailcoach\Http\App\ViewComposers\HealthViewComposer;
+use Spatie\Mailcoach\Domain\Vendor\Postmark\Actions\AddMessageStreamHeader;
+use Spatie\Mailcoach\Domain\Vendor\Sendgrid\Actions\AddUniqueArgumentsMailHeader;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\AddConfigurationSetHeader;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Mailgun\MailgunWebhookController;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Postmark\PostmarkWebhookController;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Sendgrid\SendgridWebhookController;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Sendinblue\SendinblueWebhookController;
+use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Ses\SesWebhookController;
+use Spatie\Mailcoach\Http\App\Middleware\BootstrapMailcoach;
 use Spatie\Mailcoach\Http\App\ViewComposers\WebsiteStyleComposer;
-use Spatie\Mailcoach\Http\Livewire\CreateMailerComponent;
-use Spatie\Mailcoach\Http\Livewire\CreateUserComponent;
-use Spatie\Mailcoach\Http\Livewire\CreateWebhookComponent;
-use Spatie\Mailcoach\Http\Livewire\EditMailerComponent;
-use Spatie\Mailcoach\Http\Livewire\EditorSettingsComponent;
-use Spatie\Mailcoach\Http\Livewire\EditUserComponent;
-use Spatie\Mailcoach\Http\Livewire\EditWebhookComponent;
-use Spatie\Mailcoach\Http\Livewire\GeneralSettingsComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Mailgun\MailgunSetupWizardComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Postmark\PostmarkSetupWizardComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\SendGrid\SendGridSetupWizardComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Sendinblue\SendinblueSetupWizardComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Ses\SesSetupWizardComponent;
-use Spatie\Mailcoach\Http\Livewire\MailConfiguration\Smtp\SmtpSetupWizardComponent;
-use Spatie\Mailcoach\Http\Livewire\MailersComponent;
-use Spatie\Mailcoach\Http\Livewire\PasswordComponent;
-use Spatie\Mailcoach\Http\Livewire\ProfileComponent;
-use Spatie\Mailcoach\Http\Livewire\TokensComponent;
-use Spatie\Mailcoach\Http\Livewire\UsersComponent;
-use Spatie\Mailcoach\Http\Livewire\WebhookLogComponent;
-use Spatie\Mailcoach\Http\Livewire\WebhookLogsComponent;
-use Spatie\Mailcoach\Http\Livewire\WebhooksComponent;
+use Spatie\Mailcoach\Livewire\Audience\CreateListComponent;
+use Spatie\Mailcoach\Livewire\Audience\CreateSegmentComponent;
+use Spatie\Mailcoach\Livewire\Audience\CreateSubscriberComponent;
+use Spatie\Mailcoach\Livewire\Audience\CreateTagComponent;
+use Spatie\Mailcoach\Livewire\Audience\EmailListCountComponent;
+use Spatie\Mailcoach\Livewire\Audience\ListMailersComponent;
+use Spatie\Mailcoach\Livewire\Audience\ListOnboardingComponent;
+use Spatie\Mailcoach\Livewire\Audience\ListsComponent;
+use Spatie\Mailcoach\Livewire\Audience\ListSettingsComponent;
+use Spatie\Mailcoach\Livewire\Audience\ListSummaryComponent;
+use Spatie\Mailcoach\Livewire\Audience\SegmentComponent;
+use Spatie\Mailcoach\Livewire\Audience\SegmentPopulationCountComponent;
+use Spatie\Mailcoach\Livewire\Audience\SegmentsComponent;
+use Spatie\Mailcoach\Livewire\Audience\SegmentSubscribersComponent;
+use Spatie\Mailcoach\Livewire\Audience\SubscriberComponent;
+use Spatie\Mailcoach\Livewire\Audience\SubscriberExportsComponent;
+use Spatie\Mailcoach\Livewire\Audience\SubscriberImportsComponent;
+use Spatie\Mailcoach\Livewire\Audience\SubscribersComponent;
+use Spatie\Mailcoach\Livewire\Audience\SubscriberSendsComponent;
+use Spatie\Mailcoach\Livewire\Audience\TagComponent;
+use Spatie\Mailcoach\Livewire\Audience\TagPopulationCountComponent;
+use Spatie\Mailcoach\Livewire\Audience\TagsComponent;
+use Spatie\Mailcoach\Livewire\Audience\WebsiteComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\AddTagsActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\AutomationMailActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\ConditionActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\RemoveTagsActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\SendWebhookActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\SplitActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\SubscribeToEmailListActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\WaitActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\AutomationActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\AutomationActionsComponent;
+use Spatie\Mailcoach\Livewire\Automations\AutomationBuilderComponent;
+use Spatie\Mailcoach\Livewire\Automations\AutomationMailsComponent;
+use Spatie\Mailcoach\Livewire\Automations\AutomationMailSettingsComponent;
+use Spatie\Mailcoach\Livewire\Automations\AutomationMailSummaryComponent;
+use Spatie\Mailcoach\Livewire\Automations\AutomationsComponent;
+use Spatie\Mailcoach\Livewire\Automations\AutomationSettingsComponent;
+use Spatie\Mailcoach\Livewire\Automations\CreateAutomationComponent;
+use Spatie\Mailcoach\Livewire\Automations\CreateAutomationMailComponent;
+use Spatie\Mailcoach\Livewire\Automations\RunAutomationComponent;
+use Spatie\Mailcoach\Livewire\Automations\Triggers\DateTriggerComponent;
+use Spatie\Mailcoach\Livewire\Automations\Triggers\NoTriggerComponent;
+use Spatie\Mailcoach\Livewire\Automations\Triggers\TagAddedTriggerComponent;
+use Spatie\Mailcoach\Livewire\Automations\Triggers\TagRemovedTriggerComponent;
+use Spatie\Mailcoach\Livewire\Automations\Triggers\WebhookTriggerComponent;
+use Spatie\Mailcoach\Livewire\Campaigns\CampaignDeliveryComponent;
+use Spatie\Mailcoach\Livewire\Campaigns\CampaignsComponent;
+use Spatie\Mailcoach\Livewire\Campaigns\CampaignSettingsComponent;
+use Spatie\Mailcoach\Livewire\Campaigns\CampaignStatisticsComponent;
+use Spatie\Mailcoach\Livewire\Campaigns\CampaignSummaryComponent;
+use Spatie\Mailcoach\Livewire\Campaigns\CreateCampaignComponent;
+use Spatie\Mailcoach\Livewire\Campaigns\OutboxComponent;
+use Spatie\Mailcoach\Livewire\ConditionBuilder\ConditionBuilderComponent;
+use Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberAttributesConditionComponent;
+use Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberClickedAutomationMailLinkConditionComponent;
+use Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberClickedCampaignLinkConditionComponent;
+use Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberEmailQueryConditionComponent;
+use Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberOpenedAutomationMailConditionComponent;
+use Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberOpenedCampaignConditionComponent;
+use Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberSubscribedAtConditionComponent;
+use Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers\SubscriberTagsConditionComponent;
+use Spatie\Mailcoach\Livewire\Content\ClicksComponent;
+use Spatie\Mailcoach\Livewire\Content\EditContentComponent;
+use Spatie\Mailcoach\Livewire\Content\LinkClicksComponent;
+use Spatie\Mailcoach\Livewire\Content\OpensComponent;
+use Spatie\Mailcoach\Livewire\Content\UnsubscribesComponent;
+use Spatie\Mailcoach\Livewire\Dashboard\DashboardChart;
+use Spatie\Mailcoach\Livewire\Dashboard\DashboardComponent;
+use Spatie\Mailcoach\Livewire\Editor\EditorSettingsComponent;
+use Spatie\Mailcoach\Livewire\Editor\TextAreaEditorComponent;
+use Spatie\Mailcoach\Livewire\Export\ExportComponent;
+use Spatie\Mailcoach\Livewire\GeneralSettingsComponent;
+use Spatie\Mailcoach\Livewire\Import\ImportComponent;
+use Spatie\Mailcoach\Livewire\LinkCheckComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Mailgun\MailgunSetupWizardComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Postmark\PostmarkSetupWizardComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\SendGrid\SendGridSetupWizardComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Sendinblue\SendinblueSetupWizardComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Ses\SesSetupWizardComponent;
+use Spatie\Mailcoach\Livewire\MailConfiguration\Smtp\SmtpSetupWizardComponent;
+use Spatie\Mailcoach\Livewire\Mailers\CreateMailerComponent;
+use Spatie\Mailcoach\Livewire\Mailers\EditMailerComponent;
+use Spatie\Mailcoach\Livewire\Mailers\MailersComponent;
+use Spatie\Mailcoach\Livewire\Mails\CreateSuppressionComponent;
+use Spatie\Mailcoach\Livewire\Mails\SuppressionListComponent;
+use Spatie\Mailcoach\Livewire\SendTestComponent;
+use Spatie\Mailcoach\Livewire\Spotlight\AutomationEmailsCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\AutomationsCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\CampaignsCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\CreateAutomationCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\CreateAutomationMailCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\CreateCampaignCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\CreateListCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\CreateTemplateCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\CreateTransactionalTemplateCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\HomeCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\ListsCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\ShowAutomationCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\ShowAutomationMailCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\ShowCampaignCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\ShowListCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\ShowTemplateCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\ShowTransactionalTemplateCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\TemplatesCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\TransactionalLogCommand;
+use Spatie\Mailcoach\Livewire\Spotlight\TransactionalTemplatesCommand;
+use Spatie\Mailcoach\Livewire\Templates\CreateTemplateComponent;
+use Spatie\Mailcoach\Livewire\Templates\TemplateComponent;
+use Spatie\Mailcoach\Livewire\Templates\TemplatesComponent;
+use Spatie\Mailcoach\Livewire\TransactionalMails\CreateTransactionalTemplateComponent;
+use Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalMailContentComponent;
+use Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalMailLogItemsComponent;
+use Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalMailPerformanceComponent;
+use Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalMailResendComponent;
+use Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalMailsComponent;
+use Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalTemplateContentComponent;
+use Spatie\Mailcoach\Livewire\TransactionalMails\TransactionalTemplateSettingsComponent;
+use Spatie\Mailcoach\Livewire\Webhooks\CreateWebhookComponent;
+use Spatie\Mailcoach\Livewire\Webhooks\EditWebhookComponent;
+use Spatie\Mailcoach\Livewire\Webhooks\WebhookLogComponent;
+use Spatie\Mailcoach\Livewire\Webhooks\WebhookLogsComponent;
+use Spatie\Mailcoach\Livewire\Webhooks\WebhooksComponent;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
+use Symfony\Component\Mailer\Bridge\Sendgrid\Transport\SendgridTransportFactory;
+use Symfony\Component\Mailer\Bridge\Sendinblue\Transport\SendinblueTransportFactory;
+use Symfony\Component\Mailer\Transport\Dsn;
 
 class MailcoachServiceProvider extends PackageServiceProvider
 {
@@ -210,9 +213,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 'create_mailcoach_tables',
                 'create_media_table',
                 'create_webhook_calls_table',
-                'create_webhook_logs_table',
-                'add_event_types_to_webhook_configuration_table',
-                'add_failed_attempts_to_webhook_configurations_table',
             ])
             ->hasCommands([
                 CalculateStatisticsCommand::class,
@@ -230,8 +230,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
                 CheckLicenseCommand::class,
                 DeleteOldExportsCommand::class,
                 PublishCommand::class,
-                MakeUserCommand::class,
-                PrepareGitIgnoreCommand::class,
             ]);
     }
 
@@ -248,12 +246,18 @@ class MailcoachServiceProvider extends PackageServiceProvider
         });
 
         $this->app->scoped(SimpleThrottle::class, function () {
-            $cache = cache()->store(config('mailcoach.shared.throttling.cache_store'));
+            $cache = cache()->store(config('mailcoach.throttling.cache_store'));
 
             $simpleThrottleCache = new SimpleThrottleCache($cache);
 
             return SimpleThrottle::create($simpleThrottleCache);
         });
+
+        foreach (Mailcoach::defaultModels() as $key => $defaultModelClass) {
+            app()->bind($defaultModelClass, config("mailcoach.models.{$key}"));
+
+            Relation::morphMap([$key => config("mailcoach.models.{$key}")]);
+        }
     }
 
     public function packageBooted(): void
@@ -261,7 +265,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 $this->package->basePath('/../resources/dist') => public_path("vendor/{$this->package->shortName()}"),
-                $this->package->basePath('/../resources/images') => public_path("vendor/{$this->package->shortName()}/images"),
             ], "{$this->package->shortName()}-assets");
         }
 
@@ -269,15 +272,17 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootCarbon()
             ->bootConfig()
             ->bootGate()
-            ->bootFlash()
             ->bootRoutes()
             ->bootSupportMacros()
             ->bootViews()
             ->bootEvents()
             ->bootTriggers()
-            ->registerApiGuard()
-            ->bootEncryption()
-            ->bootSpotlight();
+            ->bootSpotlight()
+            ->bootMailgun()
+            ->bootPostmark()
+            ->bootSendgrid()
+            ->bootSendinblue()
+            ->bootSes();
     }
 
     protected function bootCarbon(): static
@@ -313,24 +318,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootSupportMacros(): static
     {
-        if (! Collection::hasMacro('paginate')) {
-            Collection::macro('paginate', function (int $perPage = 15, string $pageName = 'page', int $page = null, int $total = null, array $options = []): LengthAwarePaginator {
-                $page = $page ?: LengthAwarePaginator::resolveCurrentPage($pageName);
-
-                /** @var Collection $this */
-                $results = $this->forPage($page, $perPage)->values();
-
-                $total = $total ?: $this->count();
-
-                $options += [
-                    'path' => LengthAwarePaginator::resolveCurrentPath(),
-                    'pageName' => $pageName,
-                ];
-
-                return new LengthAwarePaginator($results, $total, $perPage, $page, $options);
-            });
-        }
-
         if (! Str::hasMacro('shortNumber')) {
             Str::macro('shortNumber', function (int $number, int $decimals = 1) {
                 if ($number < 1_000) {
@@ -360,115 +347,59 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootGate(): static
     {
-        Gate::define('viewMailcoach', fn (Authorizable $user) => true);
-
-        Gate::policy(self::getPersonalAccessTokenClass(), PersonalAccessTokenPolicy::class);
-
-        return $this;
-    }
-
-    protected function bootFlash(): static
-    {
-        Flash::levels([
-            'success' => 'success',
-            'warning' => 'warning',
-            'error' => 'error',
-        ]);
+        Gate::define('viewMailcoach', fn (MailcoachUser $user) => $user->canViewMailcoach());
 
         return $this;
     }
 
     protected function bootRoutes(): static
     {
-        // Audience
-        Route::model('emailList', self::getEmailListClass());
-        Route::model('subscriber', self::getSubscriberClass());
-        Route::model('subscriberImport', self::getSubscriberImportClass());
-        Route::model('tagSegment', self::getTagSegmentClass());
-        Route::model('segment', self::getTagSegmentClass());
-        Route::model('action', self::getAutomationActionClass());
-
-        // Automation
-        Route::model('action', self::getAutomationActionClass());
-        Route::model('actionSubscriber', self::getActionSubscriberClass());
-        Route::model('automation', self::getAutomationClass());
-        Route::model('automationMail', self::getAutomationMailClass());
-        Route::model('automationMailClick', self::getAutomationMailClickClass());
-        Route::model('automationMailLink', self::getAutomationMailLinkClass());
-        Route::model('automationMailOpen', self::getAutomationMailOpenClass());
-        Route::model('automationMailUnsubscribe', self::getAutomationMailUnsubscribeClass());
-        Route::model('trigger', self::getAutomationTriggerClass());
-
-        // Campaign
-        Route::model('campaign', self::getCampaignClass());
-        Route::model('campaignClick', self::getCampaignClickClass());
-        Route::model('campaignLink', self::getCampaignLinkClass());
-        Route::model('campaignOpen', self::getCampaignOpenClass());
-        Route::model('campaignUnsubscribe', self::getCampaignUnsubscribeClass());
-        Route::model('template', self::getTemplateClass());
-
-        // Settings
-        Route::model('mailer', self::getMailerClass());
-        Route::model('personalAccessToken', self::getPersonalAccessTokenClass());
-        Route::model('setting', self::getSettingClass());
-        Route::model('mailcoachUser', self::getUserClass());
-        Route::model('webhookConfiguration', self::getWebhookConfigurationClass());
-
-        // Shared
-        Route::model('send', self::getSendClass());
-        Route::model('sendFeedbackItem', self::getSendFeedbackItemClass());
-        Route::model('upload', self::getUploadClass());
-
-        // Transactional
-        Route::model('transactionalMail', self::getTransactionalMailLogItemClass());
-        Route::model('transactionalMailClick', self::getTransactionalMailClickClass());
-        Route::model('transactionalMailOpen', self::getTransactionalMailOpenClass());
-        Route::model('transactionalMailTemplate', self::getTransactionalMailClass());
+        Route::macro('mailgunFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.MailgunWebhookController::class));
+        Route::macro('postmarkFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.PostmarkWebhookController::class));
+        Route::macro('sendgridFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SendgridWebhookController::class));
+        Route::macro('sendinblueFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SendinblueWebhookController::class));
+        Route::macro('sesFeedback', fn (string $url) => Route::post("{$url}/{mailerConfigKey?}", '\\'.SesWebhookController::class));
 
         Route::macro('mailcoach', function (
             string $url = '',
             bool $registerFeedback = true,
-            bool $registerAuth = true) {
-            if ($registerFeedback) {
-                Route::sesFeedback('ses-feedback');
-                Route::mailgunFeedback('mailgun-feedback');
-                Route::sendgridFeedback('sendgrid-feedback');
-                Route::postmarkFeedback('postmark-feedback');
-                Route::sendinblueFeedback('sendinblue-feedback');
-            }
-
-            Route::prefix($url)->middleware([SetMailcoachDefaults::class])->group(function () use ($registerAuth) {
-                if ($registerAuth) {
-                    Route::prefix('')
-                        ->middleware('web')
-                        ->group(__DIR__.'/../routes/auth.php');
+        ) {
+            Route::middleware([BootstrapMailcoach::class])->group(function () use ($url, $registerFeedback) {
+                if ($registerFeedback) {
+                    Route::namespace(null)->group(function () {
+                        Route::mailgunFeedback('mailgun-feedback');
+                        Route::postmarkFeedback('postmark-feedback');
+                        Route::sendgridFeedback('sendgrid-feedback');
+                        Route::sendinblueFeedback('sendinblue-feedback');
+                        Route::sesFeedback('ses-feedback');
+                    });
                 }
 
-                Route::prefix('')
-                    ->group(__DIR__.'/../routes/mailcoach-public-api.php');
+                Route::prefix($url)->namespace(null)->group(function () {
+                    Route::prefix('')
+                        ->group(__DIR__.'/../routes/mailcoach-public-api.php');
 
-                Route::prefix('')
-                    ->middleware(config('mailcoach.middleware')['web'])
-                    ->group(__DIR__.'/../routes/mailcoach-ui.php');
+                    Route::prefix('')
+                        ->middleware(config('mailcoach.middleware')['web'])
+                        ->group(__DIR__.'/../routes/mailcoach-ui.php');
 
-                Route::prefix('api')
-                    ->middleware(config('mailcoach.middleware')['api'])
-                    ->group(__DIR__.'/../routes/mailcoach-api.php');
+                    Route::prefix('api')
+                        ->middleware(config('mailcoach.middleware')['api'])
+                        ->group(__DIR__.'/../routes/mailcoach-api.php');
 
-                /*
-                 * The website routes should be registered last, so that
-                 * they don't eat up other routes
-                 */
-
-                if (config('mailcoach.audience.website', true)) {
-                    Route::prefix(config('mailcoach.email_list_website_prefix', 'archive'))
+                    /*
+                     * The website routes should be registered last, so that
+                     * they don't eat up other routes
+                     */
+                    Route::prefix(config('mailcoach.website_prefix', 'archive'))
                         ->middleware('web')
                         ->group(__DIR__.'/../routes/mailcoach-email-list-website.php');
-                }
-            });
+                });
 
-            Route::mailcoachEditor('mailcoachEditor');
-            Route::get($url, '\\'.HomeController::class)->name('mailcoach.home');
+                Route::get($url, function () {
+                    return redirect()->route(config('mailcoach.redirect_home', 'mailcoach.dashboard'));
+                })->name('mailcoach.home');
+            });
         });
 
         return $this;
@@ -476,16 +407,63 @@ class MailcoachServiceProvider extends PackageServiceProvider
 
     protected function bootViews(): static
     {
-        View::composer('mailcoach::app.layouts.partials.footer', FooterComposer::class);
-        View::composer('mailcoach::app.layouts.partials.health', HealthViewComposer::class);
-        View::composer('mailcoach::app.layouts.partials.health-tiles', HealthViewComposer::class);
         View::composer('mailcoach::emailListWebsite.partials.style', WebsiteStyleComposer::class);
 
-        if (config('mailcoach.views.use_blade_components', true)) {
-            $this->bootBladeComponents();
-        }
-
+        $this->bootBladeComponents();
         $this->bootLivewireComponents();
+
+        return $this;
+    }
+
+    protected function bootMailgun(): static
+    {
+        Event::listen(MessageSent::class, \Spatie\Mailcoach\Domain\Vendor\Mailgun\Actions\StoreTransportMessageId::class);
+
+        return $this;
+    }
+
+    protected function bootPostmark(): static
+    {
+        Event::listen(MessageSending::class, AddMessageStreamHeader::class);
+
+        return $this;
+    }
+
+    protected function bootSendgrid(): static
+    {
+        Event::listen(MessageSending::class, AddUniqueArgumentsMailHeader::class);
+        Event::listen(MessageSent::class, \Spatie\Mailcoach\Domain\Vendor\Sendgrid\Actions\StoreTransportMessageId::class);
+
+        Mail::extend('sendgrid', function (array $config) {
+            $key = $config['key'] ?? config('services.sendgrid.key');
+
+            return (new SendgridTransportFactory())->create(
+                Dsn::fromString("sendgrid+api://{$key}@default")
+            );
+        });
+
+        return $this;
+    }
+
+    protected function bootSendinblue(): static
+    {
+        Event::listen(MessageSent::class, \Spatie\Mailcoach\Domain\Vendor\Sendinblue\Actions\StoreTransportMessageId::class);
+
+        Mail::extend('sendinblue', function (array $config) {
+            $key = $config['key'] ?? config('services.sendinblue.key');
+
+            return (new SendinblueTransportFactory())->create(
+                Dsn::fromString("sendinblue+api://{$key}@default")
+            );
+        });
+
+        return $this;
+    }
+
+    protected function bootSes(): static
+    {
+        Event::listen(MessageSending::class, AddConfigurationSetHeader::class);
+        Event::listen(MessageSent::class, \Spatie\Mailcoach\Domain\Vendor\Ses\Actions\StoreTransportMessageId::class);
 
         return $this;
     }
@@ -517,7 +495,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.card', 'mailcoach::card');
         Blade::component('mailcoach::app.components.tile', 'mailcoach::tile');
 
-        Blade::component('mailcoach::app.components.dataTable', 'mailcoach::data-table');
         Blade::component('mailcoach::app.components.table.tableStatus', 'mailcoach::table-status');
         Blade::component('mailcoach::app.components.table.th', 'mailcoach::th');
 
@@ -529,6 +506,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.components.iconLabel', 'mailcoach::icon-label');
         Blade::component('mailcoach::app.components.healthLabel', 'mailcoach::health-label');
         Blade::component('mailcoach::app.components.roundedIcon', 'mailcoach::rounded-icon');
+        Blade::component('mailcoach::app.components.imageUpload', 'mailcoach::image-upload');
 
         Blade::component('mailcoach::app.components.navigation.main', 'mailcoach::main-navigation');
         Blade::component('mailcoach::app.components.navigation.root', 'mailcoach::navigation');
@@ -555,6 +533,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component(ReplacerHelpTextsComponent::class, 'mailcoach::replacer-help-texts');
 
         Blade::component('mailcoach::app.components.dropdown', 'mailcoach::dropdown');
+        Blade::component('mailcoach::app.components.lineTitle', 'mailcoach::line-title');
 
         Blade::component('mailcoach::app.layouts.app', 'mailcoach::layout');
         Blade::component('mailcoach::app.automations.layouts.automation', 'mailcoach::layout-automation');
@@ -567,8 +546,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Blade::component('mailcoach::app.automations.mails.layouts.automationMail', 'mailcoach::layout-automation-mail');
 
         Blade::component('mailcoach::app.automations.components.automationAction', 'mailcoach::automation-action');
+        Blade::component('mailcoach::app.conditionBuilder.conditions.condition', 'mailcoach::condition');
 
-        Blade::component('mailcoach::auth.layouts.auth', 'mailcoach::layout-auth');
         Blade::component('mailcoach::app.layouts.settings', 'mailcoach::layout-settings');
 
         Blade::component('mailcoach::app.components.codeCopy', 'mailcoach::code-copy');
@@ -581,129 +560,137 @@ class MailcoachServiceProvider extends PackageServiceProvider
     protected function bootLivewireComponents(): static
     {
         Livewire::addPersistentMiddleware([
-            SetMailcoachDefaults::class,
+            BootstrapMailcoach::class,
         ]);
 
-        Livewire::component('mailcoach::sends-with-errors-count', SendsWithErrorsCountComponent::class);
-        Livewire::component('mailcoach::email-list-count', EmailListCountComponent::class);
-        Livewire::component('mailcoach::segment-population-count', SegmentPopulationCountComponent::class);
-        Livewire::component('mailcoach::tag-population-count', TagPopulationCountComponent::class);
-        Livewire::component('mailcoach::text-area-editor', TextAreaEditorComponent::class);
-        Livewire::component('mailcoach::link-check', LinkCheckComponent::class);
+        Livewire::component('mailcoach::email-list-count', Mailcoach::getLivewireClass(EmailListCountComponent::class));
+        Livewire::component('mailcoach::segment-population-count', Mailcoach::getLivewireClass(SegmentPopulationCountComponent::class));
+        Livewire::component('mailcoach::tag-population-count', Mailcoach::getLivewireClass(TagPopulationCountComponent::class));
+        Livewire::component('mailcoach::text-area-editor', Mailcoach::getLivewireClass(TextAreaEditorComponent::class));
+        Livewire::component('mailcoach::link-check', Mailcoach::getLivewireClass(LinkCheckComponent::class));
 
-        Livewire::component('mailcoach::automation-builder', AutomationBuilder::class);
+        Livewire::component('mailcoach::automation-builder', Mailcoach::getLivewireClass(AutomationBuilderComponent::class));
 
-        Livewire::component('mailcoach::automation-action', AutomationActionComponent::class);
-        Livewire::component('mailcoach::automation-mail-action', AutomationMailActionComponent::class);
-        Livewire::component('mailcoach::add-tags-action', AddTagsActionComponent::class);
-        Livewire::component('mailcoach::remove-tags-action', RemoveTagsActionComponent::class);
-        Livewire::component('mailcoach::wait-action', WaitActionComponent::class);
-        Livewire::component('mailcoach::condition-action', ConditionActionComponent::class);
-        Livewire::component('mailcoach::split-action', SplitActionComponent::class);
-        Livewire::component('mailcoach::send-webhook-action', SendWebhookActionComponent::class);
-        Livewire::component('mailcoach::email-list-action', SubscribeToEmailListActionComponent::class);
+        Livewire::component('mailcoach::automation-action', Mailcoach::getLivewireClass(AutomationActionComponent::class));
+        Livewire::component('mailcoach::automation-mail-action', Mailcoach::getLivewireClass(AutomationMailActionComponent::class));
+        Livewire::component('mailcoach::add-tags-action', Mailcoach::getLivewireClass(AddTagsActionComponent::class));
+        Livewire::component('mailcoach::remove-tags-action', Mailcoach::getLivewireClass(RemoveTagsActionComponent::class));
+        Livewire::component('mailcoach::wait-action', Mailcoach::getLivewireClass(WaitActionComponent::class));
+        Livewire::component('mailcoach::condition-action', Mailcoach::getLivewireClass(ConditionActionComponent::class));
+        Livewire::component('mailcoach::split-action', Mailcoach::getLivewireClass(SplitActionComponent::class));
+        Livewire::component('mailcoach::send-webhook-action', Mailcoach::getLivewireClass(SendWebhookActionComponent::class));
+        Livewire::component('mailcoach::email-list-action', Mailcoach::getLivewireClass(SubscribeToEmailListActionComponent::class));
 
-        Livewire::component('mailcoach::date-trigger', DateTriggerComponent::class);
-        Livewire::component('mailcoach::tag-added-trigger', TagAddedTriggerComponent::class);
-        Livewire::component('mailcoach::tag-removed-trigger', TagRemovedTriggerComponent::class);
-        Livewire::component('mailcoach::webhook-trigger', WebhookTriggerComponent::class);
-        Livewire::component('mailcoach::no-trigger', NoTriggerComponent::class);
+        Livewire::component('mailcoach::date-trigger', Mailcoach::getLivewireClass(DateTriggerComponent::class));
+        Livewire::component('mailcoach::tag-added-trigger', Mailcoach::getLivewireClass(TagAddedTriggerComponent::class));
+        Livewire::component('mailcoach::tag-removed-trigger', Mailcoach::getLivewireClass(TagRemovedTriggerComponent::class));
+        Livewire::component('mailcoach::webhook-trigger', Mailcoach::getLivewireClass(WebhookTriggerComponent::class));
+        Livewire::component('mailcoach::no-trigger', Mailcoach::getLivewireClass(NoTriggerComponent::class));
 
-        Livewire::component('mailcoach::email-list-statistics', EmailListStatistics::class);
-        Livewire::component('mailcoach::campaign-statistics', CampaignStatisticsComponent::class);
+        Livewire::component('mailcoach::email-list-statistics', Mailcoach::getLivewireClass(EmailListStatistics::class));
+        Livewire::component('mailcoach::campaign-statistics', Mailcoach::getLivewireClass(CampaignStatisticsComponent::class));
 
-        Livewire::component('mailcoach::send-test', SendTestComponent::class);
-        Livewire::component('mailcoach::data-table', DataTableComponent::class);
+        Livewire::component('mailcoach::send-test', Mailcoach::getLivewireClass(SendTestComponent::class));
 
-        Livewire::component('mailcoach::dashboard', Mailcoach::getLivewireClass('dashboard', DashboardComponent::class));
-        Livewire::component('mailcoach::dashboard-chart', DashboardChart::class);
+        Livewire::component('mailcoach::dashboard', Mailcoach::getLivewireClass(DashboardComponent::class));
+        Livewire::component('mailcoach::dashboard-chart', Mailcoach::getLivewireClass(DashboardChart::class));
 
         // Audience
-        Livewire::component('mailcoach::create-list', Mailcoach::getLivewireClass('create-list', CreateListComponent::class));
-        Livewire::component('mailcoach::lists', Mailcoach::getLivewireClass('lists', ListsComponent::class));
-        Livewire::component('mailcoach::list-summary', Mailcoach::getLivewireClass('list-summary', ListSummaryComponent::class));
-        Livewire::component('mailcoach::list-settings', Mailcoach::getLivewireClass('list-settings', ListSettingsComponent::class));
-        Livewire::component('mailcoach::list-onboarding', Mailcoach::getLivewireClass('list-onboarding', ListOnboardingComponent::class));
-        Livewire::component('mailcoach::list-mailers', Mailcoach::getLivewireClass('list-mailers', ListMailersComponent::class));
-        Livewire::component('mailcoach::list-mailers', Mailcoach::getLivewireClass('list-mailers', ListMailersComponent::class));
-        Livewire::component('mailcoach::website', Mailcoach::getLivewireClass('list-website', WebsiteComponent::class));
-        Livewire::component('mailcoach::create-segment', Mailcoach::getLivewireClass('create-segment', CreateSegmentComponent::class));
-        Livewire::component('mailcoach::segments', Mailcoach::getLivewireClass('segments', SegmentsComponent::class));
-        Livewire::component('mailcoach::segment', Mailcoach::getLivewireClass('segment', SegmentComponent::class));
-        Livewire::component('mailcoach::segment-subscribers', Mailcoach::getLivewireClass('segment-subscribers', SegmentSubscribersComponent::class));
-        Livewire::component('mailcoach::create-subscriber', Mailcoach::getLivewireClass('create-subscriber', CreateSubscriberComponent::class));
-        Livewire::component('mailcoach::subscribers', Mailcoach::getLivewireClass('subscribers', SubscribersComponent::class));
-        Livewire::component('mailcoach::subscriber', Mailcoach::getLivewireClass('subscriber', SubscriberComponent::class));
-        Livewire::component('mailcoach::subscriber-sends', Mailcoach::getLivewireClass('subscriber-sends', SubscriberSendsComponent::class));
-        Livewire::component('mailcoach::subscriber-imports', Mailcoach::getLivewireClass('subscriber-imports', SubscriberImportsComponent::class));
-        Livewire::component('mailcoach::create-tag', Mailcoach::getLivewireClass('create-tag', CreateTagComponent::class));
-        Livewire::component('mailcoach::tags', Mailcoach::getLivewireClass('tags', TagsComponent::class));
-        Livewire::component('mailcoach::tag', Mailcoach::getLivewireClass('tag', TagComponent::class));
+        Livewire::component('mailcoach::create-list', Mailcoach::getLivewireClass(CreateListComponent::class));
+        Livewire::component('mailcoach::lists', Mailcoach::getLivewireClass(ListsComponent::class));
+        Livewire::component('mailcoach::list-summary', Mailcoach::getLivewireClass(ListSummaryComponent::class));
+        Livewire::component('mailcoach::list-settings', Mailcoach::getLivewireClass(ListSettingsComponent::class));
+        Livewire::component('mailcoach::list-onboarding', Mailcoach::getLivewireClass(ListOnboardingComponent::class));
+        Livewire::component('mailcoach::list-mailers', Mailcoach::getLivewireClass(ListMailersComponent::class));
+        Livewire::component('mailcoach::website', Mailcoach::getLivewireClass(WebsiteComponent::class));
+        Livewire::component('mailcoach::create-segment', Mailcoach::getLivewireClass(CreateSegmentComponent::class));
+        Livewire::component('mailcoach::segments', Mailcoach::getLivewireClass(SegmentsComponent::class));
+        Livewire::component('mailcoach::segment', Mailcoach::getLivewireClass(SegmentComponent::class));
+        Livewire::component('mailcoach::segment-subscribers', Mailcoach::getLivewireClass(SegmentSubscribersComponent::class));
+        Livewire::component('mailcoach::create-subscriber', Mailcoach::getLivewireClass(CreateSubscriberComponent::class));
+        Livewire::component('mailcoach::subscribers', Mailcoach::getLivewireClass(SubscribersComponent::class));
+        Livewire::component('mailcoach::subscriber', Mailcoach::getLivewireClass(SubscriberComponent::class));
+        Livewire::component('mailcoach::subscriber-sends', Mailcoach::getLivewireClass(SubscriberSendsComponent::class));
+        Livewire::component('mailcoach::subscriber-imports', Mailcoach::getLivewireClass(SubscriberImportsComponent::class));
+        Livewire::component('mailcoach::subscriber-exports', Mailcoach::getLivewireClass(SubscriberExportsComponent::class));
+        Livewire::component('mailcoach::create-tag', Mailcoach::getLivewireClass(CreateTagComponent::class));
+        Livewire::component('mailcoach::tags', Mailcoach::getLivewireClass(TagsComponent::class));
+        Livewire::component('mailcoach::tag', Mailcoach::getLivewireClass(TagComponent::class));
 
         // Automations
-        Livewire::component('mailcoach::create-automation', Mailcoach::getLivewireClass('create-automation', CreateAutomationComponent::class));
-        Livewire::component('mailcoach::automations', Mailcoach::getLivewireClass('automations', AutomationsComponent::class));
-        Livewire::component('mailcoach::automation-settings', Mailcoach::getLivewireClass('automation-settings', AutomationSettingsComponent::class));
-        Livewire::component('mailcoach::automation-actions', Mailcoach::getLivewireClass('automation-actions', AutomationActionsComponent::class));
-        Livewire::component('mailcoach::automation-run', Mailcoach::getLivewireClass('automation-run', RunAutomationComponent::class));
-        Livewire::component('mailcoach::create-automation-mail', Mailcoach::getLivewireClass('create-automation-mail', CreateAutomationMailComponent::class));
-        Livewire::component('mailcoach::automation-mails', Mailcoach::getLivewireClass('automation-mails', AutomationMailsComponent::class));
-        Livewire::component('mailcoach::automation-mail-summary', Mailcoach::getLivewireClass('automation-mail-summary', AutomationMailSummaryComponent::class));
-        Livewire::component('mailcoach::automation-mail-settings', Mailcoach::getLivewireClass('automation-mail-settings', AutomationMailSettingsComponent::class));
-        Livewire::component('mailcoach::automation-mail-content', Mailcoach::getLivewireClass('automation-mail-content', AutomationMailContentComponent::class));
-        Livewire::component('mailcoach::automation-mail-clicks', Mailcoach::getLivewireClass('automation-mail-clicks', AutomationMailClicksComponent::class));
-        Livewire::component('mailcoach::automation-mail-opens', Mailcoach::getLivewireClass('automation-mail-opens', AutomationMailOpensComponent::class));
-        Livewire::component('mailcoach::automation-mail-unsubscribes', Mailcoach::getLivewireClass('automation-mail-unsubscribes', AutomationMailUnsubscribesComponent::class));
-        Livewire::component('mailcoach::automation-mail-outbox', Mailcoach::getLivewireClass('automation-mail-outbox', AutomationMailOutboxComponent::class));
+        Livewire::component('mailcoach::create-automation', Mailcoach::getLivewireClass(CreateAutomationComponent::class));
+        Livewire::component('mailcoach::automations', Mailcoach::getLivewireClass(AutomationsComponent::class));
+        Livewire::component('mailcoach::automation-settings', Mailcoach::getLivewireClass(AutomationSettingsComponent::class));
+        Livewire::component('mailcoach::automation-actions', Mailcoach::getLivewireClass(AutomationActionsComponent::class));
+        Livewire::component('mailcoach::automation-run', Mailcoach::getLivewireClass(RunAutomationComponent::class));
+        Livewire::component('mailcoach::create-automation-mail', Mailcoach::getLivewireClass(CreateAutomationMailComponent::class));
+        Livewire::component('mailcoach::automation-mails', Mailcoach::getLivewireClass(AutomationMailsComponent::class));
+        Livewire::component('mailcoach::automation-mail-summary', Mailcoach::getLivewireClass(AutomationMailSummaryComponent::class));
+        Livewire::component('mailcoach::automation-mail-settings', Mailcoach::getLivewireClass(AutomationMailSettingsComponent::class));
 
         // Campaigns
-        Livewire::component('mailcoach::create-campaign', Mailcoach::getLivewireClass('create-campaign', CreateCampaignComponent::class));
-        Livewire::component('mailcoach::campaigns', Mailcoach::getLivewireClass('campaigns', CampaignsComponent::class));
-        Livewire::component('mailcoach::create-template', Mailcoach::getLivewireClass('create-template', CreateTemplateComponent::class));
-        Livewire::component('mailcoach::templates', Mailcoach::getLivewireClass('templates', TemplatesComponent::class));
-        Livewire::component('mailcoach::template', Mailcoach::getLivewireClass('template', TemplateComponent::class));
-        Livewire::component('mailcoach::campaign-content', Mailcoach::getLivewireClass('campaign-content', CampaignContentComponent::class));
-        Livewire::component('mailcoach::campaign-settings', Mailcoach::getLivewireClass('campaign-settings', CampaignSettingsComponent::class));
-        Livewire::component('mailcoach::campaign-delivery', Mailcoach::getLivewireClass('campaign-delivery', CampaignDeliveryComponent::class));
-        Livewire::component('mailcoach::campaign-summary', Mailcoach::getLivewireClass('campaign-summary', CampaignSummaryComponent::class));
-        Livewire::component('mailcoach::campaign-clicks', Mailcoach::getLivewireClass('campaign-clicks', CampaignClicksComponent::class));
-        Livewire::component('mailcoach::campaign-link-clicks', Mailcoach::getLivewireClass('campaign-link-clicks', CampaignLinkClicksComponent::class));
-        Livewire::component('mailcoach::campaign-opens', Mailcoach::getLivewireClass('campaign-opens', CampaignOpensComponent::class));
-        Livewire::component('mailcoach::campaign-unsubscribes', Mailcoach::getLivewireClass('campaign-unsubscribes', CampaignUnsubscribesComponent::class));
-        Livewire::component('mailcoach::campaign-outbox', Mailcoach::getLivewireClass('campaign-outbox', CampaignOutboxComponent::class));
+        Livewire::component('mailcoach::create-campaign', Mailcoach::getLivewireClass(CreateCampaignComponent::class));
+        Livewire::component('mailcoach::campaigns', Mailcoach::getLivewireClass(CampaignsComponent::class));
+        Livewire::component('mailcoach::create-template', Mailcoach::getLivewireClass(CreateTemplateComponent::class));
+        Livewire::component('mailcoach::templates', Mailcoach::getLivewireClass(TemplatesComponent::class));
+        Livewire::component('mailcoach::template', Mailcoach::getLivewireClass(TemplateComponent::class));
+        Livewire::component('mailcoach::campaign-settings', Mailcoach::getLivewireClass(CampaignSettingsComponent::class));
+        Livewire::component('mailcoach::campaign-delivery', Mailcoach::getLivewireClass(CampaignDeliveryComponent::class));
+        Livewire::component('mailcoach::campaign-summary', Mailcoach::getLivewireClass(CampaignSummaryComponent::class));
+
+        // Content
+        Livewire::component('mailcoach::content', Mailcoach::getLivewireClass(EditContentComponent::class));
+        Livewire::component('mailcoach::opens', Mailcoach::getLivewireClass(OpensComponent::class));
+        Livewire::component('mailcoach::clicks', Mailcoach::getLivewireClass(ClicksComponent::class));
+        Livewire::component('mailcoach::link-clicks', Mailcoach::getLivewireClass(LinkClicksComponent::class));
+        Livewire::component('mailcoach::unsubscribes', Mailcoach::getLivewireClass(UnsubscribesComponent::class));
+        Livewire::component('mailcoach::outbox', Mailcoach::getLivewireClass(OutboxComponent::class));
 
         // TransactionalMails
-        Livewire::component('mailcoach::create-transactional-template', Mailcoach::getLivewireClass('create-transactional-template', CreateTransactionalTemplateComponent::class));
-        Livewire::component('mailcoach::transactional-mails', Mailcoach::getLivewireClass('transactional-mails', TransactionalMailLogItemsComponent::class));
-        Livewire::component('mailcoach::transactional-mail-templates', Mailcoach::getLivewireClass('transactional-mail-templates', TransactionalMailsComponent::class));
-        Livewire::component('mailcoach::transactional-mail-template-content', Mailcoach::getLivewireClass('transactional-mail-template-content', TransactionalTemplateContentComponent::class));
-        Livewire::component('mailcoach::transactional-mail-template-settings', Mailcoach::getLivewireClass('transactional-mail-template-settings', TransactionalTemplateSettingsComponent::class));
-        Livewire::component('mailcoach::transactional-mail-content', Mailcoach::getLivewireClass('transactional-mail-content', TransactionalMailContentComponent::class));
-        Livewire::component('mailcoach::transactional-mail-performance', Mailcoach::getLivewireClass('transactional-mail-performance', TransactionalMailPerformanceComponent::class));
-        Livewire::component('mailcoach::transactional-mail-resend', Mailcoach::getLivewireClass('transactional-mail-resend', TransactionalMailResendComponent::class));
+        Livewire::component('mailcoach::create-transactional-template', Mailcoach::getLivewireClass(CreateTransactionalTemplateComponent::class));
+        Livewire::component('mailcoach::transactional-mails', Mailcoach::getLivewireClass(TransactionalMailLogItemsComponent::class));
+        Livewire::component('mailcoach::transactional-mail-templates', Mailcoach::getLivewireClass(TransactionalMailsComponent::class));
+        Livewire::component('mailcoach::transactional-mail-template-content', Mailcoach::getLivewireClass(TransactionalTemplateContentComponent::class));
+        Livewire::component('mailcoach::transactional-mail-template-settings', Mailcoach::getLivewireClass(TransactionalTemplateSettingsComponent::class));
+        Livewire::component('mailcoach::transactional-mail-content', Mailcoach::getLivewireClass(TransactionalMailContentComponent::class));
+        Livewire::component('mailcoach::transactional-mail-performance', Mailcoach::getLivewireClass(TransactionalMailPerformanceComponent::class));
+        Livewire::component('mailcoach::transactional-mail-resend', Mailcoach::getLivewireClass(TransactionalMailResendComponent::class));
 
-        Livewire::component('mailcoach::export', ExportComponent::class);
-        Livewire::component('mailcoach::import', ImportComponent::class);
+        Livewire::component('mailcoach::export', Mailcoach::getLivewireClass(ExportComponent::class));
+        Livewire::component('mailcoach::import', Mailcoach::getLivewireClass(ImportComponent::class));
 
         // settings
-        Livewire::component('mailcoach::webhooks', WebhooksComponent::class);
-        Livewire::component('mailcoach::create-webhook', CreateWebhookComponent::class);
-        Livewire::component('mailcoach::edit-webhook', EditWebhookComponent::class);
-        Livewire::component('mailcoach::webhook-logs', WebhookLogsComponent::class);
-        Livewire::component('mailcoach::webhook-log', WebhookLogComponent::class);
+        Livewire::component('mailcoach::webhooks', Mailcoach::getLivewireClass(WebhooksComponent::class));
+        Livewire::component('mailcoach::create-webhook', Mailcoach::getLivewireClass(CreateWebhookComponent::class));
+        Livewire::component('mailcoach::edit-webhook', Mailcoach::getLivewireClass(EditWebhookComponent::class));
+        Livewire::component('mailcoach::webhook-logs', Mailcoach::getLivewireClass(WebhookLogsComponent::class));
+        Livewire::component('mailcoach::webhook-log', Mailcoach::getLivewireClass(WebhookLogComponent::class));
 
-        Livewire::component('mailcoach::mailers', Mailcoach::getLivewireClass('mailers', MailersComponent::class));
-        Livewire::component('mailcoach::create-mailer', Mailcoach::getLivewireClass('create-mailer', CreateMailerComponent::class));
-        Livewire::component('mailcoach::create-user', Mailcoach::getLivewireClass('create-user', CreateUserComponent::class));
-        Livewire::component('mailcoach::general-settings', Mailcoach::getLivewireClass('general-settings', GeneralSettingsComponent::class));
-        Livewire::component('mailcoach::editor-settings', Mailcoach::getLivewireClass('editor-settings', EditorSettingsComponent::class));
-        Livewire::component('mailcoach::mailer-send-test', Mailcoach::getLivewireClass('mailer-send-test', Http\Livewire\MailConfiguration\SendTestComponent::class));
-        Livewire::component('mailcoach::profile', Mailcoach::getLivewireClass('profile', ProfileComponent::class));
-        Livewire::component('mailcoach::password', Mailcoach::getLivewireClass('password', PasswordComponent::class));
-        Livewire::component('mailcoach::users', Mailcoach::getLivewireClass('users', UsersComponent::class));
-        Livewire::component('mailcoach::edit-user', Mailcoach::getLivewireClass('edit-user', EditUserComponent::class));
-        Livewire::component('mailcoach::edit-mailer', Mailcoach::getLivewireClass('edit-mailer', EditMailerComponent::class));
-        Livewire::component('mailcoach::tokens', Mailcoach::getLivewireClass('tokens', TokensComponent::class));
+        Livewire::component('mailcoach::mailers', Mailcoach::getLivewireClass(MailersComponent::class));
+        Livewire::component('mailcoach::create-mailer', Mailcoach::getLivewireClass(CreateMailerComponent::class));
+        Livewire::component('mailcoach::general-settings', Mailcoach::getLivewireClass(GeneralSettingsComponent::class));
+        Livewire::component('mailcoach::editor-settings', Mailcoach::getLivewireClass(EditorSettingsComponent::class));
+        Livewire::component('mailcoach::mailer-send-test', Mailcoach::getLivewireClass(\Spatie\Mailcoach\Livewire\MailConfiguration\SendTestComponent::class));
+        Livewire::component('mailcoach::edit-mailer', Mailcoach::getLivewireClass(EditMailerComponent::class));
+        Livewire::component('mailcoach::suppression-list', Mailcoach::getLivewireClass(SuppressionListComponent::class));
+        Livewire::component('mailcoach::create-suppression', Mailcoach::getLivewireClass(CreateSuppressionComponent::class));
+
+        // Editors
+        Livewire::component('mailcoach::editor-codemirror', Domain\Editor\Codemirror\Editor::class);
+        Livewire::component('mailcoach::editor-unlayer', Domain\Editor\Unlayer\Editor::class);
+        Livewire::component('mailcoach::editor-editorjs', Domain\Editor\EditorJs\Editor::class);
+        Livewire::component('mailcoach::editor-markdown', Domain\Editor\Markdown\Editor::class);
+
+        // Condition builder
+        Livewire::component('mailcoach::condition-builder', Mailcoach::getLivewireClass(ConditionBuilderComponent::class));
+        Livewire::component('mailcoach::subscriber-tags-condition', Mailcoach::getLivewireClass(SubscriberTagsConditionComponent::class));
+        Livewire::component('mailcoach::subscriber-subscribed-at-condition', Mailcoach::getLivewireClass(SubscriberSubscribedAtConditionComponent::class));
+        Livewire::component('mailcoach::subscriber-attributes-condition', Mailcoach::getLivewireClass(SubscriberAttributesConditionComponent::class));
+        Livewire::component('mailcoach::subscriber-opened-campaign-condition', Mailcoach::getLivewireClass(SubscriberOpenedCampaignConditionComponent::class));
+        Livewire::component('mailcoach::subscriber-opened-automation-mail-condition', Mailcoach::getLivewireClass(SubscriberOpenedAutomationMailConditionComponent::class));
+        Livewire::component('mailcoach::subscriber-clicked-automation-mail-link-condition', Mailcoach::getLivewireClass(SubscriberClickedAutomationMailLinkConditionComponent::class));
+        Livewire::component('mailcoach::subscriber-clicked-campaign-link-condition', Mailcoach::getLivewireClass(SubscriberClickedCampaignLinkConditionComponent::class));
+        Livewire::component('mailcoach::subscriber-email-condition', Mailcoach::getLivewireClass(SubscriberEmailQueryConditionComponent::class));
 
         SesSetupWizardComponent::registerLivewireComponents();
         SendGridSetupWizardComponent::registerLivewireComponents();
@@ -715,25 +702,17 @@ class MailcoachServiceProvider extends PackageServiceProvider
         return $this;
     }
 
-    protected function bootEvents()
+    protected function bootEvents(): static
     {
         Event::listen(CampaignSentEvent::class, SendCampaignSentEmail::class);
         Event::listen(WebhookCallProcessedEvent::class, SetWebhookCallProcessedAt::class);
         Event::listen(MessageSending::class, StoreTransactionalMail::class);
-        Event::listen(CampaignOpenedEvent::class, AddCampaignOpenedTag::class);
-        Event::listen(CampaignLinkClickedEvent::class, AddCampaignClickedTag::class);
-        Event::listen(AutomationMailOpenedEvent::class, AddAutomationMailOpenedTag::class);
-        Event::listen(AutomationMailLinkClickedEvent::class, AddAutomationMailClickedTag::class);
+        Event::listen(ContentOpenedEvent::class, AddOpenedTag::class);
+        Event::listen(LinkClickedEvent::class, AddClickedTag::class);
 
-        Event::subscribe(config('mailcoach.event_subscribers.webhooks'));
-
-        if (config('mailcoach.webhooks.logs')) {
-            Event::subscribe(config('mailcoach.event_subscribers.webhook_logs'));
-        }
-
-        if (config('mailcoach.opt_in_features.disable_failed_webhooks')) {
-            Event::subscribe(config('mailcoach.event_subscribers.webhook_failed_attempts'));
-        }
+        Event::subscribe(WebhookEventSubscriber::class);
+        Event::subscribe(WebhookLogEventSubscriber::class);
+        Event::subscribe(WebhookFailedAttemptsSubscriber::class);
 
         return $this;
     }
@@ -759,21 +738,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         } catch (Exception) {
             // Do nothing as the database is probably not set up yet.
         }
-
-        return $this;
-    }
-
-    protected function registerApiGuard(): static
-    {
-        if (config('auth.guards.api')) {
-            return $this;
-        }
-
-        config()->set('auth.guards.api', [
-            'driver' => 'token',
-            'provider' => 'users',
-            'hash' => false,
-        ]);
 
         return $this;
     }
@@ -810,23 +774,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         config()->set('livewire-ui-spotlight.shortcuts', ['slash']);
         config()->set('livewire-ui-spotlight.include_js', false);
         config()->set('livewire-ui-spotlight.include_css', false);
-
-        return $this;
-    }
-
-    protected function bootEncryption(): static
-    {
-        if (! config('mailcoach.encryption.enabled')) {
-            return $this;
-        }
-
-        $encryptionKey = config('mailcoach.encryption.key');
-
-        if (Str::startsWith($encryptionKey, $prefix = 'base64:')) {
-            $encryptionKey = base64_decode(Str::after($encryptionKey, $prefix));
-        }
-
-        config()->set('ciphersweet.providers.string.key', $encryptionKey);
 
         return $this;
     }

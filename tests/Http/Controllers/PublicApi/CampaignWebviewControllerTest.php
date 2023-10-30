@@ -5,7 +5,9 @@ use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Http\Front\Controllers\CampaignWebviewController;
 
 beforeEach(function () {
-    test()->campaign = Campaign::factory()->create([
+    test()->campaign = Campaign::factory()->create();
+
+    test()->campaign->contentItem->update([
         'webview_html' => 'my webview html',
     ]);
 

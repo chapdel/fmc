@@ -4,27 +4,17 @@ namespace Spatie\Mailcoach\Domain\Audience\Mails;
 
 use Carbon\CarbonInterface;
 use Illuminate\Mail\Mailable;
-use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 
 class EmailListSummaryMail extends Mailable
 {
     public $theme = 'mailcoach::mails.layout.mailcoach';
 
-    /** @var \Spatie\Mailcoach\Domain\Audience\Models\EmailList */
-    public object $emailList;
-
-    public CarbonInterface $summaryStartDateTime;
-
     public string $emailListUrl;
 
     public string $settingsUrl;
 
-    public function __construct(EmailList $emailList, CarbonInterface $summaryStartDateTime)
+    public function __construct(public object $emailList, public CarbonInterface $summaryStartDateTime)
     {
-        $this->emailList = $emailList;
-
-        $this->summaryStartDateTime = $summaryStartDateTime;
-
         $this->emailListUrl = route('mailcoach.emailLists.subscribers', $this->emailList);
         $this->settingsUrl = route('mailcoach.emailLists.general-settings', $this->emailList);
     }

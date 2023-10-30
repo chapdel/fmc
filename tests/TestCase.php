@@ -2,6 +2,13 @@
 
 namespace Spatie\Mailcoach\Tests;
 
+use AllowDynamicProperties;
+use Dotenv\Dotenv;
+use Filament\Actions\ActionsServiceProvider;
+use Filament\Forms\FormsServiceProvider;
+use Filament\Notifications\NotificationsServiceProvider;
+use Filament\Support\SupportServiceProvider;
+use Filament\Tables\TablesServiceProvider;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
@@ -13,34 +20,23 @@ use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
-use Laravel\Sanctum\SanctumServiceProvider;
 use Livewire\LivewireServiceProvider;
-use LivewireUI\Spotlight\SpotlightServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
+use RyanChandler\BladeCaptureDirective\BladeCaptureDirectiveServiceProvider;
 use Spatie\Feed\FeedServiceProvider;
-use Spatie\Flash\Flash;
-use Spatie\LaravelCipherSweet\LaravelCipherSweetServiceProvider;
 use Spatie\LaravelRay\RayServiceProvider;
 use Spatie\Mailcoach\Database\Factories\UserFactory;
-use Spatie\Mailcoach\Domain\Settings\Models\User;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Http\Front\Controllers\UnsubscribeController;
 use Spatie\Mailcoach\MailcoachServiceProvider;
-use Spatie\MailcoachEditor\MailcoachEditorServiceProvider;
-use Spatie\MailcoachMailgunFeedback\MailcoachMailgunFeedbackServiceProvider;
-use Spatie\MailcoachMarkdownEditor\MailcoachMarkdownEditorServiceProvider;
-use Spatie\MailcoachPostmarkFeedback\MailcoachPostmarkFeedbackServiceProvider;
-use Spatie\MailcoachSendgridFeedback\MailcoachSendgridFeedbackServiceProvider;
-use Spatie\MailcoachSendinblueFeedback\MailcoachSendinblueFeedbackServiceProvider;
-use Spatie\MailcoachSesFeedback\MailcoachSesFeedbackServiceProvider;
-use Spatie\MailcoachUnlayer\MailcoachUnlayerServiceProvider;
 use Spatie\MediaLibrary\MediaLibraryServiceProvider;
 use Spatie\Navigation\NavigationServiceProvider;
 use Spatie\QueryBuilder\QueryBuilderServiceProvider;
 use Spatie\TestTime\TestTime;
 use Spatie\WebhookServer\WebhookServerServiceProvider;
 
+#[AllowDynamicProperties]
 abstract class TestCase extends Orchestra
 {
     use LazilyRefreshDatabase;
@@ -54,7 +50,6 @@ abstract class TestCase extends Orchestra
 
         app('router')->getRoutes()->refreshNameLookups();
 
-        config()->set('auth.providers.users.model', User::class);
         config()->set('mailcoach.timezone', null);
 
         $this->withoutExceptionHandling();
@@ -63,6 +58,9 @@ abstract class TestCase extends Orchestra
         Cache::clear();
 
         Gate::define('viewMailcoach', fn () => true);
+        Gate::after(function () {
+            return true;
+        });
 
         TestTime::freeze();
 
@@ -72,11 +70,7 @@ abstract class TestCase extends Orchestra
 
         View::addLocation(__DIR__.'/views');
 
-        Flash::levels([
-            'success' => 'success',
-            'warning' => 'warning',
-            'error' => 'error',
-        ]);
+        $this->withoutVite();
     }
 
     protected function tearDown(): void
@@ -86,11 +80,10 @@ abstract class TestCase extends Orchestra
         parent::tearDown();
     }
 
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
-            LaravelCipherSweetServiceProvider::class,
-            SpotlightServiceProvider::class,
+            //SpotlightServiceProvider::class,
             RayServiceProvider::class,
             LivewireServiceProvider::class,
             MailcoachServiceProvider::class,
@@ -98,25 +91,23 @@ abstract class TestCase extends Orchestra
             MediaLibraryServiceProvider::class,
             QueryBuilderServiceProvider::class,
             NavigationServiceProvider::class,
-            SanctumServiceProvider::class,
             FeedServiceProvider::class,
 
-            MailcoachSesFeedbackServiceProvider::class,
-            MailcoachMailgunFeedbackServiceProvider::class,
-            MailcoachSendgridFeedbackServiceProvider::class,
-            MailcoachSendinblueFeedbackServiceProvider::class,
-            MailcoachPostmarkFeedbackServiceProvider::class,
-            MailcoachUnlayerServiceProvider::class,
-            MailcoachEditorServiceProvider::class,
-            MailcoachMarkdownEditorServiceProvider::class,
+            // Filament
+            BladeCaptureDirectiveServiceProvider::class,
+            ActionsServiceProvider::class,
+            FormsServiceProvider::class,
+            NotificationsServiceProvider::class,
+            SupportServiceProvider::class,
+            TablesServiceProvider::class,
+
             WebhookServerServiceProvider::class,
         ];
     }
 
-    protected function refreshTestDatabase()
+    protected function refreshTestDatabase(): void
     {
         if (! RefreshDatabaseState::$migrated) {
-            $this->artisan('vendor:publish', ['--tag' => 'ciphersweet-migrations', '--force' => true])->run();
             $this->artisan('vendor:publish', ['--tag' => 'mailcoach-migrations', '--force' => true])->run();
             $this->artisan('migrate:fresh', $this->migrateFreshUsing());
 
@@ -134,7 +125,7 @@ abstract class TestCase extends Orchestra
         $this->beginDatabaseTransaction();
     }
 
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         config()->set('database.default', 'mysql');
         config()->set('database.connections.mysql', [
@@ -149,7 +140,7 @@ abstract class TestCase extends Orchestra
         ]);
     }
 
-    protected function simulateUnsubscribes(Collection $sends)
+    protected function simulateUnsubscribes(Collection $sends): void
     {
         $sends->each(function (Send $send) {
             $this
@@ -157,16 +148,14 @@ abstract class TestCase extends Orchestra
         });
     }
 
-    public function authenticate(string $guard = null)
+    public function authenticate(): void
     {
         $user = UserFactory::new()->create();
 
-        $user->createToken('test');
-
-        $this->actingAs($user, $guard);
+        $this->actingAs($user);
     }
 
-    public function refreshServiceProvider()
+    public function refreshServiceProvider(): void
     {
         // We need to do this since the service provider loads from the database
         app(MailcoachServiceProvider::class, ['app' => $this->app])
@@ -174,7 +163,7 @@ abstract class TestCase extends Orchestra
             ->boot();
     }
 
-    public function processQueuedJobs()
+    public function processQueuedJobs(): void
     {
         foreach (Queue::pushedJobs() as $jobs) {
             foreach ($jobs as $job) {
@@ -188,5 +177,14 @@ abstract class TestCase extends Orchestra
         $path = __DIR__."/stubs/{$path}";
 
         return file_get_contents($path);
+    }
+
+    protected function loadEnvironmentVariables(): void
+    {
+        if (file_exists(__DIR__.'/../.env')) {
+            $dotEnv = Dotenv::createImmutable(__DIR__.'/..');
+
+            $dotEnv->load();
+        }
     }
 }

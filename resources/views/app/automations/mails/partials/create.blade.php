@@ -1,5 +1,5 @@
-<form class="form-grid w-64"
-      wire:submit.prevent="saveAutomationMail"
+<form class="form-grid"
+      wire:submit="saveAutomationMail"
       @keydown.prevent.window.cmd.s="$wire.call('saveAutomationMail')"
       @keydown.prevent.window.ctrl.s="$wire.call('saveAutomationMail')"
       method="POST"
@@ -25,6 +25,6 @@
 
     <x-mailcoach::form-buttons>
         <x-mailcoach::button :label="__mc('Create email')" />
-        <x-mailcoach::button-cancel  x-on:click="$store.modals.close('create-automation-mail')" />
+        <x-mailcoach::button-cancel  x-on:click="$dispatch('close-modal', { id: 'create-automation-mail' })" />
     </x-mailcoach::form-buttons>
 </form>

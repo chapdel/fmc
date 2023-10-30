@@ -15,7 +15,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
-use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
+use Spatie\Mailcoach\Domain\Content\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
 
@@ -33,8 +33,8 @@ class CalculateAutomationMailStatisticsJob implements ShouldBeUnique, ShouldQueu
 
     public function __construct(protected ?int $automationMailId = null)
     {
-        $this->onQueue(config('mailcoach.shared.perform_on_queue.schedule'));
-        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
+        $this->onQueue(config('mailcoach.perform_on_queue.schedule'));
+        $this->connection ??= Mailcoach::getQueueConnection();
     }
 
     public function handle()
@@ -42,7 +42,7 @@ class CalculateAutomationMailStatisticsJob implements ShouldBeUnique, ShouldQueu
         Cache::put('mailcoach-last-schedule-run', now());
 
         $this->automationMailId
-            ? CalculateStatisticsJob::dispatchSync(self::getAutomationMailClass()::find($this->automationMailId))
+            ? CalculateStatisticsJob::dispatchSync(self::getAutomationMailClass()::find($this->automationMailId)->contentItem)
             : $this->calculateStatisticsOfAutomationMails();
     }
 
@@ -61,7 +61,7 @@ class CalculateAutomationMailStatisticsJob implements ShouldBeUnique, ShouldQueu
             })->map(function (Action $action) {
                 return $action->action->automationMail;
             })->each(function (AutomationMail $automationMail) {
-                $automationMail->dispatchCalculateStatistics();
+                $automationMail->contentItem->dispatchCalculateStatistics();
             });
     }
 }

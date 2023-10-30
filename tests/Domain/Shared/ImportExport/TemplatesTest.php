@@ -1,8 +1,8 @@
 <?php
 
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Jobs\Export\ExportTemplatesJob;
 use Spatie\Mailcoach\Domain\Shared\Jobs\Import\ImportTemplatesJob;
+use Spatie\Mailcoach\Domain\Template\Models\Template;
 
 beforeEach(function () {
     $this->disk = setupImportDisk();

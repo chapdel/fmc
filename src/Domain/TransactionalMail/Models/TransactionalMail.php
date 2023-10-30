@@ -5,25 +5,26 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Models;
 use Exception;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Database\Factories\TransactionalMailFactory;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasHtmlContent;
+use Spatie\Mailcoach\Domain\Content\Models\Concerns\HasContentItems;
+use Spatie\Mailcoach\Domain\Content\Models\Concerns\InteractsWithContentItems;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Actions\RenderTemplateAction;
-use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\InvalidTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\InvalidTransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns\UsesMailcoachTemplate;
 use Spatie\Mailcoach\Domain\TransactionalMail\Support\Replacers\TransactionalMailReplacer;
 use Spatie\Mailcoach\Mailcoach;
 
-class TransactionalMail extends Model implements HasHtmlContent
+class TransactionalMail extends Model implements HasContentItems
 {
     public $table = 'mailcoach_transactional_mails';
 
     use HasFactory;
     use HasUuid;
+    use InteractsWithContentItems;
     use UsesMailcoachModels;
 
     public $guarded = [];
@@ -36,29 +37,6 @@ class TransactionalMail extends Model implements HasHtmlContent
         'bcc' => 'array',
         'replacers' => 'array',
     ];
-
-    public function template(): BelongsTo
-    {
-        return $this->belongsTo(self::getTemplateClass());
-    }
-
-    public function getTemplateFieldValues(): array
-    {
-        $structuredHtml = json_decode($this->getStructuredHtml(), true) ?? [];
-
-        return $structuredHtml['templateValues'] ?? [];
-    }
-
-    public function setTemplateFieldValues(array $fieldValues = []): self
-    {
-        $structuredHtml = json_decode($this->getStructuredHtml(), true) ?? [];
-
-        $structuredHtml['templateValues'] = $fieldValues;
-
-        $this->structured_html = json_encode($structuredHtml);
-
-        return $this;
-    }
 
     public function isValid(): bool
     {
@@ -83,21 +61,16 @@ class TransactionalMail extends Model implements HasHtmlContent
         $mailableClass = $this->test_using_mailable;
 
         if (! class_exists($mailableClass)) {
-            throw InvalidTemplate::mailableClassNotFound($this);
+            throw InvalidTransactionalMail::mailableClassNotFound($this);
         }
 
         $traits = class_uses_recursive($mailableClass);
 
         if (! in_array(UsesMailcoachTemplate::class, $traits)) {
-            throw InvalidTemplate::mailableClassNotValid($this);
+            throw InvalidTransactionalMail::mailableClassNotValid($this);
         }
 
         return $mailableClass::testInstance();
-    }
-
-    public function canBeTested(): bool
-    {
-        return ! is_null($this->test_using_mailable);
     }
 
     public function replacers(): Collection
@@ -107,11 +80,11 @@ class TransactionalMail extends Model implements HasHtmlContent
                 $replacerClass = config("mailcoach.transactional.replacers.{$replacerName}");
 
                 if (is_null($replacerClass)) {
-                    throw InvalidTemplate::replacerNotFound($this, $replacerName);
+                    throw InvalidTransactionalMail::replacerNotFound($this, $replacerName);
                 }
 
                 if (! is_a($replacerClass, TransactionalMailReplacer::class, true)) {
-                    throw InvalidTemplate::invalidReplacer($this, $replacerName, $replacerClass);
+                    throw InvalidTransactionalMail::invalidReplacer($this, $replacerName, $replacerClass);
                 }
 
                 return resolve($replacerClass);
@@ -126,26 +99,6 @@ class TransactionalMail extends Model implements HasHtmlContent
         $action = Mailcoach::getTransactionalActionClass('render_template', RenderTemplateAction::class);
 
         return $action->execute($this, $mailable, $replacements);
-    }
-
-    public function getHtml(): ?string
-    {
-        return $this->body;
-    }
-
-    public function setHtml(string $html): void
-    {
-        $this->body = $html;
-    }
-
-    public function getStructuredHtml(): ?string
-    {
-        return $this->structured_html;
-    }
-
-    public function hasTemplates(): bool
-    {
-        return true;
     }
 
     public function toString(): string

@@ -4,7 +4,7 @@
         {{ $label }}
 
         @if ($help ?? null)
-            <i class="ml-1 text-purple-500 opacity-75 cursor-pointer fas fa-question-circle" x-data x-tooltip="{{ $help }}"></i>
+            <i class="ml-1 text-purple-500 opacity-75 cursor-pointer fas fa-question-circle" x-data x-tooltip="@js($help)"></i>
         @endif
     </label>
     @endif

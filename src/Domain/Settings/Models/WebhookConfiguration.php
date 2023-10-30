@@ -59,21 +59,7 @@ class WebhookConfiguration extends Model
 
     public function useForAllEvents(): bool
     {
-        if ($this->selectableEventsEnabled()) {
-            return $this->use_for_all_events;
-        }
-
-        return true;
-    }
-
-    public function selectableEventsEnabled(): bool
-    {
-        return config('mailcoach.webhooks.selectable_event_types_enabled', false);
-    }
-
-    public function logsEnabled(): bool
-    {
-        return config('mailcoach.webhooks.logs', false);
+        return $this->use_for_all_events;
     }
 
     public function countSelectableEventTypes(): int

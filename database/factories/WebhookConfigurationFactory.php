@@ -3,11 +3,16 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Spatie\Mailcoach\Domain\Settings\Models\WebhookConfiguration;
+use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class WebhookConfigurationFactory extends Factory
 {
-    protected $model = WebhookConfiguration::class;
+    use UsesMailcoachModels;
+
+    public function modelName()
+    {
+        return self::getWebhookConfigurationClass();
+    }
 
     public function definition()
     {

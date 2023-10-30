@@ -1,11 +1,11 @@
 @if ($replacerHelpTexts())
     <div>
-        <button class="link-dimmed" x-on:click.prevent="$store.modals.open('placeholders')">
+        <button class="link-dimmed" x-on:click.prevent="$dispatch('open-modal', { id: 'placeholders' })">
             {{__mc('Placeholder cheat sheet')}}
         </button>
     </div>
 
-    <x-mailcoach::modal medium :dismissable="true" :title="__mc('Placeholder cheat sheet')" name="placeholders">
+    <x-mailcoach::modal slide-over width="3xl" :dismissable="true" :title="__mc('Placeholder cheat sheet')" name="placeholders">
         <x-mailcoach::info class="markup-code">
             {{ __mc('You can use following placeholders in the subject and copy:') }}
         </x-mailcoach::info>

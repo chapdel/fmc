@@ -7,6 +7,7 @@
     'disabled' => false,
 ])
 <form
+    class="flex"
     method="POST"
     action="{{ $action }}"
     {{ $attributes->except('class') }}
@@ -17,7 +18,7 @@
     @method($method)
     <button
         x-on:click.prevent="
-            $store.modals.open('confirm');
+            $dispatch('open-modal', { id: 'confirm' });
             confirmText = @js($confirmText);
             onConfirm = {{ $onConfirm }};
         "

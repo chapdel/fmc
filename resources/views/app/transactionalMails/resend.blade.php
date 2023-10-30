@@ -1,5 +1,5 @@
 <x-mailcoach::card>
-    @if($transactionalMail->opens->count())
+    @if($transactionalMail->contentItem->opens->count())
         <x-mailcoach::warning>{{ __mc('This mail has already been opened, are you sure you want to resend it?') }}</x-mailcoach::warning>
     @else
         <x-mailcoach::info>{{ __mc('This mail hasn\'t been opened yet.') }}</x-mailcoach::info>

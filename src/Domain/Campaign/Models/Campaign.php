@@ -5,32 +5,29 @@ namespace Spatie\Mailcoach\Domain\Campaign\Models;
 use Carbon\CarbonInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use League\HTMLToMarkdown\HtmlConverter;
 use Spatie\Feed\Feedable;
 use Spatie\Feed\FeedItem;
 use Spatie\Mailcoach\Database\Factories\CampaignFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
-use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Campaign\Actions\ValidateCampaignRequirementsAction;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Campaign\Enums\SendFeedbackType;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotUpdateCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\CanBeScheduled;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\SendsToSegment;
+use Spatie\Mailcoach\Domain\Content\Actions\CreateDomDocumentFromHtmlAction;
+use Spatie\Mailcoach\Domain\Content\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Settings\Models\Mailer;
-use Spatie\Mailcoach\Domain\Shared\Actions\CreateDomDocumentFromHtmlAction;
+use Spatie\Mailcoach\Domain\Shared\Actions\InitializeMjmlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
-use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Shared\Models\Concerns\SendsToSegment;
 use Spatie\Mailcoach\Domain\Shared\Models\Sendable;
 use Spatie\Mailcoach\Mailcoach;
 use Throwable;
-use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
 /**
  * @method static Builder|static query()
@@ -48,11 +45,13 @@ class Campaign extends Sendable implements Feedable
         'campaigns_feed_enabled' => 'boolean',
         'add_subscriber_tags' => 'boolean',
         'add_subscriber_link_tags' => 'boolean',
-        'all_sends_created_at' => 'datetime',
-        'all_sends_dispatched_at' => 'datetime',
         'summary_mail_sent_at' => 'datetime',
         'status' => CampaignStatus::class,
         'show_publicly' => 'boolean',
+        'disable_webview' => 'boolean',
+        'split_test_wait_time_in_minutes' => 'integer',
+        'split_test_split_size_percentage' => 'integer',
+        'split_test_started_at' => 'datetime',
     ];
 
     public static function booted()
@@ -67,9 +66,6 @@ class Campaign extends Sendable implements Feedable
     public static function scopeSentBetween(Builder $query, CarbonInterface $periodStart, CarbonInterface $periodEnd): void
     {
         $query
-            ->whereNotNull('sent_at')
-            ->whereNotNull('all_sends_dispatched_at')
-            ->whereNotNull('all_sends_created_at')
             ->where('sent_at', '>=', $periodStart)
             ->where('sent_at', '<', $periodEnd);
     }
@@ -99,6 +95,11 @@ class Campaign extends Sendable implements Feedable
         $query->where('status', CampaignStatus::Sending);
     }
 
+    public function scopeSendingOrPaused(Builder $query): void
+    {
+        $query->whereIn('status', [CampaignStatus::Sending, CampaignStatus::Paused]);
+    }
+
     public function scopeNeedsSummaryToBeReported(Builder $query)
     {
         $query
@@ -118,51 +119,8 @@ class Campaign extends Sendable implements Feedable
     {
         $query
             ->whereNotNull('sent_at')
-            ->where('sent_at', '<=', now()->subDays($daysAgo)->toDateTimeString());
-    }
-
-    public function template(): BelongsTo
-    {
-        return $this->belongsTo($this->getTemplateClass());
-    }
-
-    public function links(): HasMany
-    {
-        return $this->hasMany(static::getCampaignLinkClass(), 'campaign_id');
-    }
-
-    public function clicks(): HasManyThrough
-    {
-        return $this->hasManyThrough(self::getCampaignClickClass(), self::getCampaignLinkClass(), 'campaign_id');
-    }
-
-    public function opens(): HasMany
-    {
-        return $this->hasMany(self::getCampaignOpenClass(), 'campaign_id');
-    }
-
-    public function sends(): HasMany
-    {
-        return $this->hasMany(self::getSendClass(), 'campaign_id');
-    }
-
-    public function unsubscribes(): HasMany
-    {
-        return $this->hasMany(self::getCampaignUnsubscribeClass(), 'campaign_id');
-    }
-
-    public function bounces(): HasManyThrough
-    {
-        return $this
-            ->hasManyThrough(self::getSendFeedbackItemClass(), self::getSendClass(), 'campaign_id')
-            ->whereIn('type', [SendFeedbackType::Bounce, SendFeedbackType::SoftBounce]);
-    }
-
-    public function complaints(): HasManyThrough
-    {
-        return $this
-            ->hasManyThrough(self::getSendFeedbackItemClass(), self::getSendClass(), 'campaign_id')
-            ->where('type', SendFeedbackType::Complaint);
+            ->where('sent_at', '<=', now()->subDays($daysAgo)->toDateTimeString())
+            ->where('sent_at', '>', now()->subDays(7)->toDateTimeString());
     }
 
     /**
@@ -200,16 +158,16 @@ class Campaign extends Sendable implements Feedable
             return null;
         }
 
-        return $mailerClass::all()->first(fn ($mailerModel) => $mailerModel->configName() === $mailerKey);
+        return $mailerClass::all()->first(fn ($mailerModel) => $mailerKey === $mailerModel->configName());
     }
 
     public function isReady(): bool
     {
-        if (! $this->html) {
+        if (! $this->contentItem->html) {
             return false;
         }
 
-        if (! $this->subject) {
+        if (! $this->contentItem->subject) {
             return false;
         }
 
@@ -266,19 +224,6 @@ class Campaign extends Sendable implements Feedable
         return true;
     }
 
-    public function useMailable(string $mailableClass, array $mailableArguments = []): self
-    {
-        $this->ensureUpdatable();
-
-        if (! is_a($mailableClass, MailcoachMail::class, true)) {
-            throw CouldNotSendCampaign::invalidMailableClass($this, $mailableClass);
-        }
-
-        $this->update(['mailable_class' => $mailableClass, 'mailable_arguments' => $mailableArguments]);
-
-        return $this;
-    }
-
     public function to(EmailList $emailList): self
     {
         $this->ensureUpdatable();
@@ -288,57 +233,36 @@ class Campaign extends Sendable implements Feedable
         return $this;
     }
 
-    public function contentFromMailable(): string
-    {
-        return $this
-            ->getMailable()
-            ->setSendable($this)
-            ->render();
-    }
-
-    public function pullSubjectFromMailable(): void
-    {
-        if (! $this->hasCustomMailable()) {
-            return;
-        }
-
-        $mailable = $this->getMailable()->setSendable($this);
-        $mailable->build();
-
-        if (! empty($mailable->subject)) {
-            $this->subject($mailable->subject);
-        }
-    }
-
     public function send(): self
     {
         $this->ensureSendable();
 
-        if (empty($this->from_email)) {
-            $this->from_email = $this->emailList->default_from_email;
+        if (empty($this->contentItem->from_email)) {
+            $this->contentItem->from_email = $this->emailList->default_from_email;
         }
 
-        if (empty($this->from_name)) {
-            $this->from_name = $this->emailList->default_from_name;
+        if (empty($this->contentItem->from_name)) {
+            $this->contentItem->from_name = $this->emailList->default_from_name;
         }
 
-        if (empty($this->reply_to_email)) {
-            $this->reply_to_email = $this->emailList->default_reply_to_email;
+        if (empty($this->contentItem->reply_to_email)) {
+            $this->contentItem->reply_to_email = $this->emailList->default_reply_to_email;
         }
 
-        if (empty($this->reply_to_name)) {
-            $this->reply_to_name = $this->emailList->default_reply_to_name;
+        if (empty($this->contentItem->reply_to_name)) {
+            $this->contentItem->reply_to_name = $this->emailList->default_reply_to_name;
         }
+
+        if ($this->contentItem->hasCustomMailable()) {
+            $this->contentItem->pullSubjectFromMailable();
+
+            $this->contentItem->content($this->contentItem->contentFromMailable());
+        }
+
+        $this->contentItem->save();
 
         $this->segment_description = $this->getSegment()->description();
-        $this->last_modified_at = now();
         $this->save();
-
-        if ($this->hasCustomMailable()) {
-            $this->pullSubjectFromMailable();
-
-            $this->content($this->contentFromMailable());
-        }
 
         $this->markAsSending();
 
@@ -386,16 +310,20 @@ class Campaign extends Sendable implements Feedable
             throw CouldNotSendCampaign::noFromEmailSet($this);
         }
 
-        if (empty($this->subject)) {
+        if (empty($this->contentItem->subject)) {
             throw CouldNotSendCampaign::noSubjectSet($this);
         }
 
-        if (empty($this->html)) {
+        if (empty($this->contentItem->html)) {
             throw CouldNotSendCampaign::noContent($this);
         }
 
         if (count($this->validateRequirements()) > 0) {
             throw CouldNotSendCampaign::requirementsNotMet($this);
+        }
+
+        if (containsMjml($this->contentItem->html) && ! Mailcoach::getSharedActionClass('initialize_mjml', InitializeMjmlAction::class)->execute()->canConvert($this->contentItem->html)) {
+            throw CouldNotSendCampaign::invalidMjml($this);
         }
     }
 
@@ -404,6 +332,9 @@ class Campaign extends Sendable implements Feedable
         $this->update([
             'status' => CampaignStatus::Sent,
             'sent_at' => now(),
+        ]);
+
+        $this->contentItem->update([
             'statistics_calculated_at' => now(),
             'sent_to_number_of_subscribers' => $numberOfSubscribers,
         ]);
@@ -416,19 +347,14 @@ class Campaign extends Sendable implements Feedable
         return $this->isSent();
     }
 
-    public function wasAlreadySentToSubscriber(Subscriber $subscriber): bool
+    public function sendTestMail(string|array $emails, ContentItem $contentItem = null): void
     {
-        return $this->sends()->whereNotNull('sent_at')->where('subscriber_id', $subscriber->id)->exists();
-    }
-
-    public function sendTestMail(string|array $emails): void
-    {
-        if ($this->hasCustomMailable()) {
-            $this->pullSubjectFromMailable();
+        if ($this->hasCustomMailable($contentItem)) {
+            $this->pullSubjectFromMailable($contentItem);
         }
 
-        collect($emails)->each(function (string $email) {
-            dispatch_sync(new SendCampaignTestJob($this, $email));
+        collect($emails)->each(function (string $email) use ($contentItem) {
+            dispatch_sync(new SendCampaignTestJob($this, $email, $contentItem));
         });
     }
 
@@ -445,22 +371,13 @@ class Campaign extends Sendable implements Feedable
         return resolve($mailableClass, $mailableArguments);
     }
 
-    public function dispatchCalculateStatistics(): void
-    {
-        if (! $this->isSendingOrSent() && ! $this->isCancelled()) {
-            return;
-        }
-
-        dispatch(new CalculateStatisticsJob($this));
-    }
-
     public function toFeedItem(): FeedItem
     {
         return (new FeedItem())
             ->authorName('Mailcoach')
-            ->authorEmail($this->from_email)
+            ->authorEmail($this->contentItem->from_email ?? '')
             ->link($this->webviewUrl())
-            ->title($this->subject)
+            ->title($this->contentItem->subject)
             ->id($this->uuid)
             ->summary('')
             ->updated($this->sent_at);
@@ -477,21 +394,43 @@ class Campaign extends Sendable implements Feedable
 
     public function sendsCount(): int
     {
-        return $this->sends()->whereNotNull('sent_at')->count();
+        return $this->contentItems->sum(function (ContentItem $contentItem) {
+            return $contentItem->sentSends()->count();
+        });
     }
 
-    public function sendsWithoutInvalidated(): HasMany
+    public function hasPendingSends(): bool
     {
-        return $this->sends()->whereNull('invalidated_at');
-    }
-
-    public function wasSentToAllSubscribers(): bool
-    {
-        if (! $this->isSent()) {
-            return false;
+        foreach ($this->contentItems as $contentItem) {
+            if ($contentItem->sends()->pending()->count()) {
+                return true;
+            }
         }
 
-        return $this->sends()->pending()->count() === 0;
+        return false;
+    }
+
+    public function isSplitTestStarted(): bool
+    {
+        return ! is_null($this->split_test_started_at);
+    }
+
+    public function markSplitTestStarted(): static
+    {
+        $this->update([
+            'split_test_started_at' => now(),
+        ]);
+
+        return $this;
+    }
+
+    public function splitTestWinnerDecidedAt(): ?CarbonInterface
+    {
+        if (! $this->split_test_started_at) {
+            return null;
+        }
+
+        return $this->split_test_started_at->addMinutes($this->split_test_wait_time_in_minutes ?? 240);
     }
 
     protected function ensureUpdatable(): void
@@ -501,7 +440,7 @@ class Campaign extends Sendable implements Feedable
         }
 
         if ($this->isSent()) {
-            throw CouldNotSendCampaign::alreadySent($this);
+            throw CouldNotUpdateCampaign::alreadySent($this);
         }
 
         if ($this->isCancelled()) {
@@ -525,7 +464,7 @@ class Campaign extends Sendable implements Feedable
 
     public function isPreparing(): bool
     {
-        return $this->isSending() && ! $this->sent_to_number_of_subscribers;
+        return $this->isSending() && ! $this->sentToNumberOfSubscribers();
     }
 
     public function isSending(): bool
@@ -548,29 +487,9 @@ class Campaign extends Sendable implements Feedable
         return $this->status == CampaignStatus::Cancelled;
     }
 
-    public function hasCustomMailable(): bool
-    {
-        if ($this->mailable_class === MailcoachMail::class) {
-            return false;
-        }
-
-        return ! is_null($this->mailable_class);
-    }
-
-    public function htmlWithInlinedCss(): string
-    {
-        $html = $this->getHtml();
-
-        if ($this->hasCustomMailable()) {
-            $html = $this->contentFromMailable();
-        }
-
-        return (new CssToInlineStyles())->convert($html);
-    }
-
     public function getSummary(): string
     {
-        $html = preg_replace('#<a.*?>(.*?)</a>#i', '\1', $this->webview_html);
+        $html = preg_replace('#<a.*?>(.*?)</a>#i', '\1', $this->contentItem->webview_html);
 
         $converter = new HtmlConverter([
             'strip_tags' => true,
@@ -592,43 +511,9 @@ class Campaign extends Sendable implements Feedable
         return Str::limit($text, 300);
     }
 
-    public function allSendsCreated(): bool
-    {
-        return ! is_null($this->all_sends_created_at);
-    }
-
-    public function markAsAllSendsCreated(): self
-    {
-        $this->update([
-            'all_sends_created_at' => now(),
-        ]);
-
-        return $this;
-    }
-
-    public function allMailSendingJobsDispatched(): bool
-    {
-        return ! is_null($this->all_sends_dispatched_at);
-    }
-
-    public function markAsAllMailSendingJobsDispatched(): self
-    {
-        $this->update([
-            'all_sends_dispatched_at' => now(),
-        ]);
-
-        return $this;
-    }
-
     protected static function newFactory(): CampaignFactory
     {
         return new CampaignFactory();
-    }
-
-    /** @todo can this be safely deleted? fields does not seem to exist */
-    public function getFieldContent(string $fieldName): string
-    {
-        return $this->fields?->get($fieldName) ?? '';
     }
 
     public function websiteUrl(): string
@@ -638,11 +523,11 @@ class Campaign extends Sendable implements Feedable
 
     public function websiteSummary(): ?string
     {
-        if (! $this->webview_html) {
+        if (! $this->contentItem->webview_html) {
             return null;
         }
 
-        $document = app(CreateDomDocumentFromHtmlAction::class)->execute($this->webview_html);
+        $document = app(CreateDomDocumentFromHtmlAction::class)->execute($this->contentItem->webview_html);
 
         $preheader = $document->getElementById('preheader');
 
@@ -651,5 +536,84 @@ class Campaign extends Sendable implements Feedable
         }
 
         return $preheader->textContent;
+    }
+
+    public function isPaused(): bool
+    {
+        return $this->status === CampaignStatus::Paused;
+    }
+
+    public function pause(): self
+    {
+        if ($this->isPaused()) {
+            return $this;
+        }
+
+        $this->update([
+            'status' => CampaignStatus::Paused,
+        ]);
+
+        return $this;
+    }
+
+    public function unpause(): self
+    {
+        if (! $this->isPaused()) {
+            return $this;
+        }
+
+        $this->update([
+            'status' => CampaignStatus::Sending,
+        ]);
+
+        return $this;
+    }
+
+    public function isSplitTested(): bool
+    {
+        return $this->contentItems->count() > 1;
+    }
+
+    public function hasSplitTestWinner(): bool
+    {
+        return ! is_null($this->split_test_winning_content_item_id);
+    }
+
+    public function splitWaitTimeIsOver(): bool
+    {
+        $waitTimeInMinutes = $this->split_test_wait_time_in_minutes
+            // 4 hours by default
+            ?? 60 * 4;
+
+        return $this->split_test_started_at?->addMinutes($waitTimeInMinutes)->isPast();
+    }
+
+    public function splitTestWinner(): BelongsTo
+    {
+        return $this->belongsTo(self::getContentItemClass(), 'split_test_winning_content_item_id');
+    }
+
+    public static function defaultReplacers(): Collection
+    {
+        return collect([
+            \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\WebsiteUrlCampaignReplacer::class,
+            \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\WebsiteCampaignUrlCampaignReplacer::class,
+            \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\WebviewCampaignReplacer::class,
+            \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\SubscriberReplacer::class,
+            \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\EmailListCampaignReplacer::class,
+            \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\UnsubscribeUrlReplacer::class,
+            \Spatie\Mailcoach\Domain\Campaign\Support\Replacers\CampaignNameCampaignReplacer::class,
+        ]);
+    }
+
+    public static function defaultActions(): Collection
+    {
+        return collect([
+            'retry_sending_failed_sends' => \Spatie\Mailcoach\Domain\Campaign\Actions\RetrySendingFailedSendsAction::class,
+            'send_campaign' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignAction::class,
+            'send_campaign_mails' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignMailsAction::class,
+            'send_test_mail' => \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignTestAction::class,
+            'validate_campaign_requirements' => \Spatie\Mailcoach\Domain\Campaign\Actions\ValidateCampaignRequirementsAction::class,
+        ]);
     }
 }

@@ -6,7 +6,7 @@ use Carbon\CarbonInterface;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\CalculateCampaignStatisticsJob;
-use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
+use Spatie\Mailcoach\Domain\Content\Jobs\CalculateStatisticsJob;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CalculateStatisticsCommand extends Command
@@ -28,7 +28,7 @@ class CalculateStatisticsCommand extends Command
         $campaignId = $this->argument('campaignId');
 
         $campaignId
-            ? dispatch_sync(new CalculateStatisticsJob(self::getCampaignClass()::find($campaignId)))
+            ? dispatch_sync(new CalculateStatisticsJob(self::getCampaignClass()::find($campaignId)->contentItem))
             : dispatch(new CalculateCampaignStatisticsJob());
 
         $this->comment('All done!');

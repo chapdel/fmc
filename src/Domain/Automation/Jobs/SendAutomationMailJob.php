@@ -9,7 +9,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction;
+use Spatie\Mailcoach\Domain\Shared\Actions\SendMailAction;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\RateLimitedMiddleware\RateLimited;
@@ -25,8 +25,6 @@ class SendAutomationMailJob implements ShouldBeUnique, ShouldQueue
 
     public int $maxExceptions = 3;
 
-    public Send $pendingSend;
-
     /** @var string */
     public $queue;
 
@@ -40,19 +38,17 @@ class SendAutomationMailJob implements ShouldBeUnique, ShouldQueue
         return now()->addHours(3);
     }
 
-    public function __construct(Send $pendingSend)
+    public function __construct(public Send $pendingSend)
     {
-        $this->pendingSend = $pendingSend;
-
         $this->queue = config('mailcoach.automation.perform_on_queue.send_automation_mail_job');
 
-        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
+        $this->connection ??= Mailcoach::getQueueConnection();
     }
 
     public function handle()
     {
-        /** @var \Spatie\Mailcoach\Domain\Automation\Actions\SendMailAction $sendMailAction */
-        $sendMailAction = Mailcoach::getAutomationActionClass('send_mail', SendMailAction::class);
+        /** @var \Spatie\Mailcoach\Domain\Shared\Actions\SendMailAction $sendMailAction */
+        $sendMailAction = Mailcoach::getSharedActionClass('send_mail', SendMailAction::class);
 
         $sendMailAction->execute($this->pendingSend);
     }

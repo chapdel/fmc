@@ -11,10 +11,11 @@
     'position' => 'auto',
     'multiple' => false,
     'sort' => true,
+    'class' => '',
 ])
 @php($wireModelAttribute = collect($attributes)->first(fn (string $value, string $attribute) => str_starts_with($attribute, 'wire:model')))
 
-<div class="form-field {{ $multiple ? 'choices-multiple' : '' }}" x-cloak>
+<div class="form-field {{ $multiple ? 'choices-multiple' : '' }} {{ $class }}" x-cloak>
     @if($label)
         <label class="{{ $required ? 'label label-required' : 'label' }}" for="{{ $name }}">
             {{ $label }}
@@ -29,7 +30,7 @@
         x-data="{
             multiple: {{ $multiple ? 'true' : 'false' }},
             @if ($wireModelAttribute)
-            value: @entangle($wireModelAttribute),
+            value: @entangle($wireModelAttribute).live,
             @else
             value: @js($value),
             @endif
@@ -53,6 +54,10 @@
 
                     let refreshChoices = () => {
                         let selection = this.multiple ? this.value : [this.value]
+
+                        if (this.multiple && !Array.isArray(selection)) {
+                            selection = [selection];
+                        }
 
                         choices.clearStore()
                         choices.setChoices(this.options.map(({ value, label }) => ({

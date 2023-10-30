@@ -5,15 +5,24 @@
 ])
 <div wire:key="{{ $name }}" class="form-field max-w-full" wire:key="{{ $name }}">
     <label class="label" for="field_{{ $name }}">
-        {{ $label ?? \Illuminate\Support\Str::of($name)->snake(' ')->ucfirst() }}
+        {{ $label
+            ? \Illuminate\Support\Str::of($label)->trim()->ucfirst()
+            : \Illuminate\Support\Str::of($name)->snake(' ')->trim()->ucfirst()
+        }}
     </label>
 
     @if ($type === 'text')
         <x-mailcoach::text-field
             name="templateFieldValues.{{ $name }}"
             wire:model.lazy="templateFieldValues.{{ $name }}"
-            data-dirty-check
+
         />
+    @elseif ($type === 'image')
+        <div class="mb-4">
+            <x-mailcoach::image-upload
+                wire:model="templateFieldValues.{{ $name }}"
+            />
+        </div>
     @else
         {!! $editor !!}
     @endif

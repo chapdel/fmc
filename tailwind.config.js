@@ -1,13 +1,20 @@
-const colors = require('tailwindcss/colors');
+import forms from '@tailwindcss/forms'
+import typography from '@tailwindcss/typography'
+import colors from 'tailwindcss/colors';
+import preset from './vendor/filament/support/tailwind.config.preset';
 
-module.exports = {
+export default {
+    presets: [preset],
+    darkMode: 'class',
     content: [
         './resources/**/*.blade.php',
         './resources/**/*.js',
         './vendor/wire-elements/spotlight/resources/views/spotlight.blade.php',
         '../mailcoach-ui/resources/**/*.blade.php',
         '../mailcoach-packages/packages/*/resources/**/*.blade.php',
-      ],
+        './vendor/filament/**/*.blade.php',
+        './src/Livewire/**/*.php',
+    ],
     theme: {
         colors: {
             transparent: 'transparent',
@@ -23,6 +30,10 @@ module.exports = {
             yellow: colors.amber,
             orange: colors.orange,
             purple: colors.purple,
+            danger: colors.rose,
+            primary: colors.blue,
+            success: colors.emerald,
+            warning: colors.amber,
         },
         extend: {
             boxShadow: {
@@ -57,7 +68,7 @@ module.exports = {
                 32: '8rem',
             },
             maxWidth: {
-                layout: '100rem',
+                layout: '110rem',
             },
             backgroundSize: {
                 'size-200': '200% 200%',
@@ -81,5 +92,6 @@ module.exports = {
     },
     corePlugins: {
         ringWidth: false,
-    }
+    },
+    plugins: [forms, typography],
 };

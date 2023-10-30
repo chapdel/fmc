@@ -13,14 +13,8 @@ class TestMail extends Mailable
 
     public $theme = 'mailcoach::mails.layout.mailcoach';
 
-    private string $fromEmail;
-
-    private string $toEmail;
-
-    public function __construct(string $fromEmail, string $toEmail)
+    public function __construct(private string $fromEmail, private string $toEmail)
     {
-        $this->fromEmail = $fromEmail;
-        $this->toEmail = $toEmail;
     }
 
     public function build()

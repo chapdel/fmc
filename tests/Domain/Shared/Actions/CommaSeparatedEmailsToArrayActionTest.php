@@ -7,7 +7,7 @@ it('can convert a comma separated list to an array', function (string $emails, ?
 
     $actualResult = $action->execute($emails, $names);
 
-    test()->assertSame($expectedResult, $actualResult);
+    expect($actualResult)->toBe($expectedResult);
 })->with('success');
 
 // Datasets

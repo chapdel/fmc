@@ -5,7 +5,7 @@ use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\ConditionAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Conditions\HasTagCondition;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\ConditionActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\ConditionActionComponent;
 use Spatie\Mailcoach\Tests\TestClasses\CustomCondition;
 
 beforeEach(function () {
@@ -105,6 +105,7 @@ it('emits an event', function () {
     $uuid = Str::uuid()->toString();
 
     Livewire::test(ConditionActionComponent::class, [
+        'builderName' => 'default',
         'automation' => test()->automation,
         'action' => test()->action,
         'uuid' => $uuid,
@@ -114,9 +115,9 @@ it('emits an event', function () {
         ->set('conditionData.tag', 'some-tag')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertEmitted('actionSaved', function ($event, $params) use ($uuid) {
+        ->assertDispatched('actionSaved.default', function ($event, $params) use ($uuid) {
             expect($params[0])->toBe($uuid);
-            test()->assertSame([
+            expect($params[1])->toBe([
                 'length' => 5,
                 'unit' => 'days',
                 'condition' => HasTagCondition::class,
@@ -125,7 +126,7 @@ it('emits an event', function () {
                 ],
                 'yesActions' => [],
                 'noActions' => [],
-            ], $params[1]);
+            ]);
 
             return true;
         });

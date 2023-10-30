@@ -46,7 +46,7 @@ it('wont send an automation mail twice', function () {
 
     test()->action->run(test()->actionSubscriber);
 
-    expect(test()->automationMail->sends->count())->toEqual(1);
+    expect(test()->automationMail->contentItem->sends->count())->toEqual(1);
 });
 
 it('only runs when needed and not when there is no next action', function () {

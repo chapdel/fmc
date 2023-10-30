@@ -11,12 +11,13 @@ class TransactionalMailResource extends JsonResource
     {
         return [
             'uuid' => $this->uuid,
-            'subject' => $this->subject,
+            'subject' => $this->contentItem->subject,
             'from' => $this->from,
             'to' => $this->to,
             'cc' => $this->cc,
             'bcc' => $this->bcc,
-            'body' => $this->body,
+            'body' => $this->contentItem->html,
+            'html' => $this->contentItem->html,
             'created_at' => $this->created_at,
         ];
     }

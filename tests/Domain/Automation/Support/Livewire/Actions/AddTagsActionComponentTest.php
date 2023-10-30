@@ -3,7 +3,7 @@
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AddTagsAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AddTagsActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\AddTagsActionComponent;
 
 beforeEach(function () {
     test()->action = [
@@ -26,12 +26,13 @@ it('emits correct data', function () {
     $uuid = Str::uuid()->toString();
 
     Livewire::test(AddTagsActionComponent::class, [
+        'builderName' => 'default',
         'action' => test()->action,
         'uuid' => $uuid,
     ])->set('tags', 'some,tags')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertEmitted('actionSaved', $uuid, [
+        ->assertDispatched('actionSaved.default', $uuid, [
             'tags' => 'some,tags',
         ]);
 });

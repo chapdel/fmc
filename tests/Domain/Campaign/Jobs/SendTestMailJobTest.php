@@ -5,13 +5,14 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Content\Mails\MailcoachMail;
 use Spatie\Mailcoach\Tests\TestClasses\TestMailcoachMail;
 
 it('can send a test email', function () {
     Mail::fake();
 
-    $campaign = Campaign::factory()->create([
+    $campaign = Campaign::factory()->create();
+    $campaign->contentItem->update([
         'html' => 'my html',
         'subject' => 'my subject',
     ]);
@@ -56,7 +57,7 @@ it('can send a test email using a custom mailable', function () {
 
     $messages = app(MailManager::class)->mailer('array')->getSymfonyTransport()->messages();
 
-    test()->assertTrue($messages->filter(function (Symfony\Component\Mailer\SentMessage $message) {
+    expect($messages->filter(function (Symfony\Component\Mailer\SentMessage $message) {
         return $message->getOriginalMessage()->getSubject() === '[Test] This is the subject from the custom mailable.';
-    })->count() > 0);
+    })->count() > 0)->toBeTrue();
 });

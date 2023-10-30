@@ -50,9 +50,15 @@ class HasOpenedAutomationMail implements Condition
 
     public function check(): bool
     {
-        return static::getAutomationMailOpenClass()::query()
+        $mail = self::getAutomationMailClass()::find($this->data['automation_mail_id']);
+
+        if (! $mail) {
+            return false;
+        }
+
+        return self::getOpenClass()::query()
             ->where('subscriber_id', $this->subscriber->id)
-            ->where('automation_mail_id', $this->data['automation_mail_id'])
+            ->where('content_item_id', $mail->contentItem->id)
             ->exists();
     }
 }

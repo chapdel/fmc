@@ -5,10 +5,10 @@
 >
     <x-slot name="nav">
         <x-mailcoach::navigation :title="$automation->name">
-            <x-mailcoach::navigation-item :href="route('mailcoach.automations.settings', $automation)" data-dirty-warn>
+            <x-mailcoach::navigation-item :href="route('mailcoach.automations.settings', $automation)">
                 {{ __mc('Settings') }}
             </x-mailcoach::navigation-item>
-            <x-mailcoach::navigation-item :href="route('mailcoach.automations.actions', $automation)" data-dirty-warn>
+            <x-mailcoach::navigation-item :href="route('mailcoach.automations.actions', $automation)">
                 {{ __mc('Actions') }}
             </x-mailcoach::navigation-item>
             <x-mailcoach::navigation-item
@@ -16,7 +16,7 @@
                     @automation-started.window="running = true"
                     @automation-paused.window="running = false"
                     :href="route('mailcoach.automations.run', $automation)"
-                    data-dirty-warn
+
             >
                 <span class="flex items-baseline gap-2">
                 <span>{{ __mc('Run')}} </span>

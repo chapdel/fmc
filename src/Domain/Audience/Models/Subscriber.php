@@ -11,28 +11,19 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use ParagonIE\CipherSweet\BlindIndex;
-use ParagonIE\CipherSweet\CipherSweet as CipherSweetEngine;
-use ParagonIE\CipherSweet\EncryptedRow;
-use Spatie\LaravelCipherSweet\Concerns\UsesCipherSweet;
-use Spatie\LaravelCipherSweet\Contracts\CipherSweetEncrypted;
-use Spatie\LaravelCipherSweet\Observers\ModelObserver;
 use Spatie\Mailcoach\Database\Factories\SubscriberFactory;
 use Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ConfirmSubscriberAction;
-use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailFirstPart;
-use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\EmailSecondPart;
-use Spatie\Mailcoach\Domain\Audience\Encryption\Transformation\Lowercase;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
+use Spatie\Mailcoach\Domain\Audience\Enums\TagType;
 use Spatie\Mailcoach\Domain\Audience\Events\ResubscribedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\TagAddedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\TagRemovedEvent;
 use Spatie\Mailcoach\Domain\Audience\Events\UnsubscribedEvent;
+use Spatie\Mailcoach\Domain\Audience\Models\Concerns\HasExtraAttributes;
 use Spatie\Mailcoach\Domain\Audience\Support\PendingSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
-use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\HasExtraAttributes;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\Searchable;
@@ -42,13 +33,12 @@ use Spatie\Mailcoach\Mailcoach;
 /**
  * @method static Builder|static query()
  */
-class Subscriber extends Model implements CipherSweetEncrypted
+class Subscriber extends Model
 {
     use HasExtraAttributes;
     use HasFactory;
     use HasUuid;
     use Searchable;
-    use UsesCipherSweet;
     use UsesMailcoachModels;
 
     public $table = 'mailcoach_subscribers';
@@ -72,36 +62,6 @@ class Subscriber extends Model implements CipherSweetEncrypted
         ];
     }
 
-    protected static function bootUsesCipherSweet()
-    {
-        if (! config('mailcoach.encryption.enabled')) {
-            return;
-        }
-
-        static::observe(ModelObserver::class);
-
-        static::$cipherSweetEncryptedRow = new EncryptedRow(
-            app(CipherSweetEngine::class),
-            (new static())->getTable()
-        );
-
-        static::configureCipherSweet(static::$cipherSweetEncryptedRow);
-    }
-
-    public static function configureCipherSweet(EncryptedRow $encryptedRow): void
-    {
-        $encryptedRow
-            ->addTextField('email')
-            ->addTextField('first_name')
-            ->addTextField('last_name');
-
-        $encryptedRow->addBlindIndex('email', new BlindIndex('email_first_part', [new EmailFirstPart()]));
-        $encryptedRow->addBlindIndex('email', new BlindIndex('email_second_part', [new EmailSecondPart()]));
-
-        $encryptedRow->addBlindIndex('first_name', new BlindIndex('first_name', [new Lowercase()]));
-        $encryptedRow->addBlindIndex('last_name', new BlindIndex('last_name', [new Lowercase()]));
-    }
-
     public static function createWithEmail(string $email, array $attributes = []): PendingSubscriber
     {
         return new PendingSubscriber($email, $attributes);
@@ -109,16 +69,10 @@ class Subscriber extends Model implements CipherSweetEncrypted
 
     public static function findForEmail(string $email, EmailList $emailList): ?Subscriber
     {
-        $query = static::query()->where('email_list_id', $emailList->id);
-
-        if (config('mailcoach.encryption.enabled')) {
-            return $query
-                ->whereBlind('email', 'email_first_part', $email)
-                ->whereBlind('email', 'email_second_part', $email)
-                ->first();
-        }
-
-        return $query->where('email', $email)->first();
+        return static::query()
+            ->where('email_list_id', $emailList->id)
+            ->where('email', $email)
+            ->first();
     }
 
     public function emailList(): BelongsTo
@@ -133,17 +87,17 @@ class Subscriber extends Model implements CipherSweetEncrypted
 
     public function opens(): HasMany
     {
-        return $this->hasMany(self::getCampaignOpenClass(), 'subscriber_id');
+        return $this->hasMany(self::getOpenClass(), 'subscriber_id');
     }
 
     public function clicks(): HasMany
     {
-        return $this->hasMany(self::getCampaignClickClass(), 'subscriber_id');
+        return $this->hasMany(self::getClickClass(), 'subscriber_id');
     }
 
     public function uniqueClicks(): HasMany
     {
-        return $this->clicks()->groupBy('campaign_link_id')->addSelect('campaign_link_id');
+        return $this->clicks()->groupBy('link_id')->addSelect('link_id');
     }
 
     public function tags(): BelongsToMany
@@ -187,24 +141,13 @@ class Subscriber extends Model implements CipherSweetEncrypted
     {
         $this->update(['unsubscribed_at' => now()]);
 
-        if ($send) {
-            if ($send->campaign_id) {
-                static::getCampaignUnsubscribeClass()::firstOrCreate([
-                    'campaign_id' => $send->campaign->id,
-                    'subscriber_id' => $send->subscriber->id,
-                ], ['uuid' => Str::uuid()]);
+        if ($send && $send->contentItem) {
+            static::getUnsubscribeClass()::firstOrCreate([
+                'content_item_id' => $send->contentItem->id,
+                'subscriber_id' => $send->subscriber->id,
+            ], ['uuid' => Str::uuid()]);
 
-                $send->campaign->dispatchCalculateStatistics();
-            }
-
-            if ($send->automation_mail_id) {
-                static::getAutomationMailUnsubscribeClass()::firstOrCreate([
-                    'automation_mail_id' => $send->automationMail->id,
-                    'subscriber_id' => $send->subscriber->id,
-                ], ['uuid' => Str::uuid()]);
-
-                $send->automationMail->dispatchCalculateStatistics();
-            }
+            $send->contentItem->dispatchCalculateStatistics();
         }
 
         event(new UnsubscribedEvent($this, $send));
@@ -253,7 +196,7 @@ class Subscriber extends Model implements CipherSweetEncrypted
     {
         $action = Mailcoach::getAudienceActionClass('confirm_subscriber', ConfirmSubscriberAction::class);
 
-        return $action->execute($this);
+        $action->execute($this);
     }
 
     public function scopeUnconfirmed(Builder $query)
@@ -279,7 +222,7 @@ class Subscriber extends Model implements CipherSweetEncrypted
     public function scopeWithoutSendsForCampaign(Builder $query, Campaign $campaign)
     {
         return $query->whereDoesntHave('sends', function (Builder $query) use ($campaign) {
-            $query->where('campaign_id', $campaign->id);
+            $query->whereIn('content_item_id', $campaign->contentItems->pluck('id'));
         });
     }
 
@@ -418,5 +361,27 @@ class Subscriber extends Model implements CipherSweetEncrypted
     protected static function newFactory(): SubscriberFactory
     {
         return new SubscriberFactory();
+    }
+
+    public static function attributesFields(): array
+    {
+        return [
+            'first_name' => __('First name'),
+            'last_name' => __('Last name'),
+            'email' => __('Email address'),
+        ];
+    }
+
+    public static function defaultActions(): Collection
+    {
+        return collect([
+            'confirm_subscriber' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ConfirmSubscriberAction::class,
+            'create_subscriber' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\CreateSubscriberAction::class,
+            'delete_subscriber' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\DeleteSubscriberAction::class,
+            'import_subscribers' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ImportSubscribersAction::class,
+            'import_subscriber' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\ImportSubscriberAction::class,
+            'send_confirm_subscriber_mail' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\SendConfirmSubscriberMailAction::class,
+            'update_subscriber' => \Spatie\Mailcoach\Domain\Audience\Actions\Subscribers\UpdateSubscriberAction::class,
+        ]);
     }
 }

@@ -4,6 +4,10 @@
     :title="$title ?? null"
     breadcrumbsNavigationClass="{{ \Spatie\Mailcoach\Domain\Settings\SettingsNavigation::class }}"
     :hideCard="$hideCard ?? false"
+    :create="$create ?? null"
+    :create-text="$createText ?? null"
+    :create-data="$createData ?? []"
+    :create-component="$createComponent ?? null"
 >
     <x-slot name="nav">
         <x-mailcoach::navigation>

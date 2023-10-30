@@ -5,8 +5,9 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Mails\Concerns;
 use Illuminate\Mail\Mailable;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
-use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\CouldNotFindTemplate;
+use Spatie\Mailcoach\Domain\TransactionalMail\Exceptions\CouldNotFindTransactionalMail;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Mailcoach;
 
 /** @mixin \Illuminate\Mail\Mailable */
 trait UsesMailcoachTemplate
@@ -22,7 +23,7 @@ trait UsesMailcoachTemplate
         $template = self::getTransactionalMailClass()::firstWhere('name', $name);
 
         if (! $template) {
-            throw CouldNotFindTemplate::make($name, $this);
+            throw CouldNotFindTransactionalMail::make($name, $this);
         }
 
         $this->setSubject($template, $replacements);
@@ -64,13 +65,13 @@ trait UsesMailcoachTemplate
 
     protected function setSubject(TransactionalMail $template, array $replacements): void
     {
-        $subject = $template->subject ?? '';
+        $subject = $template->contentItem->subject ?? '';
 
         foreach ($replacements as $search => $replace) {
             $subject = str_replace("::{$search}::", $replace, $subject);
         }
 
-        $subject = app(RenderTwigAction::class)->execute($subject, array_merge($replacements, $template->replacers()->toArray()));
+        $subject = Mailcoach::getSharedActionClass('render_twig', RenderTwigAction::class)->execute($subject, array_merge($replacements, $template->replacers()->toArray()));
 
         $this->subject($this->executeReplacers($subject, $template, $this));
     }
@@ -79,7 +80,7 @@ trait UsesMailcoachTemplate
     {
         $instance = new self();
         $template = $instance::getTransactionalMailClass()::first();
-        $instance->subject($instance->executeReplacers($template->subject, $template, $instance));
+        $instance->subject($instance->executeReplacers($template->contentItem->subject, $template, $instance));
 
         return $instance;
     }

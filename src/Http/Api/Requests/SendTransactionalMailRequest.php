@@ -85,6 +85,7 @@ class SendTransactionalMailRequest extends FormRequest
             'attachments.*.content' => ['required', 'string'],
             'attachments.*.content_type' => ['required', 'string'],
             'attachments.*.content_id' => ['nullable', 'string'],
+            'fake' => ['boolean'],
         ];
     }
 

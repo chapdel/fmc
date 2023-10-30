@@ -16,11 +16,11 @@ class ResendTransactionalMail extends Mailable
         public TransactionalMailLogItem $originalMail
     ) {
         $this
-            ->from($this->convertPersonsToMailableFormat($this->originalMail->from))
-            ->to($this->convertPersonsToMailableFormat($this->originalMail->to))
-            ->cc($this->convertPersonsToMailableFormat($this->originalMail->cc))
-            ->bcc($this->convertPersonsToMailableFormat($this->originalMail->bcc))
-            ->subject($this->originalMail->subject)
+            ->from($this->originalMail->from)
+            ->to($this->originalMail->to)
+            ->cc($this->originalMail->cc)
+            ->bcc($this->originalMail->bcc)
+            ->subject($this->originalMail->contentItem->subject)
             ->view('mailcoach::mails.transactionalMailResend');
     }
 
@@ -29,19 +29,5 @@ class ResendTransactionalMail extends Mailable
         $this->view('mailcoach::mails.transactionalMails.resend');
 
         $this->setMailableClassHeader($this->originalMail->mailable_class);
-    }
-
-    protected function convertPersonsToMailableFormat(array $persons): array
-    {
-        return $persons;
-
-        /*
-         * @todo Freek, is this still necessary?
-        return collect($persons)
-            ->mapWithKeys(function (array $person) {
-                return [$person['email'] => $person['name'] ?? null];
-            })
-            ->toArray();
-        */
     }
 }

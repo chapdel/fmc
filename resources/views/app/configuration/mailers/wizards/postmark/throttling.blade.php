@@ -7,7 +7,7 @@
         <p>Postmark does not have a specific rate limit for emails, but a concurrency limit. We've set this to sane values by default, but you can tweak these if you want to.</p>
     </x-mailcoach::help>
 
-        <form class="form-grid" wire:submit.prevent="submit">
+        <form class="form-grid" wire:submit="submit">
 
             <div class="flex items-center gap-x-2">
                 <span>{{ __mc('Send') }}</span>

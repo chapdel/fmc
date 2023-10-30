@@ -16,8 +16,8 @@ it('can get the latest version', function () {
 
     $latestVersion = test()->version->getLatestVersionInfo();
 
-    test()->assertArrayHasKey('version', $latestVersion);
-    test()->assertArrayHasKey('released_at', $latestVersion);
+    expect($latestVersion)->toHaveKey('version');
+    expect($latestVersion)->toHaveKey('released_at');
 
     test()->assertNotEquals('unknown', $latestVersion['version']);
 });

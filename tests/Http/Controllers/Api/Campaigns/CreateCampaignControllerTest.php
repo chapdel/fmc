@@ -6,12 +6,12 @@ use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Campaign\Policies\CampaignPolicy;
+use Spatie\Mailcoach\Domain\Editor\Markdown\Editor as MarkdownEditor;
+use Spatie\Mailcoach\Domain\Template\Models\Template;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
 use Spatie\Mailcoach\Tests\TestClasses\CustomCampaignDenyAllPolicy;
-use Spatie\MailcoachMarkdownEditor\Editor as MarkdownEditor;
 
 uses(RespondsToApiRequests::class);
 
@@ -28,10 +28,15 @@ test('a campaign can be created using the api', function () {
 
     $campaign = Campaign::first();
 
-    foreach (Arr::except(test()->postAttributes, ['type', 'email_list_uuid']) as $attributeName => $attributeValue) {
-        test()->assertEquals($attributeValue, $campaign->$attributeName);
+    foreach (Arr::except(test()->postAttributes, ['type', 'email_list_uuid', 'subject', 'html']) as $attributeName => $attributeValue) {
+        expect($campaign->$attributeName)->toEqual($attributeValue);
     }
-    test()->assertEquals(test()->postAttributes['email_list_uuid'], $campaign->emailList->uuid);
+
+    foreach (Arr::only(test()->postAttributes, ['subject', 'html']) as $attributeName => $attributeValue) {
+        expect($campaign->contentItem->$attributeName)->toEqual($attributeValue);
+    }
+
+    expect($campaign->emailList->uuid)->toEqual(test()->postAttributes['email_list_uuid']);
 });
 
 it('can be created with a tagsegment', function () {
@@ -45,8 +50,8 @@ it('can be created with a tagsegment', function () {
 
     $campaign = Campaign::first();
 
-    test()->assertEquals(SubscribersWithTagsSegment::class, $campaign->segment_class);
-    test()->assertEquals($tagsegment->id, $campaign->segment_id);
+    expect($campaign->segment_class)->toEqual(SubscribersWithTagsSegment::class);
+    expect($campaign->segment_id)->toEqual($tagsegment->id);
 });
 
 test('access is denied by custom authorization policy', function () {

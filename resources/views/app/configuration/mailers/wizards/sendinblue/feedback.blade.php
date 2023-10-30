@@ -6,7 +6,7 @@
         automatically unsubscribe people when emails bounce and add open & click tracking.
     </x-mailcoach::help>
 
-    <form class="form-grid" wire:submit.prevent="configureSendinblue">
+    <form class="form-grid" wire:submit="configureSendinblue">
         <x-mailcoach::checkbox-field
             :label="__mc('Enable open tracking')"
             name="trackOpens"

@@ -3,14 +3,14 @@
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Support\Segments\EverySubscriberSegment;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\CouldNotSendCampaign;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignTestJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
+use Spatie\Mailcoach\Domain\Content\Exceptions\CouldNotSendMail;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomInstanciatedQueryOnlyShouldSendToJohn;
 use Spatie\Mailcoach\Tests\TestClasses\TestCustomQueryOnlyShouldSendToJohn;
@@ -29,22 +29,22 @@ test('the default status is draft', function () {
 it('can set a from email', function () {
     test()->campaign->from('sender@example.com');
 
-    expect(test()->campaign->from_email)->toEqual('sender@example.com');
+    expect(test()->campaign->contentItem->from_email)->toEqual('sender@example.com');
 });
 
 it('can set both a from email and a from name', function () {
     test()->campaign->from('sender@example.com', 'Sender name');
 
-    expect(test()->campaign->from_email)->toEqual('sender@example.com');
-    expect(test()->campaign->from_name)->toEqual('Sender name');
+    expect(test()->campaign->contentItem->from_email)->toEqual('sender@example.com');
+    expect(test()->campaign->contentItem->from_name)->toEqual('Sender name');
 });
 
 it('can add a subject', function () {
-    expect(test()->campaign->subject)->toBeNull();
+    expect(test()->campaign->contentItem->subject)->toBeNull();
 
     test()->campaign->subject('hello');
 
-    expect(test()->campaign->refresh()->subject)->toEqual('hello');
+    expect(test()->campaign->refresh()->contentItem->subject)->toEqual('hello');
 });
 
 it('can add a list', function () {
@@ -85,23 +85,23 @@ test('a mailable can be set', function () {
     /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */
     $campaign = Campaign::create()->useMailable(TestMailcoachMail::class);
 
-    expect($campaign->mailable_class)->toEqual(TestMailcoachMail::class);
+    expect($campaign->contentItem->mailable_class)->toEqual(TestMailcoachMail::class);
 });
 
 test('a mailable can set campaign html', function () {
-    $campaign = (new CampaignFactory())->create(['html' => 'null']);
+    $campaign = (new CampaignFactory())->create();
 
-    $mailable = (new TestMailcoachMail())->setSendable($campaign);
+    $mailable = (new TestMailcoachMail())->setContentItem($campaign->contentItem);
     app()->instance(TestMailcoachMail::class, $mailable);
 
     $campaign->useMailable(TestMailcoachMail::class);
     $campaign->content($campaign->contentFromMailable());
 
-    expect($campaign->html)->toEqual(app(TestMailcoachMail::class)->viewHtml);
+    expect($campaign->contentItem->html)->toEqual(app(TestMailcoachMail::class)->viewHtml);
 });
 
 it('will throw an exception when use an invalid mailable class', function () {
-    test()->expectException(CouldNotSendCampaign::class);
+    test()->expectException(CouldNotSendMail::class);
 
     Campaign::create()->useMailable(static::class);
 });
@@ -156,8 +156,8 @@ it('can use the default from email and name set on the email list', function () 
         ->sendTo($list);
 
     expect($campaign->status)->toEqual(CampaignStatus::Sending);
-    expect($campaign->from_email)->toEqual('defaultEmailList@example.com');
-    expect($campaign->from_name)->toEqual('List name');
+    expect($campaign->contentItem->from_email)->toEqual('defaultEmailList@example.com');
+    expect($campaign->contentItem->from_name)->toEqual('List name');
 });
 
 it('can use the default reply to email and name set on the email list', function () {
@@ -174,8 +174,8 @@ it('can use the default reply to email and name set on the email list', function
         ->sendTo($list);
 
     expect($campaign->status)->toEqual(CampaignStatus::Sending);
-    expect($campaign->reply_to_email)->toEqual('defaultEmailList@example.com');
-    expect($campaign->reply_to_name)->toEqual('List name');
+    expect($campaign->contentItem->reply_to_email)->toEqual('defaultEmailList@example.com');
+    expect($campaign->contentItem->reply_to_name)->toEqual('List name');
 });
 
 it('will prefer the email and from name from the campaign over the defaults set on the email list', function () {
@@ -193,8 +193,8 @@ it('will prefer the email and from name from the campaign over the defaults set 
         ->sendTo($list);
 
     expect($campaign->status)->toEqual(CampaignStatus::Sending);
-    expect($campaign->from_email)->toEqual('campaign@example.com');
-    expect($campaign->from_name)->toEqual('campaign from name');
+    expect($campaign->contentItem->from_email)->toEqual('campaign@example.com');
+    expect($campaign->contentItem->from_name)->toEqual('campaign from name');
 });
 
 it('will prefer the email and reply to name from the campaign over the defaults set on the email list', function () {
@@ -213,8 +213,8 @@ it('will prefer the email and reply to name from the campaign over the defaults 
         ->sendTo($list);
 
     expect($campaign->status)->toEqual(CampaignStatus::Sending);
-    expect($campaign->reply_to_email)->toEqual('replyToCampaign@example.com');
-    expect($campaign->reply_to_name)->toEqual('reply to from campaign');
+    expect($campaign->contentItem->reply_to_email)->toEqual('replyToCampaign@example.com');
+    expect($campaign->contentItem->reply_to_name)->toEqual('reply to from campaign');
 });
 
 it('has a scope that can get campaigns sent in a certain period', function () {
@@ -228,10 +228,7 @@ it('has a scope that can get campaigns sent in a certain period', function () {
         Carbon::createFromFormat('Y-m-d H:i:s', '2019-01-01 17:30:00'),
     )->get();
 
-    test()->assertEquals(
-        [$sentAt1430->id, $sentAt1530->id, $sentAt1630->id],
-        $campaigns->pluck('id')->values()->toArray(),
-    );
+    expect($campaigns->pluck('id')->values()->toArray())->toEqual([$sentAt1430->id, $sentAt1530->id, $sentAt1630->id]);
 });
 
 it('can send out a test email', function () {
@@ -257,75 +254,6 @@ it('can send out multiple test emails at once', function () {
     Bus::assertDispatched(SendCampaignTestJob::class, fn (SendCampaignTestJob $job) => $job->email === 'john@example.com');
 
     Bus::assertDispatched(SendCampaignTestJob::class, fn (SendCampaignTestJob $job) => $job->email === 'paul@example.com');
-});
-
-it('can dispatch a job to recalculate statistics', function () {
-    Bus::fake();
-
-    test()->campaign->update(['status' => CampaignStatus::Sent]);
-
-    test()->campaign->dispatchCalculateStatistics();
-
-    Bus::assertDispatched(CalculateStatisticsJob::class, 1);
-});
-
-it('will only dispatch a calculate statistics job if it is sent or cancelled', function () {
-    Queue::fake();
-
-    test()->campaign->update(['statistics_calculated_at' => now(), 'status' => CampaignStatus::Draft]);
-
-    test()->campaign->dispatchCalculateStatistics();
-
-    Queue::assertNotPushed(CalculateStatisticsJob::class);
-
-    \Spatie\Mailcoach\Domain\Shared\Models\Send::factory()->create([
-        'campaign_id' => test()->campaign->id,
-    ]);
-
-    test()->campaign->update(['status' => CampaignStatus::Sent]);
-
-    test()->campaign->dispatchCalculateStatistics();
-
-    Queue::assertPushed(CalculateStatisticsJob::class);
-
-    test()->campaign->update(['status' => CampaignStatus::Cancelled]);
-
-    \Illuminate\Support\Facades\Cache::flush();
-
-    Queue::assertPushed(CalculateStatisticsJob::class);
-});
-
-it('will not dispatch the recalculation job twice', function () {
-    Bus::fake();
-
-    test()->campaign->update(['status' => CampaignStatus::Sent]);
-
-    test()->campaign->dispatchCalculateStatistics();
-    test()->campaign->dispatchCalculateStatistics();
-
-    Bus::assertDispatched(CalculateStatisticsJob::class, 1);
-});
-
-it('can dispatch the recalculation job again after the previous job has run', function () {
-    Bus::fake();
-
-    test()->campaign->update(['status' => CampaignStatus::Sent]);
-
-    test()->campaign->dispatchCalculateStatistics();
-
-    (new CalculateStatisticsJob(test()->campaign))->handle();
-
-    \Spatie\Mailcoach\Domain\Shared\Models\Send::factory()->create([
-        'campaign_id' => test()->campaign->id,
-    ]);
-
-    cache()->lock(
-        'laravel_unique_job:'.CalculateStatisticsJob::class.test()->campaign->uuid
-    )->forceRelease(); // Lock released
-
-    test()->campaign->dispatchCalculateStatistics();
-
-    Bus::assertDispatched(CalculateStatisticsJob::class, 2);
 });
 
 it('has scopes to get campaigns in various states', function () {
@@ -381,7 +309,8 @@ it('has scopes to get campaigns in various states', function () {
 
 it('can inline the styles of the html', function () {
     /** @var Campaign $campaign */
-    $campaign = Campaign::factory()->create(['html' => '
+    $campaign = Campaign::factory()->create();
+    $campaign->contentItem->update(['html' => '
         <html>
         <style>
 
@@ -398,7 +327,8 @@ it('can inline the styles of the html', function () {
 
 it('doesnt change the doctype', function () {
     /** @var Campaign $campaign */
-    $campaign = Campaign::factory()->create(['html' => '
+    $campaign = Campaign::factory()->create();
+    $campaign->contentItem->update(['html' => '
         <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
         <html>
         <style>
@@ -410,15 +340,13 @@ it('doesnt change the doctype', function () {
         </html>',
     ]);
 
-    test()->assertEquals(
-        '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
-        explode("\n", $campaign->htmlWithInlinedCss())[0]
-    );
+    expect(explode("\n", $campaign->htmlWithInlinedCss())[0])->toEqual('<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">');
 });
 
 it('can inline the styles of the html with custom mailable', function () {
     /** @var Campaign $campaign */
-    $campaign = Campaign::factory()->create(['mailable_class' => TestMailcoachMailWithStaticHtml::class]);
+    $campaign = Campaign::factory()->create();
+    $campaign->contentItem->update(['mailable_class' => TestMailcoachMailWithStaticHtml::class]);
     $campaign->content('');
 
     test()->assertMatchesHtmlSnapshot($campaign->htmlWithInlinedCss());
@@ -426,14 +354,15 @@ it('can inline the styles of the html with custom mailable', function () {
 
 it('can pull subject from custom mailable', function () {
     /** @var Campaign $campaign */
-    $campaign = Campaign::factory()->create(['mailable_class' => TestMailcoachMail::class, 'subject' => 'This is the campaign subject and should be overwritten.']);
+    $campaign = Campaign::factory()->create();
+    $campaign->contentItem->update(['mailable_class' => TestMailcoachMail::class, 'subject' => 'This is the campaign subject and should be overwritten.']);
     $campaign->pullSubjectFromMailable();
 
-    expect('This is the subject from the custom mailable.')->toEqual($campaign->subject);
+    expect('This is the subject from the custom mailable.')->toEqual($campaign->contentItem->subject);
 });
 
 it('can use a custom mailable with arguments', function () {
-    $campaign = Campaign::factory()->create();
+    $campaign = Campaign::factory()->has(ContentItem::factory())->create();
 
     $test_argument_value = 'This is a test value.';
 
@@ -455,7 +384,9 @@ it('wont throw on unserializable segment class', function () {
 it('gets links', function () {
     $myHtml = '<html><a href="https://google.com">Test</a></html>';
 
-    $campaign = Campaign::factory()->create([
+    $campaign = Campaign::factory()->create();
+
+    $campaign->contentItem->update([
         'html' => $myHtml,
     ]);
 
@@ -467,29 +398,35 @@ it('gets links', function () {
 it('ignores duplicates', function () {
     $myHtml = '<html><a href="https://google.com">Test</a><a href="https://google.com">Test</a></html>';
 
-    $campaign = Campaign::factory()->create([
+    $campaign = Campaign::factory()->create();
+
+    $campaign->contentItem->update([
         'html' => $myHtml,
     ]);
 
-    $links = $campaign->htmlLinks();
+    $links = $campaign->contentItem->htmlLinks();
     expect($links->count())->toEqual(1);
 });
 
 it('ignores empty links', function () {
     $myHtml = '<html><a href="https://google.com">Test</a><a></a></html>';
 
-    $campaign = Campaign::factory()->create([
+    $campaign = Campaign::factory()->create();
+
+    $campaign->contentItem->update([
         'html' => $myHtml,
     ]);
 
-    $links = $campaign->htmlLinks();
+    $links = $campaign->contentItem->htmlLinks();
     expect($links->count())->toEqual(1);
 });
 
 it('gets links with ampersands', function () {
     $myHtml = '<html><a href="https://google.com?foo=true&bar=false">Test</a></html>';
 
-    $campaign = Campaign::factory()->create([
+    $campaign = Campaign::factory()->create();
+
+    $campaign->contentItem->update([
         'html' => $myHtml,
     ]);
 

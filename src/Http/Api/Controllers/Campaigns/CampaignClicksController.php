@@ -4,8 +4,8 @@ namespace Spatie\Mailcoach\Http\Api\Controllers\Campaigns;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Http\Api\Resources\CampaignClickResource;
-use Spatie\Mailcoach\Http\App\Queries\CampaignLinksQuery;
+use Spatie\Mailcoach\Http\Api\Queries\CampaignLinksQuery;
+use Spatie\Mailcoach\Http\Api\Resources\LinkResource;
 
 class CampaignClicksController
 {
@@ -17,6 +17,6 @@ class CampaignClicksController
 
         $campaignLinks = new CampaignLinksQuery($campaign);
 
-        return CampaignClickResource::collection($campaignLinks->paginate());
+        return LinkResource::collection($campaignLinks->paginate());
     }
 }

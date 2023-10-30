@@ -96,11 +96,11 @@ it('can get the status of a subscription', function () {
 it('can summarize an email list', function () {
     TestTime::freeze();
 
-    test()->assertEquals([
+    expect(test()->emailList->summarize(now()->subWeek()))->toEqual([
         'total_number_of_subscribers' => 0,
         'total_number_of_subscribers_gained' => 0,
         'total_number_of_unsubscribes_gained' => 0,
-    ], test()->emailList->summarize(now()->subWeek()));
+    ]);
 
     $subscriber = Subscriber::createWithEmail('john@example.com')
         ->skipConfirmation()
@@ -108,21 +108,21 @@ it('can summarize an email list', function () {
 
     Cache::clear();
 
-    test()->assertEquals([
+    expect(test()->emailList->summarize(now()->subWeek()))->toEqual([
         'total_number_of_subscribers' => 1,
         'total_number_of_subscribers_gained' => 1,
         'total_number_of_unsubscribes_gained' => 0,
-    ], test()->emailList->summarize(now()->subWeek()));
+    ]);
 
     $subscriber->unsubscribe();
 
     Cache::clear();
 
-    test()->assertEquals([
+    expect(test()->emailList->summarize(now()->subWeek()))->toEqual([
         'total_number_of_subscribers' => 0,
         'total_number_of_subscribers_gained' => 1,
         'total_number_of_unsubscribes_gained' => 1,
-    ], test()->emailList->summarize(now()->subWeek()));
+    ]);
 
     Subscriber::createWithEmail('jane@example.com')
         ->skipConfirmation()
@@ -130,19 +130,19 @@ it('can summarize an email list', function () {
 
     Cache::clear();
 
-    test()->assertEquals([
+    expect(test()->emailList->summarize(now()->subWeek()))->toEqual([
         'total_number_of_subscribers' => 1,
         'total_number_of_subscribers_gained' => 2,
         'total_number_of_unsubscribes_gained' => 1,
-    ], test()->emailList->summarize(now()->subWeek()));
+    ]);
 
     TestTime::addWeek();
 
-    test()->assertEquals([
+    expect(test()->emailList->summarize(now()->subWeek()))->toEqual([
         'total_number_of_subscribers' => 1,
         'total_number_of_subscribers_gained' => 0,
         'total_number_of_unsubscribes_gained' => 0,
-    ], test()->emailList->summarize(now()->subWeek()));
+    ]);
 
     Subscriber::createWithEmail('paul@example.com')
         ->skipConfirmation()
@@ -150,11 +150,11 @@ it('can summarize an email list', function () {
 
     Cache::clear();
 
-    test()->assertEquals([
+    expect(test()->emailList->summarize(now()->subWeek()))->toEqual([
         'total_number_of_subscribers' => 2,
         'total_number_of_subscribers_gained' => 1,
         'total_number_of_unsubscribes_gained' => 0,
-    ], test()->emailList->summarize(now()->subWeek()));
+    ]);
 });
 
 it('can reference tags and segments when using a custom model', function () {

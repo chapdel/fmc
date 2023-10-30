@@ -1,9 +1,12 @@
 <?php
 
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
+use Spatie\Mailcoach\Domain\Automation\Enums\WaitUnit;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\WaitAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\WaitActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\WaitActionComponent;
+use Spatie\TestTime\TestTime;
 
 beforeEach(function () {
     test()->action = [
@@ -68,15 +71,36 @@ it('emits correct data', function () {
     $uuid = Str::uuid()->toString();
 
     Livewire::test(WaitActionComponent::class, [
+        'builderName' => 'default',
         'action' => test()->action,
         'uuid' => $uuid,
     ])->set('length', '5')
         ->set('unit', 'days')
         ->call('save')
         ->assertHasNoErrors()
-        ->assertEmitted('actionSaved', $uuid, [
+        ->assertDispatched('actionSaved.default', $uuid, [
             'seconds' => 432000,
             'unit' => 'days',
+            'length' => '5',
+        ]);
+});
+
+it('can use a weekday unit', function () {
+    TestTime::freeze(Carbon::make('2023-09-13'));
+
+    $uuid = Str::uuid()->toString();
+
+    Livewire::test(WaitActionComponent::class, [
+        'builderName' => 'default',
+        'action' => test()->action,
+        'uuid' => $uuid,
+    ])->set('length', '5')
+        ->set('unit', WaitUnit::Weekdays->value)
+        ->call('save')
+        ->assertHasNoErrors()
+        ->assertDispatched('actionSaved.default', $uuid, [
+            'seconds' => 604800,
+            'unit' => 'weekdays',
             'length' => '5',
         ]);
 });

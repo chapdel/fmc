@@ -11,7 +11,7 @@
             When your Mailgun account is in probation, the maximum amount of emails you can send through them is 100 / hour. Once your Mailgun account is out of probation, make sure to update the throttling config, a sensible limit is 50 emails per second
         </x-mailcoach::warning>
 
-        <form class="form-grid" wire:submit.prevent="submit">
+        <form class="form-grid" wire:submit="submit">
             <div class="flex items-center gap-x-2">
                 <span>{{ __mc('Send') }}</span>
                 <x-mailcoach::text-field

@@ -23,7 +23,7 @@ class HorizonStatus
     public function is(string $status): bool
     {
         try {
-            return $this->get() === $status;
+            return $status === $this->get();
         } catch (Throwable) {
             return false;
         }
@@ -33,7 +33,7 @@ class HorizonStatus
     {
         try {
             $masters = $this->masterSupervisorRepository->all();
-        } catch (RedisException|InvalidArgumentException $exception) {
+        } catch (RedisException|InvalidArgumentException) {
             $masters = false;
         }
 

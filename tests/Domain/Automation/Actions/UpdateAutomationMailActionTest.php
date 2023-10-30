@@ -16,20 +16,17 @@ it('updates an automation mail', function () {
         'subject' => 'A subject',
         'html' => '<html></html>',
         'utm_tags' => false,
-        'last_modified_at' => now()->startOfSecond(),
     ]);
 
-    test()->assertEquals([
+    expect([
+        'name' => $automationMail->name,
+        'subject' => $automationMail->contentItem->subject,
+        'html' => $automationMail->contentItem->html,
+        'utm_tags' => $automationMail->contentItem->utm_tags,
+    ])->toEqual([
         'name' => 'My Automation mail',
         'subject' => 'A subject',
         'html' => '<html></html>',
         'utm_tags' => false,
-        'last_modified_at' => now()->startOfSecond(),
-    ], [
-        'name' => $automationMail->name,
-        'subject' => $automationMail->subject,
-        'html' => $automationMail->html,
-        'utm_tags' => $automationMail->utm_tags,
-        'last_modified_at' => $automationMail->last_modified_at,
     ]);
 });

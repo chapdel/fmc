@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails;
 
+use Spatie\Mailcoach\Http\Api\Queries\TransactionalMailQuery;
 use Spatie\Mailcoach\Http\Api\Resources\TransactionalMailResource;
-use Spatie\Mailcoach\Http\App\Queries\TransactionalMailQuery;
 
 class TransactionalMailsController
 {

@@ -6,24 +6,24 @@
             max-date="{{ $end }}"
             position="auto"
             name="start"
-            wire:model="start"
+            wire:model.live="start"
             label="{{ __mc('From') }}"
             class="flex-row gap-0"
-            inputClass="w-32"
+            inputClass="w-40"
         />
         <x-mailcoach::date-field
             min-date="{{ $start }}"
             max-date="{{ now()->format('Y-m-d') }}"
             position="auto"
             name="end"
-            wire:model="end"
+            wire:model.live="end"
             label="{{ __mc('To') }}"
             class="flex-row gap-0"
-            inputClass="w-32"
+            inputClass="w-40"
         />
     </div>
     @if ($readyToLoad)
-        <div x-data="emailListStatisticsChart" x-init="renderChart({
+        <div wire:loading.class.delay.long="opacity-50" wire:target="start,end" x-data="emailListStatisticsChart" x-init="renderChart({
             labels: @js($stats->pluck('label')->values()->toArray()),
             subscribers: @js($stats->pluck('subscribers')->values()->toArray()),
             subscribes: @js($stats->pluck('subscribes')->values()->toArray()),
@@ -43,7 +43,7 @@
 </x-mailcoach::card>
 
 @if ($readyToLoad)
-    <x-mailcoach::card>
+    <x-mailcoach::card wire:loading.class.delay.long="opacity-50" wire:target="start,end">
         <h2 class="markup-h2 mb-0">
             {{ __mc('Totals') }}
         </h2>
@@ -55,9 +55,9 @@
                                     numClass="text-4xl font-semibold" :stat="number_format($totalSubscriptionsCount - $startSubscriptionsCount)" :label="__mc('Subscribers <small>(:daterange days)</small>', ['daterange' => \Illuminate\Support\Facades\Date::parse($start)->diffInDays($end) + 1])"/>
             <x-mailcoach::statistic :stat="$growthRate" :label="__mc('Growth Rate')" suffix="%"/>
             <div></div>
-            <x-mailcoach::statistic :href="route('mailcoach.emailLists.subscribers', $emailList) . '?filter[status]=unsubscribed'" class="col-start-1"
+            <x-mailcoach::statistic :href="route('mailcoach.emailLists.subscribers', $emailList) . '?tableFilters[status][value]=unsubscribed'" class="col-start-1"
                                     numClass="text-4xl font-semibold" :stat="number_format($totalUnsubscribeCount)" :label="__mc('Unsubscribes')"/>
-            <x-mailcoach::statistic :href="route('mailcoach.emailLists.subscribers', $emailList)  . '?filter[status]=unsubscribed'"
+            <x-mailcoach::statistic :href="route('mailcoach.emailLists.subscribers', $emailList)  . '?tableFilters[status][value]=unsubscribed'"
                                     numClass="text-4xl font-semibold" :stat="number_format($startUnsubscribeCount)" :label="__mc('Unsubscribes <small>(:daterange days)</small>', ['daterange' => \Illuminate\Support\Facades\Date::parse($start)->diffInDays($end) + 1])"/>
             <x-mailcoach::statistic :stat="$churnRate" :label="__mc('Churn Rate')" suffix="%"/>
             <div></div>

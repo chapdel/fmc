@@ -4,7 +4,7 @@ use Illuminate\Support\Str;
 use Livewire\Livewire;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
-use Spatie\Mailcoach\Domain\Automation\Support\Livewire\Actions\AutomationMailActionComponent;
+use Spatie\Mailcoach\Livewire\Automations\Actions\AutomationMailActionComponent;
 
 beforeEach(function () {
     test()->action = [
@@ -29,7 +29,7 @@ it('loads options on mount', function () {
     Livewire::test(AutomationMailActionComponent::class, [
         'action' => test()->action,
         'uuid' => Str::uuid()->toString(),
-    ])->assertViewHas('campaignOptions', AutomationMail::pluck('name', 'id')->toArray());
+    ])->assertSet('campaignOptions', AutomationMail::pluck('name', 'id')->toArray());
 });
 
 it('requires a valid automation mail id', function () {
@@ -49,12 +49,13 @@ it('emits correct data', function () {
     $mail = AutomationMail::factory()->create();
 
     Livewire::test(AutomationMailActionComponent::class, [
+        'builderName' => 'default',
         'action' => test()->action,
         'uuid' => $uuid,
     ])->set('automation_mail_id', $mail->id)
         ->call('save')
         ->assertHasNoErrors()
-        ->assertEmitted('actionSaved', $uuid, [
+        ->assertDispatched('actionSaved.default', $uuid, [
             'automation_mail_id' => $mail->id,
         ]);
 });

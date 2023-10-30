@@ -1,11 +1,13 @@
-@push('endHead')
-    @if (config('mailcoach.content_editor') !== \Spatie\MailcoachMarkdownEditor\Editor::class)
-        <script src="{{ asset('vendor/mailcoach-markdown-editor/editor.js') }}" defer></script>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
-    @endif
-@endpush
 <div class="form-grid">
     <style>
+        /* Override the styles set by Filament for EasyMDE */
+        .EasyMDEContainer .editor-toolbar button:before {
+            -webkit-mask-image: none !important;
+            mask-image: none !important;
+            display: none;
+            content: '';
+        }
+
         .cm-s-easymde .cm-header-1 {
             font-size: 1.875rem
         }
@@ -58,14 +60,6 @@
         .cm-link {color: #00c;}
     </style>
     <script>
-        function debounce(func, timeout = 300){
-            let timer;
-            return (...args) => {
-                clearTimeout(timer);
-                timer = setTimeout(() => { func.apply(this, args); }, timeout);
-            };
-        }
-
         window.init = function() {
             let editor = new EasyMDE({
                 autoDownloadFontAwesome: false,
@@ -129,10 +123,9 @@
                 },
             });
 
-            editor.codemirror.on("change", debounce(() => {
+            editor.codemirror.on("change", () => {
                 this.markdown = editor.value();
-                this.$refs.editor.dirty = true;
-            }));
+            });
         }
     </script>
 
@@ -141,7 +134,7 @@
             {{ $label }}
 
             @if ($help ?? null)
-                <i class="ml-1 text-purple-500 opacity-75 cursor-pointer fas fa-question-circle" x-data x-tooltip="{{ $help }}"></i>
+                <i class="ml-1 text-purple-500 opacity-75 cursor-pointer fas fa-question-circle" x-data x-tooltip="'{{ $help }}'"></i>
             @endif
         </label>
     @endif
@@ -151,6 +144,6 @@
             markdown: @entangle($wireModelAttribute),
             init: init,
         }">
-        <textarea x-ref="editor" data-dirty-check></textarea>
+        <textarea x-ref="editor"></textarea>
     </div>
 </div>

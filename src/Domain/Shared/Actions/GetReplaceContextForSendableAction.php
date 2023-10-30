@@ -14,7 +14,7 @@ class GetReplaceContextForSendableAction
             return [];
         }
 
-        $context = $sendable->getTemplateFieldValues();
+        $context = $sendable->contentItem->getTemplateFieldValues();
 
         return array_merge($context, match (true) {
             $sendable instanceof Campaign => [

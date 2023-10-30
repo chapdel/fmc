@@ -51,7 +51,7 @@
         x-on:click="close($refs.button)"
         :id="$id('dropdown-button')"
         style="display: none;"
-        class="z-50 dropdown-list {{ isset($direction) ? 'dropdown-list-' . $direction : '' }}">
+        class="z-50 dropdown-list {{ $listClass ?? '' }} {{ isset($direction) ? 'dropdown-list-' . $direction : '' }}">
         {{ $slot }}
     </div>
 </div>

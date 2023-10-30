@@ -202,22 +202,22 @@ class EmailList extends Model implements HasMedia
 
     public function totalSubscriptionsCount(): int
     {
-        return Cache::remember('email-list-totalSubscriptionsCount'.$this->id, now()->addSeconds(30), fn () => $this->subscribers()->count());
+        return Cache::remember('email-list-totalSubscriptionsCount'.$this->id, now()->addSeconds(10), fn () => $this->subscribers()->count());
     }
 
     public function allSubscriptionsCount(): int
     {
-        return Cache::remember('email-list-allSubscriptionsCount'.$this->id, now()->addSeconds(30), fn () => $this->allSubscribers()->count());
+        return Cache::remember('email-list-allSubscriptionsCount'.$this->id, now()->addSeconds(10), fn () => $this->allSubscribers()->count());
     }
 
     public function unconfirmedCount(): int
     {
-        return Cache::remember('email-list-unconfirmedCount'.$this->id, now()->addSeconds(30), fn () => $this->allSubscribers()->unconfirmed()->count());
+        return Cache::remember('email-list-unconfirmedCount'.$this->id, now()->addSeconds(10), fn () => $this->allSubscribers()->unconfirmed()->count());
     }
 
     public function unsubscribedCount(): int
     {
-        return Cache::remember('email-list-unsubscribedCount'.$this->id, now()->addSeconds(30), fn () => $this->allSubscribers()->unsubscribed()->count());
+        return Cache::remember('email-list-unsubscribedCount'.$this->id, now()->addSeconds(10), fn () => $this->allSubscribers()->unsubscribed()->count());
     }
 
     protected static function newFactory(): EmailListFactory
@@ -227,7 +227,7 @@ class EmailList extends Model implements HasMedia
 
     public function webhookConfigurations(): Collection
     {
-        return $this->getWebhookConfigurationClass()::query()
+        return self::getWebhookConfigurationClass()::query()
             ->where('use_for_all_lists', true)
             ->orWhereHas('emailLists', function (EloquentBuilder $query) {
                 $query->where('email_list_id', $this->id);
@@ -237,7 +237,7 @@ class EmailList extends Model implements HasMedia
 
     public function websiteEnabled(): bool
     {
-        return $this->has_website && config('mailcoach.audience.website', true);
+        return $this->has_website;
     }
 
     public function websiteUrl(): string

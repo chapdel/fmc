@@ -1,33 +1,11 @@
-<?php
-    $pendingImportsCount = \Spatie\Mailcoach\Mailcoach::getSubscriberImportClass()::query()
-        ->where('email_list_id', $emailList->id)
-        ->whereIn('status', [
-            \Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus::Pending,
-            \Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus::Importing,
-        ])
-        ->count()
-?>
-
-<div @if(! $showForm) wire:poll.5s @endif>
-    <x-mailcoach::data-table
-        name="subscriberImports"
-        :rows="$subscriberImports ?? null"
-        :total-rows-count="$allSubscriberImportsCount ?? null"
-        row-partial="mailcoach::app.emailLists.subscribers.partials.import-row"
-        :empty-text="__mc('No imports yet')"
-        :searchable="false"
-        :columns="[
-            ['class' => 'w-32', 'attribute' => 'status', 'label' => __mc('Status')],
-            ['class' => 'w-48 th-numeric', 'attribute' => 'created_at', 'label' => __mc('Started at')],
-            ['class' => 'th-numeric', 'attribute' => 'imported_subscribers_count', 'label' => __mc('Processed rows')],
-            ['class' => 'th-numeric', 'label' => __mc('Errors')],
-            ['class' => 'w-12'],
-        ]"
-    />
+<div>
+    <div>
+        {{ $this->table }}
+    </div>
 
     <x-mailcoach::card class="mt-4">
         @if ($showForm)
-            <form class="form-grid" method="POST" action="{{ route('mailcoach.emailLists.import-subscribers', $emailList) }}" x-cloak>
+            <form class="form-grid" method="POST" wire:submit="startImport" x-cloak>
                 @csrf
 
                 <div class="form-field">
@@ -121,7 +99,7 @@
                         <i class="far fa-arrow-right text-blue-300"></i>
                     </div>
                     <div class="flex items-center gap-4">
-                        <x-mailcoach::button wire:click.prevent="upload" :label="__mc('Import subscribers')" :disabled="!$file" />
+                        <x-mailcoach::button type="submit" :label="__mc('Import subscribers')" :disabled="!$file" />
                         <div wire:loading.delay wire:target="file">
                             <style>
                                 @keyframes loadingpulse {

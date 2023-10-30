@@ -1,5 +1,7 @@
 <?php
 
+use Filament\Notifications\Notification;
+
 function __mc(string $key, array $replace = [], string $locale = null): string
 {
     $result = __('mailcoach::mailcoach.'.$key, $replace, $locale);
@@ -26,4 +28,29 @@ function database_date_format_function(string $column, string $format): string
     }
 
     return "DATE_FORMAT({$column}, '{$format}')";
+}
+
+function notify(string $message, string $level = 'success'): void
+{
+    Notification::make()->title($message)->color($level)->send();
+}
+
+function notifySuccess(string $message): void
+{
+    notify($message);
+}
+
+function notifyWarning(string $message): void
+{
+    notify($message, 'warning');
+}
+
+function notifyError(string $message): void
+{
+    notify($message, 'error');
+}
+
+function containsMjml(?string $html): bool
+{
+    return str_starts_with(trim($html), '<mjml>');
 }

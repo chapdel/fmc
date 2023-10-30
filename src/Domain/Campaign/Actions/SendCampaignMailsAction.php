@@ -6,6 +6,7 @@ use Carbon\CarbonInterface;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\SendCampaignTimeLimitApproaching;
 use Spatie\Mailcoach\Domain\Campaign\Jobs\SendCampaignMailJob;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\HorizonStatus;
 use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
@@ -14,36 +15,39 @@ class SendCampaignMailsAction
 {
     public function execute(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
     {
-        $this->retryDispatchForStuckSends($campaign, $stopExecutingAt);
+        foreach ($campaign->contentItems as $contentItem) {
+            $this->retryDispatchForStuckSends($contentItem, $stopExecutingAt);
 
-        if (! $campaign->sends()->undispatched()->count()) {
-            if ($campaign->allSendsCreated() && ! $campaign->allMailSendingJobsDispatched()) {
-                $campaign->markAsAllMailSendingJobsDispatched();
+            if (! $contentItem->sends()->undispatched()->count()) {
+                if ($contentItem->allSendsCreated() && ! $contentItem->allMailSendingJobsDispatched()) {
+                    $contentItem->markAsAllMailSendingJobsDispatched();
+                }
+
+                continue;
             }
 
-            return;
+            $this->dispatchMailSendingJobs($contentItem, $stopExecutingAt);
         }
-
-        $this->dispatchMailSendingJobs($campaign, $stopExecutingAt);
     }
 
     /**
      * Dispatch pending sends again that have
      * not been processed in a realistic time
      */
-    protected function retryDispatchForStuckSends(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
+    protected function retryDispatchForStuckSends(ContentItem $contentItem, CarbonInterface $stopExecutingAt = null): void
     {
-        $mailer = $campaign->getMailerKey();
+        $mailer = $contentItem->getMailerKey();
         $mailsPerTimespan = config("mail.mailers.{$mailer}.mails_per_timespan", 10);
         $timespan = config("mail.mailers.{$mailer}.timespan_in_seconds", 1);
         $mailsPerSecond = $mailsPerTimespan / $timespan;
 
         $realisticTimeInMinutes = min(
             60 * 3, // SendCampaignMailJob only has 3 hours retryUntil()
-            round($campaign->sent_to_number_of_subscribers / $mailsPerSecond / 60),
+            round($contentItem->sent_to_number_of_subscribers / $mailsPerSecond / 60),
         );
 
-        $retryQuery = $campaign->sends()
+        $retryQuery = $contentItem
+            ->sends()
             ->pending()
             ->where('sending_job_dispatched_at', '<', now()->subMinutes($realisticTimeInMinutes + 15));
 
@@ -51,10 +55,10 @@ class SendCampaignMailsAction
             return;
         }
 
-        $campaign->update(['all_sends_dispatched_at' => null]);
+        $contentItem->update(['all_sends_dispatched_at' => null]);
 
         $simpleThrottle = app(SimpleThrottle::class)
-            ->forMailer($campaign->getMailerKey());
+            ->forMailer($contentItem->getMailerKey());
 
         $retryQuery->each(function (Send $send) use ($stopExecutingAt, $simpleThrottle) {
             $this->haltWhenApproachingTimeLimit($stopExecutingAt, $simpleThrottle->sleepSeconds());
@@ -67,15 +71,15 @@ class SendCampaignMailsAction
         });
     }
 
-    protected function dispatchMailSendingJobs(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
+    protected function dispatchMailSendingJobs(ContentItem $contentItem, CarbonInterface $stopExecutingAt = null): void
     {
         $simpleThrottle = app(SimpleThrottle::class)
-            ->forMailer($campaign->getMailerKey());
+            ->forMailer($contentItem->getMailerKey());
 
-        $undispatchedCount = $campaign->sends()->undispatched()->count();
+        $undispatchedCount = $contentItem->sends()->undispatched()->count();
 
         while ($undispatchedCount > 0) {
-            $campaign
+            $contentItem
                 ->sends()
                 ->undispatched()
                 ->lazyById()
@@ -92,14 +96,14 @@ class SendCampaignMailsAction
                     }
                 });
 
-            $undispatchedCount = $campaign->sends()->undispatched()->count();
+            $undispatchedCount = $contentItem->sends()->undispatched()->count();
         }
 
-        if (! $campaign->allSendsCreated()) {
+        if (! $contentItem->allSendsCreated()) {
             return;
         }
 
-        $campaign->markAsAllMailSendingJobsDispatched();
+        $contentItem->markAsAllMailSendingJobsDispatched();
     }
 
     protected function haltWhenApproachingTimeLimit(?CarbonInterface $stopExecutingAt, int $sleepSeconds = 0): void

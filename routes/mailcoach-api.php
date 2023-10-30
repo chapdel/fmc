@@ -26,13 +26,10 @@ use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\ResendTransactional
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\SendTransactionalMailController;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\ShowTransactionalMailController;
 use Spatie\Mailcoach\Http\Api\Controllers\TransactionalMails\TransactionalMailsController;
-use Spatie\Mailcoach\Http\Api\Controllers\UserController;
 
-Route::get('user', UserController::class);
-
-Route::apiResource('templates', TemplatesController::class);
-Route::apiResource('sends', SendsController::class)->except(['store', 'update']);
-Route::apiResource('campaigns', CampaignsController::class);
+Route::apiResource('templates', TemplatesController::class)->parameter('templates', 'template');
+Route::apiResource('sends', SendsController::class)->except(['store', 'update'])->parameter('sends', 'send');
+Route::apiResource('campaigns', CampaignsController::class)->parameter('campaigns', 'campaign');
 
 Route::prefix('campaigns/{campaign}')->group(function () {
     Route::post('send-test', SendTestEmailController::class);
@@ -44,11 +41,18 @@ Route::prefix('campaigns/{campaign}')->group(function () {
     Route::get('bounces', CampaignBouncesController::class);
 });
 
-Route::apiResource('email-lists', EmailListsController::class);
-Route::apiResource('email-lists.subscribers', SubscribersController::class)->only(['index', 'store']);
-Route::apiResource('email-lists.tags', TagsController::class);
-Route::apiResource('email-lists.segments', SegmentsController::class);
-Route::apiResource('subscribers', SubscribersController::class)->except(['index', 'store']);
+Route::apiResource('email-lists', EmailListsController::class)->parameter('email-lists', 'emailList');
+Route::apiResource('email-lists.subscribers', SubscribersController::class)->only(['index', 'store'])->parameter('email-lists', 'emailList');
+Route::apiResource('email-lists.tags', TagsController::class)->parameters([
+    'email-lists' => 'emailList',
+    'tags' => 'tag',
+]);
+// @todo: Enable segments
+//Route::apiResource('email-lists.segments', SegmentsController::class)->parameters([
+//    'email-lists' => 'emailList',
+//    'segments' => 'segment',
+//]);
+Route::apiResource('subscribers', SubscribersController::class)->except(['index', 'store'])->parameter('subscribers', 'subscriber');
 
 Route::prefix('subscribers/{subscriber}')->group(function () {
     Route::post('confirm', ConfirmSubscriberController::class);
@@ -58,7 +62,7 @@ Route::prefix('subscribers/{subscriber}')->group(function () {
     Route::post('resend-confirmation', ResendConfirmationMailController::class);
 });
 
-Route::apiResource('subscriber-imports', SubscriberImportsController::class);
+Route::apiResource('subscriber-imports', SubscriberImportsController::class)->parameter('subscriber-imports', 'subscriberImport');
 
 Route::prefix('subscriber-imports/{subscriberImport}')->group(function () {
     Route::post('append', AppendSubscriberImportController::class);

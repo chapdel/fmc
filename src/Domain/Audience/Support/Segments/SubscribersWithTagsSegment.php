@@ -24,7 +24,7 @@ class SubscribersWithTagsSegment extends Segment
             return;
         }
 
-        $tagSegment->scopeOnTags($subscribersQuery);
+        $tagSegment->applyConditionBuilder($subscribersQuery);
     }
 
     public function getTagSegmentModel(): ?TagSegmentModel

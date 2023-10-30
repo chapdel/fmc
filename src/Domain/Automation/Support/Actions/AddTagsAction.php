@@ -7,8 +7,6 @@ use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
 
 class AddTagsAction extends AutomationAction
 {
-    public array $tags;
-
     public static function getCategory(): ActionCategoryEnum
     {
         return ActionCategoryEnum::Tags;
@@ -19,11 +17,9 @@ class AddTagsAction extends AutomationAction
         return new self(explode(',', $data['tags'] ?? ''));
     }
 
-    public function __construct(array $tags)
+    public function __construct(public array $tags)
     {
         parent::__construct();
-
-        $this->tags = $tags;
     }
 
     public static function getName(): string

@@ -14,14 +14,8 @@ class WebhookDisabledMail extends Mailable
 
     public $theme = 'mailcoach::mails.layout.mailcoach';
 
-    private string|array $recipients;
-
-    public WebhookConfiguration $webhookConfiguration;
-
-    public function __construct(string|array $recipients, WebhookConfiguration $webhookConfiguration)
+    public function __construct(private string|array $recipients, public WebhookConfiguration $webhookConfiguration)
     {
-        $this->recipients = $recipients;
-        $this->webhookConfiguration = $webhookConfiguration;
     }
 
     public function build()

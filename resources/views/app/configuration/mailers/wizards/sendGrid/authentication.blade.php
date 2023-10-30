@@ -13,7 +13,7 @@
             </p>
     </x-mailcoach::help>
 
-    <form class="form-grid" wire:submit.prevent="submit">
+    <form class="form-grid" wire:submit="submit">
         <x-mailcoach::text-field
             wire:model.defer="apiKey"
             :label="__mc('API Key')"

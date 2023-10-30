@@ -1,16 +1,16 @@
+<?php /** @var \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail $mail */ ?>
 <div class="card-grid">
-    <x-mailcoach::card>
-    @if ($mail->sent_to_number_of_subscribers)
-        <x-mailcoach::success full>
+    @if ($mail->sentToNumberOfSubscribers())
+        <x-mailcoach::success class="shadow" full>
             <div>
                 {{ __mc('AutomationMail') }}
                 <strong>{{ $mail->name }}</strong>
                 {{ __mc('was delivered to') }}
-                <strong>{{ number_format($mail->sent_to_number_of_subscribers - ($failedSendsCount ?? 0)) }} {{ __mc_choice('subscriber|subscribers', $mail->sent_to_number_of_subscribers) }}</strong>
+                <strong>{{ number_format($mail->sentToNumberOfSubscribers() - ($failedSendsCount ?? 0)) }} {{ __mc_choice('subscriber|subscribers', $mail->sentToNumberOfSubscribers()) }}</strong>
             </div>
         </x-mailcoach::success>
     @else
-        <x-mailcoach::warning full>
+        <x-mailcoach::warning class="shadow" full>
             <div>
                 {{ __mc('AutomationMail') }}
                 <strong>{{ $mail->name }}</strong>
@@ -20,7 +20,7 @@
     @endif
 
     @if($failedSendsCount)
-        <x-mailcoach::error full>
+        <x-mailcoach::error class="shadow" full>
             <div>
                 {{ __mc('Delivery failed for') }}
                 <strong>{{ $failedSendsCount }}</strong> {{ __mc_choice('subscriber|subscribers', $failedSendsCount) }}
@@ -31,6 +31,5 @@
         </x-mailcoach::error>
     @endif
 
-        @include('mailcoach::app.automations.mails.partials.statistics')
-    </x-mailcoach::card>
+    @include('mailcoach::app.automations.mails.partials.statistics')
 </div>

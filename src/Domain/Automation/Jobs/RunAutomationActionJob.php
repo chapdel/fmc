@@ -19,18 +19,14 @@ class RunAutomationActionJob implements ShouldQueue
     use SerializesModels;
     use UsesMailcoachModels;
 
-    public Action $action;
-
     /** @var string */
     public $queue;
 
-    public function __construct(Action $action)
+    public function __construct(public Action $action)
     {
-        $this->action = $action;
-
         $this->queue = config('mailcoach.automation.perform_on_queue.run_automation_action_job');
 
-        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
+        $this->connection ??= Mailcoach::getQueueConnection();
     }
 
     public function handle()

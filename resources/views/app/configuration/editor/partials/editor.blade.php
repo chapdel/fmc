@@ -5,7 +5,7 @@
 
     <div class="mt-6">
         <x-mailcoach::warning>
-            {{ __mc('Editor.js stores content in a structured way. When switching from or to Editor.js, content in existing templates and draft campaigns will get lost.') }}
+            {{ __mc('Editor.js stores content in a structured way. When switching from or to Editor.js, content in existing templates and draft campaigns will be lost.') }}
         </x-mailcoach::warning>
     </div>
 </div>

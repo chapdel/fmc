@@ -68,6 +68,10 @@
     @apply shadow-blue-400/20;
 }
 
+.radio:checked {
+    color: transparent;
+}
+
 .radio:checked:after {
     transform: scale(1);
 }

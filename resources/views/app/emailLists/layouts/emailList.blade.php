@@ -3,7 +3,30 @@
     :originHref="$originHref ?? null"
     :title="$title ?? null"
     :hideCard="isset($hideCard) ? true : false"
+    :create="$create ?? null"
+    :create-text="$createText ?? null"
+    :create-data="$createData ?? []"
 >
+    <x-slot:afterCreate>
+        @if (\Illuminate\Support\Facades\Route::is('mailcoach.emailLists.subscribers'))
+        <div class="buttons flex">
+            <x-mailcoach::dropdown direction="left" listClass="mt-2" triggerClass="-ml-2 px-3 rounded-l-none button">
+                <ul>
+                    <li>
+                        <a href="{{route('mailcoach.emailLists.import-subscribers', $emailList)}}">
+                            <x-mailcoach::icon-label icon="fa-fw far fa-cloud-upload-alt" :text="__mc('Import subscribers')"/>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('mailcoach.emailLists.subscriber-exports', $emailList)}}">
+                            <x-mailcoach::icon-label icon="fa-fw far fa-cloud-download-alt" :text="__mc('Subscriber exports')"/>
+                        </a>
+                    </li>
+                </ul>
+            </x-mailcoach::dropdown>
+        </div>
+        @endif
+    </x-slot:afterCreate>
     <x-slot name="nav">
         <x-mailcoach::navigation>
             <x-slot:title>
@@ -18,7 +41,7 @@
                             </x-slot:trigger>
 
                             @can('create', \Spatie\Mailcoach\Mailcoach::getCampaignClass())
-                                <a href="#" x-on:click.prevent="$store.modals.open('create-campaign')" class="text-sm flex items-center text-gray-600 hover:text-blue-700 gap-x-2 underline">
+                                <a href="#" x-on:click.prevent="$dispatch('open-modal', { id: 'create-campaign' })" class="text-sm flex items-center text-gray-600 hover:text-blue-700 gap-x-2 underline">
                                     {!! str_replace(' ', '&nbsp;', __mc('Create campaign')) !!}
                                 </a>
                                 <x-mailcoach::modal :title="__mc('Create campaign')" name="create-campaign">
@@ -28,7 +51,7 @@
                                 </x-mailcoach::modal>
                             @endcan
                             @can('create', \Spatie\Mailcoach\Mailcoach::getAutomationClass())
-                                <a href="#" x-on:click.prevent="$store.modals.open('create-automation')" class="text-sm flex items-center text-gray-600 hover:text-blue-700 gap-x-2 underline">
+                                <a href="#" x-on:click.prevent="$dispatch('open-modal', { id: 'create-automation' })" class="text-sm flex items-center text-gray-600 hover:text-blue-700 gap-x-2 underline">
                                     {!! str_replace(' ', '&nbsp;', __mc('Create automation')) !!}
                                 </a>
                                 <x-mailcoach::modal :title="__mc('Create automation')" name="create-automation">
@@ -69,11 +92,9 @@
                 <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.mailers', $emailList)">
                     {{ __mc('Mailers') }}
                 </x-mailcoach::navigation-item>
-                @if (config('mailcoach.audience.website', true))
-                    <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.website', $emailList)">
-                        {{ __mc('Website') }}
-                    </x-mailcoach::navigation-item>
-                @endif
+                <x-mailcoach::navigation-item :href="route('mailcoach.emailLists.website', $emailList)">
+                    {{ __mc('Website') }}
+                </x-mailcoach::navigation-item>
             </x-mailcoach::navigation-group>
 
             @include('mailcoach::app.emailLists.layouts.partials.afterLastTab')
@@ -81,7 +102,7 @@
     </x-slot>
 
     @if (!Route::is('mailcoach.emailLists.subscriber*') && $emailList->allSubscriptionsCount() === 0)
-        <x-mailcoach::help class="mb-4">
+        <x-mailcoach::help class="mt-6 mb-4">
             {!! __mc('This list is empty. <a href=":url">Add some subscribers</a>', ['url' => route('mailcoach.emailLists.subscribers', $emailList)]) !!}
         </x-mailcoach::help>
     @endif

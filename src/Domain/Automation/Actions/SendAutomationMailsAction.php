@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Domain\Automation\Actions;
 
 use Carbon\CarbonInterface;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Spatie\Mailcoach\Domain\Automation\Exceptions\SendAutomationMailsTimeLimitApproaching;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailJob;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -19,13 +20,17 @@ class SendAutomationMailsAction
     {
     }
 
-    public function execute(CarbonInterface $stopExecutingAt = null)
+    public function execute(CarbonInterface $stopExecutingAt = null): void
     {
         $this->retryDispatchForStuckSends();
 
         self::getSendClass()::query()
             ->undispatched()
-            ->whereNotNull('automation_mail_id')
+            ->whereHas('contentItem', function (Builder $query) {
+                /** @var \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail $automationMail */
+                $automationMail = new (self::getAutomationMailClass());
+                $query->where('model_type', $automationMail->getMorphClass());
+            })
             ->lazyById()
             ->each(function (Send $send) use ($stopExecutingAt) {
                 $this->throttle->forMailer($send->subscriber->emailList->automation_mailer ?? Mailcoach::defaultAutomationMailer());
@@ -50,7 +55,11 @@ class SendAutomationMailsAction
     protected function retryDispatchForStuckSends(): void
     {
         $retryQuery = self::getSendClass()::query()
-            ->whereNotNull('automation_mail_id')
+            ->whereHas('contentItem', function (Builder $query) {
+                /** @var \Spatie\Mailcoach\Domain\Automation\Models\AutomationMail $automationMail */
+                $automationMail = new (self::getAutomationMailClass());
+                $query->where('model_type', $automationMail->getMorphClass());
+            })
             ->pending()
             ->where('sending_job_dispatched_at', '<', now()->subMinutes(30));
 

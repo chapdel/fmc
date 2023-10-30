@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use Carbon\CarbonInterval;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
@@ -96,4 +97,36 @@ it('only runs when needed and not when there is no next action', function () {
     $actionModel->refresh();
 
     expect($action->getActionSubscribersQuery($actionModel)->count())->toBe(2);
+});
+
+it('can only send on weekdays', function () {
+    $fixedDate = Carbon::make('2023-09-13');
+    TestTime::freeze($fixedDate);
+    expect(now()->englishDayOfWeek)->toEqual('Wednesday');
+
+    test()->action = Action::factory()->create();
+    test()->action->subscribers()->attach(SubscriberFactory::new()->create());
+
+    test()->actionSubscriber = ActionSubscriber::all()->last();
+
+    $action = WaitAction::make([
+        'length' => 3,
+        'unit' => 'weekdays',
+    ]);
+
+    expect($action->shouldContinue(test()->actionSubscriber))->toBeFalse();
+
+    TestTime::addDays(3);
+    expect(now()->toDateTimeString())->toEqual('2023-09-16 00:00:00');
+    expect(now()->englishDayOfWeek)->toEqual('Saturday');
+    expect($action->shouldContinue(test()->actionSubscriber))->toBeFalse();
+
+    TestTime::addDay();
+    expect(now()->toDateTimeString())->toEqual('2023-09-17 00:00:00');
+    expect($action->shouldContinue(test()->actionSubscriber))->toBeFalse();
+
+    TestTime::addDay();
+    expect(now()->toDateTimeString())->toEqual('2023-09-18 00:00:00');
+    expect(now()->englishDayOfWeek)->toEqual('Monday');
+    expect($action->shouldContinue(test()->actionSubscriber))->toBeTrue();
 });

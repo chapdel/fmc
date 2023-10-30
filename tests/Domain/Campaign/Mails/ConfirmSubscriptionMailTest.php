@@ -44,7 +44,9 @@ test('the confirmation mail has a default subject', function () {
 test('the subject of the confirmation mail can be customized', function () {
     Mail::fake();
 
-    $template = TransactionalMail::factory()->create([
+    $template = TransactionalMail::factory()->create();
+
+    $template->contentItem->update([
         'subject' => 'Hello ::subscriber.first_name::, welcome to ::list.name::',
     ]);
 
@@ -87,8 +89,9 @@ test('the confirmation mail has no-tracking attributes on the link', function ()
 test('the confirmation mail can have custom content', function () {
     test()->emailList->update(['transactional_mailer' => 'log']);
 
-    $template = TransactionalMail::factory()->create([
-        'body' => '<html><body><p>Hi ::subscriber.first_name::, press ::confirmUrl:: to subscribe to ::list.name::</p></body></html>',
+    $template = TransactionalMail::factory()->create();
+    $template->contentItem->update([
+        'html' => '<html><body><p>Hi ::subscriber.first_name::, press ::confirmUrl:: to subscribe to ::list.name::</p></body></html>',
     ]);
 
     test()->emailList->update(['confirmation_mail_id' => $template->id]);
@@ -109,7 +112,10 @@ test('the confirmation mail can have custom content with twig', function () {
 
     $template = TransactionalMail::factory()->create([
         'type' => 'html',
-        'body' => '<html><body><p>Hi {{ subscriber.first_name }}, press {{ confirmUrl }} to subscribe to {{ list.name }}</p></body></html>',
+    ]);
+
+    $template->contentItem->update([
+        'html' => '<html><body><p>Hi {{ subscriber.first_name }}, press {{ confirmUrl }} to subscribe to {{ list.name }}</p></body></html>',
     ]);
 
     test()->emailList->update(['confirmation_mail_id' => $template->id]);
@@ -140,7 +146,10 @@ test('the confirmation mail can have custom content with twig conditionals', fun
 
     $template = TransactionalMail::factory()->create([
         'type' => 'html',
-        'body' => '<html><body><p>Hi, this is a twig test {%if subscriber.locale == "nl" %}NL{% else %}FR{% endif %}</p></body></html>',
+    ]);
+
+    $template->contentItem->update([
+        'html' => '<html><body><p>Hi, this is a twig test {%if subscriber.locale == "nl" %}NL{% else %}FR{% endif %}</p></body></html>',
     ]);
 
     test()->emailList->update(['confirmation_mail_id' => $template->id]);

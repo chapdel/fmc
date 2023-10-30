@@ -1,13 +1,12 @@
 <?php
 
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
-use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\Concerns\ReplacesModelAttributes;
 use Spatie\Mailcoach\Tests\Factories\SubscriberFactory;
 
 beforeEach(function () {
     test()->classWithTrait = new class
     {
-        use ReplacesModelAttributes;
+        use Spatie\Mailcoach\Domain\Campaign\Support\Replacers\Concerns\ReplacesModelAttributes;
     };
 });
 

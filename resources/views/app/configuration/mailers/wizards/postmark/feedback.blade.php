@@ -7,7 +7,7 @@
         clicks.
     </x-mailcoach::help>
 
-        <form class="form-grid" wire:submit.prevent="configurePostmark">
+        <form class="form-grid" wire:submit="configurePostmark">
             <x-mailcoach::checkbox-field
                 :label="__mc('Enable open tracking')"
                 name="trackOpens"

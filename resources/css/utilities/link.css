@@ -1,5 +1,11 @@
 .link {
-    @apply text-blue-700;
+    @apply text-blue-700 !important;
+    @apply underline;
+    text-underline-offset: 2px;
+}
+
+.link div {
+    @apply text-blue-700 !important;
     @apply underline;
 }
 

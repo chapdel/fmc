@@ -38,7 +38,7 @@ class Action extends Model
     {
         Carbon::useStrictMode(false);
 
-        if (base64_encode(base64_decode($value, true)) === $value) {
+        if ($value === base64_encode(base64_decode($value, true))) {
             /** @var AutomationAction $action */
             $action = unserialize(base64_decode($value));
         } else {
@@ -119,7 +119,7 @@ class Action extends Model
     {
         return [
             'uuid' => $this->uuid,
-            'class' => get_class($this->action),
+            'class' => $this->action::class,
             'data' => $this->action->toArray(),
             'active' => (int) ($this->active_subscribers_count ?? 0),
             'completed' => ($this->completed_subscribers_count ?? 0) - ($this->halted_subscribers_count ?? 0),

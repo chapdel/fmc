@@ -28,7 +28,7 @@
 
     @if ($buttonPosition === 'bottom')
     <div x-data>
-        <button type="button" class="text-sm link-dimmed" @click.prevent="$clipboard(@js($code)); $el.innerText = 'Copied!'">{{ __mc('Copy') }}</button>
+        <button type="button" class="text-sm link-dimmed" @click.prevent="$clipboard(@js($code)); $el.innerText = 'Copied!'"><i class="fas fa-copy"></i></button>
     </div>
     @endif
 </div>

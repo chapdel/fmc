@@ -9,6 +9,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignTestAction;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Mailcoach;
 
 class SendCampaignTestJob implements ShouldQueue
@@ -18,22 +19,14 @@ class SendCampaignTestJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public Campaign $campaign;
-
-    public string $email;
-
     /** @var string */
     public $queue;
 
-    public function __construct(Campaign $campaign, string $email)
+    public function __construct(public Campaign $campaign, public string $email, public ?ContentItem $contentItem = null)
     {
-        $this->campaign = $campaign;
-
-        $this->email = $email;
-
         $this->queue = config('mailcoach.campaigns.perform_on_queue.send_test_mail_job');
 
-        $this->connection = $this->connection ?? Mailcoach::getQueueConnection();
+        $this->connection ??= Mailcoach::getQueueConnection();
     }
 
     public function handle()
@@ -41,6 +34,6 @@ class SendCampaignTestJob implements ShouldQueue
         /** @var \Spatie\Mailcoach\Domain\Campaign\Actions\SendCampaignTestAction $sendCampaignTestAction */
         $sendCampaignTestAction = Mailcoach::getCampaignActionClass('send_test_mail', SendCampaignTestAction::class);
 
-        $sendCampaignTestAction->execute($this->campaign, $this->email);
+        $sendCampaignTestAction->execute($this->campaign, $this->email, $this->contentItem);
     }
 }

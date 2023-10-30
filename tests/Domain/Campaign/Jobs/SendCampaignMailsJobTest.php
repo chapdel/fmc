@@ -11,12 +11,12 @@ it('will call the sendcampaignmailsaction for each campaign that has pending sen
     $campaign2 = Campaign::factory()->create(['status' => CampaignStatus::Sending]);
 
     Send::factory()->create([
-        'campaign_id' => $campaign1->id,
+        'content_item_id' => $campaign1->contentItem->id,
         'sent_at' => null,
     ]);
 
     Send::factory()->create([
-        'campaign_id' => $campaign2->id,
+        'content_item_id' => $campaign2->contentItem->id,
         'sent_at' => now(),
     ]);
 

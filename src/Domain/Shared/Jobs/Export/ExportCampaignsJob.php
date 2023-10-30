@@ -22,20 +22,25 @@ class ExportCampaignsJob extends ExportJob
     {
         $campaigns = DB::table(self::getCampaignTableName())
             ->select(
+                self::getContentItemTableName().'.*',
+                DB::raw(self::getContentItemTableName().'.id as content_item_id'),
+                DB::raw(self::getContentItemTableName().'.uuid as content_item_uuid'),
                 self::getCampaignTableName().'.*',
                 DB::raw(self::getEmailListTableName().'.uuid as email_list_uuid'),
                 DB::raw(self::getTagSegmentTableName().'.name as segment_name'),
             )
+            ->join(self::getContentItemTableName(), self::getContentItemTableName().'.model_id', '=', self::getCampaignTableName().'.id')
             ->join(self::getEmailListTableName(), self::getEmailListTableName().'.id', '=', self::getCampaignTableName().'.email_list_id')
             ->leftJoin(self::getTagSegmentTableName(), self::getTagSegmentTableName().'.id', '=', self::getCampaignTableName().'.segment_id')
             ->whereIn(self::getCampaignTableName().'.id', $this->selectedCampaigns)
+            ->where(self::getContentItemTableName().'.model_type', (new (self::getCampaignClass()))->getMorphClass())
             ->get();
 
         $this->writeFile('campaigns.csv', $campaigns);
         $this->addMeta('campaigns_count', $campaigns->count());
 
-        $campaignLinks = DB::table(self::getCampaignLinkTableName())
-            ->whereIn('campaign_id', $this->selectedCampaigns)
+        $campaignLinks = DB::table(self::getLinkTableName())
+            ->whereIn('content_item_id', $campaigns->pluck('content_item_id'))
             ->get();
 
         $this->writeFile('campaign_links.csv', $campaignLinks);

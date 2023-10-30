@@ -12,7 +12,7 @@
                 :label="__mc('Length')"
                 :required="true"
                 name="length"
-                wire:model="length"
+                wire:model.live="length"
                 type="number"
             />
         </div>
@@ -22,7 +22,8 @@
             :label="__mc('Unit')"
             :required="true"
             name="unit"
-            wire:model="unit"
+            wire:model.live="unit"
+            :sort="false"
             :options="
                 collect($units)
                     ->mapWithKeys(fn ($label, $value) => [$value => \Illuminate\Support\Str::plural($label, (int) $length)])

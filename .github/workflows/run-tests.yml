@@ -1,6 +1,13 @@
 name: run-tests
 
-on: [push, pull_request]
+on:
+  push:
+    paths:
+      - '**.php'
+      - '.github/workflows/run-tests.yml'
+      - 'phpunit.xml.dist'
+      - 'composer.json'
+      - 'composer.lock'
 
 jobs:
   run-tests:
@@ -13,21 +20,22 @@ jobs:
           - 6379:6379
         options: --health-cmd="redis-cli ping" --health-interval=10s --health-timeout=5s --health-retries=3
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
-        php: [8.2, 8.1]
-        laravel: [^9.0, ^10.0]
+        php: [8.2]
+        laravel: [^10.0]
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
+          tools: composer:v2
           extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif, iconv, imagick, redis
           coverage: none
 
@@ -36,19 +44,31 @@ jobs:
             sudo /etc/init.d/mysql start
             mysql  -u root -proot -e 'CREATE DATABASE IF NOT EXISTS mailcoach_tests;'
 
-      - name: Set Laravel version
-        run: |
-            sed -i 's/^9.0|^10.0/${{ matrix.laravel }}/g' composer.json
+      #- name: Set Laravel version
+      #  run: |
+      #    sed -i 's/^9.0|^10.0/${{ matrix.laravel }}/g' composer.json
 
       - name: Install composer dependencies
         uses: ramsey/composer-install@v2
         env:
-          COMPOSER_ROOT_VERSION: dev-main
+          COMPOSER_ROOT_VERSION: 7.x-dev
         with:
           composer-options: "--prefer-dist --no-interaction"
 
+      - name: Install mjml
+        run: npm install mjml
+
       - name: Execute tests
-        run: composer test
+        run:  |
+          ./vendor/bin/pest
         env:
           REDIS_PORT: ${{ job.services.redis.ports[6379] }}
           DB_PASSWORD: root
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+          MAILGUN_API_KEY: ${{ secrets.MAILGUN_API_KEY }}
+          MAILGUN_DOMAIN: ${{ secrets.MAILGUN_DOMAIN }}
+          POSTMARK_SERVER_TOKEN: ${{ secrets.POSTMARK_SERVER_TOKEN }}
+          SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+          SENDINBLUE_API_KEY: ${{ secrets.SENDINBLUE_API_KEY }}

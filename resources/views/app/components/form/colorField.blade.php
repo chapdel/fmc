@@ -1,12 +1,3 @@
-@pushonce('endHead')
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.css"/>
-    <script src="https://cdn.jsdelivr.net/gh/mdbassit/Coloris@latest/dist/coloris.min.js"></script>
-    <script>
-        Coloris({ alpha: false, format: 'hsl' });
-    </script>
-    <style>.clr-field button { margin-right: 1px; width: 2.75rem; border-top-right-radius: 2px; border-bottom-right-radius: 2px; }</style>
-@endpushonce
-
 <div class="form-field" wire:ignore>
     @if($label ?? null)
         <label class="{{ ($required ?? false) ? 'label label-required' : 'label' }}" for="color-{{ $name }}">
@@ -20,6 +11,8 @@
 
     <!-- search is a prefix here because otherwise 1Password shows its widget -->
     <input
+        x-data
+        x-init="() => Coloris({ el: '#search-{{ $name }}', alpha: false, format: 'hsl' });"
         autocomplete="off"
         @if (! $attributes->has('x-bind:type'))
             type="{{ $type ?? 'text' }}"
@@ -32,7 +25,6 @@
         {{ ($required ?? false) ? 'required' : '' }}
         {!! $attributes ?? '' !!}
         @if($disabled ?? false) disabled @endif
-        data-coloris
     >
     @error($name)
     <p class="form-error" role="alert">{{ $message }}</p>

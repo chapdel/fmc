@@ -4,19 +4,21 @@ namespace Spatie\Mailcoach\Domain\TransactionalMail\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasManyThrough;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Database\Factories\TransactionalMailLogItemFactory;
+use Spatie\Mailcoach\Domain\Content\Models\Concerns\HasContentItems;
+use Spatie\Mailcoach\Domain\Content\Models\Concerns\InteractsWithContentItems;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\TransactionalMail\Mails\ResendTransactionalMail;
 
-class TransactionalMailLogItem extends Model
+class TransactionalMailLogItem extends Model implements HasContentItems
 {
     use HasFactory;
     use HasUuid;
+    use InteractsWithContentItems;
     use UsesMailcoachModels;
 
     public $table = 'mailcoach_transactional_mail_log_items';
@@ -29,39 +31,24 @@ class TransactionalMailLogItem extends Model
         'cc' => 'array',
         'bcc' => 'array',
         'attachments' => 'array',
+        'fake' => 'boolean',
     ];
 
-    public function send(): HasOne
+    public function getSend(): ?Send
     {
-        return $this->hasOne(self::getSendClass(), 'transactional_mail_log_item_id');
+        return $this->contentItem->sends->first();
     }
 
-    public function opens(): HasManyThrough
+    public function getSendAttribute(): ?Send
     {
-        return $this
-            ->hasManyThrough(
-                self::getTransactionalMailOpenClass(),
-                self::getSendClass(),
-                'transactional_mail_log_item_id'
-            )
-            ->orderBy('created_at');
-    }
-
-    public function clicks(): HasManyThrough
-    {
-        return $this
-            ->hasManyThrough(
-                self::getTransactionalMailClickClass(),
-                self::getSendClass(),
-                'transactional_mail_log_item_id'
-            )
-            ->orderBy('created_at');
+        return $this->getSend();
     }
 
     public function clicksPerUrl(): Collection
     {
-        return $this->clicks
-            ->groupBy('url')
+        return $this->contentItem
+            ->clicks
+            ->groupBy('link.url')
             ->map(function ($group, $url) {
                 return [
                     'url' => $url,
@@ -75,7 +62,9 @@ class TransactionalMailLogItem extends Model
 
     public function resend(): self
     {
-        Mail::send(new ResendTransactionalMail($this));
+        if (! $this->fake) {
+            Mail::send(new ResendTransactionalMail($this));
+        }
 
         return $this;
     }

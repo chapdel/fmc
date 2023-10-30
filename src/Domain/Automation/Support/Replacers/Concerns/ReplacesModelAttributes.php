@@ -7,7 +7,7 @@ use Spatie\SchemalessAttributes\SchemalessAttributes;
 
 trait ReplacesModelAttributes
 {
-    public function replaceModelAttributes(string $text, string $replaceText, Model $model)
+    public function replaceModelAttributes(string $text, string $replaceText, Model $model): ?string
     {
         return preg_replace_callback('/::'.$replaceText.'\.([\w.]+)::/', function (array $match) use ($model) {
             $parts = collect(explode('.', $match[1] ?? ''));

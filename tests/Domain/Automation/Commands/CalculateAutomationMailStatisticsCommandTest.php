@@ -8,7 +8,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\SendAutomationMailAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\SubscribedTrigger;
-use Spatie\Mailcoach\Domain\Shared\Jobs\CalculateStatisticsJob;
+use Spatie\Mailcoach\Domain\Content\Jobs\CalculateStatisticsJob;
 use Spatie\TestTime\TestTime;
 
 beforeEach(function () {
@@ -43,5 +43,5 @@ it('can recalculate the statistics of a single automation mail', function () {
     test()->artisan(CalculateAutomationMailStatisticsCommand::class, ['automationMailId' => $automationMail->id])
         ->assertExitCode(0);
 
-    test()->assertNotNull($automationMail->refresh()->statistics_calculated_at);
+    expect($automationMail->refresh()->contentItem->statistics_calculated_at)->not->toBeNull();
 });

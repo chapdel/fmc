@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailsAction;
 use Spatie\Mailcoach\Domain\Automation\Jobs\SendAutomationMailJob;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
-use Spatie\Mailcoach\Domain\Shared\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Content\Mails\MailcoachMail;
+use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 use Spatie\TestTime\TestTime;
@@ -17,7 +18,11 @@ it('throttles dispatching automation mail sends', function () {
     Mail::fake();
     TestTime::unfreeze();
 
-    Send::factory(3)->create(['automation_mail_id' => AutomationMail::factory()->create()->id]);
+    $automationMail = AutomationMail::factory()->create();
+
+    Send::factory(3)->create(['content_item_id' => ContentItem::factory()->automationMail()->create([
+        'model_id' => $automationMail->id,
+    ])]);
 
     $action = resolve(SendAutomationMailsAction::class);
     $action->execute();
@@ -49,7 +54,11 @@ it('will throttle processing mail jobs', function () {
     Mail::fake();
     TestTime::unfreeze();
 
-    Send::factory(3)->create(['automation_mail_id' => AutomationMail::factory()->create()->id]);
+    $automationMail = AutomationMail::factory()->create();
+
+    Send::factory(3)->create(['content_item_id' => ContentItem::factory()->automationMail()->create([
+        'model_id' => $automationMail->id,
+    ])]);
 
     $action = resolve(SendAutomationMailsAction::class);
     $action->execute();
@@ -76,14 +85,17 @@ it('will retry stuck pending sends', function () {
     $action = app(SendAutomationMailsAction::class);
 
     $automationMail = AutomationMail::factory()->create();
-
-    Send::factory()->create([
-        'automation_mail_id' => $automationMail->id,
-        'sending_job_dispatched_at' => now()->subMinutes(35),
+    $contentItem = ContentItem::factory()->automationMail()->create([
+        'model_id' => $automationMail->id,
     ]);
 
     Send::factory()->create([
-        'automation_mail_id' => $automationMail->id,
+        'sending_job_dispatched_at' => now()->subMinutes(35),
+        'content_item_id' => $contentItem->id,
+    ]);
+
+    Send::factory()->create([
+        'content_item_id' => $contentItem->id,
         'sending_job_dispatched_at' => now()->subMinutes(25),
     ]);
 

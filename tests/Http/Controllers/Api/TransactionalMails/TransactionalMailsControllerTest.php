@@ -10,8 +10,8 @@ uses(RespondsToApiRequests::class);
 beforeEach(function () {
     test()->loginToApi();
 
-    TransactionalMailLogItem::factory()->count(2)->create(['subject' => 'foo']);
-    TransactionalMailLogItem::factory()->count(2)->create(['subject' => 'bar']);
+    TransactionalMailLogItem::factory()->count(2)->create()->each(fn ($item) => $item->contentItem->update(['subject' => 'foo']));
+    TransactionalMailLogItem::factory()->count(2)->create()->each(fn ($item) => $item->contentItem->update(['subject' => 'bar']));
 });
 
 it('can show all transactional mails', function () {
@@ -35,9 +35,7 @@ it('can search mails with a certain subject', function () {
 });
 
 it('can search mails by their send\'s transport_message_id', function () {
-    $item = TransactionalMailLogItem::factory()->create();
-    Send::factory()->create([
-        'transactional_mail_log_item_id' => $item->id,
+    Send::factory()->transactionalMailLogItem()->create([
         'transport_message_id' => 'uuid-1234',
     ]);
 

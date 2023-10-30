@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Support\Actions;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder;
+use Spatie\Mailcoach\Domain\Automation\Enums\WaitUnit;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
 use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\Enums\ActionCategoryEnum;
@@ -16,6 +17,8 @@ class WaitAction extends AutomationAction
         public ?int $length = null,
         public ?string $unit = null
     ) {
+        $this->handleWeekdays();
+
         parent::__construct();
     }
 
@@ -40,14 +43,14 @@ class WaitAction extends AutomationAction
             return new self(
                 CarbonInterval::create(years: 0, seconds: $data['seconds']),
                 $data['length'] ?? null,
-                $data['unit'] ?? null
+                $data['unit'] ?? null,
             );
         }
 
         return new self(
             CarbonInterval::createFromDateString("{$data['length']} {$data['unit']}"),
             $data['length'] ?? null,
-            $data['unit'] ?? null
+            $data['unit'] ?? null,
         );
     }
 
@@ -79,5 +82,12 @@ class WaitAction extends AutomationAction
     {
         return $action->pendingActionSubscribers()
             ->where('created_at', '<=', now()->sub($this->interval));
+    }
+
+    protected function handleWeekdays(): void
+    {
+        if ($this->unit === WaitUnit::Weekdays->value) {
+            $this->interval = app(GetIntervalAction::class)->execute($this->length, $this->unit);
+        }
     }
 }

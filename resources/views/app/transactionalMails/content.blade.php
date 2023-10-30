@@ -1,7 +1,7 @@
 <x-mailcoach::card>
     <dl class="dl">
         <dt>{{ __mc('Subject') }}</dt>
-        <dd>{{ $transactionalMail->subject }}</dd>
+        <dd>{{ $transactionalMail->contentItem->subject }}</dd>
 
         <x-mailcoach::address-definition :label="__mc('From')" :addresses="$transactionalMail->from"/>
         <x-mailcoach::address-definition :label="__mc('To')" :addresses="$transactionalMail->to"/>
@@ -24,10 +24,10 @@
         @endif
 
         <dt class="flex items-start">
-            <div>{{ __mc('Body') }}</div>
+            <div>{{ __mc('Html') }}</div>
         </dt>
         <dd>
-            <x-mailcoach::web-view :html="$transactionalMail->body" />
+            <x-mailcoach::web-view :html="$transactionalMail->contentItem->html" />
         </dd>
     </dl>
 </x-mailcoach::card>

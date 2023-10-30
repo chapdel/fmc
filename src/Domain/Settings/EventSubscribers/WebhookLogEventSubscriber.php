@@ -19,10 +19,6 @@ class WebhookLogEventSubscriber
 
     public function subscribe(): array
     {
-        if (config('mailcoach.webhooks.logs') === false) {
-            return [];
-        }
-
         return [
             WebhookCallSucceededEvent::class => 'handleWebhookEvent',
             WebhookCallFailedEvent::class => 'handleWebhookEvent',
@@ -43,7 +39,7 @@ class WebhookLogEventSubscriber
         $data = [
             'webhook_call_uuid' => $event->meta['webhook_call_uuid'],
             'webhook_configuration_id' => $webhookConfiguration->id,
-            'webhook_event_type' => get_class($event),
+            'webhook_event_type' => $event::class,
             'event_type' => $event->payload['event'],
             'webhook_url' => $event->webhookUrl,
             'payload' => $event->payload,

@@ -1,24 +1,21 @@
 @if(isset($src) || isset($html))
-    <embedded-webview @isset($src) src="{{ $src }}" @endisset>
-    </embedded-webview>
+    @php($html ??= file_get_contents($src))
+    <div wire:ignore x-data="{
+        html: @js($html),
+    }">
+            <embedded-webview x-bind:html="html" />
 
-    <script>
-        class EmbeddedWebview extends HTMLElement {
-            connectedCallback() {
-                @isset($html)
-                    const shadow = this.attachShadow({ mode: 'closed' });
-                    shadow.innerHTML = @json($html);
-                @else
-                    fetch(this.getAttribute('src'))
-                    .then(response => response.text())
-                    .then(html => {
+            <script>
+                class EmbeddedWebview extends HTMLElement {
+                    static observedAttributes = ["html"];
+
+                    attributeChangedCallback(name, oldValue, newValue) {
                         const shadow = this.attachShadow({ mode: 'closed' });
-                        shadow.innerHTML = html;
-                    });
-                @endisset
-            }
-        }
+                        shadow.innerHTML = newValue;
+                    }
+                }
 
-        window.customElements.define('embedded-webview', EmbeddedWebview);
-    </script>
+                window.customElements.define('embedded-webview', EmbeddedWebview);
+            </script>
+    </div>
 @endif

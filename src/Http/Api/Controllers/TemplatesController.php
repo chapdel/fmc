@@ -3,14 +3,14 @@
 namespace Spatie\Mailcoach\Http\Api\Controllers;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\CreateTemplateAction;
-use Spatie\Mailcoach\Domain\Campaign\Actions\Templates\UpdateTemplateAction;
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Domain\Template\Actions\CreateTemplateAction;
+use Spatie\Mailcoach\Domain\Template\Actions\UpdateTemplateAction;
+use Spatie\Mailcoach\Domain\Template\Models\Template;
 use Spatie\Mailcoach\Http\Api\Controllers\Concerns\RespondsToApiRequests;
+use Spatie\Mailcoach\Http\Api\Queries\TemplatesQuery;
+use Spatie\Mailcoach\Http\Api\Requests\TemplateRequest;
 use Spatie\Mailcoach\Http\Api\Resources\TemplateResource;
-use Spatie\Mailcoach\Http\App\Queries\TemplatesQuery;
-use Spatie\Mailcoach\Http\App\Requests\TemplateRequest;
 
 class TemplatesController
 {

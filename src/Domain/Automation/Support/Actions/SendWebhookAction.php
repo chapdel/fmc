@@ -14,10 +14,6 @@ class SendWebhookAction extends AutomationAction
     use SerializesModels;
     use UsesMailcoachModels;
 
-    public string $url;
-
-    public string $secret;
-
     public static function getCategory(): ActionCategoryEnum
     {
         return ActionCategoryEnum::React;
@@ -28,12 +24,9 @@ class SendWebhookAction extends AutomationAction
         return new self($data['url'], $data['secret']);
     }
 
-    public function __construct(string $url, string $secret)
+    public function __construct(public string $url, public string $secret)
     {
         parent::__construct();
-
-        $this->url = $url;
-        $this->secret = $secret;
     }
 
     public static function getComponent(): ?string
@@ -63,7 +56,7 @@ class SendWebhookAction extends AutomationAction
         ];
 
         WebhookCall::create()
-            ->onQueue(config('mailcoach.shared.perform_on_queue.send_webhooks'))
+            ->onQueue(config('mailcoach.perform_on_queue.send_webhooks'))
             ->timeoutInSeconds(10)
             ->maximumTries(5)
             ->url($this->url)

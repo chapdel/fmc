@@ -2,12 +2,14 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Models;
 
+use Carbon\CarbonInterface;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Database\Factories\AutomationFactory;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
@@ -16,10 +18,13 @@ use Spatie\Mailcoach\Domain\Automation\Exceptions\CouldNotStartAutomation;
 use Spatie\Mailcoach\Domain\Automation\Jobs\RunActionForActionSubscriberJob;
 use Spatie\Mailcoach\Domain\Automation\Support\Actions\AutomationAction;
 use Spatie\Mailcoach\Domain\Automation\Support\Triggers\AutomationTrigger;
-use Spatie\Mailcoach\Domain\Campaign\Models\Concerns\SendsToSegment;
+use Spatie\Mailcoach\Domain\Shared\Models\Concerns\SendsToSegment;
 use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
+/**
+ * @property-read CarbonInterface $run_at
+ */
 class Automation extends Model
 {
     use HasFactory;
@@ -232,5 +237,26 @@ class Automation extends Model
     protected static function newFactory(): AutomationFactory
     {
         return new AutomationFactory();
+    }
+
+    public static function defaultActions(): Collection
+    {
+        return collect([
+            'duplicate_automation' => \Spatie\Mailcoach\Domain\Automation\Actions\DuplicateAutomationAction::class,
+            'send_automation_mail_to_subscriber' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailToSubscriberAction::class,
+            'send_automation_mails_action' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailsAction::class,
+            'send_test_mail' => \Spatie\Mailcoach\Domain\Automation\Actions\SendAutomationMailTestAction::class,
+            'should_run_for_subscriber' => \Spatie\Mailcoach\Domain\Automation\Actions\ShouldAutomationRunForSubscriberAction::class,
+        ]);
+    }
+
+    public static function defaultReplacers(): Collection
+    {
+        return collect([
+            \Spatie\Mailcoach\Domain\Automation\Support\Replacers\WebviewAutomationMailReplacer::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Replacers\SubscriberReplacer::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Replacers\UnsubscribeUrlReplacer::class,
+            \Spatie\Mailcoach\Domain\Automation\Support\Replacers\AutomationMailNameAutomationMailReplacer::class,
+        ]);
     }
 }

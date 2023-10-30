@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Illuminate\Http\Request;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
-use Spatie\Mailcoach\Domain\Campaign\Enums\TagType;
+use Spatie\Mailcoach\Domain\Audience\Enums\TagType;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class ManagePreferencesController
@@ -49,8 +49,28 @@ class ManagePreferencesController
         return view('mailcoach::landingPages.manage-preferences', compact('emailList', 'subscriber', 'send', 'tags', 'updated'));
     }
 
-    public function confirm(Request $request, string $subscriberUuid, string $sendUuid = null)
+    public function updatePersonalInfo(Request $request, string $subscriberUuid)
     {
+        /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
+        $subscriber = self::getSubscriberClass()::findByUuid($subscriberUuid);
+
+        if (! $subscriber) {
+            return view('mailcoach::landingPages.couldNotFindSubscription');
+        }
+
+        $subscriber->update([
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
+        ]);
+
+        cache()->put('updated-'.$subscriberUuid, true);
+
+        return redirect()->back();
+    }
+
+    public function updateSubscriptions(Request $request, string $subscriberUuid, string $sendUuid = null)
+    {
+
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         $subscriber = self::getSubscriberClass()::findByUuid($subscriberUuid);
 
@@ -78,10 +98,6 @@ class ManagePreferencesController
         }
 
         $subscriber->syncPreferenceTags(array_keys($request->get('tags', [])));
-        $subscriber->update([
-            'first_name' => $request->get('first_name'),
-            'last_name' => $request->get('last_name'),
-        ]);
 
         cache()->put('updated-'.$subscriberUuid, true);
 

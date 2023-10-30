@@ -11,6 +11,7 @@ use Illuminate\View\Factory;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderTwigAction;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
+use Spatie\Mailcoach\Mailcoach;
 use Spatie\TemporaryDirectory\TemporaryDirectory;
 use Throwable;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
@@ -22,23 +23,27 @@ class RenderTemplateAction
         Mailable $mailable,
         array $replacements = [],
     ) {
-        $body = $template->body;
+        $html = $template->contentItem->html ?? '';
 
-        $body = $this->renderTemplateBody($template, $body, $mailable);
+        $html = $this->renderTemplateBody($template, $html, $mailable);
 
-        $body = $this->handleReplacements($body, $replacements);
+        $html = $this->handleReplacements($html, $replacements);
 
-        $body = $this->executeReplacers($body, $template, $mailable);
+        $html = $this->executeReplacers($html, $template, $mailable);
 
         if ($template->type === 'html') {
             try {
-                $body = app(RenderTwigAction::class)->execute($body, Arr::undot($replacements));
+                $html = Mailcoach::getSharedActionClass('render_twig', RenderTwigAction::class)->execute($html, Arr::undot($replacements));
             } catch (Throwable) {
                 // Do nothing, Twig failed
             }
         }
 
-        return (new CssToInlineStyles())->convert($body);
+        if (empty($html)) {
+            return '';
+        }
+
+        return (new CssToInlineStyles())->convert($html);
     }
 
     protected function renderTemplateBody(

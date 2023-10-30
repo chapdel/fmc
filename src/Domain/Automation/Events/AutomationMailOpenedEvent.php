@@ -2,12 +2,12 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Events;
 
-use Spatie\Mailcoach\Domain\Automation\Models\AutomationMailOpen;
+use Spatie\Mailcoach\Domain\Content\Models\Open;
 
 class AutomationMailOpenedEvent
 {
     public function __construct(
-        public AutomationMailOpen $automationMailOpen,
+        public Open $automationMailOpen,
     ) {
     }
 }

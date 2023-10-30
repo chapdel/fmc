@@ -3,5 +3,5 @@
 </x-mailcoach::info>
 
 <x-mailcoach::warning>
-    {{ __mc('The Markdown editor stores content in a structured way. When switching from or to this editor, content in existing templates and draft campaigns will get lost.') }}
+    {{ __mc('The Markdown editor stores content in a structured way. When switching from or to this editor, content in existing templates and draft campaigns will be lost.') }}
 </x-mailcoach::warning>

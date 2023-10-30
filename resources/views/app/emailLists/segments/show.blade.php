@@ -1,4 +1,4 @@
-<div>
+<div class="mt-6">
     <nav class="tabs">
         <ul>
             <x-mailcoach::navigation-item wire:click.prevent="$set('tab', 'details')" :active="$tab === 'details'">
@@ -7,7 +7,7 @@
             <x-mailcoach::navigation-item wire:click.prevent="$set('tab', 'population')" :active="$tab === 'population'">
                 <x-mailcoach::icon-label invers>
                     <x-slot:count>
-                        <livewire:mailcoach::segment-population-count :segment="$segment" />
+                        <livewire:mailcoach::segment-population-count lazy :segment="$segment" />
                     </x-slot:count>
                     <x-slot:text>
                         {{ __mc('Population') }}
@@ -19,70 +19,23 @@
 
     @if ($tab === 'details')
         <form
-            wire:submit.prevent="save"
+            wire:submit="save"
             @keydown.prevent.window.cmd.s="$wire.call('save')"
             @keydown.prevent.window.ctrl.s="$wire.call('save')"
             method="POST"
         >
         <x-mailcoach::card>
-
-            @if (! $emailList->tags()->count())
-                <x-mailcoach::info>
-                    <div class="markup-lists">
-                        {{ __mc('A segment is based on tags.') }}
-                        <ol class="mt-4">
-                            <li>{!! __mc('<a href=":tagLink">Create some tags</a> for this list first.', ['tagLink' => route('mailcoach.emailLists.tags', $emailList)]) !!}</li>
-                            <li>{!! __mc('Assign these tags to some of the <a href=":subscriberslink">subscribers</a>.', ['subscriberslink' => route('mailcoach.emailLists.subscribers', $emailList)]) !!}</li>
-                        </ol>
-                    </div>
-                </x-mailcoach::info>
-            @endif
-
             @csrf
             @method('PUT')
 
-            <x-mailcoach::text-field :label="__mc('Name')" name="segment.name" wire:model.lazy="segment.name" type="name" required />
+            <x-mailcoach::text-field wrapper-class="md:max-w-3xl" :label="__mc('Name')" name="name" wire:model="name" type="name" required />
 
-            <div class="form-field">
-                <label class=label>{{ __mc('Include with tags') }}</label>
-                <div class="flex items-end">
-                    <div class="flex-none">
-                        <x-mailcoach::select-field
-                            name="positive_tags_operator"
-                            wire:model="positive_tags_operator"
-                            :options="['any' => __mc('Any'), 'all' => __mc('All')]"
-                        />
-                    </div>
-                    <div class="ml-2 flex-grow">
-                        <x-mailcoach::tags-field
-                            name="positive_tags"
-                            :value="$positive_tags"
-                            :tags="$emailList->tags()->pluck('name')->unique()->toArray()"
-                        />
-                    </div>
-                </div>
+            <div class="form-field md:max-w-3xl">
+                <label class="label label-required">
+                    {{ __mc('Conditions') }}
+                </label>
+                <livewire:mailcoach::condition-builder :email-list="$emailList" :storedConditions="$segment->stored_conditions->castToArray()" />
             </div>
-
-            <div class="form-field">
-                <label class=label>{{ __mc('Exclude with tags') }}</label>
-                <div class="flex items-end">
-                    <div class="flex-none">
-                        <x-mailcoach::select-field
-                            name="negative_tags_operator"
-                            wire:model="negative_tags_operator"
-                            :options="['any' => __mc('Any'), 'all' => __mc('All')]"
-                        />
-                    </div>
-                    <div class="ml-2 flex-grow">
-                        <x-mailcoach::tags-field
-                            name="negative_tags"
-                            :value="$negative_tags"
-                            :tags="$emailList->tags()->pluck('name')->unique()->toArray()"
-                        />
-                    </div>
-                </div>
-            </div>
-
 
             <x-mailcoach::form-buttons>
                 <x-mailcoach::button :label="__mc('Save segment')" />

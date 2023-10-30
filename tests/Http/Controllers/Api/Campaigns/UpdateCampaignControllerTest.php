@@ -2,10 +2,10 @@
 
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
-use Spatie\Mailcoach\Domain\Campaign\Models\Template;
+use Spatie\Mailcoach\Domain\Editor\Markdown\Editor as MarkdownEditor;
+use Spatie\Mailcoach\Domain\Template\Models\Template;
 use Spatie\Mailcoach\Http\Api\Controllers\Campaigns\CampaignsController;
 use Spatie\Mailcoach\Tests\Http\Controllers\Api\Concerns\RespondsToApiRequests;
-use Spatie\MailcoachMarkdownEditor\Editor as MarkdownEditor;
 use Spatie\Snapshots\MatchesSnapshots;
 
 uses(RespondsToApiRequests::class);
@@ -22,6 +22,7 @@ test('a campaign can be updated using the api', function () {
         'name' => 'name',
         'email_list_uuid' => EmailList::factory()->create()->uuid,
         'html' => 'html',
+        'subject' => 'some subject',
         'schedule_at' => '2022-01-01 10:00:00',
     ];
 
@@ -37,12 +38,18 @@ test('a campaign can be updated using the api', function () {
         }
 
         if ($attributeName === 'email_list_uuid') {
-            test()->assertEquals($attributeValue, $campaign->emailList->uuid);
+            expect($campaign->emailList->uuid)->toEqual($attributeValue);
 
             continue;
         }
 
-        test()->assertEquals($attributeValue, $campaign->$attributeName);
+        if (in_array($attributeName, ['html', 'subject'])) {
+            expect($campaign->contentItem->$attributeName)->toEqual($attributeValue);
+
+            continue;
+        }
+
+        expect($campaign->$attributeName)->toEqual($attributeValue);
     }
 });
 

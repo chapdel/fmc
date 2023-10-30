@@ -13,14 +13,6 @@ class SubscribeToEmailListAction extends AutomationAction
     use SerializesModels;
     use UsesMailcoachModels;
 
-    public EmailList $emailList;
-
-    public bool $skipConfirmation;
-
-    public bool $forwardTags;
-
-    public array $newTags;
-
     public static function getCategory(): ActionCategoryEnum
     {
         return ActionCategoryEnum::React;
@@ -37,17 +29,12 @@ class SubscribeToEmailListAction extends AutomationAction
     }
 
     public function __construct(
-        EmailList $emailList,
-        bool $skipConfirmation = false,
-        bool $forwardTags = false,
-        array $newTags = []
+        public EmailList $emailList,
+        public bool $skipConfirmation = false,
+        public bool $forwardTags = false,
+        public array $newTags = []
     ) {
         parent::__construct();
-
-        $this->emailList = $emailList;
-        $this->skipConfirmation = $skipConfirmation;
-        $this->forwardTags = $forwardTags;
-        $this->newTags = $newTags;
     }
 
     public static function getComponent(): ?string

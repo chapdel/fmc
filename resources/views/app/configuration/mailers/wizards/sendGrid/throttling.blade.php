@@ -7,7 +7,7 @@
         <p>You can find more info about sending limits in <a href="https://docs.sendgrid.com/for-developers/sending-email/v3-mail-send-faq#are-there-limits-on-how-often-i-can-send-email-and-how-many-recipients-i-can-send-to" target="_blank">the SendGrid documentation</a></p>
     </x-mailcoach::help>
 
-        <form class="form-grid" wire:submit.prevent="submit">
+        <form class="form-grid" wire:submit="submit">
 
             <div class="flex items-center gap-x-2">
                 <span>{{ __mc('Send') }}</span>

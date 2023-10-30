@@ -21,14 +21,22 @@ class ExportAutomationMailsJob extends ExportJob
     public function execute(): void
     {
         $automationMails = DB::table(self::getAutomationMailTableName())
-            ->whereIn('id', $this->selectedAutomationMails)
+            ->whereIn(self::getAutomationMailTableName().'.id', $this->selectedAutomationMails)
+            ->join(self::getContentItemTableName(), self::getContentItemTableName().'.model_id', '=', self::getAutomationMailTableName().'.id')
+            ->where(self::getContentItemTableName().'.model_type', (new (self::getAutomationMailClass()))->getMorphClass())
+            ->select(
+                self::getContentItemTableName().'.*',
+                DB::raw(self::getContentItemTableName().'.id as content_item_id'),
+                DB::raw(self::getContentItemTableName().'.uuid as content_item_uuid'),
+                self::getAutomationMailTableName().'.*',
+            )
             ->get();
 
         $this->writeFile('automation_mails.csv', $automationMails);
         $this->addMeta('automation_mails_count', $automationMails->count());
 
-        $automationMailLinks = DB::table(self::getAutomationMailLinkTableName())
-            ->whereIn('automation_mail_id', $this->selectedAutomationMails)
+        $automationMailLinks = DB::table(self::getLinkTableName())
+            ->whereIn('content_item_id', $automationMails->pluck('content_item_id'))
             ->get();
 
         $this->writeFile('automation_mail_links.csv', $automationMailLinks);

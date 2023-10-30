@@ -43,10 +43,7 @@ test('after a day it will sent a summary', function () {
     Mail::assertQueued(CampaignSummaryMail::class, fn (CampaignSummaryMail $mail) => $mail->hasTo('john@example.com'));
     Mail::assertQueued(CampaignSummaryMail::class, fn (CampaignSummaryMail $mail) => $mail->hasTo('jane@example.com'));
 
-    test()->assertEquals(
-        now()->format('YmdHis'),
-        test()->campaign->refresh()->summary_mail_sent_at->format('YmdHis')
-    );
+    expect(test()->campaign->refresh()->summary_mail_sent_at->format('YmdHis'))->toEqual(now()->format('YmdHis'));
 });
 
 it('will not send a summary mail if it was already sent', function () {
@@ -78,7 +75,7 @@ test('the content of the campaign summary mail is valid', function () {
 });
 
 test('the mail contains correct statistics', function () {
-    test()->campaign->update([
+    test()->campaign->contentItem->update([
         'sent_to_number_of_subscribers' => 8018,
         'open_count' => 5516,
         'unique_open_count' => 3192,

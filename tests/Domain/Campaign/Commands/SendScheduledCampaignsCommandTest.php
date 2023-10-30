@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Queue;
 use Spatie\Mailcoach\Domain\Campaign\Commands\SendScheduledCampaignsCommand;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
-use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Spatie\TestTime\TestTime;
 
 beforeEach(function () {
@@ -13,7 +13,7 @@ beforeEach(function () {
 });
 
 it('will not send campaigns that are not scheduled', function () {
-    $campaign = Campaign::factory()->create([
+    $campaign = CampaignFactory::new()->create([
         'scheduled_at' => null,
         'status' => CampaignStatus::Draft,
     ]);
@@ -25,7 +25,7 @@ it('will not send campaigns that are not scheduled', function () {
 });
 
 it('will not send a campaign that has a scheduled at in the future', function () {
-    $campaign = Campaign::factory()->create([
+    $campaign = CampaignFactory::new()->create([
         'scheduled_at' => now()->addSecond(),
         'status' => CampaignStatus::Draft,
     ]);
@@ -37,7 +37,7 @@ it('will not send a campaign that has a scheduled at in the future', function ()
 });
 
 it('will send a campaign that has a scheduled at set to in the past', function () {
-    $campaign = Campaign::factory()->create([
+    $campaign = CampaignFactory::new()->create([
         'scheduled_at' => now()->subSecond(),
         'status' => CampaignStatus::Draft,
     ]);
