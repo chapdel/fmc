@@ -175,7 +175,7 @@ class SubscribersComponent extends TableComponent
                     'unsubscribed' => __mc('Unsubscribed'),
                     'unconfirmed' => __mc('Unconfirmed'),
                 ])
-                ->query(fn (Builder $query, array $data) => match ($data['value']) {
+                ->query(fn (Builder $query, array $data) => match ($data['value'] ?? '') {
                     'subscribed' => $query->subscribed(),
                     'unsubscribed' => $query->unsubscribed(),
                     'unconfirmed' => $query->unconfirmed(),
