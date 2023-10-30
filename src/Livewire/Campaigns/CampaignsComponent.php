@@ -121,12 +121,10 @@ class CampaignsComponent extends TableComponent
                 ->view('mailcoach::app.campaigns.columns.sends'),
             TextColumn::make('unique_open_count')
                 ->label(__mc('Opens'))
-                ->sortable()
                 ->alignRight()
                 ->numeric()
                 ->view('mailcoach::app.campaigns.columns.opens'),
             TextColumn::make('unique_click_count')
-                ->sortable()
                 ->alignRight()
                 ->numeric()
                 ->label(__mc('Clicks'))
