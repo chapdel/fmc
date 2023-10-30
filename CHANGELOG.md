@@ -2,6 +2,32 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.0.0 - 2023-10-30
+
+### What's Changed
+
+- Faked transactional mails by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1340
+- DRAFT: Condition Builder by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1324
+- Mjml by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1355
+- Feature/disable webview by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1367
+- Refactor to content items by @riasvdv in https://github.com/spatie/laravel-mailcoach/pull/1376
+- Bug/373 unsubscribe by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1369
+- DRAFT: Weekdays only by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1370
+- Support Substack exports by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1371
+- Docs mjml by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1365
+- Update docs for v7 by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1379
+- Move editor packages into this repository by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1378
+- Refactor/move vendor packages by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1382
+- Feature/379 import unsubscribed by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1364
+- Split testing (correct base branch) by @riasvdv in https://github.com/spatie/laravel-mailcoach/pull/1387
+- Update images in the docs by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1390
+- Condition builder changes by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1385
+- Docs by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1393
+- Customizable utm tags by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1399
+- V7 by @riasvdv in https://github.com/spatie/laravel-mailcoach/pull/1360
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.27.9...7.0.0
+
 ## 6.27.9 - 2023-10-23
 
 ### What's Changed
