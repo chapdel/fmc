@@ -55,7 +55,7 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
     {
         return SubscriberClickedAutomationMailLinkQueryConditionData::make(
             automationMailId: $this->automationMailId(),
-            link: $this->link,
+            link: $this->link(),
         )->toArray();
     }
 
@@ -65,7 +65,7 @@ class SubscriberClickedAutomationMailLinkConditionComponent extends ConditionCom
             ->whereHas('contentItem', function ($query) {
                 $query
                     ->where('model_id', $this->automationMailId())
-                    ->where('model_type', self::getAutomationMailClass());
+                    ->where('model_type', (new (self::getAutomationMailClass()))->getMorphClass());
             })
             ->distinct()
             ->pluck('url')

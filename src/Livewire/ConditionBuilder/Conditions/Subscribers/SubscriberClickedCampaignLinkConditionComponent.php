@@ -47,7 +47,7 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
     {
         return SubscriberClickedCampaignLinkQueryConditionData::make(
             campaignId: $this->campaignId(),
-            link: $this->link,
+            link: $this->link(),
         )->toArray();
     }
 
@@ -71,7 +71,7 @@ class SubscriberClickedCampaignLinkConditionComponent extends ConditionComponent
             ->whereHas('contentItem', function ($query) {
                 $query
                     ->where('model_id', $this->campaignId())
-                    ->where('model_type', self::getCampaignClass());
+                    ->where('model_type', (new (self::getCampaignClass()))->getMorphClass());
             })
             ->distinct()
             ->pluck('url')
