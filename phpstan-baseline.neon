@@ -403,7 +403,7 @@ parameters:
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasHtmlContent\\:\\:\\$uuid\\.$#"
-			count: 1
+			count: 2
 			path: src/Livewire/Editor/EditorComponent.php
 
 		-
