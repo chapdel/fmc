@@ -32,7 +32,9 @@ it('can initialize an empty condition', function () {
 });
 
 it('can update a condition', function () {
-    Livewire::test(ConditionBuilderComponent::class)
+    Livewire::test(ConditionBuilderComponent::class, [
+        'emailList' => EmailList::factory()->create(),
+    ])
         ->call('add', SubscriberClickedCampaignLinkQueryCondition::KEY)
         ->set('storedConditions.0.comparison_operator', 'any')
         ->assertHasNoErrors();
