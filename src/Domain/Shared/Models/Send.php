@@ -246,9 +246,11 @@ class Send extends Model
             'created_at' => $complainedAt ?? now(),
         ]);
 
-        optional($this->subscriber)->unsubscribe($this);
+        if ($this->subscriber) {
+            $this->subscriber->unsubscribe($this);
 
-        self::getSuppressionClass()::for($this->subscriber->email, SuppressionReason::spamComplaint);
+            self::getSuppressionClass()::for($this->subscriber->email, SuppressionReason::spamComplaint);
+        }
 
         event(new ComplaintRegisteredEvent($this));
 
