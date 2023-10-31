@@ -22,7 +22,7 @@
             <x-mailcoach::info>
                 {!! __mc('Learn how to configure :provider by reading <a target="_blank" href=":docsLink">this section of the Mailcoach docs</a>.', ['provider' => 'SES', 'docsLink' => 'https://mailcoach.app/docs/self-hosted/v6/using-mailcoach/configuring-mail-providers/amazon-ses']) !!}
                 <br/>
-                {!! __mc('You must set a webhook to: <code class="markup-code">:webhookUrl</code>', ['webhookUrl' => url(action(\Spatie\Mailcoach\Domain\Vendor\Ses\Actions\SesWebhookController::class, $mailer->configName()))]) !!}
+                {!! __mc('You must set a webhook to: <code class="markup-code">:webhookUrl</code>', ['webhookUrl' => url(action(\Spatie\Mailcoach\Http\Api\Controllers\Vendor\Ses\SesWebhookController::class, $mailer->configName()))]) !!}
             </x-mailcoach::info>
 
             <form class="form-grid" wire:submit="setupFeedbackManually">
