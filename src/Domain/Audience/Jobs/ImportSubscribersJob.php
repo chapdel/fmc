@@ -19,6 +19,8 @@ class ImportSubscribersJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
+    public bool $deleteWhenMissingModels = true;
+
     public function __construct(public SubscriberImport $subscriberImport, public ?User $user = null, public bool $sendNotification = true)
     {
         $this->queue = config('mailcoach.campaigns.perform_on_queue.import_subscribers_job');
