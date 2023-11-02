@@ -11,7 +11,8 @@ it('can save a template', function () {
 
     Livewire::test(TemplateComponent::class, ['template' => Template::factory()->create(['name' => 'old'])])
         ->set('name', 'new')
-        ->call('save');
+        ->call('save')
+        ->dispatch('editorSaved');
 
     $this->assertDatabaseHas(static::getTemplateTableName(), ['name' => 'new']);
 });
@@ -32,7 +33,8 @@ it('re-renders emails using the template', function () {
     ]);
 
     Livewire::test(TemplateComponent::class, ['template' => $template])
-        ->call('save');
+        ->call('save')
+        ->dispatch('editorSaved');
 
     expect($campaign->fresh()->contentItem->html)->toBe('<h1>Title</h1><p>A new addition</p>');
 });
