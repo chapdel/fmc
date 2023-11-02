@@ -53,6 +53,8 @@ class EditContentComponent extends Component
                 ?? self::getAutomationMailClass()::findByUuid($sendable);
         }
 
+        abort_if(is_null($sendable), 404);
+
         if ($sendable instanceof Campaign) {
             $this->canBeSplitTested = true;
         }
