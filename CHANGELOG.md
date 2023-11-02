@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.0.2 - 2023-11-02
+
+- Fix wrong controller action in SES wizard
+- Fix campaign sent notification count
+- Import subscribers job should delete when subscriberImport doesn't exist
+- Add livewire styles & scripts to email newsletter pages
+- Don't minify html as it causes issues with code snippets
+- Remove slow query count on CampaignsComponent
+- Don't use ":" in filename for imports
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.0.1...7.0.2
+
 ## 7.0.1 - 2023-10-31
 
 **Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.0.0...7.0.1
