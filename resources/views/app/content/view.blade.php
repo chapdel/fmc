@@ -18,7 +18,7 @@
                 </x-mailcoach::card>
 
                 <x-mailcoach::card x-show="show === 'content'">
-                    <x-mailcoach::web-view src="{{ $model->webviewUrl() }}"/>
+                    <x-mailcoach::web-view :html="$contentItem->webview_html ?? $contentItem->email_html" />
                 </x-mailcoach::card>
 
                 <x-mailcoach::card x-show="show === 'html'">
