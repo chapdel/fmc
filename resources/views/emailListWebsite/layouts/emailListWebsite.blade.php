@@ -21,6 +21,7 @@
         <link rel="alternate" type="application/atom+xml" href="{{ route('mailcoach.feed', $emailList) }}" title="{{ $emailList->website_title }}">
     @endif
 
+    @livewireStyles
     @include('mailcoach::emailListWebsite.partials.style')
 </head>
 <body>
@@ -29,5 +30,7 @@
         {{ $slot }}
         @include('mailcoach::emailListWebsite.partials.footer')
     </div>
+
+    @livewireScripts
 </body>
 </html>
