@@ -27,9 +27,7 @@ class CampaignsComponent extends TableComponent
 
         return self::getCampaignClass()::query()
             ->select(self::getCampaignTableName().'.*')
-            ->with(['emailList', 'contentItem' => function ($query) {
-                $query->withCount('sentSends');
-            }])
+            ->with(['emailList', 'contentItems'])
             ->addSelect(DB::raw(<<<"SQL"
                 CASE
                     WHEN status = 'draft' AND scheduled_at IS NULL THEN CONCAT(999999999, {$campaignsTable}.id)
@@ -113,9 +111,8 @@ class CampaignsComponent extends TableComponent
                     : null
                 )
                 ->view('mailcoach::app.campaigns.columns.email_list'),
-            TextColumn::make('sent_sends_count')
+            TextColumn::make('emails')
                 ->label(__mc('Emails'))
-                ->sortable()
                 ->alignRight()
                 ->numeric()
                 ->view('mailcoach::app.campaigns.columns.sends'),
