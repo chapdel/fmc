@@ -43,7 +43,7 @@ class CreateSimpleExcelReaderAction
         }
 
         $localImportFile = $this->getTemporaryDirectory()
-            ->path("import-file-{$subscriberImport->created_at->format('Y-m-d H:i:s')}.{$file->extension}");
+            ->path("import-file-{$subscriberImport->created_at->format('YmdHis')}.{$file->extension}");
 
         file_put_contents($localImportFile, stream_get_contents($file->stream()));
 
