@@ -13,7 +13,7 @@ use Spatie\WebhookClient\Models\WebhookCall;
 
 beforeEach(function () {
     $this->webhookCall = WebhookCall::create([
-        'name' => 'sendgrid',
+        'name' => 'sendgrid-feedback',
         'payload' => getSendgridStub('multipleEventsPayload.json'),
     ]);
 
