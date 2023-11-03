@@ -371,7 +371,7 @@
                 </div>
                 <div class="text-center">
                     <p>{{ __mc('Each split will receive') }} <span class="font-semibold" x-text="subscribers_per_split + (subscribers_per_split === 1 ? ' {{  __mc('email') }}' : ' {{  __mc('emails') }}')"></span>.</p>
-                    <p>{{ __mc('The winner will receive the remaining') }} <span class="font-semibold" x-text="(Math.max(0, subscriber_count - (subscribers_per_split * split_count))) + ' {{ __mc('emails') }}'"></span></p>
+                    <p>{{ __mc('The winner will receive the remaining') }} <span class="font-semibold" x-text="(Math.max(0, subscriber_count - (subscribers_per_split * split_count))) + ' {{ __mc('emails') }}'"></span>.</p>
                 </div>
             </div>
 
