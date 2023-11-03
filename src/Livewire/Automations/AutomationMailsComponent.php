@@ -36,18 +36,18 @@ class AutomationMailsComponent extends TableComponent
                 ->label(__mc('Name'))
                 ->size('base')
                 ->extraAttributes(['class' => 'link']),
-            TextColumn::make('sent_to_number_of_subscribers')
+            TextColumn::make('contentItem.sent_to_number_of_subscribers')
                 ->sortable()
                 ->label(__mc('Emails'))
                 ->numeric()
                 ->size('base')
                 ->getStateUsing(fn (AutomationMail $record) => number_format($record->contentItem->sent_to_number_of_subscribers) ?: '–'),
-            TextColumn::make('unique_open_count')
+            TextColumn::make('contentItem.unique_open_count')
                 ->sortable()
                 ->label(__mc('Opens'))
                 ->numeric()
                 ->view('mailcoach::app.automations.mails.columns.opens'),
-            TextColumn::make('unique_click_count')
+            TextColumn::make('contentItem.unique_click_count')
                 ->sortable()
                 ->label(__mc('Clicks'))
                 ->numeric()
