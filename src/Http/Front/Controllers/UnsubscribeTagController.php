@@ -45,7 +45,7 @@ class UnsubscribeTagController
             return view('mailcoach::landingPages.alreadyUnsubscribed', compact('emailList'));
         }
 
-        $subscriber->removeTag($tag);
+        $subscriber->removeTag(urldecode($tag));
 
         $emailList = $subscriber->emailList;
 

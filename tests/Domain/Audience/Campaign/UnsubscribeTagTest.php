@@ -10,14 +10,16 @@ use Spatie\Mailcoach\Tests\Factories\CampaignFactory;
 use Symfony\Component\DomCrawler\Crawler;
 
 beforeEach(function () {
+    test()->tagName = 'some tag {foo}';
+
     test()->campaign = (new CampaignFactory())->withSubscriberCount(1)->create([
-        'html' => '<a href="::unsubscribeTag::some tag::">Unsubscribe</a>',
+        'html' => '<a href="::unsubscribeTag::'.urlencode(test()->tagName).'::">Unsubscribe</a>',
     ]);
 
     test()->emailList = test()->campaign->emailList;
 
     test()->subscriber = test()->campaign->emailList->subscribers->first();
-    test()->subscriber->addTag('some tag');
+    test()->subscriber->addTag(test()->tagName);
 });
 
 it('can render the unsubscribe confirmation page', function () {
@@ -36,7 +38,7 @@ it('can unsubscribe from a tag', function () {
 
     expect(test()->subscriber->status)->toEqual(SubscriptionStatus::Subscribed);
 
-    expect(test()->subscriber->hasTag('some tag'))->toBeTrue();
+    expect(test()->subscriber->hasTag(test()->tagName))->toBeTrue();
 
     $content = $this
         ->post(test()->mailedUnsubscribeLink)
@@ -45,7 +47,7 @@ it('can unsubscribe from a tag', function () {
 
     expect($content)->toContain('unsubscribed');
 
-    expect(test()->subscriber->fresh()->hasTag('some tag'))->toBeFalse();
+    expect(test()->subscriber->fresh()->hasTag(test()->tagName))->toBeFalse();
 });
 
 it('will redirect to the unsubscribed view by default', function () {
@@ -75,7 +77,7 @@ test('the unsubscribe will work even if the send is deleted', function () {
 
     test()->post(test()->mailedUnsubscribeLink)->assertSuccessful();
 
-    expect(test()->subscriber->fresh()->hasTag('some tag'))->toBeFalse();
+    expect(test()->subscriber->fresh()->hasTag(test()->tagName))->toBeFalse();
 });
 
 // Helpers
