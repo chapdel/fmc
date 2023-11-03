@@ -76,7 +76,9 @@
                 :label="__mc('Save content')"
             />
 
-            <x-mailcoach::replacer-help-texts :model="$contentItem" />
+            @isset($contentItem)
+                <x-mailcoach::replacer-help-texts :model="$contentItem" />
+            @endisset
         </div>
 
         @if ($this->autosaveConflict)
