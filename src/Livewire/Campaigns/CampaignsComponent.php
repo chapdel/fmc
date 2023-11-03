@@ -69,11 +69,16 @@ class CampaignsComponent extends TableComponent
                     $record->isScheduled() => 'heroicon-o-clock',
                     $record->status === CampaignStatus::Draft => 'heroicon-o-pencil-square',
                     $record->status === CampaignStatus::Sent => 'heroicon-o-check-circle',
+                    $record->status === CampaignStatus::Sending && $record->isSplitTestStarted() && ! $record->hasSplitTestWinner() => 'heroicon-o-pause',
                     $record->status === CampaignStatus::Sending => 'heroicon-o-arrow-path',
                     $record->status === CampaignStatus::Cancelled => 'heroicon-o-x-circle',
                     default => '',
                 })
                 ->extraAttributes(function (Campaign $record) {
+                    if ($record->status === CampaignStatus::Sending && $record->isSplitTestStarted() && ! $record->hasSplitTestWinner()) {
+                        return [];
+                    }
+
                     if ($record->status === CampaignStatus::Sending) {
                         return ['class' => 'fa-spin'];
                     }
@@ -84,6 +89,7 @@ class CampaignsComponent extends TableComponent
                     $record->isScheduled() => __mc('Scheduled'),
                     $record->status === CampaignStatus::Sent => __mc('Sent'),
                     $record->status === CampaignStatus::Draft => __mc('Draft'),
+                    $record->status === CampaignStatus::Sending && $record->isSplitTestStarted() && ! $record->hasSplitTestWinner() => __mc('Awaiting split results'),
                     $record->status === CampaignStatus::Sending => __mc('Sending'),
                     $record->status === CampaignStatus::Cancelled => __mc('Cancelled'),
                     default => '',
