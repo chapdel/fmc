@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Domain\Vendor\Sendgrid\Jobs;
 
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Spatie\Mailcoach\Domain\Shared\Events\WebhookCallProcessedEvent;
 use Spatie\Mailcoach\Domain\Shared\Models\Send;
@@ -71,8 +72,11 @@ class ProcessSendgridWebhookJob extends ProcessWebhookJob
     protected function isFirstOfThisSendgridMessage(array $rawEvent): bool
     {
         $firstMessageId = (int) WebhookCall::query()
-            ->where('payload', 'LIKE', "%\"sg_event_id\":\"{$rawEvent['sg_event_id']}\"%")
-            ->orWhere('payload', 'LIKE', "%\"sg_event_id\": \"{$rawEvent['sg_event_id']}\"%")
+            ->where('name', 'sendgrid-feedback')
+            ->where(function (Builder $query) use ($rawEvent) {
+                $query->orWhere('payload', 'LIKE', "%\"sg_event_id\":\"{$rawEvent['sg_event_id']}\"%")
+                    ->orWhere('payload', 'LIKE', "%\"sg_event_id\": \"{$rawEvent['sg_event_id']}\"%");
+            })
             ->min('id');
 
         return $this->webhookCall->id === $firstMessageId;
