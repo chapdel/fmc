@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Spatie\Mailcoach\Database\Factories\SubscriberImportFactory;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
@@ -15,6 +16,7 @@ use Spatie\Mailcoach\Domain\Shared\Models\HasUuid;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\SimpleExcel\SimpleExcelWriter;
 
 class SubscriberImport extends Model implements HasMedia
 {
@@ -46,18 +48,9 @@ class SubscriberImport extends Model implements HasMedia
         });
     }
 
-    public function temporaryErrorStoragePath(): string
-    {
-        return "subscriberImports/errors/{$this->id}.csv";
-    }
-
     public function clearErrors(): void
     {
-        $storage = Storage::disk(config('mailcoach.tmp_disk'));
-
-        if (! $storage->exists($this->temporaryErrorStoragePath())) {
-            $storage->delete($this->temporaryErrorStoragePath());
-        }
+        Cache::forget("subscriber-import-errors-{$this->id}");
 
         $this->update(['errors' => 0]);
     }
@@ -66,31 +59,33 @@ class SubscriberImport extends Model implements HasMedia
     {
         $values = $row?->getAllValues() ?? [];
 
-        $storage = Storage::disk(config('mailcoach.tmp_disk'));
+        $errors = Cache::get("subscriber-import-errors-{$this->id}", fn () => []);
+        $errors[] = array_merge($values, ['message' => $message]);
 
-        if (! $storage->exists($this->temporaryErrorStoragePath())) {
-            $storage->put($this->temporaryErrorStoragePath(), '');
-        }
-
-        $handle = fopen($storage->path($this->temporaryErrorStoragePath()), 'a');
-        fputcsv($handle, array_merge($values, ['message' => $message]));
-        fclose($handle);
+        Cache::put("subscriber-import-errors-{$this->id}", $errors);
 
         $this->increment('errors');
     }
 
     public function saveErrorReport(): void
     {
-        $storage = Storage::disk(config('mailcoach.tmp_disk'));
-
-        if ($storage->exists($this->temporaryErrorStoragePath())) {
-            $this
-                ->addMedia($storage->path($this->temporaryErrorStoragePath()))
-                ->setFileName('error_report.csv')
-                ->toMediaCollection('errorReport');
-
-            $storage->delete($this->temporaryErrorStoragePath());
+        if (! Cache::has("subscriber-import-errors-{$this->id}")) {
+            return;
         }
+
+        $path = "subscriberImports/errors/{$this->id}.csv";
+
+        $storage = Storage::disk(config('mailcoach.tmp_disk'));
+        $writer = SimpleExcelWriter::create($storage->path($path));
+        $writer->addRows(Cache::get("subscriber-import-errors-{$this->id}", fn () => []));
+        $writer->close();
+
+        $this
+            ->addMedia($storage->path($path))
+            ->setFileName('error_report.csv')
+            ->toMediaCollection('errorReport');
+
+        $storage->delete($path);
     }
 
     /**
