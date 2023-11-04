@@ -76,6 +76,8 @@ class SubscriberImport extends Model implements HasMedia
         $path = "subscriberImports/errors/{$this->id}.csv";
 
         $storage = Storage::disk(config('mailcoach.tmp_disk'));
+        $storage->makeDirectory('subscriberImports/errors');
+
         $writer = SimpleExcelWriter::create($storage->path($path));
         $writer->addRows(Cache::get("subscriber-import-errors-{$this->id}", fn () => []));
         $writer->close();
