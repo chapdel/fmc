@@ -47,11 +47,10 @@ Route::apiResource('email-lists.tags', TagsController::class)->parameters([
     'email-lists' => 'emailList',
     'tags' => 'tag',
 ]);
-// @todo: Enable segments
-//Route::apiResource('email-lists.segments', SegmentsController::class)->parameters([
-//    'email-lists' => 'emailList',
-//    'segments' => 'segment',
-//]);
+Route::apiResource('email-lists.segments', SegmentsController::class)->only(['index', 'show', 'destroy'])->parameters([
+    'email-lists' => 'emailList',
+    'segments' => 'segment',
+]);
 Route::apiResource('subscribers', SubscribersController::class)->except(['index', 'store'])->parameter('subscribers', 'subscriber');
 
 Route::prefix('subscribers/{subscriber}')->group(function () {
