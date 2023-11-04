@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.1.0 - 2023-11-04
+
+### What's Changed
+
+- Save import errors to a file instead of the database by @riasvdv in https://github.com/spatie/laravel-mailcoach/pull/1410
+- Re-enable Segment API endpoints for index, show & destroy
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.0.2...7.1.0
+
 ## 7.0.2 - 2023-11-02
 
 - Fix wrong controller action in SES wizard
