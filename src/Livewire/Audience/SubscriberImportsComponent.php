@@ -101,7 +101,7 @@ class SubscriberImportsComponent extends TableComponent
 
     public function downloadAttatchment(SubscriberImport $subscriberImport, string $collection)
     {
-        if ($collection === 'errorReport') {
+        if ($collection === 'errorReport' && ! is_numeric($subscriberImport->errors)) {
             $temporaryDirectory = TemporaryDirectory::make();
 
             app()->terminating(function () use ($temporaryDirectory) {
@@ -111,7 +111,7 @@ class SubscriberImportsComponent extends TableComponent
             return response()->download(
                 SimpleExcelWriter::create($temporaryDirectory->path('errorReport.csv'), 'csv')
                     ->noHeaderRow()
-                    ->addRows($subscriberImport->errors ?? [])
+                    ->addRows(json_decode($subscriberImport->errors ?? '[]', true))
                     ->getPath()
             );
         }
@@ -225,7 +225,7 @@ class SubscriberImportsComponent extends TableComponent
                 ->label(__mc('Processed rows'))
                 ->numeric(),
             TextColumn::make('errors')
-                ->getStateUsing(fn (SubscriberImport $record) => count($record->errors ?? []))
+                ->getStateUsing(fn (SubscriberImport $record) => $record->errorCount())
                 ->numeric()
                 ->label(__mc('Errors')),
         ];
@@ -243,7 +243,7 @@ class SubscriberImportsComponent extends TableComponent
                 Action::make('download-errors')
                     ->label(__mc('Error report'))
                     ->icon('heroicon-o-exclamation-circle')
-                    ->hidden(fn (SubscriberImport $record) => count($record->errors ?? []) === 0)
+                    ->hidden(fn (SubscriberImport $record) => $record->errorCount() === 0)
                     ->action(fn (SubscriberImport $record) => $this->downloadAttatchment($record, 'errorReport')),
                 Action::make('download-uploaded-file')
                     ->label(__mc('Uploaded file'))

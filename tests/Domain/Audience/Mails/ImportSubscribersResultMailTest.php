@@ -27,7 +27,7 @@ it('does not contain error message if there are no errors', function () {
 
 it('contains error count', function () {
     $subscriberImport = SubscriberImport::factory()->create([
-        'errors' => ['one', 'two'],
+        'errors' => 2,
     ]);
 
     expect((new ImportSubscribersResultMail($subscriberImport))->render())

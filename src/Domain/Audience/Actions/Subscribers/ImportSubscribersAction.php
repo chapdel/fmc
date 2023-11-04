@@ -61,6 +61,7 @@ class ImportSubscribersAction
                 'status' => SubscriberImportStatus::Importing,
                 'imported_subscribers_count' => 0,
             ]);
+            $this->subscriberImport->clearErrors();
 
             $reader = $this->createSimpleExcelReaderAction->execute($this->subscriberImport);
 
@@ -85,6 +86,7 @@ class ImportSubscribersAction
                 $this->subscriberImport->update([
                     'status' => SubscriberImportStatus::Failed,
                 ]);
+                $this->subscriberImport->saveErrorReport();
 
                 return $this;
             }
@@ -103,6 +105,7 @@ class ImportSubscribersAction
             );
 
             $this->subscriberImport->update(['status' => SubscriberImportStatus::Failed]);
+            $this->subscriberImport->saveErrorReport();
         }
 
         return $this;
@@ -110,7 +113,7 @@ class ImportSubscribersAction
 
     protected function unsubscribeMissing(): self
     {
-        if (count($this->subscriberImport->fresh()->errors ?? []) || ! $this->subscriberImport['unsubscribe_others']) {
+        if ($this->subscriberImport->fresh()->errorCount() || ! $this->subscriberImport['unsubscribe_others']) {
             return $this;
         }
 

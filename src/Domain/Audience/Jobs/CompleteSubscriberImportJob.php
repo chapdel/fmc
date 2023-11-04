@@ -47,6 +47,7 @@ class CompleteSubscriberImportJob implements ShouldQueue
         $this->subscriberImport->update([
             'status' => SubscriberImportStatus::Completed,
         ]);
+        $this->subscriberImport->saveErrorReport();
 
         if (! $this->user) {
             return;

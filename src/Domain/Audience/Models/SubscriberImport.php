@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 use Spatie\Mailcoach\Database\Factories\SubscriberImportFactory;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriberImportStatus;
 use Spatie\Mailcoach\Domain\Audience\Support\ImportSubscriberRow;
@@ -32,7 +33,6 @@ class SubscriberImport extends Model implements HasMedia
         'mailcoach_email_lists_ids' => 'array',
         'replace_tags' => 'boolean',
         'status' => SubscriberImportStatus::class,
-        'errors' => 'array',
         'subscribe_unsubscribed' => 'boolean',
         'unsubscribe_missing' => 'boolean',
     ];
@@ -46,14 +46,63 @@ class SubscriberImport extends Model implements HasMedia
         });
     }
 
+    public function temporaryErrorStoragePath(): string
+    {
+        return "subscriberImports/errors/{$this->id}.csv";
+    }
+
+    public function clearErrors(): void
+    {
+        $storage = Storage::disk(config('mailcoach.tmp_disk'));
+
+        if (! $storage->exists($this->temporaryErrorStoragePath())) {
+            $storage->delete($this->temporaryErrorStoragePath());
+        }
+
+        $this->update(['errors' => 0]);
+    }
+
     public function addError(string $message, ImportSubscriberRow $row = null): void
     {
         $values = $row?->getAllValues() ?? [];
 
-        $errors = $this->errors;
-        $errors[] = array_merge($values, ['message' => $message]);
-        $this->errors = $errors;
-        $this->save();
+        $storage = Storage::disk(config('mailcoach.tmp_disk'));
+
+        if (! $storage->exists($this->temporaryErrorStoragePath())) {
+            $storage->put($this->temporaryErrorStoragePath(), '');
+        }
+
+        $handle = fopen($storage->path($this->temporaryErrorStoragePath()), 'a');
+        fputcsv($handle, array_merge($values, ['message' => $message]));
+        fclose($handle);
+
+        $this->increment('errors');
+    }
+
+    public function saveErrorReport(): void
+    {
+        $storage = Storage::disk(config('mailcoach.tmp_disk'));
+
+        if ($storage->exists($this->temporaryErrorStoragePath())) {
+            $this
+                ->addMedia($storage->path($this->temporaryErrorStoragePath()))
+                ->setFileName('error_report.csv')
+                ->toMediaCollection('errorReport');
+
+            $storage->delete($this->temporaryErrorStoragePath());
+        }
+    }
+
+    /**
+     * This is for backwards compatibility with
+     * subscriber imports that still have the
+     * errors as a json array inside the table.
+     */
+    public function errorCount(): int
+    {
+        return is_numeric($this->errors)
+            ? $this->errors
+            : count(json_decode($this->errors ?? '[]', true));
     }
 
     public function emailList(): BelongsTo

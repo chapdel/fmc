@@ -35,7 +35,7 @@ it('can subscribe multiple emails in one go', function () {
 
     expect($subscriberImport->imported_subscribers_count)->toEqual(5);
     expect($subscriberImport->subscribers()->count())->toEqual(3);
-    expect(count($subscriberImport->errors))->toEqual(2);
+    expect($subscriberImport->errorCount())->toEqual(2);
 
     Mail::assertSent(ImportSubscribersResultMail::class, function (ImportSubscribersResultMail $mail) use ($subscriberImport) {
         expect($mail->hasTo($this->user->email))->toBeTrue();
@@ -168,7 +168,7 @@ test('by default it will not subscribe a subscriber that has unsubscribed to the
 
     expect($this->emailList->isSubscribed('john@example.com'))->toBeFalse();
     expect($this->emailList->subscribers)->toHaveCount(0);
-    expect(count(SubscriberImport::first()->errors))->toEqual(1);
+    expect(SubscriberImport::first()->errorCount())->toEqual(1);
 });
 
 it('can subscribe subscribers that were unsubscribed before', function () {
@@ -179,7 +179,7 @@ it('can subscribe subscribers that were unsubscribed before', function () {
 
     expect($this->emailList->isSubscribed('john@example.com'))->toBeTrue();
     expect($this->emailList->subscribers)->toHaveCount(1);
-    expect(SubscriberImport::first()->error_count)->toEqual(0);
+    expect(SubscriberImport::first()->errorCount())->toEqual(0);
 });
 
 test('by default it will not unsubscribe any existing subscribers', function () {
@@ -242,7 +242,7 @@ it('can handle a substack export file', function () {
 
     expect($subscriberImport->imported_subscribers_count)->toEqual(2);
     expect($subscriberImport->subscribers()->count())->toEqual(2);
-    expect($subscriberImport->errors)->toBeNull();
+    expect($subscriberImport->errorCount())->toBe(0);
 
     Mail::assertSent(ImportSubscribersResultMail::class, function (ImportSubscribersResultMail $mail) use ($subscriberImport) {
         expect($mail->hasTo($this->user->email))->toBeTrue();
