@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.1.1 - 2023-11-04
+
+- Use cache for storing the errors during import
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.1.0...7.1.1
+
 ## 7.1.0 - 2023-11-04
 
 ### What's Changed
