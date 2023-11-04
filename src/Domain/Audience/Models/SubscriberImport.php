@@ -86,6 +86,7 @@ class SubscriberImport extends Model implements HasMedia
             ->toMediaCollection('errorReport');
 
         $storage->delete($path);
+        Cache::forget("subscriber-import-errors-{$this->id}");
     }
 
     /**
