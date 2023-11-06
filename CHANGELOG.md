@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.1.4 - 2023-11-06
+
+- Fixes Octane compatibility #1414
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.1.3...7.1.4
+
 ## 6.27.10 - 2023-11-06
 
 **Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/6.27.9...6.27.10
