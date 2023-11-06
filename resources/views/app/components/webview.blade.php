@@ -3,8 +3,9 @@
     <div wire:ignore x-data="{
         html: @js($html),
     }">
-            <embedded-webview x-bind:html="html" />
+        <embedded-webview x-bind:html="html" />
 
+        @once
             <script>
                 class EmbeddedWebview extends HTMLElement {
                     static observedAttributes = ["html"];
@@ -17,5 +18,6 @@
 
                 window.customElements.define('embedded-webview', EmbeddedWebview);
             </script>
+        @endonce
     </div>
 @endif
