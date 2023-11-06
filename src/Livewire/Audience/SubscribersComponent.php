@@ -186,12 +186,12 @@ class SubscribersComponent extends TableComponent
                 ->label(__mc('Tags'))
                 ->multiple()
                 ->options(fn () => $this->emailList->tags()->where('type', TagType::Default)->pluck('name', 'uuid'))
-                ->query(fn (Builder $query, array $data) => $this->applyTagsQuery($query, $data['values'])),
+                ->query(fn (Builder $query, array $data) => $this->applyTagsQuery($query, $data['values'] ?? [])),
             SelectFilter::make('mailcoach_tags')
                 ->label(__mc('Mailcoach tags'))
                 ->multiple()
                 ->options(fn () => $this->emailList->tags()->where('type', TagType::Mailcoach)->pluck('name', 'uuid'))
-                ->query(fn (Builder $query, array $data) => $this->applyTagsQuery($query, $data['values'])),
+                ->query(fn (Builder $query, array $data) => $this->applyTagsQuery($query, $data['values'] ?? [])),
             SelectFilter::make('opened_campaign')
                 ->label(__mc('Opened campaign'))
                 ->multiple()
