@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.1.2 - 2023-11-06
+
+- Fix an issue with split testing & embedded webviews for the preview modal
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.1.1...7.1.2
+
 ## 7.1.1 - 2023-11-04
 
 - Use cache for storing the errors during import
