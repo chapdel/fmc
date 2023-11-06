@@ -32,6 +32,21 @@ class Mailcoach
         'after' => [],
     ];
 
+    public static function flushState(): void
+    {
+        static::$editorScripts = [];
+        static::$editorStyles = [];
+        static::$mainMenuItems = [];
+        static::$userMenuItems = [
+            'before' => [],
+            'after' => [],
+        ];
+        static::$settingsMenuItems = [
+            'before' => [],
+            'after' => [],
+        ];
+    }
+
     public static function styles(): string
     {
         // Default to dynamic `app.css` (served by a Laravel route).

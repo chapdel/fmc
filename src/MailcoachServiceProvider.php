@@ -282,7 +282,8 @@ class MailcoachServiceProvider extends PackageServiceProvider
             ->bootPostmark()
             ->bootSendgrid()
             ->bootSendinblue()
-            ->bootSes();
+            ->bootSes()
+            ->bootOctane();
     }
 
     protected function bootCarbon(): static
@@ -776,5 +777,24 @@ class MailcoachServiceProvider extends PackageServiceProvider
         config()->set('livewire-ui-spotlight.include_css', false);
 
         return $this;
+    }
+
+    protected function bootOctane(): void
+    {
+        $this->app['events']->listen(\Laravel\Octane\Events\RequestReceived::class, function () {
+            Mailcoach::flushState();
+        });
+
+        $this->app['events']->listen(\Laravel\Octane\Events\TaskReceived::class, function () {
+            Mailcoach::flushState();
+        });
+
+        $this->app['events']->listen(\Laravel\Octane\Events\TickReceived::class, function () {
+            Mailcoach::flushState();
+        });
+
+        $this->app['events']->listen(\Laravel\Octane\Events\RequestTerminated::class, function () {
+            Mailcoach::flushState();
+        });
     }
 }
