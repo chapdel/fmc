@@ -48,7 +48,7 @@ class SubscribersComponent extends TableComponent
 
     protected function getDefaultTableSortColumn(): ?string
     {
-        return 'created_at';
+        return 'id';
     }
 
     protected function getDefaultTableSortDirection(): ?string
