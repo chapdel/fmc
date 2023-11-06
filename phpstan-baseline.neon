@@ -425,3 +425,23 @@ parameters:
 			message: "#^Static method Spatie\\\\Mailcoach\\\\Mailcoach\\:\\:getAutomationActionClass\\(\\) invoked with 0 parameters, 2 required\\.$#"
 			count: 1
 			path: src/Mailcoach.php
+
+		-
+			message: "#^Class Laravel\\\\Octane\\\\Events\\\\RequestReceived not found\\.$#"
+			count: 1
+			path: src/MailcoachServiceProvider.php
+
+		-
+			message: "#^Class Laravel\\\\Octane\\\\Events\\\\RequestTerminated not found\\.$#"
+			count: 1
+			path: src/MailcoachServiceProvider.php
+
+		-
+			message: "#^Class Laravel\\\\Octane\\\\Events\\\\TaskReceived not found\\.$#"
+			count: 1
+			path: src/MailcoachServiceProvider.php
+
+		-
+			message: "#^Class Laravel\\\\Octane\\\\Events\\\\TickReceived not found\\.$#"
+			count: 1
+			path: src/MailcoachServiceProvider.php
