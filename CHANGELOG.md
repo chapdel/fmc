@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.1.5 - 2023-11-06
+
+### What's Changed
+
+- Add file size validation for subscriber imports by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1415
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.1.4...7.1.5
+
 ## 7.1.4 - 2023-11-06
 
 - Fixes Octane compatibility #1414
