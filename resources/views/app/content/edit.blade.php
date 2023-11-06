@@ -38,6 +38,12 @@
                     <button type="button" x-tooltip="'{{ __mc('Preview') }}'" x-on:click.prevent="$dispatch('open-modal', { id: 'preview-{{ $contentItem->uuid }}' })">
                         <x-icon class="w-5 h-5" name="heroicon-o-eye" />
                     </button>
+                    <button type="button"
+                        x-tooltip="'{{ __mc('Save & send test') }}'"
+                        x-on:click="$wire.call('save'); $dispatch('open-modal', { id: 'send-test-{{ $contentItem->uuid }}' })"
+                    >
+                        <x-icon class="w-5 h-5" name="heroicon-o-paper-airplane" />
+                    </button>
                     @if ($contentItems->count() > 1)
                         <x-mailcoach::confirm-button on-confirm="() => $wire.deleteSplitTest('{{ $contentItem->uuid }}')" confirm-text="{{ __mc('Are you sure you want to delete this split test?') }}" x-tooltip="'{{ __mc('Delete') }}'">
                             <x-icon class="w-5 h-5 link-danger" name="heroicon-o-trash" />
@@ -63,6 +69,26 @@
                 @livewire(config('mailcoach.content_editor'), [
                     'model' => $contentItem,
                 ])
+
+                @if ($contentItems->count() > 1)
+                    <div class="flex items-center gap-x-4 w-full">
+                        <x-mailcoach::button-secondary
+                            class="link-dimmed"
+                            x-on:click.prevent="$dispatch('open-modal', { id: 'preview-{{ $contentItem->uuid }}' })"
+                            :label="__mc('Preview')"
+                        />
+                        <x-mailcoach::button-secondary
+                            class="link-dimmed"
+                            x-on:click.prevent="$wire.call('save'); $dispatch('open-modal', { id: 'send-test-{{ $contentItem->uuid }}' })"
+                            :label="__mc('Save & send test')"
+                        />
+                        <x-mailcoach::button-secondary
+                            class="link-dimmed"
+                            wire:click="addSplitTest('{{ $contentItem->uuid }}')"
+                            :label="__mc('Add split test')"
+                        />
+                    </div>
+                @endif
             </div>
         </div>
     @endforeach
@@ -76,9 +102,30 @@
                 :label="__mc('Save content')"
             />
 
-            @isset($contentItem)
-                <x-mailcoach::replacer-help-texts :model="$contentItem" />
-            @endisset
+            @if ($contentItems->count() <= 1)
+                <div class="flex items-center gap-x-6 w-full">
+                    <x-mailcoach::button-secondary
+                        class="link-dimmed !ml-0"
+                        x-on:click.prevent="$dispatch('open-modal', { id: 'preview-{{ $contentItem->uuid }}' })"
+                        :label="__mc('Preview')"
+                    />
+                    @isset($contentItem)
+                        <x-mailcoach::replacer-help-texts :model="$contentItem" />
+                    @endisset
+                    <x-mailcoach::button-secondary
+                        class="link-dimmed !ml-0"
+                        x-on:click.prevent="$wire.call('save'); $dispatch('open-modal', { id: 'send-test-{{ $contentItem->uuid }}' })"
+                        :label="__mc('Save & send test')"
+                    />
+                    <x-mailcoach::button-secondary
+                        class="link-dimmed !ml-0"
+                        wire:click="addSplitTest('{{ $contentItem->uuid }}')"
+                        :label="__mc('Add split test')"
+                    />
+
+                </div>
+            @endif
+
         </div>
 
         @if ($this->autosaveConflict)
@@ -92,12 +139,18 @@
     </x-mailcoach::form-buttons>
 
     @foreach ($contentItems as $index => $contentItem)
-        <div class="absolute" wire:key="preview-modal-{{ md5($preview[$contentItem->uuid]) }}">
-            <x-mailcoach::preview-modal
-                id="preview-{{ $contentItem->uuid }}"
-                :html="$preview[$contentItem->uuid]"
-                :title="__mc('Preview') . ($contentItem->subject ? ' - ' . $contentItem->subject : '')"
-            />
+        <div wire:key="modals-{{ md5($preview[$contentItem->uuid]) }}">
+            <div class="absolute" wire:key="preview-modal-{{ md5($preview[$contentItem->uuid]) }}">
+                <x-mailcoach::preview-modal
+                    id="preview-{{ $contentItem->uuid }}"
+                    :html="$preview[$contentItem->uuid]"
+                    :title="__mc('Preview') . ($contentItem->subject ? ' - ' . $contentItem->subject : '')"
+                />
+            </div>
+
+            <x-mailcoach::modal :title="__mc('Send Test')" name="send-test-{{ $contentItem->uuid }}" :dismissable="true">
+                <livewire:mailcoach::send-test :model="$contentItem"/>
+            </x-mailcoach::modal>
         </div>
     @endforeach
 </x-mailcoach::card>
