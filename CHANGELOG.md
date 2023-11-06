@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.1.3 - 2023-11-06
+
+### What's Changed
+
+- Fix issue with charts data by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1413
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.1.2...7.1.3
+
 ## 7.1.2 - 2023-11-06
 
 - Fix an issue with split testing & embedded webviews for the preview modal
