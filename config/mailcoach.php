@@ -144,7 +144,7 @@ return [
          */
         'actions' => Subscriber::defaultActions()->merge([
             // 'confirm_subscriber' => \App\Mailcoach\Audience\Actions\Subscribers\CustomConfirmSubscriberAction::class,
-        ]),
+        ])->toArray(),
 
         /*
          * This disk will be used to store files regarding importing subscribers.
