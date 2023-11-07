@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.1.6 - 2023-11-07
+
+- Fix config file not being cachable
+- Update publish command
+- Fix counts on delivery screen
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.1.5...7.1.6
+
 ## 7.1.5 - 2023-11-06
 
 ### What's Changed
