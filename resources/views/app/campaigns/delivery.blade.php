@@ -1,5 +1,5 @@
 <?php /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign $campaign */ ?>
-<div class="grid grid-cols-1 gap-6" wire:init="loadData">
+<div class="grid grid-cols-1 gap-6">
     @if ($campaign->isEditable())
         <div class="grid gap-2">
             @if($campaign->isReady())
@@ -74,16 +74,12 @@
             @endif
 
             <dt>
-                @if (! is_null($subscribersCount))
-                    <x-mailcoach::health-label reverse :test="$subscribersCount" :label="__mc('To')"/>
-                @else
-                    ...
-                @endif
+                <x-mailcoach::health-label reverse :test="$campaign->segmentSubscriberCount()" :label="__mc('To')"/>
             </dt>
 
             <dd>
                 <div>
-                    @if($subscribersCount = $campaign->emailListSubscriberCount())
+                    @if($subscribersCount = $campaign->segmentSubscriberCount())
                         {{ $campaign->emailList->name }}
                         @if($campaign->usesSegment())
                             ({{ $campaign->getSegment()->description() }})
