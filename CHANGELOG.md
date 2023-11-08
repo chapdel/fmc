@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.1.7 - 2023-11-08
+
+- Update remove image button to a link below the image so it works with all sorts of images
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.1.6...7.1.7
+
 ## 7.1.6 - 2023-11-07
 
 - Fix config file not being cachable
