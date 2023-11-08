@@ -39,7 +39,7 @@ class AttributeCondition implements Condition
     {
         return __mc(':attribute :comparison :value', [
             'attribute' => $data['attribute'],
-            'comparison' => self::getComparisons()[$data['comparison']],
+            'comparison' => self::getComparisons()[$data['comparison']] ?? null,
             'value' => $data['value'],
         ]);
     }
