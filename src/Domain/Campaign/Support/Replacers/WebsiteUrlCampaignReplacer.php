@@ -15,6 +15,10 @@ class WebsiteUrlCampaignReplacer implements CampaignReplacer
 
     public function replace(string $text, Campaign $campaign): string
     {
+        if (! $campaign->emailList) {
+            return $text;
+        }
+
         $websiteUrl = $campaign->emailList->websiteEnabled()
              ? $campaign->emailList->websiteUrl()
             : '';
