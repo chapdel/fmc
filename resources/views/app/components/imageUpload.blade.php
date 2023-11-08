@@ -71,7 +71,9 @@
             <img :src="imageUrl"
                  class="object-cover rounded-md border border-gray-200 w-full card p-0"
             >
-            <i x-tooltip="'{{ __mc('Remove image') }}'" x-on:click="imageUrl = ''" class="fa fa-trash absolute top-0 right-0 mt-4 mr-4 cursor-pointer transition-colors hover:text-red-700"></i>
+            <a href="" x-on:click.prevent="imageUrl = ''" class="link-danger mt-1 inline-block">
+                {{ __mc('Remove image') }}
+            </a>
         </div>
     </template>
 </div>
