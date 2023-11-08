@@ -420,6 +420,39 @@ it('will not sent when the email is listed as suppressed', function () {
     Mail::assertNothingSent();
 });
 
+it('validates replacement format', function () {
+    Mail::fake();
+    $this->withExceptionHandling();
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template',
+            'from' => 'rias@spatie.be',
+            'to' => 'rias@spatie.be',
+            'replacements' => [
+                'foo' => ['some', 'array'],
+            ],
+        ]))
+        ->assertStatus(422)
+        ->assertJsonValidationErrorFor('replacements.foo');
+});
+
+it('replacements can contain an int', function () {
+    Mail::fake();
+    $this->withExceptionHandling();
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template',
+            'from' => 'rias@spatie.be',
+            'to' => 'rias@spatie.be',
+            'replacements' => [
+                'foo' => 1,
+            ],
+        ]))
+        ->assertStatus(204);
+});
+
 function getSentMessage(): ?Email
 {
     /** @var \Symfony\Component\Mailer\SentMessage $email */
