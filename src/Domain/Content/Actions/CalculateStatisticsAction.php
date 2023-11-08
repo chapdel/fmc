@@ -23,9 +23,14 @@ class CalculateStatisticsAction
         $contentItem->update(['statistics_calculated_at' => now()]);
         $contentItem->fresh('model');
 
+        /** @var \Spatie\Mailcoach\Domain\Campaign\Models\Campaign|\Spatie\Mailcoach\Domain\Automation\Models\AutomationMail $model */
+        if (! $model = $contentItem->getModel()) {
+            return;
+        }
+
         match (true) {
-            $contentItem->getModel() instanceof (static::getCampaignClass()) => event(new CampaignStatisticsCalculatedEvent($contentItem->getModel())),
-            $contentItem->getModel() instanceof (static::getAutomationMailClass()) => event(new AutomationMailStatisticsCalculatedEvent($contentItem->getModel())),
+            $model instanceof (static::getCampaignClass()) => event(new CampaignStatisticsCalculatedEvent($model)),
+            $model instanceof (static::getAutomationMailClass()) => event(new AutomationMailStatisticsCalculatedEvent($model)),
             default => null,
         };
     }
