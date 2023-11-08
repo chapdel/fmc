@@ -11,7 +11,7 @@ class AddOpenedTag
     {
         $contentItem = $event->open->contentItem;
 
-        if (! $contentItem->add_subscriber_tags) {
+        if (! $contentItem?->add_subscriber_tags) {
             return;
         }
 

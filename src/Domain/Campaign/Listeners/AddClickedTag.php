@@ -11,6 +11,11 @@ class AddClickedTag
     public function handle(LinkClickedEvent $event)
     {
         $contentItem = $event->click->link->contentItem;
+
+        if (! $contentItem) {
+            return;
+        }
+
         $subscriber = $event->click->subscriber;
         $type = match ($event->click->link->contentItem->model_type) {
             'automation_mail' => 'automation-mail',
