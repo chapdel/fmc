@@ -304,6 +304,7 @@ return [
         ],
         'api' => [
             'api',
+            'auth:sanctum',
         ],
     ],
 
