@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\Audience\Enums\SubscriptionStatus;
 use Spatie\Mailcoach\Domain\Audience\Enums\TagType;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -19,6 +20,7 @@ class ManagePreferencesController
             $emailList = self::getEmailListClass()::findByUuid($sendUuid);
             $subscriberClass = self::getSubscriberClass();
             $subscriber = new $subscriberClass([
+                'uuid' => Str::uuid(),
                 'email_list_id' => $emailList->id,
             ]);
             $tags = $emailList->tags()->where('type', TagType::Default)->where('visible_in_preferences', true)->get();
