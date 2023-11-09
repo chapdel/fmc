@@ -5,11 +5,11 @@
 <x-mailcoach::fieldset card :legend="__mc('Audience')">
     @if($emailLists->count())
         <x-mailcoach::select-field
-                :label="__mc('List')"
-                name="{{ $wiremodel ? $wiremodel . '.' : '' }}email_list_id"
-                wire:model.live="{{ $wiremodel ? $wiremodel . '.' : '' }}email_list_id"
-                :options="$emailLists->pluck('name', 'id')"
-                required
+            :label="__mc('List')"
+            name="{{ $wiremodel ? $wiremodel . '.' : '' }}email_list_id"
+            wire:model.live="{{ $wiremodel ? $wiremodel . '.' : '' }}email_list_id"
+            :options="$emailLists->pluck('name', 'id')"
+            required
         />
 
         @if($segmentable->usingCustomSegment())
@@ -42,14 +42,20 @@
                         </div>
                         @if ($segment !== 'entire_list')
                             <div class="w-full">
-                                @php($list = Arr::first($segmentsData, fn(array $list) => (int) $list['id'] === (int) $segmentable->email_list_id, $segmentsData[0]))
+                                @php
+                                $listId = $wiremodel
+                                    ? $$wiremodel->email_list_id
+                                    : $email_list_id;
+
+                                $list = Arr::first($segmentsData, fn(array $list) => (int) $list['id'] === (int) $listId, $segmentsData[0]);
+                                @endphp
                                 @if (count($list['segments']))
                                     <div class="ml-4 -my-2">
                                         <x-mailcoach::select-field
-                                                name="{{ $wiremodel ? $wiremodel . '.' : '' }}segment_id"
-                                                wire:model="{{ $wiremodel ? $wiremodel . '.' : '' }}segment_id"
-                                                :options="$list['segments']"
-                                                :placeholder="__mc('Select a segment')"
+                                            name="{{ $wiremodel ? $wiremodel . '.' : '' }}segment_id"
+                                            wire:model.live="{{ $wiremodel ? $wiremodel . '.' : '' }}segment_id"
+                                            :options="$list['segments']"
+                                            :placeholder="__mc('Select a segment')"
                                         />
                                         @error(($wiremodel ? $wiremodel . '.' : '') . 'segment_id')
                                         <p class="form-error">{{ $message }}</p>
