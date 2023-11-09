@@ -20,6 +20,8 @@ class ExportEmailListsJob extends ExportJob
 
     public function execute(): void
     {
+        $prefix = DB::getTablePrefix();
+
         $emailLists = DB::table(self::getEmailListTableName())
             ->whereIn('id', $this->selectedEmailLists)
             ->get();
@@ -27,7 +29,7 @@ class ExportEmailListsJob extends ExportJob
         $allowedSubscriptionTags = DB::table('mailcoach_email_list_allow_form_subscription_tags')
             ->select(
                 'mailcoach_email_list_allow_form_subscription_tags.*',
-                DB::raw(self::getEmailListTableName().'.uuid as email_list_uuid')
+                DB::raw($prefix.self::getEmailListTableName().'.uuid as email_list_uuid')
             )
             ->join(self::getEmailListTableName(), self::getEmailListTableName().'.id', '=', 'mailcoach_email_list_allow_form_subscription_tags.email_list_id')
             ->whereIn('email_list_id', $this->selectedEmailLists)

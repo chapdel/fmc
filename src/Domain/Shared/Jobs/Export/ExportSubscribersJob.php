@@ -25,9 +25,10 @@ class ExportSubscribersJob extends ExportJob
     public function execute(): void
     {
         $subscribersCount = 0;
+        $prefix = DB::getTablePrefix();
 
         DB::table(self::getSubscriberTableName())
-            ->select(self::getSubscriberTableName().'.*', DB::raw(self::getEmailListTableName().'.uuid as email_list_uuid'))
+            ->select($prefix.self::getSubscriberTableName().'.*', DB::raw(self::getEmailListTableName().'.uuid as email_list_uuid'))
             ->join(self::getEmailListTableName(), self::getEmailListTableName().'.id', self::getSubscriberTableName().'.email_list_id')
             ->orderBy('id')
             ->whereIn('email_list_id', $this->selectedEmailLists)

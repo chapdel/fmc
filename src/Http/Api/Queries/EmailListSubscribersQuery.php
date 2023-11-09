@@ -62,11 +62,13 @@ class EmailListSubscribersQuery extends QueryBuilder
 
                     $request ??= request();
 
+                    $prefix = DB::getTablePrefix();
+
                     if (($request->get('filter')['tagType'] ?? 'any') === 'all') {
                         $query->where(
                             DB::table('mailcoach_email_list_subscriber_tags')
                                 ->selectRaw('count(*)')
-                                ->where(self::getSubscriberTableName().'.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
+                                ->where(self::getSubscriberTableName().'.id', DB::raw($prefix.'mailcoach_email_list_subscriber_tags.subscriber_id'))
                                 ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $tagIds->toArray()),
                             '>=', $tagIds->count()
                         );
@@ -75,7 +77,7 @@ class EmailListSubscribersQuery extends QueryBuilder
                     }
 
                     $query->addWhereExistsQuery(DB::table('mailcoach_email_list_subscriber_tags')
-                        ->where(self::getSubscriberTableName().'.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
+                        ->where(self::getSubscriberTableName().'.id', DB::raw($prefix.'mailcoach_email_list_subscriber_tags.subscriber_id'))
                         ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $tagIds->toArray())
                     );
                 }),

@@ -51,21 +51,23 @@ class SubscriberTagsQueryCondition extends QueryCondition
 
         $values = Arr::wrap($value);
 
+        $prefix = DB::getTablePrefix();
+
         return match ($operator) {
             ComparisonOperator::All => $baseQuery
                 ->where(
                     DB::table('mailcoach_email_list_subscriber_tags')
                         ->selectRaw('count(*)')
-                        ->where(self::getSubscriberTableName().'.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
+                        ->where(self::getSubscriberTableName().'.id', DB::raw($prefix.'mailcoach_email_list_subscriber_tags.subscriber_id'))
                         ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $values),
                     '>=', count($values)
                 ),
             ComparisonOperator::In => $baseQuery->addWhereExistsQuery(DB::table('mailcoach_email_list_subscriber_tags')
-                ->where(self::getSubscriberTableName().'.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
+                ->where(self::getSubscriberTableName().'.id', DB::raw($prefix.'mailcoach_email_list_subscriber_tags.subscriber_id'))
                 ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $values)
             ),
             ComparisonOperator::NotIn => $baseQuery->addWhereExistsQuery(DB::table('mailcoach_email_list_subscriber_tags')
-                ->where(self::getSubscriberTableName().'.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
+                ->where(self::getSubscriberTableName().'.id', DB::raw($prefix.'mailcoach_email_list_subscriber_tags.subscriber_id'))
                 ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $values),
                 not: true
             ),
@@ -73,7 +75,7 @@ class SubscriberTagsQueryCondition extends QueryCondition
                 ->where(
                     DB::table('mailcoach_email_list_subscriber_tags')
                         ->selectRaw('count(*)')
-                        ->where(self::getSubscriberTableName().'.id', DB::raw('mailcoach_email_list_subscriber_tags.subscriber_id'))
+                        ->where(self::getSubscriberTableName().'.id', DB::raw($prefix.'mailcoach_email_list_subscriber_tags.subscriber_id'))
                         ->whereIn('mailcoach_email_list_subscriber_tags.tag_id', $values),
                     '<', count($values)
                 ),

@@ -75,12 +75,14 @@ class ListsComponent extends TableComponent
 
     protected function getTableQuery(): Builder
     {
+        $prefix = DB::getTablePrefix();
+
         return self::getEmailListClass()::query()
             ->select(self::getEmailListTableName().'.*')
             ->selectSub(
                 query: self::getSubscriberClass()::query()
                     ->subscribed()
-                    ->where('email_list_id', DB::raw(self::getEmailListTableName().'.id'))
+                    ->where('email_list_id', DB::raw($prefix.self::getEmailListTableName().'.id'))
                     ->select(DB::raw('count(*)')),
                 as: 'active_subscribers_count'
             );

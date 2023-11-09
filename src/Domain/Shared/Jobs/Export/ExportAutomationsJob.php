@@ -21,11 +21,13 @@ class ExportAutomationsJob extends ExportJob
 
     public function execute(): void
     {
+        $prefix = DB::getTablePrefix();
+
         $automations = DB::table(self::getAutomationTableName())
             ->select(
                 self::getAutomationTableName().'.*',
-                DB::raw(self::getEmailListTableName().'.uuid as email_list_uuid'),
-                DB::raw(self::getTagSegmentTableName().'.name as segment_name'),
+                DB::raw($prefix.self::getEmailListTableName().'.uuid as email_list_uuid'),
+                DB::raw($prefix.self::getTagSegmentTableName().'.name as segment_name'),
             )
             ->join(self::getEmailListTableName(), self::getEmailListTableName().'.id', '=', self::getAutomationTableName().'.email_list_id')
             ->leftJoin(self::getTagSegmentTableName(), self::getTagSegmentTableName().'.id', '=', self::getAutomationTableName().'.segment_id')
@@ -54,8 +56,8 @@ class ExportAutomationsJob extends ExportJob
             ->orderBy('id')
             ->select(
                 self::getActionSubscriberTableName().'.*',
-                DB::raw(self::getSubscriberTableName().'.uuid as subscriber_uuid'),
-                DB::raw(self::getAutomationActionTableName().'.uuid as action_uuid'),
+                DB::raw($prefix.self::getSubscriberTableName().'.uuid as subscriber_uuid'),
+                DB::raw($prefix.self::getAutomationActionTableName().'.uuid as action_uuid'),
             )
             ->join(self::getSubscriberTableName(), self::getSubscriberTableName().'.id', '=', self::getActionSubscriberTableName().'.subscriber_id')
             ->join(

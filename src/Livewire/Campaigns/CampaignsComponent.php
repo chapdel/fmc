@@ -23,6 +23,7 @@ class CampaignsComponent extends TableComponent
 {
     public function getTableQuery(): Builder
     {
+        $prefix = DB::getTablePrefix();
         $campaignsTable = self::getCampaignTableName();
 
         return self::getCampaignClass()::query()
@@ -30,10 +31,10 @@ class CampaignsComponent extends TableComponent
             ->with(['emailList', 'contentItems'])
             ->addSelect(DB::raw(<<<"SQL"
                 CASE
-                    WHEN status = 'draft' AND scheduled_at IS NULL THEN CONCAT(999999999, {$campaignsTable}.id)
-                    WHEN {$campaignsTable}.scheduled_at IS NOT NULL THEN {$campaignsTable}.scheduled_at
-                    WHEN {$campaignsTable}.sent_at IS NOT NULL THEN {$campaignsTable}.sent_at
-                    ELSE {$campaignsTable}.updated_at
+                    WHEN status = 'draft' AND scheduled_at IS NULL THEN CONCAT(999999999, {$prefix}{$campaignsTable}.id)
+                    WHEN {$prefix}{$campaignsTable}.scheduled_at IS NOT NULL THEN {$prefix}{$campaignsTable}.scheduled_at
+                    WHEN {$prefix}{$campaignsTable}.sent_at IS NOT NULL THEN {$prefix}{$campaignsTable}.sent_at
+                    ELSE {$prefix}{$campaignsTable}.updated_at
                 END as 'sent_sort'
             SQL));
     }

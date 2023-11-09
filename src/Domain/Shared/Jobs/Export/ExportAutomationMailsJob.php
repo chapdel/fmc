@@ -20,14 +20,16 @@ class ExportAutomationMailsJob extends ExportJob
 
     public function execute(): void
     {
+        $prefix = DB::getTablePrefix();
+
         $automationMails = DB::table(self::getAutomationMailTableName())
             ->whereIn(self::getAutomationMailTableName().'.id', $this->selectedAutomationMails)
             ->join(self::getContentItemTableName(), self::getContentItemTableName().'.model_id', '=', self::getAutomationMailTableName().'.id')
             ->where(self::getContentItemTableName().'.model_type', (new (self::getAutomationMailClass()))->getMorphClass())
             ->select(
                 self::getContentItemTableName().'.*',
-                DB::raw(self::getContentItemTableName().'.id as content_item_id'),
-                DB::raw(self::getContentItemTableName().'.uuid as content_item_uuid'),
+                DB::raw($prefix.self::getContentItemTableName().'.id as content_item_id'),
+                DB::raw($prefix.self::getContentItemTableName().'.uuid as content_item_uuid'),
                 self::getAutomationMailTableName().'.*',
             )
             ->get();

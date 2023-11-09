@@ -21,8 +21,10 @@ class ExportTagsJob extends ExportJob
 
     public function execute(): void
     {
+        $prefix = DB::getTablePrefix();
+
         $tags = DB::table(self::getTagTableName())
-            ->select(self::getTagTableName().'.*', DB::raw(self::getEmailListTableName().'.uuid as email_list_uuid'))
+            ->select(self::getTagTableName().'.*', DB::raw($prefix.self::getEmailListTableName().'.uuid as email_list_uuid'))
             ->leftJoin(self::getEmailListTableName(), self::getEmailListTableName().'.id', '=', self::getTagTableName().'.email_list_id')
             ->whereIn('email_list_id', $this->selectedEmailLists)
             ->orWhereNull('email_list_id')
@@ -35,9 +37,9 @@ class ExportTagsJob extends ExportJob
         DB::table('mailcoach_email_list_subscriber_tags')
             ->select(
                 'mailcoach_email_list_subscriber_tags.*',
-                DB::raw(self::getSubscriberTableName().'.uuid as subscriber_uuid'),
-                DB::raw(self::getTagTableName().'.name as tag_name'),
-                DB::raw(self::getEmailListTableName().'.uuid as email_list_uuid'),
+                DB::raw($prefix.self::getSubscriberTableName().'.uuid as subscriber_uuid'),
+                DB::raw($prefix.self::getTagTableName().'.name as tag_name'),
+                DB::raw($prefix.self::getEmailListTableName().'.uuid as email_list_uuid'),
             )
             ->orderBy('id')
             ->join(self::getSubscriberTableName(), self::getSubscriberTableName().'.id', 'mailcoach_email_list_subscriber_tags.subscriber_id')

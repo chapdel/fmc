@@ -20,14 +20,16 @@ class ExportCampaignsJob extends ExportJob
 
     public function execute(): void
     {
+        $prefix = DB::getTablePrefix();
+
         $campaigns = DB::table(self::getCampaignTableName())
             ->select(
                 self::getContentItemTableName().'.*',
-                DB::raw(self::getContentItemTableName().'.id as content_item_id'),
-                DB::raw(self::getContentItemTableName().'.uuid as content_item_uuid'),
+                DB::raw($prefix.self::getContentItemTableName().'.id as content_item_id'),
+                DB::raw($prefix.self::getContentItemTableName().'.uuid as content_item_uuid'),
                 self::getCampaignTableName().'.*',
-                DB::raw(self::getEmailListTableName().'.uuid as email_list_uuid'),
-                DB::raw(self::getTagSegmentTableName().'.name as segment_name'),
+                DB::raw($prefix.self::getEmailListTableName().'.uuid as email_list_uuid'),
+                DB::raw($prefix.self::getTagSegmentTableName().'.name as segment_name'),
             )
             ->join(self::getContentItemTableName(), self::getContentItemTableName().'.model_id', '=', self::getCampaignTableName().'.id')
             ->join(self::getEmailListTableName(), self::getEmailListTableName().'.id', '=', self::getCampaignTableName().'.email_list_id')

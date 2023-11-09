@@ -20,8 +20,10 @@ class ExportSegmentsJob extends ExportJob
 
     public function execute(): void
     {
+        $prefix = DB::getTablePrefix();
+
         $segments = DB::table(self::getTagSegmentTableName())
-            ->select(self::getTagSegmentTableName().'.*', DB::raw(self::getEmailListTableName().'.uuid as email_list_uuid'))
+            ->select(self::getTagSegmentTableName().'.*', DB::raw($prefix.self::getEmailListTableName().'.uuid as email_list_uuid'))
             ->join(self::getEmailListTableName(), self::getEmailListTableName().'.id', '=', self::getTagSegmentTableName().'.email_list_id')
             ->whereIn('email_list_id', $this->selectedEmailLists)
             ->get();
