@@ -47,7 +47,7 @@ Route::apiResource('email-lists.tags', TagsController::class)->parameters([
     'email-lists' => 'emailList',
     'tags' => 'tag',
 ]);
-Route::apiResource('email-lists.segments', SegmentsController::class)->only(['index', 'show', 'destroy'])->parameters([
+Route::apiResource('email-lists.segments', SegmentsController::class)->parameters([
     'email-lists' => 'emailList',
     'segments' => 'segment',
 ]);

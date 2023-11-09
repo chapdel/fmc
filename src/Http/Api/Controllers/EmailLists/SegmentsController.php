@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach\Http\Api\Controllers\EmailLists;
 
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
@@ -45,12 +46,12 @@ class SegmentsController
 
         $positiveTags = self::getTagClass()::query()
             ->where('email_list_id', $emailList->id)
-            ->whereIn('name', $request->validated('positive_tags'))
+            ->whereIn('name', $request->validated('positive_tags', []))
             ->pluck('id');
 
         $negativeTags = self::getTagClass()::query()
             ->where('email_list_id', $emailList->id)
-            ->whereIn('name', $request->validated('negative_tags'))
+            ->whereIn('name', $request->validated('negative_tags', []))
             ->pluck('id');
 
         $storedConditions = [];
@@ -77,8 +78,14 @@ class SegmentsController
 
         $segment = $emailList->segments()->create([
             'name' => $request->validated('name'),
-            'stored_conditions' => $storedConditions,
         ]);
+
+        /** We update it like this so we bypass the cast */
+        DB::table(self::getTagSegmentTableName())
+            ->where('id', $segment->id)
+            ->update([
+                'stored_conditions' => json_encode($storedConditions),
+            ]);
 
         return SegmentResource::make($segment);
     }
@@ -89,12 +96,12 @@ class SegmentsController
 
         $positiveTags = self::getTagClass()::query()
             ->where('email_list_id', $emailList->id)
-            ->whereIn('name', $request->validated('positive_tags'))
+            ->whereIn('name', $request->validated('positive_tags', []))
             ->pluck('id');
 
         $negativeTags = self::getTagClass()::query()
             ->where('email_list_id', $emailList->id)
-            ->whereIn('name', $request->validated('negative_tags'))
+            ->whereIn('name', $request->validated('negative_tags', []))
             ->pluck('id');
 
         $storedConditions = [];
@@ -121,8 +128,14 @@ class SegmentsController
 
         $segment->update([
             'name' => $request->validated('name'),
-            'stored_conditions' => $storedConditions,
         ]);
+
+        /** We update it like this so we bypass the cast */
+        DB::table(self::getTagSegmentTableName())
+            ->where('id', $segment->id)
+            ->update([
+                'stored_conditions' => json_encode($storedConditions),
+            ]);
 
         return SegmentResource::make($segment);
     }
