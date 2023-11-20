@@ -74,7 +74,6 @@ class CampaignSettingsForm extends Form
     {
         return [
             'name' => ['required'],
-            'subject' => ['nullable'],
             'from_email' => ['nullable', 'email:rfc'],
             'from_name' => 'nullable',
             'reply_to_email' => ['nullable', new Delimited('email:rfc')],

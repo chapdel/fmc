@@ -14,3 +14,4 @@ phpstan.neon
 dump.rdb
 /.fleet
 .env
+.idea
