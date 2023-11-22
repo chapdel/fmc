@@ -77,12 +77,11 @@ class SubscriberComponent extends Component
                 'email' => $this->email,
                 'first_name' => $this->first_name,
                 'last_name' => $this->last_name,
-                'extra_attributes' => $this->extra_attributes,
             ],
             tags: $this->tags ?? [],
         );
 
-        notify(__mc('Subscriber :subscriber was updated.', ['subscriber' => $this->subscriber->email]));
+        $this->saveAttributes();
     }
 
     public function mount(EmailList $emailList, Subscriber $subscriber): void
