@@ -20,6 +20,7 @@ class UpdateSubscriberRequest extends FormRequest
             'first_name' => 'nullable|string',
             'last_name' => 'nullable|string',
             'tags' => 'array',
+            'tags.*' => 'string',
             'extra_attributes' => ['nullable', 'array'],
         ];
     }
