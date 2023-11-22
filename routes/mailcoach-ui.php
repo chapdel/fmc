@@ -26,6 +26,7 @@ use Spatie\Mailcoach\Livewire\Automations\AutomationMailSettingsComponent;
 use Spatie\Mailcoach\Livewire\Automations\AutomationMailSummaryComponent;
 use Spatie\Mailcoach\Livewire\Automations\AutomationsComponent;
 use Spatie\Mailcoach\Livewire\Automations\AutomationSettingsComponent;
+use Spatie\Mailcoach\Livewire\Automations\AutomationSubscribersComponent;
 use Spatie\Mailcoach\Livewire\Automations\RunAutomationComponent;
 use Spatie\Mailcoach\Livewire\Campaigns\CampaignDeliveryComponent;
 use Spatie\Mailcoach\Livewire\Campaigns\CampaignsComponent;
@@ -129,6 +130,7 @@ Route::prefix('automations')->group(function () {
         Route::get('settings', Mailcoach::getLivewireClass(AutomationSettingsComponent::class))->name('settings');
         Route::get('run', Mailcoach::getLivewireClass(RunAutomationComponent::class))->name('run');
         Route::get('actions', Mailcoach::getLivewireClass(AutomationActionsComponent::class))->name('actions');
+        Route::get('subscribers', Mailcoach::getLivewireClass(AutomationSubscribersComponent::class))->name('subscribers');
     });
 });
 

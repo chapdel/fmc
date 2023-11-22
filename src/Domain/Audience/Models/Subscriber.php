@@ -119,6 +119,14 @@ class Subscriber extends Model
         return $this->currentActions($automation)->first();
     }
 
+    public function latestAction(Automation $automation): ?Action
+    {
+        return $this->actions()
+            ->where('automation_id', $automation->id)
+            ->latest()
+            ->first();
+    }
+
     public function currentActionClass(Automation $automation): ?string
     {
         if (! $action = $this->currentAction($automation)) {

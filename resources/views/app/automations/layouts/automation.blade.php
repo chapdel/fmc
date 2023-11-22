@@ -11,6 +11,9 @@
             <x-mailcoach::navigation-item :href="route('mailcoach.automations.actions', $automation)">
                 {{ __mc('Actions') }}
             </x-mailcoach::navigation-item>
+            <x-mailcoach::navigation-item :href="route('mailcoach.automations.subscribers', $automation)">
+                {{ __mc('Subscribers') }}
+            </x-mailcoach::navigation-item>
             <x-mailcoach::navigation-item
                     x-data="{ running: {{ $automation->status === \Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus::Started ? 'true' : 'false' }} }"
                     @automation-started.window="running = true"
