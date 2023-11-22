@@ -61,6 +61,10 @@ class CalculateAutomationMailStatisticsJob implements ShouldBeUnique, ShouldQueu
             })->map(function (Action $action) {
                 return $action->action->automationMail;
             })->each(function (AutomationMail $automationMail) {
+                if (! $automationMail instanceof (self::getAutomationMailClass())) {
+                    $automationMail = self::getAutomationMailClass()::find($automationMail->getKey());
+                }
+
                 $automationMail->contentItem->dispatchCalculateStatistics();
             });
     }
