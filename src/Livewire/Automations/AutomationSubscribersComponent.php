@@ -23,7 +23,8 @@ class AutomationSubscribersComponent extends TableComponent
         return [
             TextColumn::make('subscriber.email')
                 ->url(fn ($record) => route('mailcoach.emailLists.subscriber.details', [$record->subscriber->emailList, $record->subscriber]))
-                ->extraAttributes(['class' => 'link']),
+                ->extraAttributes(['class' => 'link'])
+                ->searchable(),
             TextColumn::make('current_step')
                 ->html()
                 ->getStateUsing(function (ActionSubscriber $record) {
