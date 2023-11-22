@@ -4,7 +4,7 @@ namespace Spatie\Mailcoach\Livewire\Automations;
 
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Spatie\Mailcoach\Domain\Automation\Models\ActionSubscriber;
+use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Automation\Models\Automation;
 use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\MainNavigation;
@@ -21,14 +21,14 @@ class AutomationSubscribersComponent extends TableComponent
     protected function getTableColumns(): array
     {
         return [
-            TextColumn::make('subscriber.email')
-                ->url(fn ($record) => route('mailcoach.emailLists.subscriber.details', [$record->subscriber->emailList, $record->subscriber]))
+            TextColumn::make('email')
+                ->url(fn ($record) => route('mailcoach.emailLists.subscriber.details', [$record->emailList, $record]))
                 ->extraAttributes(['class' => 'link'])
                 ->searchable(),
             TextColumn::make('current_step')
                 ->html()
-                ->getStateUsing(function (ActionSubscriber $record) {
-                    $latestAction = $record->subscriber->actions->where('automation_id', $this->automation->id)->sortByDesc('id')->first();
+                ->getStateUsing(function (Subscriber $record) {
+                    $latestAction = $record->actions->where('automation_id', $this->automation->id)->sortByDesc('id')->first();
 
                     if (! $latestAction) {
                         return '';
@@ -37,13 +37,13 @@ class AutomationSubscribersComponent extends TableComponent
                     $index = $this->automation->allActions->search(fn ($action) => $action->uuid === $latestAction->uuid) + 1;
 
                     $status = match (true) {
-                        ! is_null($record->halted_at) => __mc('halted'),
-                        ! is_null($record->completed_at) => __mc('completed'),
+                        ! is_null($latestAction->pivot->halted_at) => __mc('halted'),
+                        ! is_null($latestAction->pivot->completed_at) => __mc('completed'),
                         default => __mc('active'),
                     };
 
                     return <<<"html"
-                        <span>{$index} &ndash; {$latestAction->action::getName()} <span class="tag-neutral">{$status}</span></span>
+                        <span>{$index} - {$latestAction->action::getName()} <span class="tag-neutral">{$status}</span></span>
                     html;
                 }),
         ];
@@ -51,10 +51,11 @@ class AutomationSubscribersComponent extends TableComponent
 
     protected function getTableQuery(): Builder
     {
-        return self::getActionSubscriberClass()::query()
-            ->orderByDesc('created_at')
-            ->with('subscriber.emailList', 'subscriber.actions')
-            ->whereIn('action_id', $this->automation->allActions()->pluck('id'));
+        return self::getSubscriberClass()::query()
+            ->with('emailList', 'actions')
+            ->whereHas('actions', function (Builder $query) {
+                $query->whereIn('action_id', $this->automation->allActions()->pluck('id'));
+            });
     }
 
     public function getLayout(): string
