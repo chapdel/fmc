@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.2.0 - 2023-11-22
+
+### What's Changed
+
+- html and subject properties are not related to Campaign anymore by @potsky in https://github.com/spatie/laravel-mailcoach/pull/1431
+- Add an overview for subscribers in an automation
+- Fix subscriber attributes saving incorrectly when saving them from the profile page
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.1.11...7.2.0
+
 ## 7.1.7 - 2023-11-08
 
 - Update remove image button to a link below the image so it works with all sorts of images
