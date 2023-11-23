@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.2.1 - 2023-11-23
+
+### What's Changed
+
+- docs: fix typo by @AlejandroAkbal in https://github.com/spatie/laravel-mailcoach/pull/1449
+- Removed subject validation rule of campaign settings form by @lao9s in https://github.com/spatie/laravel-mailcoach/pull/1443
+
+### New Contributors
+
+- @AlejandroAkbal made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/1449
+- @lao9s made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/1443
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.2.0...7.2.1
+
 ## 7.2.0 - 2023-11-22
 
 ### What's Changed
