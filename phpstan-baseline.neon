@@ -73,6 +73,11 @@ parameters:
 			path: src/Domain/Campaign/Rules/HtmlRule.php
 
 		-
+			message: "#^Variable \\$model in PHPDoc tag @var does not exist\\.$#"
+			count: 1
+			path: src/Domain/Content/Actions/CalculateStatisticsAction.php
+
+		-
 			message: """
 				#^Access to deprecated property \\$replyToEmail of class Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Mails\\\\MailcoachMail\\:
 				will be removed in v7$#
@@ -290,6 +295,11 @@ parameters:
 			message: "#^Variable \\$condition in PHPDoc tag @var does not match any variable in the foreach loop\\: \\$key$#"
 			count: 1
 			path: src/Livewire/Automations/Actions/ConditionActionComponent.php
+
+		-
+			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Models\\\\Action\\:\\:\\$pivot\\.$#"
+			count: 2
+			path: src/Livewire/Automations/AutomationSubscribersComponent.php
 
 		-
 			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$created_at\\.$#"
