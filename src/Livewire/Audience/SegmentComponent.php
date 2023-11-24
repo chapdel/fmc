@@ -36,7 +36,7 @@ class SegmentComponent extends Component
     protected function rules(): array
     {
         return [
-            'name' => 'required',
+            'name' => ['required', 'string'],
             'storedConditions' => ['array'],
             //'storedConditions.*' => [new StoredConditionRule()], // @todo get this working
         ];
@@ -64,7 +64,7 @@ class SegmentComponent extends Component
         $this->validate();
 
         $this->segment->update([
-            'name' => $this->segment->name,
+            'name' => $this->name,
             'stored_conditions' => StoredConditionCollection::fromRequest($this->storedConditions),
         ]);
 
