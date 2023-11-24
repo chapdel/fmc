@@ -19,9 +19,7 @@ class SubscriberOpenedCampaignConditionComponent extends ConditionComponent
 
         $this->options = self::getCampaignClass()::query()
             ->where('email_list_id', $this->emailList->id)
-            ->whereHas('contentItem.opens', function ($query) {
-                $query->where('subscriber_id', auth()->user()->id);
-            })
+            ->has('contentItem.opens')
             ->pluck('name', 'id')
             ->toArray();
     }
