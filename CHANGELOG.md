@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.2.2 - 2023-11-24
+
+### What's Changed
+
+- Bug fix for segments not updating their name (https://github.com/spatie/laravel-mailcoach/commit/6c3520701d63a2aa2815d8fb2da8cacc5229fa24)
+- Bug fix for segments not showing all the send campaigns (https://github.com/spatie/laravel-mailcoach/commit/0a41c1691d7a00b2bc6dfc45c952a05d531112d5)
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.2.1...7.2.2
+
 ## 7.2.1 - 2023-11-23
 
 ### What's Changed
