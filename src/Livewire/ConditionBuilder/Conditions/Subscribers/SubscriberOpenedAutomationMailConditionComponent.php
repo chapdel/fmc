@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Livewire\ConditionBuilder\Conditions\Subscribers;
 
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Content\Models\Open;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Livewire\ConditionBuilder\ConditionComponent;
@@ -12,14 +13,16 @@ class SubscriberOpenedAutomationMailConditionComponent extends ConditionComponen
 
     public array $options = [];
 
+    public EmailList $emailList;
+
     public function mount(): void
     {
         parent::mount();
 
         $this->changeLabels();
 
-        // @todo show all automation mails, linked to the email list
         $this->options = self::getOpenClass()::query()
+            ->where('email_list_id', $this->emailList->id)
             ->with('contentItem.model')
             ->whereHas('contentItem', function ($query) {
                 $query->where('model_type', (new (self::getAutomationMailClass()))->getMorphClass());
