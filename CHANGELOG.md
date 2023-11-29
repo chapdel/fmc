@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.2.3 - 2023-11-29
+
+### What's Changed
+
+* handle potential null value on Transactional Emails by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1462
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.2.2...7.2.3
+
 ## 7.2.2 - 2023-11-24
 
 ### What's Changed
