@@ -58,9 +58,9 @@ class TransactionalTemplateContentComponent extends Component
         $this->to = $this->template->toString();
         $this->cc = $this->template->ccString();
         $this->bcc = $this->template->bccString();
-        $this->subject = $this->template->contentItem->subject;
-        $this->html = $this->template->contentItem->html;
-        $this->structured_html = $this->template->contentItem->structured_html;
+        $this->subject = $this->template->contentItem?->subject;
+        $this->html = $this->template->contentItem?->html;
+        $this->structured_html = $this->template->contentItem?->structured_html;
 
         app(MainNavigation::class)->activeSection()?->add($this->template->name, route('mailcoach.transactionalMails.templates'));
     }
