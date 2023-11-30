@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Shared\Commands;
 
+use Carbon\CarbonInterface;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
 use Spatie\Mailcoach\Domain\Shared\Jobs\CleanupProcessedFeedbackJob;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
@@ -15,7 +15,7 @@ class CleanupProcessedFeedbackCommand extends Command
 
     public $description = 'Cleanup processed feedback';
 
-    protected Carbon $now;
+    protected CarbonInterface $now;
 
     public function handle()
     {

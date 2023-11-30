@@ -2,13 +2,13 @@
 
 namespace Spatie\Mailcoach\Domain\Automation\Jobs;
 
+use Carbon\CarbonInterface;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Spatie\Mailcoach\Domain\Automation\Enums\AutomationStatus;
 use Spatie\Mailcoach\Domain\Automation\Models\Action;
@@ -29,7 +29,7 @@ class CalculateAutomationMailStatisticsJob implements ShouldBeUnique, ShouldQueu
 
     public int $uniqueFor = 60;
 
-    private Carbon $now;
+    private CarbonInterface $now;
 
     public function __construct(protected ?int $automationMailId = null)
     {
