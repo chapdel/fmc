@@ -47,6 +47,10 @@ class SendAutomationMailAction extends AutomationAction
 
     public function run(ActionSubscriber $actionSubscriber): void
     {
+        if (! $this->automationMail instanceof (self::getAutomationMailClass())) {
+            $this->automationMail = self::getAutomationMailClass()::find($this->automationMail->getKey());
+        }
+
         $this->automationMail->send($actionSubscriber);
     }
 }
