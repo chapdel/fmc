@@ -5,6 +5,7 @@ namespace Spatie\Mailcoach\Domain\Automation\Jobs;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
@@ -57,7 +58,11 @@ class CalculateAutomationMailStatisticsJob implements ShouldBeUnique, ShouldQueu
             ->flatMap(function (Automation $automation) {
                 return $automation->allActions;
             })->filter(function (Action $action) {
-                return $action->action::class === SendAutomationMailAction::class;
+                try {
+                    return $action->action::class === SendAutomationMailAction::class;
+                } catch (ModelNotFoundException) {
+                    return false;
+                }
             })->map(function (Action $action) {
                 return $action->action->automationMail;
             })->each(function (AutomationMail $automationMail) {
