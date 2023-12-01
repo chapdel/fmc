@@ -41,6 +41,7 @@ class OpensComponent extends ContentItemTable
 
         return self::getOpenClass()::query()
             ->selectRaw("
+                {$prefix}{$subscriberTableName}.uuid as id,
                 {$prefix}{$subscriberTableName}.uuid as subscriber_uuid,
                 {$prefix}{$emailListTableName}.uuid as subscriber_email_list_uuid,
                 {$prefix}{$subscriberTableName}.email as subscriber_email,
