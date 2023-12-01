@@ -2,8 +2,8 @@
 
 namespace Spatie\Mailcoach\Domain\Shared\Commands;
 
+use Carbon\CarbonInterface;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
 use Spatie\Mailcoach\Domain\Shared\Support\License\License;
 
 class CheckLicenseCommand extends Command
@@ -12,7 +12,7 @@ class CheckLicenseCommand extends Command
 
     public $description = 'Check if the current license is valid';
 
-    protected Carbon $now;
+    protected CarbonInterface $now;
 
     public function handle()
     {
