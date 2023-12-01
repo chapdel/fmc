@@ -53,7 +53,7 @@
         />
 
         <x-mailcoach::statistic
-            :href="route('mailcoach.campaigns.outbox', $campaign) . '?filter[type]=bounced'"
+            :href="route('mailcoach.campaigns.outbox', $campaign) . '?filter[type][value]=bounced&tableFilters[type][value]=bounced'"
             :stat="$campaign->bounceRate() / 100"
             :label="__mc('Bounce Rate')"
             suffix="%"
@@ -137,7 +137,7 @@
                     />
 
                     <x-mailcoach::statistic
-                        :href="route('mailcoach.campaigns.outbox', $campaign) . '?filter[type]=bounced'"
+                        :href="route('mailcoach.campaigns.outbox', $campaign) . '?filter[type][value]=bounced&tableFilters[type][value]=bounced'"
                         :stat="$stats['bounce_rate'] / 100"
                         :label="__mc('Bounce Rate')"
                         suffix="%"

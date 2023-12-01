@@ -51,7 +51,7 @@
         />
 
         <x-mailcoach::statistic
-            :href="route('mailcoach.automations.mails.outbox', $mail) . '?filter[type]=bounced'"
+            :href="route('mailcoach.automations.mails.outbox', $mail) . '?filter[type][value]=bounced&tableFilters[type][value]=bounced'"
             :stat="$mail->bounceRate() / 100"
             :label="__mc('Bounce Rate')"
             suffix="%"
