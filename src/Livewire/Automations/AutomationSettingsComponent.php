@@ -93,7 +93,9 @@ class AutomationSettingsComponent extends Component
 
     public function save(string $formData)
     {
+        ray()->clearScreen();
         parse_str($formData, $data);
+        ray($data);
 
         $this->validate();
 
@@ -121,7 +123,7 @@ class AutomationSettingsComponent extends Component
             'segment_class' => $segmentClass,
             'segment_id' => $segmentClass === EverySubscriberSegment::class
                 ? null
-                : $this->automation->segment_id,
+                : $data['segment_id'],
         ]);
 
         $this->automation->save();
