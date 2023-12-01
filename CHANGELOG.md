@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.2.5 - 2023-12-01
+
+- fix bulk selecting opens
+
 ## 7.2.4 - 2023-12-01
 
 - fix saving segment on automation
