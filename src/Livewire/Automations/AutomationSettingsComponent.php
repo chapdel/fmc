@@ -93,9 +93,7 @@ class AutomationSettingsComponent extends Component
 
     public function save(string $formData)
     {
-        ray()->clearScreen();
         parse_str($formData, $data);
-        ray($data);
 
         $this->validate();
 
