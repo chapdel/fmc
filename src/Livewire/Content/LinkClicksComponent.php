@@ -66,7 +66,9 @@ class LinkClicksComponent extends ContentItemTable
                 ->label(__mc('Email'))
                 ->sortable()
                 ->extraAttributes(['class' => 'link'])
-                ->searchable(),
+                ->searchable(query: function (Builder $query, string $search) {
+                    $query->where('mailcoach_subscribers.email', 'like', '%'.$search.'%');
+                }),
             TextColumn::make('click_count')
                 ->label(__mc('Clicks'))
                 ->sortable()
