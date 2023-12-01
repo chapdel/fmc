@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.2.7 - 2023-12-01
+
+- fix link to bounces
+
 ## 7.2.6 - 2023-12-01
 
 - fix filtering campaign clicks
