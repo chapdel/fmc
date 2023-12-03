@@ -8,6 +8,7 @@ use Filament\Support\Facades\FilamentColor;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Vite;
+use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfiguration;
 use Spatie\Mailcoach\Domain\Shared\Events\ServingMailcoach;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Mailcoach;
@@ -46,15 +47,7 @@ class BootstrapMailcoach
 
         ServingMailcoach::dispatch();
 
-        foreach ([config('mailcoach.content_editor'), config('mailcoach.template_editor')] as $usedEditor) {
-            match ($usedEditor) {
-                \Spatie\Mailcoach\Domain\Editor\Unlayer\Editor::class => $this->bootUnlayer(),
-                \Spatie\Mailcoach\Domain\Editor\Codemirror\Editor::class => $this->bootCodemirror(),
-                \Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class => $this->bootEditorJs(),
-                \Spatie\Mailcoach\Domain\Editor\Markdown\Editor::class => $this->bootMarkdown(),
-                default => null,
-            };
-        }
+        $this->bootstrapEditors();
 
         return $next($request);
     }
@@ -133,5 +126,20 @@ class BootstrapMailcoach
     protected function bootUnlayer(): void
     {
         Mailcoach::editorScript(\Spatie\Mailcoach\Domain\Editor\Unlayer\Editor::class, 'https://editor.unlayer.com/embed.js');
+    }
+
+    public function bootstrapEditors(): void
+    {
+        resolve(EditorConfiguration::class)->registerConfigValues();
+
+        foreach ([config('mailcoach.content_editor'), config('mailcoach.template_editor')] as $usedEditor) {
+            match ($usedEditor) {
+                \Spatie\Mailcoach\Domain\Editor\Unlayer\Editor::class => $this->bootUnlayer(),
+                \Spatie\Mailcoach\Domain\Editor\Codemirror\Editor::class => $this->bootCodemirror(),
+                \Spatie\Mailcoach\Domain\Editor\EditorJs\Editor::class => $this->bootEditorJs(),
+                \Spatie\Mailcoach\Domain\Editor\Markdown\Editor::class => $this->bootMarkdown(),
+                default => null,
+            };
+        }
     }
 }
