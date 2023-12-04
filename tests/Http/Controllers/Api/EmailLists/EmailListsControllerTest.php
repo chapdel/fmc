@@ -41,10 +41,15 @@ it('can search email lists', function () {
 test('the api can show an email list', function () {
     $emailList = EmailList::factory()->create();
 
+    $emailList->subscribe('john@example.com');
+
     $this
         ->getJson(action([EmailListsController::class, 'show'], $emailList))
         ->assertSuccessful()
-        ->assertJsonFragment(['name' => $emailList->name]);
+        ->assertJsonFragment([
+            'name' => $emailList->name,
+            'active_subscribers_count' => 1,
+        ]);
 });
 
 test('an email list can be stored using the api', function () {

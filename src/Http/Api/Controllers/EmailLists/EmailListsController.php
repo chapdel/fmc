@@ -35,6 +35,8 @@ class EmailListsController
     {
         $this->authorize('view', $emailList);
 
+        $emailList->active_subscribers_count = $emailList->totalSubscriptionsCount();
+
         return new EmailListResource($emailList);
     }
 
