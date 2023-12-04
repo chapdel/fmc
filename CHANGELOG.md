@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.2.8 - 2023-12-04
+
+- fix active_subscribers_count when showing email list via api
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.2.7...7.2.8
+
 ## 7.2.7 - 2023-12-01
 
 - fix link to bounces
