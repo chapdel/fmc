@@ -126,16 +126,20 @@ class SendCampaignAction
 
     protected function markCampaignAsSent(Campaign $campaign): void
     {
-        $subscribersQueryCount = $this->getSubscribersQuery($campaign)->count();
-
-        if ($subscribersQueryCount > $campaign->sendsCount()) {
+        if ($campaign->hasPendingSends()) {
             return;
         }
 
-        foreach ($campaign->contentItems as $contentItem) {
-            if ($contentItem->sends()->pending()->count()) {
-                return;
-            }
+        $campaign->load('contentItems');
+
+        $allSendsCreatedAt = $campaign->contentItems->max('all_sends_created_at');
+
+        $subscribersQueryCount = $this->getSubscribersQuery($campaign)
+            ->when($allSendsCreatedAt, fn (Builder $query) => $query->where('subscribed_at', '<', $allSendsCreatedAt))
+            ->count();
+
+        if ($subscribersQueryCount > $campaign->sendsCount()) {
+            return;
         }
 
         $campaign->markAsSent($campaign->sendsCount());

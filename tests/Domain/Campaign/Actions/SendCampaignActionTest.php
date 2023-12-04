@@ -284,9 +284,60 @@ it('handles an unsubscribed user while sending', function () {
 
     $this->processQueuedJobs();
 
+    test()->action->execute($campaign);
+
     expect(Send::count())->toBe(2);
     expect(Send::whereNull('invalidated_at')->count())->toBe(1);
     expect(Send::whereNotNull('invalidated_at')->count())->toBe(1);
+    expect($campaign->status)->toBe(CampaignStatus::Sent);
+});
+
+it('handles a new subscriber while sending', function () {
+    Queue::fake();
+
+    $emailList = EmailList::factory()->create();
+
+    $campaign = (new CampaignFactory())->create([
+        'email_list_id' => $emailList->id,
+    ]);
+
+    $subscriber = Subscriber::factory()->create([
+        'email_list_id' => $emailList->id,
+        'subscribed_at' => now(),
+    ]);
+
+    $campaign->send();
+    test()->action->execute($campaign);
+
+    expect($campaign->contentItem->allSendsCreated())->toBeFalse();
+
+    Queue::assertPushed(CreateCampaignSendJob::class, 1);
+    Queue::assertPushed(SendCampaignMailJob::class, 0);
+
+    $this->processQueuedJobs();
+
+    expect(Send::count())->toBe(1);
+
+    test()->action->execute($campaign);
+
+    expect($campaign->contentItem->allSendsCreated())->toBeTrue();
+
+    $subscriber2 = Subscriber::factory()->create([
+        'email_list_id' => $emailList->id,
+        'subscribed_at' => now(),
+    ]);
+
+    app(SendCampaignMailsAction::class)->execute($campaign);
+
+    Queue::assertPushed(SendCampaignMailJob::class, 1);
+
+    $this->processQueuedJobs();
+
+    runAction($campaign);
+
+    expect(Send::count())->toBe(1);
+
+    expect($campaign->status)->toBe(CampaignStatus::Sent);
 });
 
 it('will use the right subject', function () {
