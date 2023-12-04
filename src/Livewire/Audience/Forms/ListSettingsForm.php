@@ -39,9 +39,9 @@ class ListSettingsForm extends Form
 
     #[Rule([
         new Delimited('email'),
-        'required_if:form.report_email_list_summary,true',
-        'required_if:form.report_campaign_sent,true',
-        'required_if:form.report_campaign_summary,true',
+        'required_if:report_email_list_summary,true',
+        'required_if:report_campaign_sent,true',
+        'required_if:report_campaign_summary,true',
     ])]
     public ?string $report_recipients;
 
