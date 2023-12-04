@@ -47,7 +47,6 @@ use Spatie\Mailcoach\Domain\Settings\EventSubscribers\WebhookLogEventSubscriber;
 use Spatie\Mailcoach\Domain\Settings\Models\MailcoachUser;
 use Spatie\Mailcoach\Domain\Settings\SettingsNavigation;
 use Spatie\Mailcoach\Domain\Settings\Support\AppConfiguration\AppConfiguration;
-use Spatie\Mailcoach\Domain\Settings\Support\EditorConfiguration\EditorConfiguration;
 use Spatie\Mailcoach\Domain\Shared\Commands\CheckLicenseCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\CleanupProcessedFeedbackCommand;
 use Spatie\Mailcoach\Domain\Shared\Commands\DeleteOldExportsCommand;
@@ -313,7 +312,6 @@ class MailcoachServiceProvider extends PackageServiceProvider
         }
 
         app(AppConfiguration::class)->registerConfigValues();
-        app(EditorConfiguration::class)->registerConfigValues();
 
         return $this;
     }

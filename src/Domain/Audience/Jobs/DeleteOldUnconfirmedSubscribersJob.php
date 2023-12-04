@@ -38,6 +38,7 @@ class DeleteOldUnconfirmedSubscribersJob implements ShouldBeUnique, ShouldQueue
 
         self::getSubscriberClass()::unconfirmed()
             ->where('created_at', '<', $cutOffDate)
+            ->whereIn('email_list_id', self::getEmailListClass()::pluck('id'))
             ->each(function (Subscriber $subscriber) use ($deleteSubscriberAction) {
                 $deleteSubscriberAction->execute($subscriber);
             });
