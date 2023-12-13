@@ -2,6 +2,18 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.3.0 - 2023-12-13
+
+### What's Changed
+
+* Fix -X parameters, sample UUIDs for consistency, and typos in API Docs by @emcro in https://github.com/spatie/laravel-mailcoach/pull/1484
+* Fix clicks exports by @potsky in https://github.com/spatie/laravel-mailcoach/pull/1483
+* Remove unnecessary prefixes for DB queries by @bberlijn in https://github.com/spatie/laravel-mailcoach/pull/1460
+* The campaigns API endpoints will now render MJML
+* Make sure segments filter on email_list_id
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.2.8...7.3.0
+
 ## 7.2.8 - 2023-12-04
 
 - fix active_subscribers_count when showing email list via api
