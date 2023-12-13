@@ -3,6 +3,7 @@
 namespace Spatie\Mailcoach;
 
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Config;
 use Livewire\Component;
 use Spatie\Mailcoach\Domain\Campaign\Exceptions\InvalidConfig;
 use Spatie\Mailcoach\Domain\Settings\Support\MenuItem;
@@ -45,6 +46,23 @@ class Mailcoach
             'before' => [],
             'after' => [],
         ];
+    }
+
+    public static function getDatabaseDriver(?string $connection = null): string
+    {
+        $key = \is_null($connection) ? Config::get('database.default') : $connection;
+
+        return strtolower(Config::get('database.connections.'.$key.'.driver'));
+    }
+
+    public static function isMysqlDatabase(?string $connection = null): bool
+    {
+        return self::getDatabaseDriver($connection) === 'mysql';
+    }
+
+    public static function isPostgresqlDatabase(?string $connection = null): bool
+    {
+        return self::getDatabaseDriver($connection) === 'pgsql';
     }
 
     public static function styles(): string

@@ -6,6 +6,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Spatie\Mailcoach\Mailcoach;
 
 /**
  * Trait Searchable
@@ -106,9 +107,7 @@ trait Searchable
 
     protected function getDatabaseDriver(): string
     {
-        $key = $this->connection ?: Config::get('database.default');
-
-        return strtolower(Config::get('database.connections.'.$key.'.driver'));
+        return Mailcoach::getDatabaseDriver($this->connection);
     }
 
     protected function getColumns(): array
@@ -226,12 +225,12 @@ trait Searchable
 
     private function isMysqlDatabase(): bool
     {
-        return $this->getDatabaseDriver() === 'mysql';
+        return Mailcoach::isMysqlDatabase($this->connection);
     }
 
     private function isPostgresqlDatabase(): bool
     {
-        return $this->getDatabaseDriver() === 'pgsql';
+        return Mailcoach::isPostgresqlDatabase($this->connection);
     }
 
     protected function getCaseCompare(string $column, string $compare, float|int $relevance): string

@@ -14,6 +14,8 @@ use ReflectionClass;
 use Spatie\Mailcoach\Domain\Automation\Models\Action as ActionModel;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Livewire\TableComponent;
+use Spatie\Mailcoach\Mailcoach;
+
 
 class AutomationMailsComponent extends TableComponent
 {
@@ -68,9 +70,7 @@ class AutomationMailsComponent extends TableComponent
         return [
             SelectFilter::make('automation_uuid')
                 ->label(__mc('Automation'))
-                ->options(function () {
-                    return self::getAutomationClass()::pluck('name', 'uuid');
-                })
+                ->options(fn () => self::getAutomationClass()::pluck('name', 'uuid'))
                 ->multiple()
                 ->query(function (Builder $query, array $data) {
                     if (! $data['values']) {
@@ -82,7 +82,11 @@ class AutomationMailsComponent extends TableComponent
 
                     $automationMailIds = self::getAutomationActionClass()::query()
                         ->whereHas('automation', fn (Builder $query) => $query->whereIn('uuid', $data['values']))
-                        ->whereRaw('FROM_BASE64(action) like \'%'.$shortname.'%\'')
+                        ->whereRaw(
+                            Mailcoach::isPostgresqlDatabase()
+                                ? "ENCODE(DECODE(action, 'base64'), 'escape') LIKE '%$shortname%'"
+                                : 'FROM_BASE64(action) like \'%'.$shortname.'%\''
+                        )
                         ->get()
                         ->map(function (ActionModel $action) use ($shortname) {
                             /**

@@ -11,6 +11,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 use Spatie\Mailcoach\Livewire\TableComponent;
+use Spatie\Mailcoach\Mailcoach;
 
 class TransactionalMailLogItemsComponent extends TableComponent
 {
@@ -48,7 +49,7 @@ class TransactionalMailLogItemsComponent extends TableComponent
             TextColumn::make('to')
                 ->size('base')
                 ->getStateUsing(fn (TransactionalMailLogItem $record) => $record->toString())
-                ->searchable(),
+                ->searchable(Mailcoach::isPostgresqlDatabase() ? '"to"' : true),
             TextColumn::make('contentItem.opens_count')->size('base')->label(__mc('Opens'))->numeric(),
             TextColumn::make('contentItem.clicks_count')->size('base')->label(__mc('Clicks'))->numeric(),
             TextColumn::make('created_at')

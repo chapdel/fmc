@@ -10,6 +10,7 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Content\Models\Link;
 use Spatie\Mailcoach\Domain\Content\Support\LinkHasher;
+use Spatie\Mailcoach\Mailcoach;
 
 class ClicksComponent extends ContentItemTable
 {
@@ -39,7 +40,7 @@ class ClicksComponent extends ContentItemTable
             ->whereIn('content_item_id', $this->contentItems->pluck('id'))
             ->groupBy('url')
             ->select(
-                \DB::raw('group_concat(uuid) as uuid'),
+                Mailcoach::isPostgresqlDatabase() ? \DB::raw('string_agg(uuid::text, \',\') as uuid') : \DB::raw('group_concat(uuid) as uuid'),
                 'url',
                 \DB::raw('sum(unique_click_count) as unique_click_count'),
                 \DB::raw('sum(click_count) as click_count')

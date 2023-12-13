@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail;
 use Spatie\Mailcoach\Livewire\TableComponent;
+use Spatie\Mailcoach\Mailcoach;
 
 class TransactionalMailsComponent extends TableComponent
 {
@@ -44,7 +45,7 @@ class TransactionalMailsComponent extends TableComponent
             TextColumn::make('to')
                 ->sortable()
                 ->label(__mc('To'))
-                ->searchable(),
+                ->searchable(Mailcoach::isPostgresqlDatabase() ? '"to"' : true),
             TextColumn::make('cc')
                 ->sortable()
                 ->label(__mc('CC'))

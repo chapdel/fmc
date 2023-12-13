@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Livewire\TableComponent;
+use Spatie\Mailcoach\Mailcoach;
 
 class CampaignsComponent extends TableComponent
 {
@@ -29,14 +30,26 @@ class CampaignsComponent extends TableComponent
         return self::getCampaignClass()::query()
             ->select(self::getCampaignTableName().'.*')
             ->with(['emailList', 'contentItems'])
-            ->addSelect(DB::raw(<<<"SQL"
-                CASE
-                    WHEN status = 'draft' AND scheduled_at IS NULL THEN CONCAT(999999999, {$prefix}{$campaignsTable}.id)
-                    WHEN {$prefix}{$campaignsTable}.scheduled_at IS NOT NULL THEN {$prefix}{$campaignsTable}.scheduled_at
-                    WHEN {$prefix}{$campaignsTable}.sent_at IS NOT NULL THEN {$prefix}{$campaignsTable}.sent_at
-                    ELSE {$prefix}{$campaignsTable}.updated_at
-                END as 'sent_sort'
-            SQL));
+            ->addSelect(
+                DB::raw(Mailcoach::isPostgresqlDatabase()
+                ? <<<"SQL"
+                    CASE
+                        WHEN status = 'draft' AND scheduled_at IS NULL THEN '2999-01-01'::timestamp + INTERVAL '1 day' * {$prefix}{$campaignsTable}.id
+                        WHEN {$prefix}{$campaignsTable}.scheduled_at IS NOT NULL THEN {$prefix}{$campaignsTable}.scheduled_at
+                        WHEN {$prefix}{$campaignsTable}.sent_at IS NOT NULL THEN {$prefix}{$campaignsTable}.sent_at
+                        ELSE {$prefix}{$campaignsTable}.updated_at
+                    END as sent_sort
+                SQL
+                : <<<"SQL"
+                    CASE
+                        WHEN status = 'draft' AND scheduled_at IS NULL THEN CONCAT(999999999, {$prefix}{$campaignsTable}.id)
+                        WHEN {$prefix}{$campaignsTable}.scheduled_at IS NOT NULL THEN {$prefix}{$campaignsTable}.scheduled_at
+                        WHEN {$prefix}{$campaignsTable}.sent_at IS NOT NULL THEN {$prefix}{$campaignsTable}.sent_at
+                        ELSE {$prefix}{$campaignsTable}.updated_at
+                    END as 'sent_sort'
+                SQL
+                )
+            );
     }
 
     public function getTableGrouping(): ?Group
