@@ -9,16 +9,18 @@ use Spatie\Mailcoach\Domain\Audience\Support\Segments\SubscribersWithTagsSegment
 use Spatie\Mailcoach\Domain\Campaign\Enums\CampaignStatus;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Editor\Markdown\Editor as MarkdownEditor;
+use Spatie\Mailcoach\Domain\Shared\Actions\InitializeMjmlAction;
 use Spatie\Mailcoach\Domain\Shared\Actions\RenderMarkdownToHtmlAction;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 use Spatie\Mailcoach\Domain\Template\Models\Template;
 use Spatie\Mailcoach\Domain\Template\Support\TemplateRenderer;
+use Spatie\Mailcoach\Mailcoach;
 
 class UpdateCampaignAction
 {
     use UsesMailcoachModels;
 
-    public function execute(Campaign $campaign, array $attributes, ?Template $template = null): Campaign
+    public function execute(Campaign $campaign, array $attributes, Template $template = null): Campaign
     {
         $segment = null;
 
@@ -90,6 +92,11 @@ class UpdateCampaignAction
             $content->setTemplateFieldValues([
                 'html' => $html,
             ]);
+        }
+
+        if (containsMjml($html)) {
+            $mjml = Mailcoach::getSharedActionClass('initialize_mjml', InitializeMjmlAction::class)->execute();
+            $html = $mjml->toHtml($html);
         }
 
         $content->fill([
