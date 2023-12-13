@@ -55,7 +55,7 @@ class SubscriberImport extends Model implements HasMedia
         $this->update(['errors' => 0]);
     }
 
-    public function addError(string $message, ImportSubscriberRow $row = null): void
+    public function addError(string $message, ?ImportSubscriberRow $row = null): void
     {
         $values = $row?->getAllValues() ?? [];
 

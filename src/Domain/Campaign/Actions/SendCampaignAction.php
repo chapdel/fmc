@@ -18,7 +18,7 @@ use Spatie\Mailcoach\Mailcoach;
 
 class SendCampaignAction
 {
-    public function execute(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
+    public function execute(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): void
     {
         if (! $campaign->isSending()) {
             return;
@@ -67,7 +67,7 @@ class SendCampaignAction
         return $this;
     }
 
-    protected function handleSplitTest(Campaign $campaign, CarbonInterface $stopExecutingAt = null): ?static
+    protected function handleSplitTest(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): ?static
     {
         if (! $campaign->isSplitTested()) {
             return $this;
@@ -150,9 +150,9 @@ class SendCampaignAction
     protected function dispatchCreateSendJobs(
         Campaign $campaign,
         ContentItem $contentItem,
-        int $firstId = null,
-        int $lastId = null,
-        CarbonInterface $stopExecutingAt = null,
+        ?int $firstId = null,
+        ?int $lastId = null,
+        ?CarbonInterface $stopExecutingAt = null,
     ): static {
         if ($contentItem->allSendsCreated()) {
             return $this;

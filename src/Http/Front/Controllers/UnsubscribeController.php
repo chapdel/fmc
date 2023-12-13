@@ -9,7 +9,7 @@ class UnsubscribeController
 {
     use UsesMailcoachModels;
 
-    public function show(string $subscriberUuid, string $sendUuid = null)
+    public function show(string $subscriberUuid, ?string $sendUuid = null)
     {
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid);
@@ -29,7 +29,7 @@ class UnsubscribeController
         return view('mailcoach::landingPages.unsubscribe', compact('emailList', 'subscriber', 'send'));
     }
 
-    public function confirm(string $subscriberUuid, string $sendUuid = null)
+    public function confirm(string $subscriberUuid, ?string $sendUuid = null)
     {
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
         $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid);

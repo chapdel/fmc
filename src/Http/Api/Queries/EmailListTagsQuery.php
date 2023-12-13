@@ -15,7 +15,7 @@ class EmailListTagsQuery extends QueryBuilder
 {
     use UsesMailcoachModels;
 
-    public function __construct(EmailList $emailList, Request $request = null)
+    public function __construct(EmailList $emailList, ?Request $request = null)
     {
         $query = self::getTagClass()::query();
 

@@ -29,7 +29,7 @@ trait Searchable
         return $this->searchable;
     }
 
-    public function scopeSearch(Builder $q, string $search, float|int $threshold = null, bool $entireText = false, bool $entireTextOnly = false): Builder
+    public function scopeSearch(Builder $q, string $search, float|int|null $threshold = null, bool $entireText = false, bool $entireTextOnly = false): Builder
     {
         return $this->scopeSearchRestricted($q, $search, null, $threshold, $entireText, $entireTextOnly);
     }
@@ -38,7 +38,7 @@ trait Searchable
         Builder $q,
         string $search,
         ?callable $restriction,
-        float|int $threshold = null,
+        float|int|null $threshold = null,
         bool $entireText = false,
         bool $entireTextOnly = false
     ): Builder {

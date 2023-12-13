@@ -13,7 +13,7 @@ class CampaignUnsubscribesQuery extends QueryBuilder
 {
     use UsesMailcoachModels;
 
-    public function __construct(Campaign $campaign, Request $request = null)
+    public function __construct(Campaign $campaign, ?Request $request = null)
     {
         parent::__construct(
             self::getUnsubscribeClass()::whereIn('content_item_id', $campaign->contentItems->pluck('id')),

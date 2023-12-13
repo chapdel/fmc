@@ -46,7 +46,7 @@ class MailcoachMail extends Mailable
         return $this;
     }
 
-    public function setFrom(string $fromEmail, string $fromName = null): static
+    public function setFrom(string $fromEmail, ?string $fromName = null): static
     {
         $this->fromEmail = $fromEmail;
 
@@ -55,7 +55,7 @@ class MailcoachMail extends Mailable
         return $this;
     }
 
-    public function setReplyTo(string $replyToEmail, string $replyToName = null): static
+    public function setReplyTo(string $replyToEmail, ?string $replyToName = null): static
     {
         $this->replyToEmail = $replyToEmail;
 

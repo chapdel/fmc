@@ -31,7 +31,7 @@ class StoredConditionCollection extends Collection implements Castable
         return $this->map(fn (StoredCondition $condition) => $condition->toArray())->toArray();
     }
 
-    public function addSubscriberTags(mixed $value, ComparisonOperator $operator = null): self
+    public function addSubscriberTags(mixed $value, ?ComparisonOperator $operator = null): self
     {
         $operator ??= ComparisonOperator::In;
 

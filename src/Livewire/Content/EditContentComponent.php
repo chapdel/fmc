@@ -88,7 +88,7 @@ class EditContentComponent extends Component
         });
     }
 
-    public function addSplitTest(string $uuid = null): void
+    public function addSplitTest(?string $uuid = null): void
     {
         foreach ($this->content as $contentUuid => $item) {
             $this->contentItems->firstWhere('uuid', $contentUuid)?->update([

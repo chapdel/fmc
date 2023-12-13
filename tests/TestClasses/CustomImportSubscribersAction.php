@@ -9,7 +9,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\SubscriberImport;
 
 class CustomImportSubscribersAction extends ImportSubscribersAction
 {
-    public function execute(SubscriberImport $subscriberImport, User $user = null, bool $sendNotification = true): void
+    public function execute(SubscriberImport $subscriberImport, ?User $user = null, bool $sendNotification = true): void
     {
         throw new Exception('Inside custom import action');
     }

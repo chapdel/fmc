@@ -86,7 +86,7 @@ class RenderTemplateAction
         return $body;
     }
 
-    protected function compileBladeMarkdown(string $bladeString, array $data, string $theme = null): string
+    protected function compileBladeMarkdown(string $bladeString, array $data, ?string $theme = null): string
     {
         $tempDir = (new TemporaryDirectory())->create();
         $path = $tempDir->path('temporary-template-view.blade.php');

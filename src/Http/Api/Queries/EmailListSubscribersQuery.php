@@ -18,7 +18,7 @@ class EmailListSubscribersQuery extends QueryBuilder
 {
     use UsesMailcoachModels;
 
-    public function __construct(EmailList $emailList, Request $request = null)
+    public function __construct(EmailList $emailList, ?Request $request = null)
     {
         $subscriberTableNameWithPrefix = DB::getTablePrefix().self::getSubscriberTableName();
 

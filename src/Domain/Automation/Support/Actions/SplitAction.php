@@ -13,7 +13,7 @@ class SplitAction extends AutomationAction
     public function __construct(
         protected array $leftActions = [],
         protected array $rightActions = [],
-        string $uuid = null,
+        ?string $uuid = null,
     ) {
         parent::__construct($uuid);
     }
@@ -58,7 +58,7 @@ class SplitAction extends AutomationAction
         return $clone;
     }
 
-    public function store(string $uuid, Automation $automation, int $order = null, int $parent_id = null, string $key = null): Action
+    public function store(string $uuid, Automation $automation, ?int $order = null, ?int $parent_id = null, ?string $key = null): Action
     {
         $parent = parent::store($uuid, $automation, $order, $parent_id, $key);
 

@@ -10,7 +10,7 @@ class SubscriberClickedCampaignLinkQueryConditionData extends ConditionData
     ) {
     }
 
-    public static function make(?int $campaignId, string $link = null): static
+    public static function make(?int $campaignId, ?string $link = null): static
     {
         return new self($campaignId, $link);
     }

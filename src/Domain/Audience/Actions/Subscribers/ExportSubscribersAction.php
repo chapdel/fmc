@@ -30,7 +30,7 @@ class ExportSubscribersAction
 
     public function execute(
         SubscriberExport $subscriberExport,
-        User $user = null,
+        ?User $user = null,
         bool $sendNotification = true
     ): void {
         $this

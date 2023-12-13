@@ -13,7 +13,7 @@ use Spatie\Mailcoach\Domain\Shared\Support\Throttling\SimpleThrottle;
 
 class SendCampaignMailsAction
 {
-    public function execute(Campaign $campaign, CarbonInterface $stopExecutingAt = null): void
+    public function execute(Campaign $campaign, ?CarbonInterface $stopExecutingAt = null): void
     {
         foreach ($campaign->contentItems as $contentItem) {
             $this->retryDispatchForStuckSends($contentItem, $stopExecutingAt);
@@ -34,7 +34,7 @@ class SendCampaignMailsAction
      * Dispatch pending sends again that have
      * not been processed in a realistic time
      */
-    protected function retryDispatchForStuckSends(ContentItem $contentItem, CarbonInterface $stopExecutingAt = null): void
+    protected function retryDispatchForStuckSends(ContentItem $contentItem, ?CarbonInterface $stopExecutingAt = null): void
     {
         $mailer = $contentItem->getMailerKey();
         $mailsPerTimespan = config("mail.mailers.{$mailer}.mails_per_timespan", 10);
@@ -71,7 +71,7 @@ class SendCampaignMailsAction
         });
     }
 
-    protected function dispatchMailSendingJobs(ContentItem $contentItem, CarbonInterface $stopExecutingAt = null): void
+    protected function dispatchMailSendingJobs(ContentItem $contentItem, ?CarbonInterface $stopExecutingAt = null): void
     {
         $simpleThrottle = app(SimpleThrottle::class)
             ->forMailer($contentItem->getMailerKey());

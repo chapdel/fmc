@@ -14,7 +14,7 @@ class SendCampaignTestAction
 {
     use UsesMailcoachModels;
 
-    public function execute(Campaign $campaign, string $email, ContentItem $contentItem = null): void
+    public function execute(Campaign $campaign, string $email, ?ContentItem $contentItem = null): void
     {
         $contentItem ??= $campaign->contentItem;
 

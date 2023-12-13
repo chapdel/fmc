@@ -10,7 +10,7 @@ class SubscriberClickedAutomationMailLinkQueryConditionData extends ConditionDat
     ) {
     }
 
-    public static function make(?int $automationMailId, string $link = null): self
+    public static function make(?int $automationMailId, ?string $link = null): self
     {
         return new self($automationMailId, $link);
     }

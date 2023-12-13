@@ -12,7 +12,7 @@ class SegmentSubscribersComponent extends SubscribersComponent
 
     public TagSegment $segment;
 
-    public function mount(EmailList $emailList, TagSegment $segment = null)
+    public function mount(EmailList $emailList, ?TagSegment $segment = null)
     {
         if (! $segment) {
             abort(404);

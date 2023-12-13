@@ -15,7 +15,7 @@ class SendAutomationMailTestAction
 {
     use UsesMailcoachModels;
 
-    public function execute(AutomationMail $mail, string $email, ContentItem $contentItem = null): void
+    public function execute(AutomationMail $mail, string $email, ?ContentItem $contentItem = null): void
     {
         $contentItem ??= $mail->contentItem;
 

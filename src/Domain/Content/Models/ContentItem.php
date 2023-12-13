@@ -184,7 +184,7 @@ class ContentItem extends Model implements HasHtmlContent
             || Str::contains($this->html, '{{preferencesUrl}}');
     }
 
-    public function from(string $email, string $name = null)
+    public function from(string $email, ?string $name = null)
     {
         $this->update([
             'from_email' => $email,
@@ -194,7 +194,7 @@ class ContentItem extends Model implements HasHtmlContent
         return $this;
     }
 
-    public function replyTo(string $email, string $name = null)
+    public function replyTo(string $email, ?string $name = null)
     {
         $this->update([
             'reply_to_email' => $email,
@@ -211,7 +211,7 @@ class ContentItem extends Model implements HasHtmlContent
         return $this;
     }
 
-    public function getFromEmail(Send $send = null): string
+    public function getFromEmail(?Send $send = null): string
     {
         return $this->from_email
             ?? $this->model->emailList?->default_from_email
@@ -219,7 +219,7 @@ class ContentItem extends Model implements HasHtmlContent
             ?? config('mail.from.address');
     }
 
-    public function getFromName(Send $send = null): ?string
+    public function getFromName(?Send $send = null): ?string
     {
         return $this->from_name
             ?? $this->model->emailList?->default_from_name
@@ -227,7 +227,7 @@ class ContentItem extends Model implements HasHtmlContent
             ?? config('mail.from.name');
     }
 
-    public function getReplyToEmail(Send $send = null): ?string
+    public function getReplyToEmail(?Send $send = null): ?string
     {
         // make internal in v7?
         return $this->reply_to_email
@@ -236,7 +236,7 @@ class ContentItem extends Model implements HasHtmlContent
             ?? null;
     }
 
-    public function getReplyToName(Send $send = null): ?string
+    public function getReplyToName(?Send $send = null): ?string
     {
         // make internal in v7?
         return $this->reply_to_name
@@ -246,7 +246,7 @@ class ContentItem extends Model implements HasHtmlContent
     }
 
     /** @return array{email: string, name: ?string} */
-    public function getReplyToAddresses(Send $send = null): array
+    public function getReplyToAddresses(?Send $send = null): array
     {
         return resolve(CommaSeparatedEmailsToArrayAction::class)
             ->execute($this->getReplyToEmail($send), $this->getReplyToName($send));
@@ -467,7 +467,7 @@ class ContentItem extends Model implements HasHtmlContent
         return (int) ceil(mb_strlen($this->getHtml(), '8bit') / 1000);
     }
 
-    public function getMailerKey(Subscriber $subscriber = null): ?string
+    public function getMailerKey(?Subscriber $subscriber = null): ?string
     {
         if ($this->model instanceof AutomationMail) {
             return $subscriber?->emailList->automation_mailer

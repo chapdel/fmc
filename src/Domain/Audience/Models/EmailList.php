@@ -249,7 +249,7 @@ class EmailList extends Model implements HasMedia
         return route('mailcoach.website', ltrim($this->website_slug, '/'));
     }
 
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         $this
             ->addMediaConversion('header')

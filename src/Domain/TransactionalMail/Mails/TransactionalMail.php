@@ -35,7 +35,7 @@ class TransactionalMail extends Mailable
         array $cc = [],
         array $bcc = [],
         array $replyTo = [],
-        string $mailer = null,
+        ?string $mailer = null,
         private array $replacements = [],
         array $attachments = [],
         bool $store = true,

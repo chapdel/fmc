@@ -54,17 +54,17 @@ abstract class Sendable extends Model implements HasContentItems
         return $this;
     }
 
-    public function hasCustomMailable(ContentItem $contentItem = null): bool
+    public function hasCustomMailable(?ContentItem $contentItem = null): bool
     {
         return $contentItem?->hasCustomMailable() ?? $this->contentItem->hasCustomMailable();
     }
 
-    public function contentFromMailable(ContentItem $contentItem = null): string
+    public function contentFromMailable(?ContentItem $contentItem = null): string
     {
         return $contentItem?->contentFromMailable() ?? $this->contentItem->contentFromMailable();
     }
 
-    public function pullSubjectFromMailable(ContentItem $contentItem = null): void
+    public function pullSubjectFromMailable(?ContentItem $contentItem = null): void
     {
         if ($contentItem) {
             $contentItem->pullSubjectFromMailable();
@@ -75,19 +75,19 @@ abstract class Sendable extends Model implements HasContentItems
         $this->contentItem->pullSubjectFromMailable();
     }
 
-    public function htmlWithInlinedCss(ContentItem $contentItem = null): string
+    public function htmlWithInlinedCss(?ContentItem $contentItem = null): string
     {
         return $contentItem?->htmlWithInlinedCss() ?? $this->contentItem->htmlWithInlinedCss();
     }
 
-    public function from(string $email, string $name = null): static
+    public function from(string $email, ?string $name = null): static
     {
         $this->contentItem->from($email, $name);
 
         return $this;
     }
 
-    public function replyTo(string $email, string $name = null): static
+    public function replyTo(string $email, ?string $name = null): static
     {
         $this->contentItem->replyTo($email, $name);
 
@@ -101,12 +101,12 @@ abstract class Sendable extends Model implements HasContentItems
         return $this;
     }
 
-    public function getFromEmail(Send $send = null): string
+    public function getFromEmail(?Send $send = null): string
     {
         return $this->contentItem->getFromEmail($send);
     }
 
-    public function getFromName(Send $send = null): ?string
+    public function getFromName(?Send $send = null): ?string
     {
         return $this->contentItem->getFromName($send);
     }
@@ -141,7 +141,7 @@ abstract class Sendable extends Model implements HasContentItems
     {
     }
 
-    abstract public function sendTestMail(string|array $emails, ContentItem $contentItem = null): void;
+    abstract public function sendTestMail(string|array $emails, ?ContentItem $contentItem = null): void;
 
     abstract public function webviewUrl(): string;
 

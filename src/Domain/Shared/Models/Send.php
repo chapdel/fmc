@@ -140,7 +140,7 @@ class Send extends Model
         return $this;
     }
 
-    public function registerOpen(DateTimeInterface $openedAt = null): ?Open
+    public function registerOpen(?DateTimeInterface $openedAt = null): ?Open
     {
         if ($this->wasOpenedInTheLastSeconds($this->opens(), 5)) {
             return null;
@@ -172,7 +172,7 @@ class Send extends Model
         return $seconds > $latestOpen->created_at->diffInSeconds();
     }
 
-    public function registerClick(string $url, DateTimeInterface $clickedAt = null): ?Click
+    public function registerClick(string $url, ?DateTimeInterface $clickedAt = null): ?Click
     {
         $url = resolve(StripUtmTagsFromUrlAction::class)->execute($url);
 
@@ -194,7 +194,7 @@ class Send extends Model
         return $click;
     }
 
-    public function registerSoftBounce(DateTimeInterface $bouncedAt = null): self
+    public function registerSoftBounce(?DateTimeInterface $bouncedAt = null): self
     {
         return $this->registerBounce($bouncedAt, true);
     }
@@ -214,7 +214,7 @@ class Send extends Model
         return $this;
     }
 
-    public function registerBounce(DateTimeInterface $bouncedAt = null, bool $softBounce = false): self
+    public function registerBounce(?DateTimeInterface $bouncedAt = null, bool $softBounce = false): self
     {
         $this->feedback()->create([
             'type' => $softBounce ? SendFeedbackType::SoftBounce : SendFeedbackType::Bounce,
@@ -238,7 +238,7 @@ class Send extends Model
         return $this;
     }
 
-    public function registerComplaint(DateTimeInterface $complainedAt = null)
+    public function registerComplaint(?DateTimeInterface $complainedAt = null)
     {
         $this->feedback()->create([
             'type' => SendFeedbackType::Complaint,

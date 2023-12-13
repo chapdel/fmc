@@ -10,7 +10,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class CampaignLinksQuery extends QueryBuilder
 {
-    public function __construct(Campaign $campaign, Request $request = null)
+    public function __construct(Campaign $campaign, ?Request $request = null)
     {
         $query = $campaign
             ->contentItem

@@ -46,7 +46,7 @@ function addValidSignature(array $payloadContent = []): array
     );
 }
 
-function getStubs(string $name, string $dir = null): array
+function getStubs(string $name, ?string $dir = null): array
 {
     $dir = __DIR__.'/stubs'.($dir ? "/{$dir}/" : '');
 
@@ -80,7 +80,7 @@ function getSesStub(string $name): array
     return getStubs($name, 'Ses');
 }
 
-function emptyStoredCondition(string $comparison = null, mixed $value = null): array
+function emptyStoredCondition(?string $comparison = null, mixed $value = null): array
 {
     return [
         'condition' => [

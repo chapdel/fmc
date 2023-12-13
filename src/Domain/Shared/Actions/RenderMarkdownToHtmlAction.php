@@ -19,7 +19,7 @@ class RenderMarkdownToHtmlAction
             ->addExtension(new AutolinkExtension());
     }
 
-    public function execute(string $markdown, string $theme = null): HtmlString
+    public function execute(string $markdown, ?string $theme = null): HtmlString
     {
         /**
          * When Sidecar Shiki is configured and set up, we want to highlight through

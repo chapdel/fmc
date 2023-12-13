@@ -10,7 +10,7 @@ class UpdateAutomationMailAction
 {
     use UsesMailcoachModels;
 
-    public function execute(AutomationMail $automationMail, array $attributes, Template $template = null): AutomationMail
+    public function execute(AutomationMail $automationMail, array $attributes, ?Template $template = null): AutomationMail
     {
         $html = $attributes['html'] ?? $template?->html;
 

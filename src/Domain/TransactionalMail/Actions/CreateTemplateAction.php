@@ -9,7 +9,7 @@ class CreateTemplateAction
 {
     use UsesMailcoachModels;
 
-    public function execute(array $attributes, Template $template = null)
+    public function execute(array $attributes, ?Template $template = null)
     {
         $html = $attributes['body'] ?? $template?->html;
         $structured_html = $template?->getStructuredHtml();

@@ -17,7 +17,7 @@ class Upload extends Model implements HasMedia
 
     public $guarded = [];
 
-    public function registerMediaConversions(Media $media = null): void
+    public function registerMediaConversions(?Media $media = null): void
     {
         if ($media && $media->extension === Manipulations::FORMAT_GIF) {
             return;

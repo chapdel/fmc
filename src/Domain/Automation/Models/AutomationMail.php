@@ -53,7 +53,7 @@ class AutomationMail extends Sendable
         return $this;
     }
 
-    public function sendTestMail(string|array $emails, ContentItem $contentItem = null): void
+    public function sendTestMail(string|array $emails, ?ContentItem $contentItem = null): void
     {
         if ($this->hasCustomMailable($contentItem)) {
             $this->pullSubjectFromMailable($contentItem);

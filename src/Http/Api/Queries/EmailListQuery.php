@@ -13,7 +13,7 @@ class EmailListQuery extends QueryBuilder
 {
     use UsesMailcoachModels;
 
-    public function __construct(Request $request = null)
+    public function __construct(?Request $request = null)
     {
         $prefix = DB::getTablePrefix();
 

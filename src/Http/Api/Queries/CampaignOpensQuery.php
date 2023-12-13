@@ -16,7 +16,7 @@ class CampaignOpensQuery extends QueryBuilder
 
     public int $totalCount;
 
-    public function __construct(Campaign $campaign, Request $request = null)
+    public function __construct(Campaign $campaign, ?Request $request = null)
     {
         $prefix = DB::getTablePrefix();
 

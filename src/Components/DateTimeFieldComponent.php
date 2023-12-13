@@ -10,7 +10,7 @@ class DateTimeFieldComponent extends Component
 {
     public CarbonInterface $value;
 
-    public function __construct(public string $name, CarbonInterface $value = null)
+    public function __construct(public string $name, ?CarbonInterface $value = null)
     {
         $this->value = $value ?? now()->setTimezone(config('mailcoach.timezone') ?? config('app.timezone'))->addHour()->startOfHour();
     }

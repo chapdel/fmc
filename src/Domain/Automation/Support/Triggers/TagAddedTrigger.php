@@ -6,7 +6,7 @@ use Spatie\Mailcoach\Domain\Audience\Events\TagAddedEvent;
 
 class TagAddedTrigger extends AutomationTrigger implements TriggeredByEvents
 {
-    public function __construct(public string $tag, string $uuid = null)
+    public function __construct(public string $tag, ?string $uuid = null)
     {
         parent::__construct($uuid);
     }

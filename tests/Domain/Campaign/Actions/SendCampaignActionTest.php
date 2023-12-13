@@ -37,7 +37,7 @@ beforeEach(function () {
     test()->action = resolve(SendCampaignAction::class);
 });
 
-function runAction(Campaign $campaign = null)
+function runAction(?Campaign $campaign = null)
 {
     test()->action->execute($campaign ?? test()->campaign);
     test()->artisan('mailcoach:send-campaign-mails')->assertSuccessful();

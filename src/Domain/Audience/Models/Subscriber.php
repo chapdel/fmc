@@ -145,7 +145,7 @@ class Subscriber extends Model
             ->get();
     }
 
-    public function unsubscribe(Send $send = null)
+    public function unsubscribe(?Send $send = null)
     {
         $this->update(['unsubscribed_at' => now()]);
 
@@ -172,17 +172,17 @@ class Subscriber extends Model
         return $this;
     }
 
-    public function unsubscribeUrl(Send $send = null): string
+    public function unsubscribeUrl(?Send $send = null): string
     {
         return url(route('mailcoach.unsubscribe', [$this->uuid, optional($send)->uuid]));
     }
 
-    public function unsubscribeTagUrl(string $tag, Send $send = null): string
+    public function unsubscribeTagUrl(string $tag, ?Send $send = null): string
     {
         return url(route('mailcoach.unsubscribe-tag', [$this->uuid, urlencode($tag), optional($send)->uuid]));
     }
 
-    public function preferencesUrl(Send $send = null): string
+    public function preferencesUrl(?Send $send = null): string
     {
         return url(route('mailcoach.manage-preferences', [$this->uuid, optional($send)->uuid]));
     }
@@ -234,14 +234,14 @@ class Subscriber extends Model
         });
     }
 
-    public function addTag(string|iterable $name, TagType $type = null): self
+    public function addTag(string|iterable $name, ?TagType $type = null): self
     {
         $names = Arr::wrap($name);
 
         return $this->addTags($names, $type);
     }
 
-    public function addTags(array $names, TagType $type = null)
+    public function addTags(array $names, ?TagType $type = null)
     {
         $this->load('tags');
 

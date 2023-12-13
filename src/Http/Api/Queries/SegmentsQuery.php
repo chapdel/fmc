@@ -10,7 +10,7 @@ use Spatie\QueryBuilder\QueryBuilder;
 
 class SegmentsQuery extends QueryBuilder
 {
-    public function __construct(EmailList $emailList, Request $request = null)
+    public function __construct(EmailList $emailList, ?Request $request = null)
     {
         $query = $emailList->segments()->getQuery();
 

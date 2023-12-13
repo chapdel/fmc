@@ -12,7 +12,7 @@ beforeEach(function () {
     $this->subscriber = resolve(WebhookLogEventSubscriber::class);
 });
 
-function createEvent($eventClass, $callUuid, WebhookConfiguration $webhookConfiguration = null)
+function createEvent($eventClass, $callUuid, ?WebhookConfiguration $webhookConfiguration = null)
 {
     $webhookConfiguration = $webhookConfiguration ?? WebhookConfigurationFactory::new()->create();
 

@@ -38,7 +38,7 @@ class Link extends Model
         return $this->hasMany(self::getClickClass());
     }
 
-    public function registerClick(Send $send, DateTimeInterface $clickedAt = null): Click
+    public function registerClick(Send $send, ?DateTimeInterface $clickedAt = null): Click
     {
         /** @var \Spatie\Mailcoach\Domain\Content\Models\Click $click */
         $click = $this->clicks()->create([

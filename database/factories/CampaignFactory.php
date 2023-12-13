@@ -24,7 +24,7 @@ class CampaignFactory extends Factory
         ];
     }
 
-    public function emptyDraft(string $templateId = null): Factory
+    public function emptyDraft(?string $templateId = null): Factory
     {
         return $this->state(function (array $attributes) use ($templateId) {
             return [

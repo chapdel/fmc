@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Tests\TestClasses\TestTransactionMail;
 
 trait SendsTestTransactionalMail
 {
-    public function sendTestMail(callable $buildUsing = null): void
+    public function sendTestMail(?callable $buildUsing = null): void
     {
         TestTransactionMail::$buildUsing = $buildUsing ?? function (TestTransactionMail $mail) {
             $mail->store();

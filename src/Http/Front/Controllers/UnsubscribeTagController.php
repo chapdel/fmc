@@ -10,7 +10,7 @@ class UnsubscribeTagController
 {
     use UsesMailcoachModels;
 
-    public function show(string $subscriberUuid, string $tag, string $sendUuid = null)
+    public function show(string $subscriberUuid, string $tag, ?string $sendUuid = null)
     {
         /** @var Subscriber $subscriber */
         $subscriber = $this->getSubscriberClass()::findByUuid($subscriberUuid);

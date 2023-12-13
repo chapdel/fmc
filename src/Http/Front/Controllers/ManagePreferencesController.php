@@ -12,7 +12,7 @@ class ManagePreferencesController
 {
     use UsesMailcoachModels;
 
-    public function show(string $subscriberUuid, string $sendUuid = null)
+    public function show(string $subscriberUuid, ?string $sendUuid = null)
     {
         $updated = cache()->pull('updated-'.$subscriberUuid, false);
 
@@ -70,7 +70,7 @@ class ManagePreferencesController
         return redirect()->back();
     }
 
-    public function updateSubscriptions(Request $request, string $subscriberUuid, string $sendUuid = null)
+    public function updateSubscriptions(Request $request, string $subscriberUuid, ?string $sendUuid = null)
     {
 
         /** @var \Spatie\Mailcoach\Domain\Audience\Models\Subscriber $subscriber */
