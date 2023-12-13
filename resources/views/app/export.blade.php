@@ -63,7 +63,7 @@
                         name="selectedEmailList-{{ $id }}"
                         value="{{ $id }}"
                         :label="$name"
-                        wire:model="selectedEmailLists"
+                        wire:model.live="selectedEmailLists"
                 />
             @endforeach
         </div>
@@ -80,7 +80,7 @@
                         name="selectedCampaign-{{ $id }}"
                         value="{{ $id }}"
                         :label="$name"
-                        wire:model="selectedCampaigns"
+                        wire:model.live="selectedCampaigns"
                 />
             @empty
                 <x-mailcoach::info>No campaigns found, campaigns require their email list to be exported as well.
@@ -100,7 +100,7 @@
                         name="selectedTemplate-{{ $id }}"
                         value="{{ $id }}"
                         :label="$name"
-                        wire:model="selectedTemplates"
+                        wire:model.live="selectedTemplates"
                 />
             @empty
                 <x-mailcoach::info>No templates found.</x-mailcoach::info>
@@ -125,7 +125,7 @@
                         name="selectedAutomation-{{ $id }}"
                         value="{{ $id }}"
                         :label="$name"
-                        wire:model="selectedAutomations"
+                        wire:model.live="selectedAutomations"
                 />
             @empty
                 <x-mailcoach::info>No automations found, automations require their email list to be exported as well.
@@ -143,7 +143,7 @@
                         name="selectedAutomationMail-{{ $id }}"
                         value="{{ $id }}"
                         :label="$name"
-                        wire:model="selectedAutomationMails"
+                        wire:model.live="selectedAutomationMails"
                 />
             @empty
                 <x-mailcoach::info>No automation mails found.</x-mailcoach::info>
@@ -162,7 +162,7 @@
                         name="selectedTransactionalMailTemplate-{{ $id }}"
                         value="{{ $id }}"
                         :label="$name"
-                        wire:model="selectedTransactionalMailTemplates"
+                        wire:model.live="selectedTransactionalMailTemplates"
                 />
             @empty
                 <x-mailcoach::info>No transactional mail templates found.</x-mailcoach::info>
