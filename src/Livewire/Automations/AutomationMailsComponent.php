@@ -16,7 +16,6 @@ use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Livewire\TableComponent;
 use Spatie\Mailcoach\Mailcoach;
 
-
 class AutomationMailsComponent extends TableComponent
 {
     protected function getTableQuery(): Builder
