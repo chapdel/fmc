@@ -28,7 +28,7 @@ class LinkClicksComponent extends ContentItemTable
     {
         $firstUuid = explode(',', $this->linkUuids)[0];
 
-        return str_replace(['https://', 'http://'], '', self::getLinkClass()::findByUuid($firstUuid)->url).' '.__mc('clicks');
+        return str_replace(['https://', 'http://', '/', '\\'], ['', '', '_', '_'] , self::getLinkClass()::findByUuid($firstUuid)->url).' '.__mc('clicks');
     }
 
     protected function getTableQuery(): Builder
