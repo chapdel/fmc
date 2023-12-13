@@ -347,7 +347,7 @@ class Campaign extends Sendable implements Feedable
         return $this->isSent();
     }
 
-    public function sendTestMail(string|array $emails, ContentItem $contentItem = null): void
+    public function sendTestMail(string|array $emails, ?ContentItem $contentItem = null): void
     {
         if ($this->hasCustomMailable($contentItem)) {
             $this->pullSubjectFromMailable($contentItem);
