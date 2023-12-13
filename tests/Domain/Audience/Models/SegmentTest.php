@@ -261,7 +261,7 @@ it('can segment on positive and negative segments all required in one go', funct
 });
 
 // Helpers
-function createSubscriberWithTags(string $email, array $tags = [], int $emailListId = null): Subscriber
+function createSubscriberWithTags(string $email, array $tags = [], ?int $emailListId = null): Subscriber
 {
     /** @var Subscriber $subscriber */
     $subscriber = Subscriber::factory()->create([
