@@ -51,7 +51,7 @@ class LinkClicksComponent extends ContentItemTable
             ->join($subscriberTableName, "{$subscriberTableName}.id", '=', "{$ClickTable}.subscriber_id")
             ->join($emailListTableName, "{$subscriberTableName}.email_list_id", '=', "{$emailListTableName}.id")
             ->whereIn(static::getLinkTableName().'.uuid', explode(',', $this->linkUuids))
-            ->groupBy("{$prefix}{$subscriberTableName}.uuid", "{$prefix}{$emailListTableName}.uuid", "{$prefix}{$subscriberTableName}.email");
+            ->groupBy("{$subscriberTableName}.uuid", "{$emailListTableName}.uuid", "{$subscriberTableName}.email");
     }
 
     protected function isTablePaginationEnabled(): bool

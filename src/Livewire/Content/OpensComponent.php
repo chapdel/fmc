@@ -52,7 +52,7 @@ class OpensComponent extends ContentItemTable
             ->join($subscriberTableName, "{$subscriberTableName}.id", '=', "{$openTableName}.subscriber_id")
             ->join($emailListTableName, "{$subscriberTableName}.email_list_id", '=', "{$emailListTableName}.id")
             ->whereIn(static::getContentItemTableName().'.id', $this->contentItems->pluck('id'))
-            ->groupBy("{$prefix}{$subscriberTableName}.uuid", "{$prefix}{$emailListTableName}.uuid", "{$prefix}{$subscriberTableName}.email");
+            ->groupBy("{$subscriberTableName}.uuid", "{$emailListTableName}.uuid", "{$subscriberTableName}.email");
     }
 
     public function getTableRecordKey(Model $record): string
