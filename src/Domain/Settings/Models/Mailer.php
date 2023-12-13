@@ -152,7 +152,7 @@ class Mailer extends Model
         return $this->ready_for_use;
     }
 
-    public function get(string $configurationKey, string $default = null)
+    public function get(string $configurationKey, ?string $default = null)
     {
         return Arr::get($this->configuration, $configurationKey) ?? $default;
     }
