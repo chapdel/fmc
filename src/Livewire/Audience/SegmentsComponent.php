@@ -46,7 +46,7 @@ class SegmentsComponent extends TableComponent
     {
         return [
             Action::make(__mc('Learn more'))
-                ->url('https://mailcoach.app/docs/self-hosted/v6/using-mailcoach/email-lists/segmentation-tags')
+                ->url('https://mailcoach.app/docs/self-hosted/v7/using-mailcoach/email-lists/segmentation-tags')
                 ->link()
                 ->extraAttributes(['class' => 'link'])
                 ->openUrlInNewTab(),

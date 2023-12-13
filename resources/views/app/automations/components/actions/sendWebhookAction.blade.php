@@ -13,7 +13,7 @@
             <x-mailcoach::help full>
                 <p>
                     {!! __mc('These webhooks will use the same signature validation as documented for the <a href=":url" target="_blank">event webhooks</a>', [
-                        'url' => 'https://mailcoach.app/docs/self-hosted/v6/using-mailcoach/webhooks/configuring-webhooks',
+                        'url' => 'https://mailcoach.app/docs/self-hosted/v7/using-mailcoach/webhooks/configuring-webhooks',
                     ]) !!}
                 </p>
                 <details>
