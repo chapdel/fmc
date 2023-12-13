@@ -5,7 +5,9 @@ use Illuminate\Support\Facades\Mail;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
+use Spatie\Mailcoach\Domain\ConditionBuilder\Conditions\Subscribers\SubscriberOpenedCampaignQueryCondition;
 use Spatie\Mailcoach\Domain\ConditionBuilder\Enums\ComparisonOperator;
+use Spatie\Mailcoach\Domain\ConditionBuilder\ValueObjects\StoredCondition;
 
 beforeEach(function () {
     test()->emailList = EmailList::factory()->create();
@@ -31,6 +33,31 @@ it('can build a query to get subscribers with certain tags', function () {
     assertArrayContainsSubscribers([
         $subscriberWithOneTag,
         $subscriberWithManyTags,
+    ], $subscribers);
+});
+
+it('will only build a query for the email list', function () {
+    $subscriberWithOneTag = createSubscriberWithTags('oneTag@example.com', ['tagA']);
+    $otherListSubscriberWithTag = createSubscriberWithTags('otherTag@example.com', ['tagA'], EmailList::factory()->create()->id);
+
+    /** @var TagSegment $segment */
+    $segment = TagSegment::create(['name' => 'testSegment', 'email_list_id' => test()->emailList->id]);
+
+    $segment->stored_conditions
+        ->add(StoredCondition::make(
+            key: SubscriberOpenedCampaignQueryCondition::KEY,
+            comparisonOperator: ComparisonOperator::NotEquals,
+            value: 1,
+        ));
+
+    $segment->save();
+
+    $subscribers = $segment
+        ->getSubscribersQuery()
+        ->get();
+
+    assertArrayContainsSubscribers([
+        $subscriberWithOneTag,
     ], $subscribers);
 });
 
@@ -234,12 +261,12 @@ it('can segment on positive and negative segments all required in one go', funct
 });
 
 // Helpers
-function createSubscriberWithTags(string $email, array $tags = []): Subscriber
+function createSubscriberWithTags(string $email, array $tags = [], int $emailListId = null): Subscriber
 {
     /** @var Subscriber $subscriber */
     $subscriber = Subscriber::factory()->create([
         'email' => $email,
-        'email_list_id' => test()->emailList->id,
+        'email_list_id' => $emailListId ?? test()->emailList->id,
     ]);
 
     $subscriber->addTags($tags);
