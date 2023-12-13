@@ -20,7 +20,7 @@ class UpdateCampaignAction
 {
     use UsesMailcoachModels;
 
-    public function execute(Campaign $campaign, array $attributes, Template $template = null): Campaign
+    public function execute(Campaign $campaign, array $attributes, ?Template $template = null): Campaign
     {
         $segment = null;
 
