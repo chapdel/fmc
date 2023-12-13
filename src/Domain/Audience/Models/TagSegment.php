@@ -50,6 +50,8 @@ class TagSegment extends Model
 
         $this->applyConditionBuilder($query);
 
+        $query->where(self::getSubscriberTableName().'.email_list_id', $this->email_list_id);
+
         return $query;
     }
 
