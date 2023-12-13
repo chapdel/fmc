@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.3.1 - 2023-12-13
+
+* The export page now correctly updates when choosing email lists
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.3.0...7.3.1
+
 ## 7.3.0 - 2023-12-13
 
 ### What's Changed
