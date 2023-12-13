@@ -8,12 +8,12 @@ use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 /** @mixin EmailList */
 class EmailListResource extends JsonResource
 {
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'uuid' => $this->uuid,
             'name' => $this->name,
-            'active_subscribers_count' => (int) $this->active_subscribers_count,
+            'active_subscribers_count' => $this->totalSubscriptionsCount(),
             'campaigns_feed_enabled' => (bool) $this->campaigns_feed_enabled,
 
             'default_from_email' => $this->default_from_email,

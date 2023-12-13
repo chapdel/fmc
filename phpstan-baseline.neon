@@ -222,11 +222,6 @@ parameters:
 			path: src/Http/Api/Resources/BounceResource.php
 
 		-
-			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\EmailListResource\\:\\:\\$active_subscribers_count\\.$#"
-			count: 1
-			path: src/Http/Api/Resources/EmailListResource.php
-
-		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Resources\\\\OpenResource\\:\\:\\$first_opened_at\\.$#"
 			count: 1
 			path: src/Http/Api/Resources/OpenResource.php
@@ -453,5 +448,13 @@ parameters:
 
 		-
 			message: "#^Class Laravel\\\\Octane\\\\Events\\\\TickReceived not found\\.$#"
+			count: 1
+			path: src/MailcoachServiceProvider.php
+
+		-
+			message: """
+				#^Instantiation of deprecated class Symfony\\\\Component\\\\Mailer\\\\Bridge\\\\Sendinblue\\\\Transport\\\\SendinblueTransportFactory\\:
+				since Symfony 6\\.4, use BrevoTransportFactory instead$#
+			"""
 			count: 1
 			path: src/MailcoachServiceProvider.php
