@@ -30,12 +30,12 @@ class Mailer extends Model
 
     protected static function booted()
     {
-        self::creating(function (Mailer $mailer) {
+        static::creating(function (Mailer $mailer) {
             $name = strtolower($mailer->name);
             $mailer->config_key_name = Str::slug("mailcoach-{$name}");
         });
 
-        self::saved(function () {
+        static::saved(function () {
             cache()->forget('ready-mailers');
             static::registerAllConfigValues();
         });
@@ -152,7 +152,7 @@ class Mailer extends Model
         return $this->ready_for_use;
     }
 
-    public function get(string $configurationKey, ?string $default = null)
+    public function get(string $configurationKey, string $default = null)
     {
         return Arr::get($this->configuration, $configurationKey) ?? $default;
     }
