@@ -34,6 +34,6 @@ class SubscribersWithTagsSegment extends Segment
 
     public function getTagSegmentModel(): ?TagSegmentModel
     {
-        return TagSegmentModel::find($this->segmentable->segment_id);
+        return self::getTagSegmentClass()::find($this->segmentable->segment_id);
     }
 }
