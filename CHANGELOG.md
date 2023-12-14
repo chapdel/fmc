@@ -2,6 +2,17 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.3.2 - 2023-12-14
+
+### What's Changed
+
+* PostgreSQL compatibility for v7 by @potsky in https://github.com/spatie/laravel-mailcoach/pull/1430
+* Phpstan improvements by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1487
+* Make sure we url decode values when fuzzy searching in the API endpoints
+* Actually convert mjml when sending emails instead of just in the preview
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.3.1...7.3.2
+
 ## 7.3.1 - 2023-12-13
 
 * The export page now correctly updates when choosing email lists
