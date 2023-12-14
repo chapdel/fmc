@@ -2,13 +2,6 @@
     <style>
         #unlayer-wrapper {
             margin-top: 0;
-            margin-right: -0.75rem;
-        }
-
-        @media (min-width: 768px) {
-            #unlayer-wrapper {
-                margin-right: -0.5rem;
-            }
         }
     </style>
 @endpush
@@ -98,7 +91,7 @@
             const mergeTags = @js(collect($replacers)->map(function (string $description, string $name) {
                 return [
                     'name' => $name,
-                    'value' => "{{ $name }} "
+                    'value' => "@{{ $name }} "
                 ];
             })->toArray());
 
@@ -126,8 +119,8 @@
             html: @entangle('templateFieldValues.html').live,
             json: @entangle('templateFieldValues.json').live,
             init: init,
-        }" class="overflow-hidden -mx-10 flex-1 h-full mb-6">
-            <div id="editor" class="h-full -ml-2 pr-3 py-1" style="min-height: 75vh; height: 75vh"></div>
+        }" class="overflow-hidden flex-1 h-full mb-6">
+            <div id="editor" class="h-full pr-3 py-1" style="min-height: 75vh; height: 75vh"></div>
         </div>
 
         @isset($errors)
