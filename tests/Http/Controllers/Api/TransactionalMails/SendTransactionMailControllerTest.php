@@ -76,6 +76,47 @@ test('not everything is required', function () {
     });
 });
 
+test('it can override subject', function () {
+    Mail::fake();
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template',
+            'from' => 'rias@spatie.be',
+            'to' => 'freek@spatie.be',
+            'subject' => 'My custom subject',
+        ]))
+        ->assertSuccessful();
+
+    Mail::assertSent(TransactionalMail::class, function (TransactionalMail $mail) {
+        $mail->build();
+
+        expect($mail->subject)->toBe('My custom subject');
+
+        return true;
+    });
+});
+
+test('it takes template subject when nothing is passed', function () {
+    Mail::fake();
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template',
+            'from' => 'rias@spatie.be',
+            'to' => 'freek@spatie.be',
+        ]))
+        ->assertSuccessful();
+
+    Mail::assertSent(TransactionalMail::class, function (TransactionalMail $mail) {
+        $mail->build();
+
+        expect($mail->subject)->toBe('An other subject');
+
+        return true;
+    });
+});
+
 it('can send a transactional mail to formatted emails', function () {
     Mail::fake();
 
@@ -209,7 +250,6 @@ it('can handle the fields of a transactional mail', function () {
     $this
         ->postJson(action(SendTransactionalMailController::class, [
             'mail_name' => 'my-template-with-placeholders',
-            'subject' => 'Some subject',
             'from' => 'rias@spatie.be',
             'to' => 'freek@spatie.be',
             'replacements' => [
@@ -243,7 +283,6 @@ it('can render twig', function () {
     $this
         ->postJson(action(SendTransactionalMailController::class, [
             'mail_name' => 'my-template-with-placeholders',
-            'subject' => 'Some subject',
             'from' => 'rias@spatie.be',
             'to' => 'freek@spatie.be',
             'replacements' => [

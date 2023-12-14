@@ -65,6 +65,10 @@ trait UsesMailcoachTemplate
 
     protected function setSubject(TransactionalMail $template, array $replacements): void
     {
+        if ($this->subject) {
+            return;
+        }
+
         $subject = $template->contentItem->subject ?? '';
 
         foreach ($replacements as $search => $replace) {
