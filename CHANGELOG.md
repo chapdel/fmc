@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.3.3 - 2023-12-14
+
+* Make sure subject from a transactional mail API request gets used instead of template subject
+* Don't show queue error on dashboard when using vapor
+* Fix Unlayer merge tags not working correctly
+* Make Unlayer play nice with split testing
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.3.2...7.3.3
+
 ## 7.3.2 - 2023-12-14
 
 ### What's Changed
