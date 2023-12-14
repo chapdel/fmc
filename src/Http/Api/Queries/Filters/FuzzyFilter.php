@@ -24,6 +24,8 @@ class FuzzyFilter implements Filter
     {
         $values = Arr::wrap($values);
 
+        $values = array_map(fn ($value) => urldecode($value), $values);
+
         $query->where(function (Builder $builder) use ($values, $query) {
             $this
                 ->addDirectFields($builder, $values)
