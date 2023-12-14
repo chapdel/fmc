@@ -3,6 +3,8 @@
 namespace Spatie\Mailcoach\Domain\Content\Actions;
 
 use Spatie\Mailcoach\Domain\Content\Models\ContentItem;
+use Spatie\Mailcoach\Domain\Shared\Actions\InitializeMjmlAction;
+use Spatie\Mailcoach\Mailcoach;
 
 class PrepareEmailHtmlAction
 {
@@ -14,7 +16,12 @@ class PrepareEmailHtmlAction
 
     public function execute(ContentItem $contentItem): void
     {
-        $contentItem->email_html = $contentItem->htmlWithInlinedCss();
+        if (containsMjml($contentItem->getHtml())) {
+            $mjml = Mailcoach::getSharedActionClass('initialize_mjml', InitializeMjmlAction::class)->execute();
+            $contentItem->email_html = $mjml->toHtml($contentItem->getHtml());
+        } else {
+            $contentItem->email_html = $contentItem->htmlWithInlinedCss();
+        }
 
         if (empty($contentItem->email_html)) {
             $contentItem->save();
