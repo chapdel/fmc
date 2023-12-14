@@ -2,6 +2,12 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.3.4 - 2023-12-14
+
+* Fix an issue where the subscriber count did not match up with the segment's conditions
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.3.3...7.3.4
+
 ## 7.3.3 - 2023-12-14
 
 * Make sure subject from a transactional mail API request gets used instead of template subject
