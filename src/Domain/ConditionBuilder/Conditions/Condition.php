@@ -19,7 +19,7 @@ interface Condition
 
     public function getComponent(): string;
 
-    /** @return array{key: string, label: string, input_type: string, comparison_operators: array} */
+    /** @return array{key: string, label: string, comparison_operators: array} */
     public function toArray(): array;
 
     /** @return class-string<ConditionData>|null */

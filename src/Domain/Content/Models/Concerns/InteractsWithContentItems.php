@@ -52,7 +52,7 @@ trait InteractsWithContentItems
             return 0;
         }
 
-        return intval(round($this->uniqueOpenCount() / $this->sentToNumberOfSubscribers(), 4) * 10_000);
+        return (int) (round($this->uniqueOpenCount() / $this->sentToNumberOfSubscribers(), 4) * 10_000);
     }
 
     public function clickCount(): int
@@ -71,7 +71,7 @@ trait InteractsWithContentItems
             return 0;
         }
 
-        return intval(round($this->uniqueClickCount() / $this->sentToNumberOfSubscribers(), 4) * 10_000);
+        return (int) (round($this->uniqueClickCount() / $this->sentToNumberOfSubscribers(), 4) * 10_000);
     }
 
     public function unsubscribeCount(): int
@@ -85,7 +85,7 @@ trait InteractsWithContentItems
             return 0;
         }
 
-        return intval(round($this->unsubscribeCount() / $this->sentToNumberOfSubscribers(), 4) * 10_000);
+        return (int) (round($this->unsubscribeCount() / $this->sentToNumberOfSubscribers(), 4) * 10_000);
     }
 
     public function bounceCount(): int
@@ -99,6 +99,6 @@ trait InteractsWithContentItems
             return 0;
         }
 
-        return intval(round($this->bounceCount() / $this->sentToNumberOfSubscribers(), 4) * 10_000);
+        return (int) (round($this->bounceCount() / $this->sentToNumberOfSubscribers(), 4) * 10_000);
     }
 }

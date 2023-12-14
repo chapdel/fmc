@@ -7,7 +7,7 @@ use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 
 class SegmentPopulationCountComponent extends Component
 {
-    public ?string $result = null;
+    public ?int $result = null;
 
     public bool $readyToLoad = false;
 

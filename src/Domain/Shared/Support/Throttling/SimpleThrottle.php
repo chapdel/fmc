@@ -32,7 +32,7 @@ class SimpleThrottle
 
         $mailsPerSecond = config("mail.mailers.{$mailer}.mails_per_timespan", $this->allowedNumberInPeriod) / config("mail.mailers.{$mailer}.timespan_in_seconds", $this->periodLengthInSeconds);
 
-        $this->allowedNumberInPeriod = ceil($mailsPerSecond * 2);
+        $this->allowedNumberInPeriod = (int) ceil($mailsPerSecond * 2);
         $this->periodLengthInSeconds = 1;
 
         return $this;

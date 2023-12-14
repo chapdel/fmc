@@ -58,7 +58,7 @@ class TransactionalMail extends Mailable
             ->view('mailcoach::mails.transactionalMails.mail');
     }
 
-    public function build()
+    public function build(): void
     {
         if ($this->shouldUseMailcoachTemplate()) {
             $this->html = null;

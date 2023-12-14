@@ -25,6 +25,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * @method static Builder|static query()
+ *
+ * @property-read ?string $default_reply_to_email
  */
 class EmailList extends Model implements HasMedia
 {
@@ -271,9 +273,7 @@ class EmailList extends Model implements HasMedia
             ->singleFile();
     }
 
-    /**
-     * @return array{email: string, name: ?string}
-     */
+    /** @return array<array{'email': string, 'name': ?string}> */
     public function defaultReplyTo(): array
     {
         return resolve(CommaSeparatedEmailsToArrayAction::class)

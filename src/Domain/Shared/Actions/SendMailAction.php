@@ -120,6 +120,7 @@ class SendMailAction
             match (true) {
                 $contentItem->model instanceof AutomationMail => event(new AutomationMailSentEvent($pendingSend)),
                 $contentItem->model instanceof Campaign => event(new CampaignMailSentEvent($pendingSend)),
+                default => null,
             };
         }
     }

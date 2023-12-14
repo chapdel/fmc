@@ -14,9 +14,6 @@ trait HasExtraAttributes
 
     public function scopeWithExtraAttributes(): Builder
     {
-        /**
-         * @psalm-suppress UndefinedMethod
-         */
         return $this->extra_attributes->modelScope();
     }
 }

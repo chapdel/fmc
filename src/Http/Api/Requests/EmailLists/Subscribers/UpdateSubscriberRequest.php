@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Arr;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Unique;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
@@ -32,6 +33,7 @@ class UpdateSubscriberRequest extends FormRequest
 
     protected function getUniqueRule(): Unique
     {
+        /** @var EmailList $emailList */
         $emailList = $this->route('emailList');
 
         /** @var string $subscriber */

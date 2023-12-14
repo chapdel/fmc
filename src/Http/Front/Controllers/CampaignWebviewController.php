@@ -2,6 +2,7 @@
 
 namespace Spatie\Mailcoach\Http\Front\Controllers;
 
+use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
 class CampaignWebviewController
@@ -10,7 +11,10 @@ class CampaignWebviewController
 
     public function __invoke(string $campaignUuid)
     {
-        if (! $campaign = static::getCampaignClass()::findByUuid($campaignUuid)) {
+        /** @var Campaign $campaign */
+        $campaign = static::getCampaignClass()::findByUuid($campaignUuid);
+
+        if (! $campaign) {
             abort(404);
         }
 

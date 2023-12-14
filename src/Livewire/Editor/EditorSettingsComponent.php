@@ -47,7 +47,7 @@ class EditorSettingsComponent extends Component
 
     private function getEditorSpecificValidationRules(string $property, EditorConfigurationDriverRepository $editorConfigurationDriverRepository): array
     {
-        if (! $editor = $editorConfigurationDriverRepository->getForEditor($this->$property ?? '')) {
+        if (! $editor = $editorConfigurationDriverRepository->getForEditor($this->$property)) {
             return [];
         }
 

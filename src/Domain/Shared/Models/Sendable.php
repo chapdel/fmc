@@ -132,12 +132,12 @@ abstract class Sendable extends Model implements HasContentItems
         return true;
     }
 
-    public function getCasts()
+    public function getCasts(): array
     {
-        return array_merge($this->baseCasts, $this->casts ?? []);
+        return array_merge($this->baseCasts, $this->casts);
     }
 
-    protected function ensureSendable()
+    protected function ensureSendable(): void
     {
     }
 

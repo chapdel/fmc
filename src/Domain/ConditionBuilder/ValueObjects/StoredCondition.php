@@ -56,7 +56,7 @@ class StoredCondition
     }
 
     /**
-     * @return array{condition: array{key: string, label: string, input_type: string, comparison_operators: array}, comparison_operator: string, value: mixed}
+     * @return array{condition: array{key: string, label: string, comparison_operators: array}, comparison_operator: string, value: mixed}
      */
     public function toArray(): array
     {

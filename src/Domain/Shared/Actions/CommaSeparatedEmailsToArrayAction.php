@@ -4,9 +4,7 @@ namespace Spatie\Mailcoach\Domain\Shared\Actions;
 
 class CommaSeparatedEmailsToArrayAction
 {
-    /**
-     * @return array{email: string, name: ?string}
-     */
+    /** @return array<array{email: string, name: ?string}> */
     public function execute(?string $emails, ?string $names): array
     {
         if (! $emails) {

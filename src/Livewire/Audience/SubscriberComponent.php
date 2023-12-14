@@ -115,9 +115,11 @@ class SubscriberComponent extends Component
     public function saveAttributes(): void
     {
         $this->subscriber->extra_attributes = null;
+
         foreach ($this->extra_attributes as $extraAttribute) {
             $this->subscriber->extra_attributes[$extraAttribute['key']] = $extraAttribute['value'];
         }
+
         $this->subscriber->save();
 
         notify(__mc('Subscriber :subscriber was updated.', ['subscriber' => $this->subscriber->email]));

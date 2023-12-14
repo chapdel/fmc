@@ -15,7 +15,7 @@ class UpdateAutomationMailAction
         $html = $attributes['html'] ?? $template?->html;
 
         if ($template && $template->exists) {
-            $automationMail->contentItem->structured_html = $template?->getStructuredHtml();
+            $automationMail->contentItem->structured_html = $template->getStructuredHtml();
         } else {
             $automationMail->contentItem->setTemplateFieldValues([
                 'html' => $html,

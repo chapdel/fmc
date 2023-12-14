@@ -3,18 +3,20 @@
 namespace Spatie\Mailcoach\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 
+/** @mixin EmailList */
 class EmailListFactory extends Factory
 {
     use UsesMailcoachModels;
 
-    public function modelName()
+    public function modelName(): string
     {
         return static::getEmailListClass();
     }
 
-    public function definition()
+    public function definition(): array
     {
         return [
             'name' => $this->faker->word,

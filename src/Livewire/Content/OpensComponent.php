@@ -25,6 +25,7 @@ class OpensComponent extends ContentItemTable
 
     protected function getTableEmptyStateDescription(): ?string
     {
+        // @todo this returns integers
         if (! is_null($this->model->openCount())) {
             return __mc('No opens yet. Stay tuned.');
         }

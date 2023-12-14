@@ -6,7 +6,7 @@ parameters:
         - src/
 
     # Level 9 is the highest level
-    level: 2
+    level: 4
 
     checkOctaneCompatibility: false
     checkModelProperties: false
@@ -15,6 +15,7 @@ parameters:
     noUnnecessaryCollectionCall: true
     checkNullables: true
     editorUrl: 'phpstorm://open?file=%%file%%&line=%%line%%'
+    treatPhpDocTypesAsCertain: false
 
     databaseMigrationsPath:
         - database/migrations

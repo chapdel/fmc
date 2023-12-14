@@ -5,12 +5,13 @@ namespace Spatie\Mailcoach\Http\Api\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Spatie\Mailcoach\Domain\Automation\Models\AutomationMail;
 use Spatie\Mailcoach\Domain\Campaign\Models\Campaign;
+use Spatie\Mailcoach\Domain\Shared\Models\Send;
 use Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMailLogItem;
 
-/** @mixin \Spatie\Mailcoach\Domain\Shared\Models\Send */
+/** @mixin Send */
 class SendResource extends JsonResource
 {
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'uuid' => $this->uuid,

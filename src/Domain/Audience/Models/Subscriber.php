@@ -32,6 +32,8 @@ use Spatie\Mailcoach\Mailcoach;
 
 /**
  * @method static Builder|static query()
+ *
+ * @property-read EmailList $emailList
  */
 class Subscriber extends Model
 {

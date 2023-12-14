@@ -26,6 +26,7 @@ abstract class ImportJob implements ShouldQueue
 
     abstract public function execute(): void;
 
+    /** @todo is this used? */
     private LazyCollection $metaRows;
 
     protected Filesystem $importDisk;

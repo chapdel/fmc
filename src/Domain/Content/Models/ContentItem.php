@@ -245,7 +245,6 @@ class ContentItem extends Model implements HasHtmlContent
             ?? null;
     }
 
-    /** @return array{email: string, name: ?string} */
     public function getReplyToAddresses(?Send $send = null): array
     {
         return resolve(CommaSeparatedEmailsToArrayAction::class)

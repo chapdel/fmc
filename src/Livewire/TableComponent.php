@@ -53,7 +53,7 @@ abstract class TableComponent extends Component implements HasForms, HasTable
 
     protected function isTablePaginationEnabled(): bool
     {
-        return $this->getTableQuery()?->count() > $this->getTableRecordsPerPageSelectOptions()[0];
+        return $this->getTableQuery()->count() > $this->getTableRecordsPerPageSelectOptions()[0];
     }
 
     protected function getTableRecordsPerPageSelectOptions(): ?array

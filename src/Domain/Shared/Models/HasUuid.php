@@ -27,12 +27,12 @@ trait HasUuid
         return 'uuid';
     }
 
-    public static function findByUuid($uuid): ?static
+    public static function findByUuid($uuid): ?self
     {
         return static::where('uuid', $uuid)->first();
     }
 
-    public static function firstOrFailByUuid($uuid): static
+    public static function firstOrFailByUuid($uuid): self
     {
         return static::where('uuid', $uuid)->firstOrFail();
     }

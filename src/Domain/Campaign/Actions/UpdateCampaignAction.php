@@ -36,7 +36,7 @@ class UpdateCampaignAction
                 : null;
         }
 
-        /** @var TagSegment $segment */
+        /** @var ?TagSegment $segment */
         if (is_null($segment)) {
             $segmentClass = $attributes['segment_class'] ?? EverySubscriberSegment::class;
             $segmentDescription = (new $segmentClass)->description();
@@ -87,7 +87,7 @@ class UpdateCampaignAction
             $templateRenderer = (new TemplateRenderer($template->html ?? ''));
             $html = $templateRenderer->render($fieldValues);
         } elseif ($template && $template->exists) {
-            $content->structured_html = $template?->getStructuredHtml();
+            $content->structured_html = $template->getStructuredHtml();
         } else {
             $content->setTemplateFieldValues([
                 'html' => $html,

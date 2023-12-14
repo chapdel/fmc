@@ -43,7 +43,6 @@ class TagSegment extends Model
         return $this->belongsTo(self::getEmailListClass(), 'email_list_id');
     }
 
-    /** @return Builder<Subscriber> */
     public function getSubscribersQuery(): Builder
     {
         $query = $this->emailList->subscribers()->getQuery();

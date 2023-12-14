@@ -30,6 +30,7 @@ class CalculateAutomationMailStatisticsJob implements ShouldBeUnique, ShouldQueu
 
     public int $uniqueFor = 60;
 
+    /** @todo is this used? */
     private CarbonInterface $now;
 
     public function __construct(protected ?int $automationMailId = null)

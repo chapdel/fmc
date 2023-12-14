@@ -12,12 +12,12 @@ class SubscriberClickedCampaignLinkQueryConditionData extends ConditionData
 
     public static function make(?int $campaignId, ?string $link = null): static
     {
-        return new self($campaignId, $link);
+        return new static($campaignId, $link);
     }
 
     public static function fromArray(array $data): static
     {
-        return new self($data['campaignId'], $data['link'] ?? null);
+        return new static($data['campaignId'], $data['link'] ?? null);
     }
 
     public function toArray(): array

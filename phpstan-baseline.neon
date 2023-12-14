@@ -34,6 +34,16 @@ parameters:
 			path: src/Domain/Automation/Jobs/CalculateAutomationMailStatisticsJob.php
 
 		-
+			message: "#^Dead catch \\- Illuminate\\\\Database\\\\Eloquent\\\\ModelNotFoundException is never thrown in the try block\\.$#"
+			count: 1
+			path: src/Domain/Automation/Jobs/CalculateAutomationMailStatisticsJob.php
+
+		-
+			message: "#^Property Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Jobs\\\\CalculateAutomationMailStatisticsJob\\:\\:\\$now is never read, only written\\.$#"
+			count: 1
+			path: src/Domain/Automation/Jobs/CalculateAutomationMailStatisticsJob.php
+
+		-
 			message: """
 				#^Call to deprecated method useStrictMode\\(\\) of class Carbon\\\\Carbon\\:
 				To avoid conflict between different third\\-party libraries, static setters should not be used\\.
@@ -46,6 +56,21 @@ parameters:
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Relations\\\\HasMany\\:\\:subscribed\\(\\)\\.$#"
 			count: 1
 			path: src/Domain/Automation/Models/Automation.php
+
+		-
+			message: "#^Property Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Support\\\\Conditions\\\\HasClickedAutomationMail\\:\\:\\$automation is never read, only written\\.$#"
+			count: 1
+			path: src/Domain/Automation/Support/Conditions/HasClickedAutomationMail.php
+
+		-
+			message: "#^Property Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Support\\\\Conditions\\\\HasOpenedAutomationMail\\:\\:\\$automation is never read, only written\\.$#"
+			count: 1
+			path: src/Domain/Automation/Support/Conditions/HasOpenedAutomationMail.php
+
+		-
+			message: "#^Property Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Support\\\\Conditions\\\\HasTagCondition\\:\\:\\$automation is never read, only written\\.$#"
+			count: 1
+			path: src/Domain/Automation/Support/Conditions/HasTagCondition.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:pending\\(\\)\\.$#"
@@ -73,9 +98,24 @@ parameters:
 			path: src/Domain/Campaign/Rules/HtmlRule.php
 
 		-
+			message: "#^Offset non\\-falsy\\-string does not exist on non\\-empty\\-array\\<int, string\\>\\.$#"
+			count: 1
+			path: src/Domain/Campaign/Rules/HtmlRule.php
+
+		-
+			message: "#^Negated boolean expression is always false\\.$#"
+			count: 1
+			path: src/Domain/Content/Actions/CalculateStatisticsAction.php
+
+		-
 			message: "#^Variable \\$model in PHPDoc tag @var does not exist\\.$#"
 			count: 1
 			path: src/Domain/Content/Actions/CalculateStatisticsAction.php
+
+		-
+			message: "#^Match expression does not handle remaining value\\: true$#"
+			count: 1
+			path: src/Domain/Content/Actions/PersonalizeTextAction.php
 
 		-
 			message: """
@@ -92,6 +132,16 @@ parameters:
 			"""
 			count: 2
 			path: src/Domain/Content/Mails/MailcoachMail.php
+
+		-
+			message: "#^Match expression does not handle remaining value\\: class\\-string\\<Spatie\\\\Mailcoach\\\\Domain\\\\Shared\\\\Models\\\\Sendable\\>&literal\\-string$#"
+			count: 1
+			path: src/Domain/Content/Support/LinkHasher.php
+
+		-
+			message: "#^Method Spatie\\\\Mailcoach\\\\Domain\\\\Settings\\\\Models\\\\Setting\\:\\:setValues\\(\\) should return static\\(Spatie\\\\Mailcoach\\\\Domain\\\\Settings\\\\Models\\\\Setting\\) but returns Spatie\\\\Mailcoach\\\\Domain\\\\Settings\\\\Models\\\\Setting\\|null\\.$#"
+			count: 1
+			path: src/Domain/Settings/Models/Setting.php
 
 		-
 			message: """
@@ -137,6 +187,11 @@ parameters:
 			path: src/Domain/Shared/Jobs/Export/ExportJob.php
 
 		-
+			message: "#^Property Spatie\\\\Mailcoach\\\\Domain\\\\Shared\\\\Jobs\\\\Import\\\\ImportJob\\:\\:\\$metaRows is unused\\.$#"
+			count: 1
+			path: src/Domain/Shared/Jobs/Import/ImportJob.php
+
+		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasContentItems\\:\\:\\$contentItem\\.$#"
 			count: 2
 			path: src/Domain/Shared/Models/Sendable.php
@@ -148,6 +203,16 @@ parameters:
 
 		-
 			message: "#^Class Spatie\\\\Mailcoach\\\\Domain\\\\TransactionalMail\\\\Mails\\\\TransactionalMail constructor invoked with 0 parameters, 4\\-12 required\\.$#"
+			count: 1
+			path: src/Domain/TransactionalMail/Mails/TransactionalMail.php
+
+		-
+			message: "#^PHPDoc type mixed of property Spatie\\\\Mailcoach\\\\Domain\\\\TransactionalMail\\\\Mails\\\\TransactionalMail\\:\\:\\$html is not covariant with PHPDoc type string of overridden property Illuminate\\\\Mail\\\\Mailable\\:\\:\\$html\\.$#"
+			count: 1
+			path: src/Domain/TransactionalMail/Mails/TransactionalMail.php
+
+		-
+			message: "#^Property Spatie\\\\Mailcoach\\\\Domain\\\\TransactionalMail\\\\Mails\\\\TransactionalMail\\:\\:\\$fields is unused\\.$#"
 			count: 1
 			path: src/Domain/TransactionalMail/Mails/TransactionalMail.php
 
@@ -167,6 +232,11 @@ parameters:
 			path: src/Domain/Vendor/Ses/Jobs/ProcessSesWebhookJob.php
 
 		-
+			message: "#^Call to function file_get_contents\\(\\) on a separate line has no effect\\.$#"
+			count: 1
+			path: src/Domain/Vendor/Ses/SesSignatureValidator.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:allowedFilters\\(\\)\\.$#"
 			count: 1
 			path: src/Http/Api/Queries/CampaignBouncesQuery.php
@@ -182,14 +252,24 @@ parameters:
 			path: src/Http/Api/Queries/EmailListTagsQuery.php
 
 		-
+			message: "#^Parameter \\#1 \\$query \\(Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\Campaign\\>\\) of method Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Queries\\\\Filters\\\\CampaignStatusFilter\\:\\:__invoke\\(\\) should be compatible with parameter \\$query \\(Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\) of method Spatie\\\\QueryBuilder\\\\Filters\\\\Filter\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:__invoke\\(\\)$#"
+			count: 1
+			path: src/Http/Api/Queries/Filters/CampaignStatusFilter.php
+
+		-
+			message: "#^Property Illuminate\\\\Database\\\\Query\\\\Builder\\:\\:\\$joins \\(array\\) on left side of \\?\\? is not nullable\\.$#"
+			count: 2
+			path: src/Http/Api/Queries/Filters/FuzzyFilter.php
+
+		-
 			message: "#^Call to an undefined method Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:search\\(\\)\\.$#"
 			count: 1
 			path: src/Http/Api/Queries/Filters/SearchFilter.php
 
 		-
-			message: "#^Cannot access property \\$id on object\\|string\\|null\\.$#"
+			message: "#^Parameter \\#1 \\$query \\(Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Spatie\\\\Mailcoach\\\\Domain\\\\Audience\\\\Models\\\\Subscriber\\>\\) of method Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Queries\\\\Filters\\\\SubscriberStatusFilter\\:\\:__invoke\\(\\) should be compatible with parameter \\$query \\(Illuminate\\\\Database\\\\Eloquent\\\\Builder\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\) of method Spatie\\\\QueryBuilder\\\\Filters\\\\Filter\\<Illuminate\\\\Database\\\\Eloquent\\\\Model\\>\\:\\:__invoke\\(\\)$#"
 			count: 1
-			path: src/Http/Api/Requests/EmailLists/Subscribers/UpdateSubscriberRequest.php
+			path: src/Http/Api/Queries/Filters/SubscriberStatusFilter.php
 
 		-
 			message: "#^Call to an undefined method Spatie\\\\Mailcoach\\\\Http\\\\Api\\\\Requests\\\\SendAutomationMailTestRequest\\:\\:after\\(\\)\\.$#"
@@ -260,6 +340,16 @@ parameters:
 			message: "#^Access to an undefined property Illuminate\\\\View\\\\View\\:\\:\\$emailList\\.$#"
 			count: 1
 			path: src/Http/App/ViewComposers/WebsiteStyleComposer.php
+
+		-
+			message: "#^Property Spatie\\\\Mailcoach\\\\Domain\\\\Audience\\\\Models\\\\Subscriber\\:\\:\\$extra_attributes \\(Spatie\\\\SchemalessAttributes\\\\SchemalessAttributes\\) does not accept array\\.$#"
+			count: 1
+			path: src/Http/Front/Controllers/SubscribeController.php
+
+		-
+			message: "#^Property Spatie\\\\Mailcoach\\\\Domain\\\\Audience\\\\Models\\\\Subscriber\\:\\:\\$extra_attributes \\(Spatie\\\\SchemalessAttributes\\\\SchemalessAttributes\\) does not accept null\\.$#"
+			count: 1
+			path: src/Livewire/Audience/SubscriberComponent.php
 
 		-
 			message: "#^Call to an undefined method Illuminate\\\\Contracts\\\\Database\\\\Eloquent\\\\Builder\\:\\:subscribed\\(\\)\\.$#"
@@ -352,6 +442,41 @@ parameters:
 			path: src/Livewire/Campaigns/OutboxComponent.php
 
 		-
+			message: "#^Match expression does not handle remaining value\\: mixed$#"
+			count: 1
+			path: src/Livewire/ConditionBuilder/Conditions/Subscribers/SubscriberClickedAutomationMailLinkConditionComponent.php
+
+		-
+			message: "#^Match expression does not handle remaining value\\: mixed$#"
+			count: 1
+			path: src/Livewire/ConditionBuilder/Conditions/Subscribers/SubscriberClickedCampaignLinkConditionComponent.php
+
+		-
+			message: "#^Match expression does not handle remaining value\\: mixed$#"
+			count: 1
+			path: src/Livewire/ConditionBuilder/Conditions/Subscribers/SubscriberOpenedAutomationMailConditionComponent.php
+
+		-
+			message: "#^Match expression does not handle remaining value\\: mixed$#"
+			count: 1
+			path: src/Livewire/ConditionBuilder/Conditions/Subscribers/SubscriberOpenedCampaignConditionComponent.php
+
+		-
+			message: "#^Call to function is_null\\(\\) with int will always evaluate to false\\.$#"
+			count: 1
+			path: src/Livewire/Content/ClicksComponent.php
+
+		-
+			message: "#^Match expression does not handle remaining value\\: true$#"
+			count: 1
+			path: src/Livewire/Content/ClicksComponent.php
+
+		-
+			message: "#^Property Spatie\\\\Mailcoach\\\\Livewire\\\\Content\\\\EditContentComponent\\:\\:\\$model \\(Spatie\\\\Mailcoach\\\\Domain\\\\Automation\\\\Models\\\\AutomationMail\\|Spatie\\\\Mailcoach\\\\Domain\\\\Campaign\\\\Models\\\\Campaign\\) does not accept Spatie\\\\Mailcoach\\\\Domain\\\\Shared\\\\Models\\\\Sendable\\.$#"
+			count: 1
+			path: src/Livewire/Content/EditContentComponent.php
+
+		-
 			message: "#^Access to an undefined property Illuminate\\\\Database\\\\Eloquent\\\\Model\\:\\:\\$subscriber_uuid\\.$#"
 			count: 1
 			path: src/Livewire/Content/LinkClicksComponent.php
@@ -392,9 +517,19 @@ parameters:
 			path: src/Livewire/Content/OpensComponent.php
 
 		-
+			message: "#^Call to function is_null\\(\\) with int will always evaluate to false\\.$#"
+			count: 1
+			path: src/Livewire/Content/OpensComponent.php
+
+		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasContentItems\\:\\:\\$name\\.$#"
 			count: 1
 			path: src/Livewire/Content/UnsubscribesComponent.php
+
+		-
+			message: "#^Expression in empty\\(\\) is not falsy\\.$#"
+			count: 1
+			path: src/Livewire/DebugComponent.php
 
 		-
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasHtmlContent\\:\\:\\$template\\.$#"
@@ -410,6 +545,11 @@ parameters:
 			message: "#^Access to an undefined property Spatie\\\\Mailcoach\\\\Domain\\\\Content\\\\Models\\\\Concerns\\\\HasHtmlContent\\:\\:\\$uuid\\.$#"
 			count: 2
 			path: src/Livewire/Editor/EditorComponent.php
+
+		-
+			message: "#^Negated boolean expression is always false\\.$#"
+			count: 1
+			path: src/Livewire/Editor/EditorSettingsComponent.php
 
 		-
 			message: "#^Call to an undefined method Spatie\\\\Mailcoach\\\\Livewire\\\\Import\\\\ImportComponent\\:\\:call\\(\\)\\.$#"
@@ -458,3 +598,8 @@ parameters:
 			"""
 			count: 1
 			path: src/MailcoachServiceProvider.php
+
+		-
+			message: "#^Match expression does not handle remaining value\\: string$#"
+			count: 1
+			path: src/helpers.php

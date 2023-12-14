@@ -27,7 +27,7 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
 /**
  * @method static Builder|static query()
  *
- * @property-read Subscriber $subscriber
+ * @property-read ?Subscriber $subscriber
  */
 class Send extends Model
 {

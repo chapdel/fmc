@@ -56,8 +56,10 @@ class EmailListWebsiteController
             abort(404);
         }
 
-        /** @var $campaign Campaign */
-        if (! $campaign = static::getCampaignClass()::findByUuid($campaignUuid)) {
+        /** @var Campaign $campaign */
+        $campaign = static::getCampaignClass()::findByUuid($campaignUuid);
+
+        if (! $campaign) {
             abort(404);
         }
 

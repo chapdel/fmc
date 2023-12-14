@@ -45,7 +45,7 @@ class EditContentComponent extends Component
 
     public function mount(): void
     {
-        /** @var \Spatie\Mailcoach\Domain\Shared\Models\Sendable $sendable */
+        /** @var Campaign|AutomationMail $sendable */
         $sendable = Route::current()->parameter('campaign') ?? Route::current()->parameter('automationMail');
 
         if (is_string($sendable)) {
@@ -109,7 +109,6 @@ class EditContentComponent extends Component
         $this->redirect(match (true) {
             $this->model instanceof Campaign => route('mailcoach.campaigns.content', $this->model),
             $this->model instanceof AutomationMail => route('mailcoach.automations.mails.content', $this->model),
-            default => '',
         }, navigate: true);
     }
 
@@ -122,7 +121,6 @@ class EditContentComponent extends Component
         $this->redirect(match (true) {
             $this->model instanceof Campaign => route('mailcoach.campaigns.content', $this->model),
             $this->model instanceof AutomationMail => route('mailcoach.automations.mails.content', $this->model),
-            default => '',
         }, navigate: true);
     }
 
@@ -183,7 +181,6 @@ class EditContentComponent extends Component
         $layout = match (true) {
             $this->model instanceof Campaign => 'mailcoach::app.campaigns.layouts.campaign',
             $this->model instanceof AutomationMail => 'mailcoach::app.automations.mails.layouts.automationMail',
-            default => '',
         };
 
         return view($view)->layout($layout, [

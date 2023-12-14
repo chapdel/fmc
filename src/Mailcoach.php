@@ -21,13 +21,13 @@ class Mailcoach
     /** @var MenuItem[] */
     public static array $mainMenuItems = [];
 
-    /** @var MenuItem[] */
+    /** @var array{before: MenuItem[], after: MenuItem[]} */
     public static array $userMenuItems = [
         'before' => [],
         'after' => [],
     ];
 
-    /** @var MenuItem[] */
+    /** @var array{before: MenuItem[], after: MenuItem[]} */
     public static array $settingsMenuItems = [
         'before' => [],
         'after' => [],

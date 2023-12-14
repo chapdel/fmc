@@ -49,6 +49,7 @@ class ClicksComponent extends ContentItemTable
 
     protected function getTableEmptyStateDescription(): ?string
     {
+        // @todo clickCount() always returns an integer
         if (! is_null($this->model->clickCount())) {
             return __mc('No clicks yet. Stay tuned.');
         }

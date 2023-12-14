@@ -41,7 +41,7 @@ class SimpleThrottleCache
         return $this->cache->get($this->currentPeriodHitCountKey) ?? 0;
     }
 
-    public function setCurrentPeriodHitCount(int $hitCount): int
+    public function setCurrentPeriodHitCount(int $hitCount): bool
     {
         return $this->cache->set($this->currentPeriodHitCountKey, $hitCount);
     }

@@ -30,7 +30,7 @@ class MailcoachMail extends Mailable
     /** @deprecated will be removed in v7 */
     public ?string $replyToName = null;
 
-    /** @var array{email: string, name: ?string} */
+    /** @var array<array{email: string, name: ?string}> */
     public array $replyToAll = [];
 
     public $htmlView = null;

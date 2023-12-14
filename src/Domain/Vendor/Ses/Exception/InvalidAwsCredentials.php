@@ -16,6 +16,6 @@ class InvalidAwsCredentials extends Exception
             $message = "You have specified an invalid region: {$config->region}.";
         }
 
-        return new self($message, previous: $exception);
+        return new static($message, previous: $exception);
     }
 }

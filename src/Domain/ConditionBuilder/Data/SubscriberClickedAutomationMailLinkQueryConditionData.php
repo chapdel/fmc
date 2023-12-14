@@ -17,7 +17,7 @@ class SubscriberClickedAutomationMailLinkQueryConditionData extends ConditionDat
 
     public static function fromArray(array $data): static
     {
-        return new self($data['automationMailId'], $data['link'] ?? null);
+        return new static($data['automationMailId'], $data['link'] ?? null);
     }
 
     public function toArray(): array
