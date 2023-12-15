@@ -61,12 +61,12 @@
         "spatie/simple-excel": "^2.1|^3.0",
         "spatie/temporary-directory": "^2.0",
         "symfony/amazon-mailer": "^6.3",
+        "symfony/brevo-mailer": "^7.0",
         "symfony/css-selector": "^6.0",
         "symfony/dom-crawler": "^6.0",
         "symfony/http-client": "^6.0",
         "symfony/postmark-mailer": "^6.3",
         "symfony/sendgrid-mailer": "^6.1",
-        "symfony/sendinblue-mailer": "^6.3",
         "tijsverkoyen/css-to-inline-styles": "^2.2",
         "twig/twig": "^3.4",
         "wire-elements/spotlight": "^2.0"

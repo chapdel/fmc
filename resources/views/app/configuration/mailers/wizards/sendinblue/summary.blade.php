@@ -4,7 +4,7 @@
 
     <x-mailcoach::success>
         <p>
-            Your Sendinblue account has been set up. We highly recommend sending a small test campaign to yourself to check if
+            Your Brevo account has been set up. We highly recommend sending a small test campaign to yourself to check if
             everything is working as expected.
         </p>
     </x-mailcoach::success>

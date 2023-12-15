@@ -19,7 +19,7 @@ enum MailerTransport: string
             self::Smtp => 'SMTP',
             self::Postmark => 'Postmark',
             self::Mailgun => 'Mailgun',
-            self::Sendinblue => 'Sendinblue',
+            self::Sendinblue => 'Brevo',
         };
     }
 }

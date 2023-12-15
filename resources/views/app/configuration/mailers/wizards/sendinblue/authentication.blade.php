@@ -3,13 +3,13 @@
 <x-mailcoach::card>
     <x-mailcoach::help>
         <p>
-        To be able to send mails through Sendinblue, we should authenticate at Sendinblue.
+        To be able to send mails through Brevo, we should authenticate at Brevo.
         </p>
             <p>
-            You should first <a href="https://sendinblue.com" target="_blank">create an account</a> at Sendinblue.
+            You should first <a href="https://www.brevo.com/" target="_blank">create an account</a> at Brevo.
             </p>
                 <p>
-            Next, <a target="_blank" href="https://account.sendinblue.com/advanced/api">create an API key at Sendinblue</a>.
+            Next, <a target="_blank" href="https://app.brevo.com/settings/keys/api">create an API key at Brevo</a>.
             </p>
     </x-mailcoach::help>
 

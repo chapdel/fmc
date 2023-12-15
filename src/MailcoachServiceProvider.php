@@ -61,6 +61,7 @@ use Spatie\Mailcoach\Domain\TransactionalMail\Listeners\StoreTransactionalMail;
 use Spatie\Mailcoach\Domain\Vendor\Postmark\Actions\AddMessageStreamHeader;
 use Spatie\Mailcoach\Domain\Vendor\Sendgrid\Actions\AddUniqueArgumentsMailHeader;
 use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\AddConfigurationSetHeader;
+use Spatie\Mailcoach\Domain\Vendor\Ses\Actions\StoreTransportMessageId;
 use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Mailgun\MailgunWebhookController;
 use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Postmark\PostmarkWebhookController;
 use Spatie\Mailcoach\Http\Api\Controllers\Vendor\Sendgrid\SendgridWebhookController;
@@ -194,8 +195,8 @@ use Spatie\Mailcoach\Livewire\Webhooks\WebhookLogComponent;
 use Spatie\Mailcoach\Livewire\Webhooks\WebhookLogsComponent;
 use Spatie\Mailcoach\Livewire\Webhooks\WebhooksComponent;
 use Spatie\Navigation\Helpers\ActiveUrlChecker;
+use Symfony\Component\Mailer\Bridge\Brevo\Transport\BrevoTransportFactory;
 use Symfony\Component\Mailer\Bridge\Sendgrid\Transport\SendgridTransportFactory;
-use Symfony\Component\Mailer\Bridge\Sendinblue\Transport\SendinblueTransportFactory;
 use Symfony\Component\Mailer\Transport\Dsn;
 
 class MailcoachServiceProvider extends PackageServiceProvider
@@ -450,10 +451,18 @@ class MailcoachServiceProvider extends PackageServiceProvider
         Event::listen(MessageSent::class, \Spatie\Mailcoach\Domain\Vendor\Sendinblue\Actions\StoreTransportMessageId::class);
 
         Mail::extend('sendinblue', function (array $config) {
-            $key = $config['key'] ?? config('services.sendinblue.key');
+            $key = $config['key'] ?? config('services.sendinblue.key') ?? config('services.brevo.key');
 
-            return (new SendinblueTransportFactory())->create(
-                Dsn::fromString("sendinblue+api://{$key}@default")
+            return (new BrevoTransportFactory())->create(
+                Dsn::fromString("brevo+api://{$key}@default")
+            );
+        });
+
+        Mail::extend('brevo', function (array $config) {
+            $key = $config['key'] ?? config('services.brevo.key') ?? config('services.sendinblue.key');
+
+            return (new BrevoTransportFactory())->create(
+                Dsn::fromString("brevo+api://{$key}@default")
             );
         });
 
@@ -463,7 +472,7 @@ class MailcoachServiceProvider extends PackageServiceProvider
     protected function bootSes(): static
     {
         Event::listen(MessageSending::class, AddConfigurationSetHeader::class);
-        Event::listen(MessageSent::class, \Spatie\Mailcoach\Domain\Vendor\Ses\Actions\StoreTransportMessageId::class);
+        Event::listen(MessageSent::class, StoreTransportMessageId::class);
 
         return $this;
     }
