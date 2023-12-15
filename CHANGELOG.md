@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.4.0 - 2023-12-15
+
+### What's Changed
+
+* Sendinblue rebranded to Brevo by @Nielsvanpach in https://github.com/spatie/laravel-mailcoach/pull/1466
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.3.4...7.4.0
+
 ## 7.3.4 - 2023-12-14
 
 * Fix an issue where the subscriber count did not match up with the segment's conditions
