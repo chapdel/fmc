@@ -27,7 +27,7 @@
             <div>{{ __mc('Html') }}</div>
         </dt>
         <dd>
-            <x-mailcoach::web-view :html="$transactionalMail->contentItem->html" />
+            <x-mailcoach::web-view :id="$transactionalMail->id" :html="$transactionalMail->contentItem->html" />
         </dd>
     </dl>
 </x-mailcoach::card>

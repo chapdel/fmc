@@ -17,7 +17,7 @@
                 <h2>{{ $campaign->isSplitTested() ? $campaign->splitTestWinner->subject : $campaign->contentItem->subject }}</h2>
             </header>
             <div class="webview">
-                <x-mailcoach::web-view :html="$webview"/>
+                <x-mailcoach::web-view :id="$campaign->id" :html="$webview"/>
             </div>
         </article>
     </div>

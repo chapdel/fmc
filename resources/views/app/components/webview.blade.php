@@ -3,11 +3,11 @@
     <div wire:ignore x-data="{
         html: @js($html),
     }">
-        <embedded-webview x-bind:html="html" />
+        <embedded-webview-{{ md5($id ?? $html) }} x-bind:html="html" />
 
-        @once
+        @pushOnce('head')
             <script>
-                class EmbeddedWebview extends HTMLElement {
+                class EmbeddedWebview{{ md5($id ?? $html) }} extends HTMLElement {
                     static observedAttributes = ["html"];
 
                     attributeChangedCallback(name, oldValue, newValue) {
@@ -16,8 +16,8 @@
                     }
                 }
 
-                window.customElements.define('embedded-webview', EmbeddedWebview);
+                window.customElements.define('embedded-webview-{{ md5($id ?? $html) }}', EmbeddedWebview{{ md5($id ?? $html) }});
             </script>
-        @endonce
+        @endpushonce
     </div>
 @endif
