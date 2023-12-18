@@ -97,10 +97,26 @@ class TransactionalMailsComponent extends TableComponent
         $this->authorize('create', self::getTransactionalMailClass());
 
         /** @var \Spatie\Mailcoach\Domain\TransactionalMail\Models\TransactionalMail $duplicateTemplate */
-        $duplicateTemplate = $transactionalMail->replicate();
-        $duplicateTemplate->uuid = Str::uuid();
-        $duplicateTemplate->name .= '-copy';
-        $duplicateTemplate->save();
+        $duplicateTemplate = self::getTransactionalMailClass()::create([
+            'uuid' => Str::uuid(),
+            'name' => $transactionalMail->name.'-copy',
+            'from' => $transactionalMail->from,
+            'cc' => $transactionalMail->cc,
+            'to' => $transactionalMail->to,
+            'bcc' => $transactionalMail->bcc,
+            'type' => $transactionalMail->type,
+            'replacers' => $transactionalMail->replacers,
+            'store_mail' => $transactionalMail->store_mail,
+            'test_using_mailable' => $transactionalMail->test_using_mailable,
+        ]);
+
+        $duplicateTemplate->contentItem->update([
+            'subject' => $transactionalMail->contentItem->subject,
+            'template_id' => $transactionalMail->contentItem->template_id,
+            'html' => $transactionalMail->contentItem->html,
+            'structured_html' => $transactionalMail->contentItem->structured_html,
+            'utm_tags' => (bool) $transactionalMail->contentItem->utm_tags,
+        ]);
 
         notify(__mc('Email :name was duplicated.', ['name' => $transactionalMail->name]));
 
