@@ -164,10 +164,9 @@
     });
 </script>
 @filamentScripts
-@livewireScriptConfig
+@livewire('notifications')
 {!! Mailcoach::scripts() !!}
 @stack('scripts')
-@livewire('notifications')
 @livewire('livewire-ui-spotlight')
 </body>
 </html>

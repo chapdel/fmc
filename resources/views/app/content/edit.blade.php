@@ -1,10 +1,8 @@
-@pushonce('scripts')
+@script
     <script>
-        document.addEventListener('livewire:init', function () {
-            setInterval(() => @this.autosave(), 20000);
-        });
+        setInterval(() => $wire.autosave(), 20_000);
     </script>
-@endpushonce
+@endscript
 
 <x-mailcoach::card class="flex flex-col gap-y-4 p-6">
     @foreach ($contentItems as $index => $contentItem)

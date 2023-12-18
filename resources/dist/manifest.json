@@ -3,12 +3,12 @@
     "file": "assets/_commonjsHelpers-725317a4.js"
   },
   "resources/css/app.css": {
-    "file": "assets/app-33c567dd.css",
+    "file": "assets/app-db081e46.css",
     "isEntry": true,
     "src": "resources/css/app.css"
   },
   "resources/js/app.js": {
-    "file": "assets/app-9f8621a9.js",
+    "file": "assets/app-b10ffc10.js",
     "imports": [
       "__commonjsHelpers-725317a4.js"
     ],
