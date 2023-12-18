@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.4.1 - 2023-12-18
+
+* Fix duplicating transactional mails with content
+* Markdown editor improvements
+* Numerous Livewire script & asset improvements
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.4.0...7.4.1
+
 ## 7.4.0 - 2023-12-15
 
 ### What's Changed
