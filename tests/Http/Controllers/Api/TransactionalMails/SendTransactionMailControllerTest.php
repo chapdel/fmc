@@ -97,6 +97,47 @@ test('it can override subject', function () {
     });
 });
 
+test('it will use default subject when subject is empty', function () {
+    Mail::fake();
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template',
+            'from' => 'rias@spatie.be',
+            'to' => 'freek@spatie.be',
+            'subject' => '',
+        ]))
+        ->assertSuccessful();
+
+    Mail::assertSent(TransactionalMail::class, function (TransactionalMail $mail) {
+        $mail->build();
+
+        expect($mail->subject)->toBe('An other subject');
+
+        return true;
+    });
+});
+
+test('it will use default subject when subject is not passed', function () {
+    Mail::fake();
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template',
+            'from' => 'rias@spatie.be',
+            'to' => 'freek@spatie.be',
+        ]))
+        ->assertSuccessful();
+
+    Mail::assertSent(TransactionalMail::class, function (TransactionalMail $mail) {
+        $mail->build();
+
+        expect($mail->subject)->toBe('An other subject');
+
+        return true;
+    });
+});
+
 test('it takes template subject when nothing is passed', function () {
     Mail::fake();
 

@@ -37,7 +37,7 @@ class SendTransactionalMailAction
 
         return new TransactionalMail(
             mailName: $request->get('mail_name'),
-            subject: $request->get('subject', ''),
+            subject: $request->get('subject') ?? '',
             from: $normalizer->normalize($request->get('from')),
             to: $normalizer->normalize($request->get('to')),
             cc: $normalizer->normalize($request->get('cc')),
