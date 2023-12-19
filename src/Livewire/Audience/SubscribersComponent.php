@@ -198,7 +198,7 @@ class SubscribersComponent extends TableComponent
                 ->placeholder('')
                 ->options(fn () => $this->emailList->campaigns()->where('status', CampaignStatus::Sent)->pluck('name', 'uuid'))
                 ->query(function (Builder $query, array $data) {
-                    if (! $data['values']) {
+                    if (! isset($data['values']) || ! $data['values']) {
                         return $query;
                     }
 
@@ -218,7 +218,7 @@ class SubscribersComponent extends TableComponent
                 ->placeholder('')
                 ->options(fn () => self::getAutomationMailClass()::query()->pluck('name', 'uuid'))
                 ->query(function (Builder $query, array $data) {
-                    if (! $data['values']) {
+                    if (! isset($data['values']) || ! $data['values']) {
                         return $query;
                     }
 
@@ -238,7 +238,7 @@ class SubscribersComponent extends TableComponent
                 ->placeholder('')
                 ->options(fn () => $this->emailList->campaigns()->where('status', CampaignStatus::Sent)->pluck('name', 'uuid'))
                 ->query(function (Builder $query, array $data) {
-                    if (! $data['values']) {
+                    if (! isset($data['values']) || ! $data['values']) {
                         return $query;
                     }
 
@@ -260,7 +260,7 @@ class SubscribersComponent extends TableComponent
                 ->placeholder('')
                 ->options(fn () => self::getAutomationMailClass()::query()->pluck('name', 'uuid'))
                 ->query(function (Builder $query, array $data) {
-                    if (! $data['values']) {
+                    if (! isset($data['values']) || ! $data['values']) {
                         return $query;
                     }
 

@@ -2,7 +2,11 @@
 
 namespace Spatie\Mailcoach\Livewire\Audience;
 
+use Filament\Tables\Actions\Action;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Spatie\Mailcoach\Domain\Audience\Jobs\ExportSubscribersJob;
 use Spatie\Mailcoach\Domain\Audience\Models\EmailList;
 use Spatie\Mailcoach\Domain\Audience\Models\TagSegment;
 
@@ -43,6 +47,36 @@ class SegmentSubscribersComponent extends SubscribersComponent
             'emailList' => $this->emailList,
             'segment' => $this->segment,
             'selectedSubscribersCount' => $this->segment->getSubscribersCount(),
+        ];
+    }
+
+    protected function getTableHeaderActions(): array
+    {
+        return [
+            Action::make('export_subscribers')
+                ->label(function () {
+                    return __mc('Export :count subscribers', ['count' => Str::shortNumber($this->getAllTableRecordsCount())]);
+                })
+                ->requiresConfirmation()
+                ->color('gray')
+                ->icon('heroicon-o-cloud-arrow-down')
+                ->action(function () {
+                    $export = self::getSubscriberExportClass()::create([
+                        'email_list_id' => $this->emailList->id,
+                        'filters' => array_merge($this->tableFilters ?? [], [
+                            'segment_id' => $this->segment->id,
+                        ]),
+                    ]);
+
+                    dispatch(new ExportSubscribersJob(
+                        subscriberExport: $export,
+                        user: Auth::user(),
+                    ));
+
+                    notify(__mc('Subscriber export successfully queued.'));
+
+                    return redirect()->route('mailcoach.emailLists.subscriber-exports', [$this->emailList]);
+                }),
         ];
     }
 }

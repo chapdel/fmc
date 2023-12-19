@@ -12,6 +12,7 @@ use Spatie\Mailcoach\Domain\Audience\Mails\ExportSubscribersResultMail;
 use Spatie\Mailcoach\Domain\Audience\Models\Subscriber;
 use Spatie\Mailcoach\Domain\Audience\Models\SubscriberExport;
 use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
+use Spatie\Mailcoach\Livewire\Audience\SegmentSubscribersComponent;
 use Spatie\Mailcoach\Livewire\Audience\SubscribersComponent;
 use Spatie\Mailcoach\Mailcoach;
 use Spatie\SimpleExcel\SimpleExcelWriter;
@@ -77,10 +78,19 @@ class ExportSubscribersAction
 
             $writer->addHeader($header);
 
+            $filters = $this->subscriberExport->filters;
+
             /** We set up the component to get the same query as the datatable displayed */
-            $component = new SubscribersComponent();
-            $component->tableFilters = $this->subscriberExport->filters;
-            $component->mount($this->subscriberExport->emailList);
+            if (isset($filters['segment_id']) && $segment = self::getTagSegmentClass()::find($filters['segment_id'])) {
+                $component = new SegmentSubscribersComponent();
+                $component->mount($this->subscriberExport->emailList, $segment);
+                unset($filters['segment_id']);
+            } else {
+                $component = new SubscribersComponent();
+                $component->mount($this->subscriberExport->emailList);
+            }
+
+            $component->tableFilters = $filters;
             $component->bootedInteractsWithTable();
             $query = $component->getTableQuery();
             $component->filterTableQuery($query);
