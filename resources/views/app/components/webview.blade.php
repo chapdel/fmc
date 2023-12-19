@@ -5,19 +5,17 @@
     }">
         <embedded-webview-{{ md5($id ?? $html) }} x-bind:html="html" />
 
-        @pushOnce('head')
-            <script>
-                class EmbeddedWebview{{ md5($id ?? $html) }} extends HTMLElement {
-                    static observedAttributes = ["html"];
+        <script>
+            class EmbeddedWebview{{ md5($id ?? $html) }} extends HTMLElement {
+                static observedAttributes = ["html"];
 
-                    attributeChangedCallback(name, oldValue, newValue) {
-                        const shadow = this.attachShadow({ mode: 'closed' });
-                        shadow.innerHTML = newValue;
-                    }
+                attributeChangedCallback(name, oldValue, newValue) {
+                    const shadow = this.attachShadow({ mode: 'closed' });
+                    shadow.innerHTML = newValue;
                 }
+            }
 
-                window.customElements.define('embedded-webview-{{ md5($id ?? $html) }}', EmbeddedWebview{{ md5($id ?? $html) }});
-            </script>
-        @endpushonce
+            window.customElements.define('embedded-webview-{{ md5($id ?? $html) }}', EmbeddedWebview{{ md5($id ?? $html) }});
+        </script>
     </div>
 @endif
