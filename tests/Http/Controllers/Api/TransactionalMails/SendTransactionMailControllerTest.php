@@ -97,6 +97,30 @@ test('it can override subject', function () {
     });
 });
 
+test('it can override subject with replacements', function () {
+    Mail::fake();
+
+    $this
+        ->postJson(action(SendTransactionalMailController::class, [
+            'mail_name' => 'my-template',
+            'from' => 'rias@spatie.be',
+            'to' => 'freek@spatie.be',
+            'subject' => 'Hello {{ name }}',
+            'replacements' => [
+                'name' => 'Joe',
+            ],
+        ]))
+        ->assertSuccessful();
+
+    Mail::assertSent(TransactionalMail::class, function (TransactionalMail $mail) {
+        $mail->build();
+
+        expect($mail->subject)->toBe('Hello Joe');
+
+        return true;
+    });
+});
+
 test('it will use default subject when subject is empty', function () {
     Mail::fake();
 
