@@ -24,7 +24,7 @@ class AutomationSettingsComponent extends Component
 
     public string $name;
 
-    public int $email_list_id;
+    public ?int $email_list_id;
 
     public ?int $segment_id;
 
