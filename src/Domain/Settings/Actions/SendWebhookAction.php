@@ -53,7 +53,7 @@ class SendWebhookAction
 
     protected function webhookEnabledForEvent(WebhookConfiguration $webhookConfiguration, string $event): bool
     {
-        if (! config('mailcoach.webhooks.selectable_event_types_enabled', false)) {
+        if (! config('mailcoach.webhooks.selectable_event_types_enabled', true)) {
             return true;
         }
 
