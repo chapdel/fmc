@@ -96,7 +96,7 @@ return [
     'Are you sure you want to send this campaign to' => 'Weet je zeker dat je deze campagne wilt verzenden naar',
     'Are you sure you want to unsubscribe :email?' => 'Weet je zeker dat je :email wilt afmelden ?',
     'Are you sure you want to unsubscribe from list <strong class="font-semibold">:emailListName</strong>\'s tag :tag?' => 'Weet je zeker dat je je wilt afmelden voor de tag :tag van de lijst <strong class="font-semibold">:emailListName</strong>?',
-    'Are you sure you want to unsubscribe from list <strong class="font-semibold">:emailListName</strong>?' => 'Weet je zeker dat je je wilt afmelden de lijst <strong class="font-semibold">:emailListName</strong>?',
+    'Are you sure you want to unsubscribe from list <strong class="font-semibold">:emailListName</strong>?' => 'Weet je zeker dat je je wilt afmelden voor de lijst <strong class="font-semibold">:emailListName</strong>?',
     'Are you sure?' => 'Weet je het zeker?',
     'Assign these tags to some of the <a href=":subscriberslink">subscribers</a>.' => 'Ken deze tags toe aan enkele van de <a href=":subscriberslink">abonnees</a>.',
     'Attachments' => 'Bijlagen',
