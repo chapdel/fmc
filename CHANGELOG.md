@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.4.2 - 2023-12-21
+
+### What's Changed
+
+* Fix the webview script
+* Improve transactional subject handling
+* Allow replacements in passed in subject
+* Fix exporting of segments
+* Default webhook's selectable_event_types_enabled to true by @emcro in https://github.com/spatie/laravel-mailcoach/pull/1491
+* Translation fix in NL by @mbardelmeijer in https://github.com/spatie/laravel-mailcoach/pull/1489
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.4.1...7.4.2
+
 ## 7.4.1 - 2023-12-18
 
 * Fix duplicating transactional mails with content
