@@ -2,6 +2,20 @@
 
 All notable changes to `laravel-mailcoach` will be documented in this file
 
+## 7.4.3 - 2023-12-22
+
+### What's Changed
+
+* Nullable transactional mail replacements by @JordiBontje in https://github.com/spatie/laravel-mailcoach/pull/1499
+* Add missing timezone call on some date columns
+* Large campaigns create too many sends in advance, so we've lowered this slightly to not fill queues too quickly
+
+### New Contributors
+
+* @JordiBontje made their first contribution in https://github.com/spatie/laravel-mailcoach/pull/1499
+
+**Full Changelog**: https://github.com/spatie/laravel-mailcoach/compare/7.4.2...7.4.3
+
 ## 7.4.2 - 2023-12-21
 
 ### What's Changed
