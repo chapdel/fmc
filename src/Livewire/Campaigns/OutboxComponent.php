@@ -62,6 +62,7 @@ class OutboxComponent extends ContentItemTable
                 ->getStateUsing(fn (Send $record) => "{$record->failure_reason}{$record->latestFeedback()?->formatted_type}"),
             TextColumn::make('sent_at')
                 ->label(__mc('Sent'))
+                ->date(config('mailcoach.date_format'), config('mailcoach.timezone'))
                 ->sortable()
                 ->alignRight(),
         ];

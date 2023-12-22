@@ -48,7 +48,7 @@ class TemplatesComponent extends TableComponent
                 ->extraAttributes([
                     'class' => 'tabular-nums',
                 ])
-                ->date(config('mailcoach.date_format')),
+                ->date(config('mailcoach.date_format'), config('mailcoach.timezone')),
             TextColumn::make('updated_at')
                 ->alignRight()
                 ->sortable()
@@ -56,7 +56,7 @@ class TemplatesComponent extends TableComponent
                 ->extraAttributes([
                     'class' => 'tabular-nums',
                 ])
-                ->date(config('mailcoach.date_format')),
+                ->date(config('mailcoach.date_format'), config('mailcoach.timezone')),
         ];
     }
 

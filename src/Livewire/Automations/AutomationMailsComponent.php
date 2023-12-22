@@ -60,7 +60,7 @@ class AutomationMailsComponent extends TableComponent
                 ->extraAttributes([
                     'class' => 'tabular-nums',
                 ])
-                ->date(config('mailcoach.date_format')),
+                ->date(config('mailcoach.date_format'), config('mailcoach.timezone')),
         ];
     }
 
