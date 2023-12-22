@@ -17,7 +17,7 @@
                 :label="__mc('Open Rate')"
                 suffix="%"
                 :progress="$campaign->openRate() / 100"
-                :progress-tooltip="$campaign->uniqueOpenCount()"
+                :progress-tooltip='$campaign->openCount() . " (" . $campaign->uniqueOpenCount() . " " . __mc("unique") . ")"'
             />
         @else
             <div class="">
@@ -33,7 +33,7 @@
                 :label="__mc('Click Rate')"
                 suffix="%"
                 :progress="$campaign->clickRate() / 100"
-                :progress-tooltip="$campaign->uniqueClickCount()"
+                :progress-tooltip='$campaign->clickCount() . " (" . $campaign->uniqueClickCount() . " " . __mc("unique") . ")"'
             />
         @else
             <div class="">
@@ -100,7 +100,7 @@
                             :label="__mc('Open Rate')"
                             suffix="%"
                             :progress="$stats['unique_open_count'] / $stats['sent_to_number_of_subscribers'] * 100"
-                            :progress-tooltip="$stats['unique_open_count']"
+                            :progress-tooltip='$stats["open_count"] . " (" . $stats["unique_open_count"] . " " . __mc("unique") . ")"'
                         />
                     @else
                         <div class="col-start-1 col-span-3">
@@ -116,7 +116,7 @@
                             :label="__mc('Click Rate')"
                             suffix="%"
                             :progress="$stats['unique_click_count'] / $stats['sent_to_number_of_subscribers'] * 100"
-                            :progress-tooltip="$stats['unique_click_count']"
+                            :progress-tooltip='$stats["click_count"] . " (" . $stats["unique_click_count"] . " " . __mc("unique") . ")"'
                         />
                     @else
                         <div class="col-start-1 col-span-3">
