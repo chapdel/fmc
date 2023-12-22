@@ -26,7 +26,7 @@ class SendTransactionalMailRequest extends FormRequest
             'subject' => ['nullable', 'string', 'required_without:mail_name'],
             'html' => ['string'],
             'replacements' => ['nullable', 'array'],
-            'replacements.*' => ['string'],
+            'replacements.*' => ['nullable', 'string'],
             'from' => ['required'],
             'to' => [
                 'required',
