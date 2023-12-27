@@ -25,14 +25,17 @@ class CreateCampaignSendJob implements ShouldBeUnique, ShouldQueue
 
     public $tries = 1;
 
-    public $uniqueFor = 10800; // 3 hours
-
     /** @var string */
     public $queue;
 
     public function uniqueId(): string
     {
         return "{$this->campaign->id}-{$this->subscriber->id}";
+    }
+
+    public function uniqueFor(): int
+    {
+        return $this->contentItem->sendTimeInMinutes() * 60;
     }
 
     public function __construct(

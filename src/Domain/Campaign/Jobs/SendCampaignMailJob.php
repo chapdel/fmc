@@ -30,16 +30,19 @@ class SendCampaignMailJob implements ShouldBeUnique, ShouldQueue
     /** @var string */
     public $queue;
 
-    public int $uniqueFor = 10800; // 3 hours
-
     public function uniqueId(): int
     {
         return $this->pendingSend->id;
     }
 
+    public function uniqueFor(): int
+    {
+        return $this->pendingSend->contentItem->sendTimeInMinutes() * 60;
+    }
+
     public function retryUntil(): CarbonInterface
     {
-        return now()->addHours(3);
+        return now()->addMinutes($this->pendingSend->contentItem->sendTimeInMinutes());
     }
 
     public function __construct(public Send $pendingSend)

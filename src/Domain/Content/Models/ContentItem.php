@@ -331,6 +331,16 @@ class ContentItem extends Model implements HasHtmlContent
         return $this;
     }
 
+    public function sendTimeInMinutes(): int
+    {
+        $mailer = $this->getMailerKey();
+        $mailsPerTimespan = config("mail.mailers.{$mailer}.mails_per_timespan", 10);
+        $timespan = config("mail.mailers.{$mailer}.timespan_in_seconds", 1);
+        $mailsPerSecond = $mailsPerTimespan / $timespan;
+
+        return round($this->sent_to_number_of_subscribers / $mailsPerSecond / 60);
+    }
+
     public function getReplacers(): Collection
     {
         return match (true) {

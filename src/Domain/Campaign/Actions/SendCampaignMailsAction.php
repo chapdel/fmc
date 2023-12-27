@@ -36,14 +36,9 @@ class SendCampaignMailsAction
      */
     protected function retryDispatchForStuckSends(ContentItem $contentItem, ?CarbonInterface $stopExecutingAt = null): void
     {
-        $mailer = $contentItem->getMailerKey();
-        $mailsPerTimespan = config("mail.mailers.{$mailer}.mails_per_timespan", 10);
-        $timespan = config("mail.mailers.{$mailer}.timespan_in_seconds", 1);
-        $mailsPerSecond = $mailsPerTimespan / $timespan;
-
         $realisticTimeInMinutes = min(
             60 * 3, // SendCampaignMailJob only has 3 hours retryUntil()
-            round($contentItem->sent_to_number_of_subscribers / $mailsPerSecond / 60),
+            $contentItem->sendTimeInMinutes(),
         );
 
         $retryQuery = $contentItem
