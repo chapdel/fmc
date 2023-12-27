@@ -42,7 +42,7 @@ class SendCampaignMailJob implements ShouldBeUnique, ShouldQueue
 
     public function retryUntil(): CarbonInterface
     {
-        return now()->addMinutes($this->pendingSend->contentItem->sendTimeInMinutes());
+        return now()->addHours(3);
     }
 
     public function __construct(public Send $pendingSend)
