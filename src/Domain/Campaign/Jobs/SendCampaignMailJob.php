@@ -37,7 +37,7 @@ class SendCampaignMailJob implements ShouldBeUnique, ShouldQueue
 
     public function uniqueFor(): int
     {
-        return $this->pendingSend->contentItem->sendTimeInMinutes() * 60;
+        return ($this->pendingSend->contentItem->sendTimeInMinutes() + 15) * 60;
     }
 
     public function retryUntil(): CarbonInterface
