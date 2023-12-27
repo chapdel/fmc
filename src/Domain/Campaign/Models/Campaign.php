@@ -327,17 +327,19 @@ class Campaign extends Sendable implements Feedable
         }
     }
 
-    public function markAsSent(int $numberOfSubscribers): self
+    public function markAsSent(): self
     {
         $this->update([
             'status' => CampaignStatus::Sent,
             'sent_at' => now(),
         ]);
 
-        $this->contentItem->update([
-            'statistics_calculated_at' => now(),
-            'sent_to_number_of_subscribers' => $numberOfSubscribers,
-        ]);
+        $this->contentItem->each(function (ContentItem $contentItem) {
+            $contentItem->update([
+                'statistics_calculated_at' => now(),
+                'sent_to_number_of_subscribers' => $contentItem->sendsCount(),
+            ]);
+        });
 
         return $this;
     }

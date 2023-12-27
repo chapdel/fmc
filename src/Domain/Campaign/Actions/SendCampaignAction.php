@@ -86,14 +86,14 @@ class SendCampaignAction
         $splitSubscriberCount = max(1, floor($subscribersQuery->count() / 100 * $splitSize / $campaign->contentItems->count()));
 
         foreach ($campaign->contentItems as $index => $contentItem) {
-            $subscribersQuery = $subscribersQuery
+            $splitSubscribersQuery = $subscribersQuery
                 ->clone()
                 ->offset($index * $splitSubscriberCount)
                 ->limit($splitSubscriberCount);
 
             // These need to be done with a subquery, otherwise aggregate methods with offset & limit don't work
-            $firstId = DB::query()->fromSub($subscribersQuery, 'subscribers')->min('id');
-            $lastId = DB::query()->fromSub($subscribersQuery, 'subscribers')->max('id');
+            $firstId = DB::query()->fromSub($splitSubscribersQuery, 'subscribers')->min('id');
+            $lastId = DB::query()->fromSub($splitSubscribersQuery, 'subscribers')->max('id');
 
             $this->dispatchCreateSendJobs($campaign, $contentItem, $firstId, $lastId, $stopExecutingAt);
         }
@@ -119,6 +119,7 @@ class SendCampaignAction
         $campaign->splitTestWinner->update([
             'all_sends_created_at' => null,
             'all_sends_dispatched_at' => null,
+            'sent_to_number_of_subscribers' => $campaign->splitTestWinner->sent_to_number_of_subscribers + $subscribersQuery->withoutSendsForCampaign($campaign)->count(),
         ]);
 
         return $this;
@@ -142,7 +143,7 @@ class SendCampaignAction
             return;
         }
 
-        $campaign->markAsSent($campaign->sendsCount());
+        $campaign->markAsSent();
 
         event(new CampaignSentEvent($campaign));
     }

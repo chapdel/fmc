@@ -642,9 +642,6 @@ it('can handle split tested campaigns', function () {
 
     expect($campaign->status)->toBe(CampaignStatus::Sent);
 
-    $firstContentItem->dispatchCalculateStatistics();
-    $secondContentItem->dispatchCalculateStatistics();
-
     expect($firstContentItem->fresh()->sent_to_number_of_subscribers)->toBe(1);
     expect($secondContentItem->fresh()->sent_to_number_of_subscribers)->toBe(9);
 });
