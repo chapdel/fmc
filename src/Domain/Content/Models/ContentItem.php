@@ -338,7 +338,7 @@ class ContentItem extends Model implements HasHtmlContent
         $timespan = config("mail.mailers.{$mailer}.timespan_in_seconds", 1);
         $mailsPerSecond = $mailsPerTimespan / $timespan;
 
-        return round($this->sent_to_number_of_subscribers / $mailsPerSecond / 60);
+        return (int) round($this->sent_to_number_of_subscribers / $mailsPerSecond / 60);
     }
 
     public function getReplacers(): Collection
