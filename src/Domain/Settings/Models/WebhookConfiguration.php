@@ -17,7 +17,7 @@ use Spatie\Mailcoach\Domain\Shared\Traits\UsesMailcoachModels;
  * @property string $url
  * @property bool $enabled
  * @property int $failed_attempts
- * @property Collection $events
+ * @property ?Collection $events
  */
 class WebhookConfiguration extends Model
 {
