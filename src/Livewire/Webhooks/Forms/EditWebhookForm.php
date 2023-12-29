@@ -56,7 +56,7 @@ class EditWebhookForm extends Form
         $this->emailLists = $webhook->emailLists->pluck('id')->values()->toArray();
         $this->enabled = $webhook->enabled;
         $this->use_for_all_events = $webhook->useForAllEvents();
-        $this->events = $webhook->events->toArray();
+        $this->events = $webhook->events?->toArray();
     }
 
     public function store(): void
