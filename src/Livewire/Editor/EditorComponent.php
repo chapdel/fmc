@@ -78,14 +78,16 @@ abstract class EditorComponent extends Component
             return;
         }
 
+        $oldTemplate = $this->template;
+
         $this->template = self::getTemplateClass()::find($templateId);
 
         if ($this->template?->containsPlaceHolders()) {
             foreach ($this->template->placeHolderNames() as $placeHolderName) {
                 $this->templateFieldValues[$placeHolderName] ??= '';
             }
-        } else {
-            $this->templateFieldValues['html'] ??= $this->template?->getHtml() ?? '';
+        } elseif (is_null($this->templateFieldValues['html']) || $this->templateFieldValues['html'] === '' || $this->templateFieldValues['html'] === $oldTemplate->getHtml()) {
+            $this->templateFieldValues['html'] = $this->template?->getHtml() ?? '';
         }
     }
 

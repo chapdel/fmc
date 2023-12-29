@@ -19,6 +19,7 @@
             <x-slot name="editor">
                 <div
                     wire:ignore
+                    wire:key="{{ md5(($template?->id ?? '') . $templateFieldValues[$field['name']]) }}"
                     x-data="{
                     html: @entangle('templateFieldValues.' . $field['name']).live,
                 }" x-init="
