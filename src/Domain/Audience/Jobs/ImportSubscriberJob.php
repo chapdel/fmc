@@ -21,7 +21,7 @@ class ImportSubscriberJob implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public $maxAttempts = 3;
+    public $maxAttempts = 10;
 
     public bool $deleteWhenMissingModels = true;
 
