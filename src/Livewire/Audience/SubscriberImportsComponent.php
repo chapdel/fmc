@@ -61,7 +61,9 @@ class SubscriberImportsComponent extends TableComponent
     public function startImport(): void
     {
         $this->validate([
-            'file' => ['file', 'mimes:txt,csv,xls,xlsx', 'max:10240'],
+            'file' => ['file', 'mimes:txt,csv,xls,xlsx', 'max:5120'],
+        ], [
+            'file.max' => __mc('The uploaded file must not be greater than 5MB. We suggest splitting the import files into multiple smaller files.'),
         ]);
 
         $this->authorize('update', $this->emailList);
