@@ -1,5 +1,5 @@
 {
-    "name": "spatie/laravel-mailcoach",
+    "name": "chapdel/ncs-mail",
     "description": "Send email campaigns using Laravel",
     "keywords": [
         "spatie",
