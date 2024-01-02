@@ -89,7 +89,7 @@ Route::prefix('campaigns')->group(function () {
     });
 });
 
-Route::prefix('email-lists')->group(function () {
+Route::prefix('audiences')->group(function () {
     Route::get('/', Mailcoach::getLivewireClass(ListsComponent::class))->name('mailcoach.emailLists');
 
     Route::prefix('{emailList}')->name('mailcoach.emailLists.')->group(function () {
@@ -134,7 +134,7 @@ Route::prefix('automations')->group(function () {
     });
 });
 
-Route::prefix('automation-emails')->group(function () {
+Route::prefix('automation')->group(function () {
     Route::get('/', Mailcoach::getLivewireClass(AutomationMailsComponent::class))->name('mailcoach.automations.mails');
 
     Route::prefix('{automationMail}')->name('mailcoach.automations.mails.')->group(function () {
